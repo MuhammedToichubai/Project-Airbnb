@@ -13,9 +13,6 @@ import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
-/**
- * @author Muhammed Toichubai
- */
 @Entity
 @Table(name = "bookings")
 @NoArgsConstructor
