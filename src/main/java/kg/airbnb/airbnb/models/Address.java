@@ -9,15 +9,13 @@ import javax.persistence.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 
-/**
- * @author Muhammed Toichubai
- */
 @Entity
 @Table(name = "addresses")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Address {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_id_generator")
     @SequenceGenerator(name = "address_id_generator", sequenceName = "address_seq", allocationSize = 1)
