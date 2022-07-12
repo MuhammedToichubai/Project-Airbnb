@@ -13,15 +13,13 @@ import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
-/**
- * @author Muhammed Toichubai
- */
 @Entity
 @Table(name = "feedbacks")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Feedback {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedback_id_generator")
     @SequenceGenerator(name = "feedback_id_generator", sequenceName = "feedback_seq", allocationSize = 1)
