@@ -16,15 +16,13 @@ import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
-/**
- * @author Muhammed Toichubai
- */
 @Entity
 @Table(name = "announcements")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Announcement {
+   
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_id_generator")
     @SequenceGenerator(name = "announcement_id_generator", sequenceName = "announcement_seq", allocationSize = 1)
