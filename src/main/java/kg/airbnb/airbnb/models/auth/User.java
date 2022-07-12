@@ -15,9 +15,6 @@ import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
-/**
- * @author Muhammed Toichubai
- */
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -25,6 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_generator")
     @SequenceGenerator(name = "users_id_generator", sequenceName = "user_seq", allocationSize = 1)
