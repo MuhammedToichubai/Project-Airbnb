@@ -7,9 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-/**
- * @author Muhammed Toichubai
- */
 @Entity
 @Table(name = "roles")
 @NoArgsConstructor
