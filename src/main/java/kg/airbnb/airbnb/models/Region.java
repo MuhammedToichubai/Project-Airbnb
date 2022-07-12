@@ -10,9 +10,6 @@ import java.util.List;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 
-/**
- * @author Muhammed Toichubai
- */
 @Entity
 @Table(name = "regions")
 @NoArgsConstructor
