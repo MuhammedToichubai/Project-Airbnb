@@ -14,15 +14,15 @@ public class AnnouncementEditMapper {
             return null;
         }
         Announcement announcement = new Announcement();
-        AnnouncementRequestToAnnouncement(request, announcement);
+        dtoToEntityConverting(request, announcement);
         return announcement;
     }
 
     public void updateAnnouncement(Announcement announcement, AnnouncementRequest request) {
-        AnnouncementRequestToAnnouncement(request, announcement);
+        dtoToEntityConverting(request, announcement);
     }
 
-    private void AnnouncementRequestToAnnouncement(AnnouncementRequest request, Announcement announcement) {
+    private void dtoToEntityConverting(AnnouncementRequest request, Announcement announcement) {
 
         announcement.setTitle(request.getTitle());
         announcement.setDescription(request.getDescription());

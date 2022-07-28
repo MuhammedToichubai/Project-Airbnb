@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnnouncementViewMapper {
 
-    public AnnouncementInnerPageResponse viewAnnouncementInnerPageResponse(Announcement announcement) {
+    public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
         if (announcement == null) {
             return null;
         }

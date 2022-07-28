@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/announcements")
+@CrossOrigin
 public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;

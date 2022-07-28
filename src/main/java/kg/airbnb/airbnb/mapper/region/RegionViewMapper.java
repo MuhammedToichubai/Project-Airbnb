@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class RegionViewMapper {
-    public RegionResponse viewRegion(Region region) {
+    public RegionResponse entityToDtoConverting(Region region) {
         if (region == null) {
             return null;
         }
@@ -19,10 +19,10 @@ public class RegionViewMapper {
         return response;
     }
 
-    public List<RegionResponse> view(List<Region> regions) {
+    public List<RegionResponse> entityListToDtoList(List<Region> regions) {
         List<RegionResponse> responses = new ArrayList<>();
         for (Region region : regions) {
-            responses.add(viewRegion(region));
+            responses.add(entityToDtoConverting(region));
         }
         return responses;
     }

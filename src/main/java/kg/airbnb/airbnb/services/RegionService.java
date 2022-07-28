@@ -7,8 +7,7 @@ import java.util.List;
 
 @Service
 public interface RegionService {
-    List<RegionResponse> getAllRegions();
 
-    RegionResponse findByIdRegion(Long regionId);
+    List<RegionResponse> getAllRegions();
 }
 

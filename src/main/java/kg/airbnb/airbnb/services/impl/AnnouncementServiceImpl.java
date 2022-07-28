@@ -15,6 +15,7 @@ import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Region;
 import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.repositories.AddressRepository;
 import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
@@ -33,19 +34,22 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementViewMapper viewMapper;
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
 
-    public AnnouncementServiceImpl(AnnouncementRepository repository, AnnouncementEditMapper editMapper, AnnouncementViewMapper viewMapper, RegionRepository regionRepository, UserRepository userRepository) {
+    public AnnouncementServiceImpl(AnnouncementRepository repository, AnnouncementEditMapper editMapper, AnnouncementViewMapper viewMapper, RegionRepository regionRepository, UserRepository userRepository, AddressRepository addressRepository) {
         this.repository = repository;
         this.editMapper = editMapper;
         this.viewMapper = viewMapper;
         this.regionRepository = regionRepository;
         this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
     public SimpleResponse announcementSave(AnnouncementRequest request) {
         Announcement newAnnouncement = editMapper.saveAnnouncement(request);
         checkAdField(request, newAnnouncement);
+        addressRepository.save(savedAddress(request, newAnnouncement));
         repository.save(newAnnouncement);
         return new SimpleResponse("SAVE", "Ad saved successfully !");
     }
@@ -53,7 +57,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public AnnouncementInnerPageResponse announcementFindById(Long announcementId) {
         Announcement announcement = getAnnouncementById(announcementId);
-        return viewMapper.viewAnnouncementInnerPageResponse(announcement);
+        return viewMapper.entityToDtoConverting(announcement);
 
     }
 
@@ -98,23 +102,26 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (d <= 0) {
             throw new BadRequestException("The ad price cannot be negative or zero!");
         }
+        announcement.setStatus(Status.NEW);
+    }
 
+    private Address savedAddress(AnnouncementRequest request, Announcement announcement){
         if (request.getHouseType().equals(Type.HOUSE)) {
             for (Announcement announcement1 : repository.findAll()) {
                 if (request.getAddress().equals(announcement1.getLocation().getAddress())) {
                     throw new BadRequestException("Announcement type-house cannot be located at the same address!");
                 }
             }
-            Address address = new Address();
-            address.setAddress(request.getAddress());
-            address.setCity(request.getTownProvince());
-            Region region = regionRepository.findById(request.getRegionId())
-                    .orElseThrow(() -> new NotFoundException("Region whit id = " + request.getRegionId() + " not found!"));
-            address.setRegion(region);
-            address.setAnnouncement(announcement);
-            announcement.setLocation(address);
         }
-        announcement.setStatus(Status.NEW);
+        Address address = new Address();
+        address.setAddress(request.getAddress());
+        address.setCity(request.getTownProvince());
+        Region region = regionRepository.findById(request.getRegionId())
+                .orElseThrow(() -> new NotFoundException("Region whit id = " + request.getRegionId() + " not found!"));
+        address.setRegion(region);
+        address.setAnnouncement(announcement);
+        announcement.setLocation(address);
+        return address;
     }
 
     @Override

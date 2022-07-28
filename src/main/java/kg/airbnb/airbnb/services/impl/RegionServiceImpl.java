@@ -43,18 +43,6 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public List<RegionResponse> getAllRegions() {
         List<Region> allRegions = regionRepository.findAll();
-        return regionViewMapper.view(allRegions);
-    }
-
-    @Override
-    public RegionResponse findByIdRegion(Long regionId) {
-        if (regionId <= 0) {
-            throw new BadRequestException("Id cannot be negative and null !");
-        }
-        Region region = regionRepository.findById(regionId).orElseThrow(() ->
-                new NotFoundException(
-                        "Region whit id = " + regionId + " not found!"
-                ));
-        return regionViewMapper.viewRegion(region);
+        return regionViewMapper.entityListToDtoList(allRegions);
     }
 }
