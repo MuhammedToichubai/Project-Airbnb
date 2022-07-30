@@ -1,5 +1,6 @@
 package kg.airbnb.airbnb.models.auth;
 
+import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Feedback;
@@ -46,7 +47,16 @@ public class User {
     @OneToMany(cascade = {REFRESH, PERSIST, DETACH, MERGE}, mappedBy = "user")
     private List<Booking> bookings;
 
-    @OneToOne(cascade = ALL, fetch = EAGER)
+//    @OneToOne(cascade = ALL, fetch = EAGER)
+//    private Role role;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
+    public User(String email) {
+        this.email = email;
+    }
+
+
 }
 
