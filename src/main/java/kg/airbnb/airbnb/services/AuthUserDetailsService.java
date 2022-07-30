@@ -3,6 +3,7 @@ package kg.airbnb.airbnb.services;
 import kg.airbnb.airbnb.models.auth.User;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService{
+public class AuthUserDetailsService implements UserDetailsService {
 
     private final kg.airbnb.airbnb.repositories.UserRepository userRepository;
 
@@ -20,6 +21,6 @@ public class UserDetailsService implements org.springframework.security.core.use
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isEmpty())
             throw new UsernameNotFoundException("User not found!");
-        return new UserDetails(user.get());
+        return new AuthUserDetails(user.get());
     }
 }

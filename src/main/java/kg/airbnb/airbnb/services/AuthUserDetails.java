@@ -3,17 +3,19 @@ package kg.airbnb.airbnb.services;
 import kg.airbnb.airbnb.models.auth.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @RequiredArgsConstructor
-public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
+public class AuthUserDetails implements UserDetails {
 
     private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(user.getRole());
     }
 
     @Override

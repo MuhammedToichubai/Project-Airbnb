@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import kg.airbnb.airbnb.services.UserDetailsService;
+import kg.airbnb.airbnb.services.AuthUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class TokenVerifierFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
-    private final UserDetailsService userDetailsService;
+    private final AuthUserDetailsService authUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
@@ -42,7 +42,7 @@ public class TokenVerifierFilter extends OncePerRequestFilter {
 
                     String username = jwtUtils.validateTokenAndRetrieveClaim(jwt);
 
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    UserDetails userDetails = authUserDetailsService.loadUserByUsername(username);
 
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(userDetails,

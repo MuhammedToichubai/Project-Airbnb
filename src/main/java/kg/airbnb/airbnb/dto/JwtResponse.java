@@ -14,13 +14,13 @@ import lombok.Setter;
 
 public class JwtResponse {
 
-    private Long id;
+    private Long userId;
     private String email;
     private String jwt;
     private Role role;
 
     public JwtResponse(Long id, String jwt, Role role) {
-        this.id = id;
+        this.userId = id;
         this.jwt = jwt;
         this.role = role;
     }
