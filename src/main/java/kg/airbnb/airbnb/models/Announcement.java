@@ -22,7 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 public class Announcement {
-   
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_id_generator")
     @SequenceGenerator(name = "announcement_id_generator", sequenceName = "announcement_seq", allocationSize = 1)
@@ -39,7 +39,7 @@ public class Announcement {
 
     private BigDecimal price;
 
-    @OneToMany(cascade = ALL, mappedBy = "announcement")
+    @OneToMany(cascade = ALL, mappedBy = "announcement", orphanRemoval = true)
     private List<Feedback> feedbacks;
 
     private Integer maxGuests;
@@ -49,7 +49,7 @@ public class Announcement {
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     private User owner;
 
-    @OneToOne(cascade = ALL, fetch = EAGER, mappedBy = "announcement")
+    @OneToOne(cascade = ALL, fetch = EAGER, mappedBy = "announcement", orphanRemoval = true)
     private Address location;
 
     @ManyToMany(cascade = ALL, fetch = LAZY)

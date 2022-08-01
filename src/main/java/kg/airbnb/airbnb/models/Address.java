@@ -28,6 +28,6 @@ public class Address {
 
     private String address;
 
-    @OneToOne(cascade = {DETACH, REFRESH, PERSIST, MERGE}, fetch = EAGER)
+    @OneToOne(cascade = {ALL}, fetch = EAGER)
     private Announcement announcement;
 }
