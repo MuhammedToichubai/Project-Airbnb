@@ -6,6 +6,10 @@ import kg.airbnb.airbnb.models.auth.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,6 +25,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Announcement {
 
     @Id
@@ -32,30 +37,33 @@ public class Announcement {
 
     private String description;
 
-    @ElementCollection
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JoinColumn
     private List<String> images;
 
     private Status status;
 
     private BigDecimal price;
 
-    @OneToMany(cascade = ALL, mappedBy = "announcement", orphanRemoval = true)
+    @OneToMany(cascade = ALL, mappedBy = "announcement")
     private List<Feedback> feedbacks;
 
     private Integer maxGuests;
 
+    @Enumerated(EnumType.STRING)
     private Type houseType;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
     private User owner;
 
-    @OneToOne(cascade = ALL, fetch = EAGER, mappedBy = "announcement", orphanRemoval = true)
+    @OneToOne(cascade = {REMOVE, DETACH})
     private Address location;
 
     @ManyToMany(cascade = ALL, fetch = LAZY)
     private List<User> guests;
 
-    @OneToMany(cascade = {REFRESH, PERSIST, MERGE, DETACH}, fetch = EAGER, mappedBy = "announcement")
+    @OneToMany(cascade = {ALL}, mappedBy = "announcement")
     private List<Booking> bookings;
 
     private LocalDate createdAt;
