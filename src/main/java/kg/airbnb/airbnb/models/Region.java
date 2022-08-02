@@ -25,4 +25,5 @@ public class Region {
 
     @OneToMany(cascade = ALL, fetch = EAGER, mappedBy = "region")
     private List<Address> addresses;
+
 }

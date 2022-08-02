@@ -1,8 +1,8 @@
 package kg.airbnb.airbnb.apis;
 
-import kg.airbnb.airbnb.dto.JwtResponse;
-import kg.airbnb.airbnb.dto.LoginRequest;
-import kg.airbnb.airbnb.dto.UserRegisterRequest;
+import kg.airbnb.airbnb.dto.responses.JwtResponse;
+import kg.airbnb.airbnb.dto.requests.LoginRequest;
+import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
 import kg.airbnb.airbnb.security.LoginService;
 import kg.airbnb.airbnb.services.AuthService;
 import lombok.RequiredArgsConstructor;

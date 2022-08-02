@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.dto;
+package kg.airbnb.airbnb.dto.responses;
 
 
 import kg.airbnb.airbnb.enums.Role;

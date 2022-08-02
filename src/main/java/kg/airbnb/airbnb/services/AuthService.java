@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.services;
 
-import kg.airbnb.airbnb.dto.JwtResponse;
-import kg.airbnb.airbnb.dto.UserRegisterRequest;
+import kg.airbnb.airbnb.dto.responses.JwtResponse;
+import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.AlreadyExistException;
 import kg.airbnb.airbnb.models.auth.User;

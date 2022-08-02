@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.security;
 
-import kg.airbnb.airbnb.dto.JwtResponse;
-import kg.airbnb.airbnb.dto.LoginRequest;
+import kg.airbnb.airbnb.dto.responses.JwtResponse;
+import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.exceptions.WrongPasswordException;
 import kg.airbnb.airbnb.models.auth.User;

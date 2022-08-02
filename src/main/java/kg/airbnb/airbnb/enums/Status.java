@@ -5,5 +5,6 @@ public enum Status {
     OLD,
     ACCEPTED,
     CANCELED,
+    REJECTED,
     DELETED
 }

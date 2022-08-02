@@ -30,4 +30,9 @@ public class Address {
 
     @OneToOne(cascade = {DETACH, REFRESH, PERSIST, MERGE}, fetch = EAGER)
     private Announcement announcement;
+
+
+    public String getFullAddress() {
+        return String.format("%s %s %s", region.getRegionName(), city, address);
+    }
 }
