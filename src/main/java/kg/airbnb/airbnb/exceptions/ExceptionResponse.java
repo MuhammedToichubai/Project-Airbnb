@@ -1,25 +1,18 @@
 package kg.airbnb.airbnb.exceptions;
 
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-@Getter
-@Setter
+
+@Getter @Setter
+@AllArgsConstructor
 public class ExceptionResponse {
 
-    private HttpStatus status;
-
+    private HttpStatus httpStatus;
     private String exceptionClassName;
-
     private String message;
 
-    public ExceptionResponse() {
-    }
-
-    public ExceptionResponse(HttpStatus status, String exceptionClassName, String message) {
-        this.status = status;
-        this.exceptionClassName = exceptionClassName;
-        this.message = message;
-    }
 }
