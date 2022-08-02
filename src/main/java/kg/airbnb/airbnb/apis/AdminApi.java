@@ -16,7 +16,7 @@ public class AdminApi {
 
     private final AnnouncementServiceImpl announcementServiceImpl;
 
-    @GetMapping
+    @GetMapping("applications")
     public List<AdminPageAnnouncementResponse> getAllAnnouncements(){
         return announcementServiceImpl.getAllAnnouncements();
     }
