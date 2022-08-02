@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class AnnouncementRequest {
-    private Long ownerId;
+
     private List<String> images;
     private Type houseType;
     private Integer maxGuests;

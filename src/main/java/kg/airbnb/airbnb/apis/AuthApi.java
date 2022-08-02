@@ -4,7 +4,7 @@ import kg.airbnb.airbnb.dto.JwtResponse;
 import kg.airbnb.airbnb.dto.LoginRequest;
 import kg.airbnb.airbnb.dto.UserRegisterRequest;
 import kg.airbnb.airbnb.security.LoginService;
-import kg.airbnb.airbnb.services.AuthService;
+import kg.airbnb.airbnb.services.impl.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

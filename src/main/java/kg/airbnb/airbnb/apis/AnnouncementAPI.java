@@ -4,7 +4,6 @@ import kg.airbnb.airbnb.dto.request.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.response.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.response.SimpleResponse;
 import kg.airbnb.airbnb.services.AnnouncementService;
-import kg.airbnb.airbnb.services.impl.AnnouncementServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
-    private final AnnouncementServiceImpl announcementServiceImpl;
 
-    public AnnouncementAPI(AnnouncementService announcementService, AnnouncementServiceImpl announcementServiceImpl) {
+
+    public AnnouncementAPI(AnnouncementService announcementService) {
         this.announcementService = announcementService;
-        this.announcementServiceImpl = announcementServiceImpl;
+
     }
 
     //User

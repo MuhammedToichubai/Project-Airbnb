@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.mapper.region;
+package kg.airbnb.airbnb.mappers.region;
 
 import kg.airbnb.airbnb.dto.response.RegionResponse;
 import kg.airbnb.airbnb.models.Region;

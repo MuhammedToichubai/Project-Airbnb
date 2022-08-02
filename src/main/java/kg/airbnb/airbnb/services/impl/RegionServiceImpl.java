@@ -1,9 +1,7 @@
 package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.response.RegionResponse;
-import kg.airbnb.airbnb.exceptions.BadRequestException;
-import kg.airbnb.airbnb.exceptions.NotFoundException;
-import kg.airbnb.airbnb.mapper.region.RegionViewMapper;
+import kg.airbnb.airbnb.mappers.region.RegionViewMapper;
 import kg.airbnb.airbnb.models.Region;
 import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.services.RegionService;

@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.mapper.announcement;
+package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.response.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.models.Announcement;
