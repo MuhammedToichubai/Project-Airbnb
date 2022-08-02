@@ -28,7 +28,7 @@ public class Address {
 
     private String address;
 
-    @OneToOne(cascade = {DETACH, REFRESH, PERSIST, MERGE}, fetch = EAGER)
+    @OneToOne(mappedBy = "location")
     private Announcement announcement;
 
 

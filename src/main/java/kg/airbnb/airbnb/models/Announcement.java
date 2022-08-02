@@ -6,6 +6,7 @@ import kg.airbnb.airbnb.models.auth.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -33,6 +34,7 @@ public class Announcement {
     private String description;
 
     @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<String> images;
 
     private Status status;
@@ -46,16 +48,16 @@ public class Announcement {
 
     private Type houseType;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH},fetch = EAGER)
     private User owner;
 
-    @OneToOne(cascade = ALL, fetch = EAGER, mappedBy = "announcement")
+    @OneToOne(cascade = ALL, orphanRemoval = true)
     private Address location;
 
     @ManyToMany(cascade = ALL, fetch = LAZY)
     private List<User> guests;
 
-    @OneToMany(cascade = {REFRESH, PERSIST, MERGE, DETACH}, fetch = EAGER, mappedBy = "announcement")
+    @OneToMany(cascade = {ALL}, mappedBy = "announcement")
     private List<Booking> bookings;
 
     private LocalDate createdAt;
