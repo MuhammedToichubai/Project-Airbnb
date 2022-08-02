@@ -40,11 +40,8 @@ public class Announcement {
 
     private String description;
 
-
-    @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "announcement_images", foreignKey = @ForeignKey(
-            name = "fk_announcement_images",
-            foreignKeyDefinition = "foreign key (announcement_id) references Announcement (id) on delete cascade"))
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<String> images ;
 
     private Status status;
@@ -62,13 +59,13 @@ public class Announcement {
     @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH}, fetch = EAGER)
     private User owner;
 
-    @OneToOne(cascade = {ALL},fetch = EAGER, orphanRemoval = true)
+    @OneToOne(cascade = ALL, orphanRemoval = true)
     private Address location;
 
     @ManyToMany(cascade = ALL, fetch = LAZY)
     private List<User> guests;
 
-    @OneToMany(cascade = {ALL}, mappedBy = "announcement")
+    @OneToMany(cascade = ALL, mappedBy = "announcement")
     private List<Booking> bookings;
 
     private LocalDate createdAt;

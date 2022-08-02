@@ -5,7 +5,6 @@ import kg.airbnb.airbnb.dto.response.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.response.SimpleResponse;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface AnnouncementService {
 
     SimpleResponse announcementSave(AnnouncementRequest request);

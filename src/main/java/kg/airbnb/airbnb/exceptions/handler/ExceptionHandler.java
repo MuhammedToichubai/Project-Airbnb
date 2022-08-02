@@ -5,15 +5,14 @@ import kg.airbnb.airbnb.exceptions.ExceptionResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class ExceptionHandler {
 
     //404
-    @ExceptionHandler(NotFoundException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handlerNotFoundException(NotFoundException e) {
         return new ExceptionResponse(
@@ -25,7 +24,7 @@ public class GlobalExceptionHandler {
     }
 
     //400
-    @ExceptionHandler(BadRequestException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handlerBadRequestException(BadRequestException e) {
         return new ExceptionResponse(
@@ -36,7 +35,7 @@ public class GlobalExceptionHandler {
     }
 
     //403
-    @ExceptionHandler(ForbiddenException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionResponse handlerForbiddenException(ForbiddenException e) {
         return new ExceptionResponse(

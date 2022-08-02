@@ -12,6 +12,7 @@ import kg.airbnb.airbnb.mapper.announcement.AnnouncementEditMapper;
 import kg.airbnb.airbnb.mapper.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.models.Address;
 import kg.airbnb.airbnb.models.Announcement;
+import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Region;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.AddressRepository;
@@ -95,6 +96,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Region region = regionRepository.findById(request.getRegionId())
                 .orElseThrow(() -> new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
         address.setRegion(region);
+        address.setAnnouncement(announcement);
         announcement.setLocation(address);
         return address;
     }
@@ -196,14 +198,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Transactional
     public SimpleResponse announcementDelete(Long announcementId) {
         Announcement announcement = getAnnouncementById(announcementId);
-        System.out.println("sfassfsf");
-//        System.out.println(announcement);
-//        List<Booking> announcementBookings = announcement.getBookings();
-//        if (announcementBookings == null) {
-//            throw new ForbiddenException("You cannot delete the listing because the listing has a booking!");
-//        }
-//        announcementRepository.delete(announcement);
-
+        List<Booking> announcementBookings = announcement.getBookings();
+        if (announcementBookings != null) {
+            throw new ForbiddenException("You cannot delete the listing because the listing has a booking!");
+        }
         announcementRepository.deleteById(announcementId);
 
 
