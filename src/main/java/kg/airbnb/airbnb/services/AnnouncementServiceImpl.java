@@ -73,7 +73,7 @@ public class AnnouncementServiceImpl implements AnnouncementService{
         SimpleResponse simpleResponse = new SimpleResponse();
         Announcement announcement = getAnnouncementById(id);
         announcement.setStatus(Status.DELETED);
-        announcementRepository.delete(announcement);
+        announcementRepository.deleteById(id);
         simpleResponse.setStatus("DELETED");
         simpleResponse.setMessage(announcementRejectRequest.getMessage());
 
