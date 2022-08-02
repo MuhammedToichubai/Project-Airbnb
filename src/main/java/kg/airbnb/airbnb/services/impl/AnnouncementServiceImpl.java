@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService {
@@ -96,7 +95,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Region region = regionRepository.findById(request.getRegionId())
                 .orElseThrow(() -> new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
         address.setRegion(region);
-//        address.setAnnouncement(announcement);
         announcement.setLocation(address);
         return address;
     }
@@ -195,6 +193,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    @Transactional
     public SimpleResponse announcementDelete(Long announcementId) {
         Announcement announcement = getAnnouncementById(announcementId);
         System.out.println("sfassfsf");
@@ -205,9 +204,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 //        }
 //        announcementRepository.delete(announcement);
 
-        announcementRepository.delete(announcement);
+        announcementRepository.deleteById(announcementId);
 
-        System.out.println("\"hello world\" = " + "hello world");
 
         return new SimpleResponse(
                 "DELETE",

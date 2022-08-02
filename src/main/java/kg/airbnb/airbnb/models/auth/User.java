@@ -37,7 +37,7 @@ public class User {
 
     private String image;
 
-    @OneToMany(cascade = ALL)
+    @OneToMany(cascade = ALL, mappedBy = "owner")
     private List<Announcement> announcements;
 
     @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")

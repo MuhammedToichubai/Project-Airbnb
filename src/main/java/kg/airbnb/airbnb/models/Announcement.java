@@ -7,13 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
@@ -37,10 +40,12 @@ public class Announcement {
 
     private String description;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    @JoinColumn
-    private List<String> images;
+
+    @ElementCollection(fetch = EAGER)
+    @CollectionTable(name = "announcement_images", foreignKey = @ForeignKey(
+            name = "fk_announcement_images",
+            foreignKeyDefinition = "foreign key (announcement_id) references Announcement (id) on delete cascade"))
+    private List<String> images ;
 
     private Status status;
 
@@ -54,10 +59,10 @@ public class Announcement {
     @Enumerated(EnumType.STRING)
     private Type houseType;
 
-    @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH})
+    @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH}, fetch = EAGER)
     private User owner;
 
-    @OneToOne(cascade = {REMOVE, DETACH})
+    @OneToOne(cascade = {REMOVE, DETACH},fetch = EAGER, orphanRemoval = true)
     private Address location;
 
     @ManyToMany(cascade = ALL, fetch = LAZY)
