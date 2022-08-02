@@ -62,7 +62,7 @@ public class Announcement {
     @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH}, fetch = EAGER)
     private User owner;
 
-    @OneToOne(cascade = {REMOVE, DETACH},fetch = EAGER, orphanRemoval = true)
+    @OneToOne(cascade = {ALL},fetch = EAGER, orphanRemoval = true)
     private Address location;
 
     @ManyToMany(cascade = ALL, fetch = LAZY)
