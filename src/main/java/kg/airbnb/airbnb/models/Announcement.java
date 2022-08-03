@@ -6,6 +6,8 @@ import kg.airbnb.airbnb.models.auth.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,8 +23,9 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Announcement {
-   
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_id_generator")
     @SequenceGenerator(name = "announcement_id_generator", sequenceName = "announcement_seq", allocationSize = 1)
@@ -33,6 +36,7 @@ public class Announcement {
     private String description;
 
     @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<String> images;
 
     private Status status;
@@ -44,18 +48,19 @@ public class Announcement {
 
     private Integer maxGuests;
 
+    @Enumerated(EnumType.STRING)
     private Type houseType;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
+    @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH}, fetch = EAGER)
     private User owner;
 
-    @OneToOne(cascade = ALL, fetch = EAGER, mappedBy = "announcement")
+    @OneToOne(cascade = ALL, orphanRemoval = true)
     private Address location;
 
     @ManyToMany(cascade = ALL, fetch = LAZY)
     private List<User> guests;
 
-    @OneToMany(cascade = {REFRESH, PERSIST, MERGE, DETACH}, fetch = EAGER, mappedBy = "announcement")
+    @OneToMany(cascade = ALL, mappedBy = "announcement")
     private List<Booking> bookings;
 
     private LocalDate createdAt;
