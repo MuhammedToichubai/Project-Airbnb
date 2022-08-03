@@ -33,4 +33,10 @@ public class GlobalExceptionHandler {
         return new ExceptionResponse(HttpStatus.NOT_FOUND, e.getClass().getSimpleName(),e.getMessage());
     }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionResponse ForbiddenException(ForbiddenException e){
+        return new ExceptionResponse(HttpStatus.NOT_FOUND, e.getClass().getSimpleName(),e.getMessage());
+    }
+
 }
