@@ -8,12 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-
 import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -41,11 +39,12 @@ public class User {
     @OneToMany(cascade = ALL,mappedBy = "owner")
     private List<Announcement> announcements;
 
+
     @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
-    private List<Feedback> feedbacks;
+    private List<Feedback> feedbacks = new ArrayList<>();
 
     @OneToMany(cascade = {REFRESH, PERSIST, DETACH, MERGE}, mappedBy = "user")
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;

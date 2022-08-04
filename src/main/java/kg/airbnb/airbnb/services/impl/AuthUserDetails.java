@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.services;
+package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.models.auth.User;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.services;
+package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.responses.JwtResponse;
 import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;

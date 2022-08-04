@@ -1,6 +1,6 @@
-package kg.airbnb.airbnb.mappers;
+package kg.airbnb.airbnb.mappers.announcement;
 
-
+import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
@@ -11,6 +11,24 @@ import java.util.List;
 
 @Component
 public class AnnouncementViewMapper {
+
+    public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
+        if (announcement == null) {
+            return null;
+        }
+        AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse();
+        response.setId(announcement.getId());
+        response.setImages(announcement.getImages());
+        response.setHouseType(announcement.getHouseType());
+        response.setMaxGuests(announcement.getMaxGuests());
+        response.setTitle(announcement.getTitle());
+        response.setLocation(announcement.getLocation().getAddress());
+        response.setDescription(announcement.getDescription());
+        response.setOwnerImage(announcement.getOwner().getImage());
+        response.setOwnerFullName(announcement.getOwner().getFullName());
+        response.setOwnerEmail(announcement.getOwner().getEmail());
+        return response;
+    }
 
     public List<AdminPageAnnouncementResponse> viewAllAdminPageAnnouncementResponses(List<Announcement> announcements){
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = new ArrayList<>();
@@ -52,26 +70,26 @@ public class AnnouncementViewMapper {
 
         List<Feedback> feedbacks= announcement.getFeedbacks();
 
-            if (feedbacks.size()<=0){
-                rating = 0;
+        if (feedbacks.size()<=0){
+            rating = 0;
+        }
+
+        sumOfTotalRatings = feedbacks.size();
+
+        for (Feedback feedback:feedbacks) {
+            if(feedback.getRating() == 5) {
+                fives++;
+            }else if(feedback.getRating() == 4) {
+                fours++;
+            }else if (feedback.getRating() == 3){
+                threes++;
+            }else if(feedback.getRating() == 2){
+                twos++;
+            }else if(feedback.getRating() == 1){
+                ones++;
             }
-
-            sumOfTotalRatings = feedbacks.size();
-
-            for (Feedback feedback:feedbacks) {
-                if(feedback.getRating() == 5) {
-                    fives++;
-                }else if(feedback.getRating() == 4) {
-                    fours++;
-                }else if (feedback.getRating() == 3){
-                    threes++;
-                }else if(feedback.getRating() == 2){
-                    twos++;
-                }else if(feedback.getRating() == 1){
-                    ones++;
-                }
-                //formula of getting rating of announcement
-                rating = (5*fives+4*fours+3*threes+2*twos+ones)/(double)(sumOfTotalRatings);
+            //formula of getting rating of announcement
+            rating = (5*fives+4*fours+3*threes+2*twos+ones)/(double)(sumOfTotalRatings);
         }
         return rating;
     }

@@ -23,7 +23,11 @@ public class Region {
 
     private String regionName;
 
-    @OneToMany(cascade = ALL, fetch = EAGER, mappedBy = "region")
+    @OneToMany( mappedBy = "region")
     private List<Address> addresses;
 
+
+    public Region(String regionName) {
+        this.regionName = regionName;
+    }
 }
