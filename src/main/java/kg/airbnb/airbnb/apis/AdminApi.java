@@ -22,24 +22,24 @@ public class AdminApi {
         return announcementServiceImpl.getAllAnnouncements();
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find/announcement/{id}")
     public AdminPageAnnouncementResponse findAnnouncementById(@PathVariable Long id){
         return announcementServiceImpl.findAnnouncementById(id);
     }
 
-    @PutMapping("/announcement/accept/{id}")
-    public SimpleResponse acceptAnnouncement(@PathVariable Long id){
-        return announcementServiceImpl.acceptAnnouncement(id);
+    @PutMapping("/announcement/accept/{announcementId}")
+    public SimpleResponse acceptAnnouncement(@PathVariable Long announcementId){
+        return announcementServiceImpl.acceptAnnouncement(announcementId);
     }
 
-    @PutMapping("/announcement/reject/{id}")
-    public SimpleResponse rejectAnnouncement(@PathVariable Long id, @RequestBody AnnouncementRejectRequest announcementRejectRequest){
-        return announcementServiceImpl.rejectAnnouncement(id,announcementRejectRequest);
+    @PutMapping("/announcement/reject/{announcementId}")
+    public SimpleResponse rejectAnnouncement(@PathVariable Long announcementId, @RequestBody AnnouncementRejectRequest announcementRejectRequest){
+        return announcementServiceImpl.rejectAnnouncement(announcementId,announcementRejectRequest);
     }
 
-    @DeleteMapping("/announcement/delete/{id}")
-    public SimpleResponse deleteAnnouncement(@PathVariable Long id, @RequestBody AnnouncementRejectRequest announcementRejectRequest) {
-        return announcementServiceImpl.deleteAnnouncement(id, announcementRejectRequest);
+    @DeleteMapping("/announcement/delete/{announcementId}")
+    public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId, @RequestBody AnnouncementRejectRequest announcementRejectRequest) {
+        return announcementServiceImpl.deleteAnnouncement(announcementId, announcementRejectRequest);
     }
 
 }
