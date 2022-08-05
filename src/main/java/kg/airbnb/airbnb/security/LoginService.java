@@ -14,6 +14,7 @@ import kg.airbnb.airbnb.exceptions.WrongPasswordException;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +35,14 @@ public class LoginService {
     @PostConstruct
     void init() throws IOException {
 
-        FileInputStream serviceAccount =
-                new FileInputStream("src/main/resources/firebase/auth-368bd-firebase-adminsdk-6bey6-b79b2aa771.json");
+        GoogleCredentials googleCredentials =
+                GoogleCredentials.fromStream(new ClassPathResource("firebase/auth-368bd-firebase-adminsdk-6bey6-b79b2aa771.json").getInputStream());
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+        FirebaseOptions firebaseOptions = FirebaseOptions.builder()
+                .setCredentials(googleCredentials)
                 .build();
 
-        FirebaseApp.initializeApp(options);
+        FirebaseApp firebaseApp = FirebaseApp.initializeApp(firebaseOptions);
     }
 
     public JwtResponse authenticate(LoginRequest loginRequest) {
