@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.apis;
 
-import kg.airbnb.airbnb.dto.response.RegionResponse;
+import kg.airbnb.airbnb.dto.responses.RegionResponse;
 import kg.airbnb.airbnb.services.RegionService;
 import org.springframework.web.bind.annotation.*;
 

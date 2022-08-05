@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.services;
 
-import kg.airbnb.airbnb.dto.response.RegionResponse;
+import kg.airbnb.airbnb.dto.responses.RegionResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -26,6 +26,7 @@ public class Region {
     @OneToMany( mappedBy = "region")
     private List<Address> addresses;
 
+
     public Region(String regionName) {
         this.regionName = regionName;
     }
