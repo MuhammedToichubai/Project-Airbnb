@@ -22,7 +22,7 @@ public class AdminApi {
         return announcementService.getAllAnnouncements();
     }
 
-    @GetMapping("/find/announcement/{id}")
+    @GetMapping("/find/announcement/{announcementId}")
     public AdminPageAnnouncementResponse findAnnouncementById(@PathVariable Long announcementId){
         return announcementService.findAnnouncementById(id);
     }
