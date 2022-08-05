@@ -19,7 +19,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_id_generator")
-    @SequenceGenerator(name = "address_id_generator", sequenceName = "address_seq", allocationSize = 1)
+    @SequenceGenerator(name = "address_id_generator", sequenceName = "address_seq", allocationSize = 1, initialValue = 5)
     private Long id;
 
     @ManyToOne(cascade = {REFRESH, PERSIST, DETACH, MERGE}, fetch = EAGER)

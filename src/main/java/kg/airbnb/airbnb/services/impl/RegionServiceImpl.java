@@ -23,21 +23,6 @@ public class RegionServiceImpl implements RegionService {
         this.regionViewMapper = regionViewMapper;
     }
 
-    @PostConstruct
-    public void savedRegions() {
-        List<Region> regions = new ArrayList<>(List.of(
-                new Region("Batken"),
-                new Region("Jalalabat"),
-                new Region("Naryn"),
-                new Region("Issyk-kul"),
-                new Region("Talas"),
-                new Region("Osh"),
-                new Region("Chui"),
-                new Region("Bishkek")
-        ));
-        regionRepository.saveAll(regions);
-    }
-
     @Override
     public List<RegionResponse> getAllRegions() {
         List<Region> allRegions = regionRepository.findAll();
