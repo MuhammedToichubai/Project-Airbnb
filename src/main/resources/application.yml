@@ -1,0 +1,27 @@
+cloud:
+  aws:
+    credentials:
+      access-key:
+      secret-key:
+    region:
+      static: eu-central-1
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: gadgetariums
+
+prefix-for-file-link: https://gadgetariums.s3.eu-central-1.amazonaws.com/
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+server:
+  port: 9090
+
