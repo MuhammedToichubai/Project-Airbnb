@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
@@ -38,14 +39,14 @@ public class User {
 
     private String image;
 
-    @OneToMany(cascade = ALL)
-    private List<Announcement> announcements;
+    @OneToMany(cascade = ALL, mappedBy = "owner")
+    private List<Announcement> announcements = new ArrayList<>();
 
     @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
-    private List<Feedback> feedbacks;
+    private List<Feedback> feedbacks = new ArrayList<>();
 
     @OneToMany(cascade = {REFRESH, PERSIST, DETACH, MERGE}, mappedBy = "user")
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import kg.airbnb.airbnb.services.AuthUserDetailsService;
+import kg.airbnb.airbnb.services.impl.AuthUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

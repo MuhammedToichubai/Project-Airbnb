@@ -9,6 +9,7 @@ import javax.persistence.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 
+
 @Entity
 @Table(name = "addresses")
 @NoArgsConstructor
@@ -28,6 +29,6 @@ public class Address {
 
     private String address;
 
-    @OneToOne(cascade = {DETACH, REFRESH, PERSIST, MERGE}, fetch = EAGER)
+    @OneToOne(mappedBy = "location")
     private Announcement announcement;
 }
