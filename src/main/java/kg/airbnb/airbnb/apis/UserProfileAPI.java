@@ -31,6 +31,5 @@ public class UserProfileAPI {
     @GetMapping("/announcement/find/{announcementId}")
     public UserAnnouncementResponse getByUserAnnouncement(@PathVariable Long announcementId){
         return userService.findById(announcementId);
-
     }
 }
