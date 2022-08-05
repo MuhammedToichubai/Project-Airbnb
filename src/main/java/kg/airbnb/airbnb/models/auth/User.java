@@ -39,7 +39,7 @@ public class User {
 
     private String image;
 
-    @OneToMany(cascade = ALL, mappedBy = "owner")
+    @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER)
     private List<Announcement> announcements = new ArrayList<>();
 
     @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
