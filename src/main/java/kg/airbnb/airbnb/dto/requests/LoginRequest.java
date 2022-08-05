@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.dto;
+package kg.airbnb.airbnb.dto.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

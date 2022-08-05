@@ -1,8 +1,10 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.request.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.response.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.response.SimpleResponse;
+import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
+import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
+import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
@@ -215,5 +217,84 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return userRepository.findByEmail(login).orElseThrow(() ->
                 new ForbiddenException("An unregistered user cannot post an ad !"));
     }
+
+    @Override
+    public List<AdminPageAnnouncementResponse> getAllAnnouncements(){
+        User user = getAuthenticatedUser();
+        if(user.getRole().equals(Role.ADMIN)){
+            return viewMapper.viewAllAdminPageAnnouncementResponses(announcementRepository.findAll());
+        }else{
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+
+    }
+
+    @Override
+    public AdminPageAnnouncementResponse findAnnouncementById(Long id){
+        User user = getAuthenticatedUser();
+        if(user.getRole().equals(Role.ADMIN)) {
+            Announcement announcement = getAnnouncementById(id);
+            return viewMapper.viewAdminPageAnnouncementResponse(announcement);
+        }else{
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+    }
+
+
+    @Override
+    public kg.airbnb.airbnb.dto.responses.SimpleResponse acceptAnnouncement(Long id) {
+
+        User user = getAuthenticatedUser();
+        if(user.getRole().equals(Role.ADMIN)) {
+            kg.airbnb.airbnb.dto.responses.SimpleResponse simpleResponse = new kg.airbnb.airbnb.dto.responses.SimpleResponse();
+            Announcement announcement = getAnnouncementById(id);
+            announcement.setStatus(Status.ACCEPTED);
+            announcementRepository.save(announcement);
+            simpleResponse.setStatus("ACCEPTED");
+            simpleResponse.setMessage("Successfully saved");
+            return simpleResponse;
+        }else{
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+
+    }
+
+    @Override
+    public kg.airbnb.airbnb.dto.responses.SimpleResponse rejectAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
+
+        User user = getAuthenticatedUser();
+        if(user.getRole().equals(Role.ADMIN)) {
+            kg.airbnb.airbnb.dto.responses.SimpleResponse simpleResponse = new kg.airbnb.airbnb.dto.responses.SimpleResponse();
+            Announcement announcement = getAnnouncementById(id);
+            announcement.setStatus(Status.REJECTED);
+            announcementRepository.save(announcement);
+            simpleResponse.setStatus("REJECTED");
+            simpleResponse.setMessage(announcementRejectRequest.getMessage());
+            announcementRejectRequest.setMessage("");
+            return simpleResponse;
+        }else{
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+    }
+
+    @Override
+    public kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
+
+        User user = getAuthenticatedUser();
+        if(user.getRole().equals(Role.ADMIN)) {
+            kg.airbnb.airbnb.dto.responses.SimpleResponse simpleResponse = new kg.airbnb.airbnb.dto.responses.SimpleResponse();
+            Announcement announcement = getAnnouncementById(id);
+            announcement.setStatus(Status.DELETED);
+            announcementRepository.deleteById(id);
+            simpleResponse.setStatus("DELETED");
+            simpleResponse.setMessage(announcementRejectRequest.getMessage());
+            return simpleResponse;
+        }else{
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+
+    }
+
+
 }
 

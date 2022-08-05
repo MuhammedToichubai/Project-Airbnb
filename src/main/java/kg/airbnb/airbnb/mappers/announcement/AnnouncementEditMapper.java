@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
-import kg.airbnb.airbnb.dto.request.AnnouncementRequest;
+import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.stereotype.Component;
 

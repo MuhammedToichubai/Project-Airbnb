@@ -31,4 +31,9 @@ public class Address {
 
     @OneToOne(mappedBy = "location")
     private Announcement announcement;
+
+
+    public String getFullAddress() {
+        return String.format("%s %s %s", region.getRegionName(), city, address);
+    }
 }

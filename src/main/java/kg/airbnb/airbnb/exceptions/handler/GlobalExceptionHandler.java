@@ -1,5 +1,6 @@
-package kg.airbnb.airbnb.exceptions;
+package kg.airbnb.airbnb.exceptions.handler;
 
+import kg.airbnb.airbnb.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,8 +29,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionResponse UsernameNotFoundException(UsernameNotFoundException e){
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionResponse ForbiddenException(ForbiddenException e){
         return new ExceptionResponse(HttpStatus.NOT_FOUND, e.getClass().getSimpleName(),e.getMessage());
     }
 

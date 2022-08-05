@@ -1,13 +1,12 @@
 package kg.airbnb.airbnb.security;
-
+import kg.airbnb.airbnb.dto.responses.JwtResponse;
+import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import kg.airbnb.airbnb.dto.JwtResponse;
-import kg.airbnb.airbnb.dto.LoginRequest;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.exceptions.WrongPasswordException;

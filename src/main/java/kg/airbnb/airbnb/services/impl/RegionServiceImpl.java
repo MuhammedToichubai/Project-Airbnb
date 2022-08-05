@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.response.RegionResponse;
+import kg.airbnb.airbnb.dto.responses.RegionResponse;
 import kg.airbnb.airbnb.mappers.region.RegionViewMapper;
 import kg.airbnb.airbnb.models.Region;
 import kg.airbnb.airbnb.repositories.RegionRepository;
