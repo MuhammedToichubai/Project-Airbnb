@@ -1,8 +1,8 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.response.UserAnnouncementResponse;
-import kg.airbnb.airbnb.dto.response.UserProfileAnnouncementResponse;
-import kg.airbnb.airbnb.dto.response.UserProfileBookingResponse;
+import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileBookingResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.Announcement;

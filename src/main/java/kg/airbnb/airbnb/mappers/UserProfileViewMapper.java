@@ -1,9 +1,10 @@
 package kg.airbnb.airbnb.mappers;
 
-import kg.airbnb.airbnb.dto.response.UserAnnouncementResponse;
-import kg.airbnb.airbnb.dto.response.UserBookingsResponse;
-import kg.airbnb.airbnb.dto.response.UserProfileAnnouncementResponse;
-import kg.airbnb.airbnb.dto.response.UserProfileBookingResponse;
+
+import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileBookingResponse;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
