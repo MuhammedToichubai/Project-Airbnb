@@ -1,15 +1,11 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileBookingResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
-import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,37 +15,18 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserProfileViewMapper viewMapper;
-    private final AnnouncementServiceImpl serviceImpl;
 
-    public UserServiceImpl(UserRepository userRepository, UserProfileViewMapper viewMapper, AnnouncementServiceImpl serviceImpl) {
+    public UserServiceImpl(UserRepository userRepository, UserProfileViewMapper viewMapper) {
         this.userRepository = userRepository;
         this.viewMapper = viewMapper;
-        this.serviceImpl = serviceImpl;
-    }
-
-    @Override
-    public UserProfileBookingResponse getUserAllBookings() {
-
-        User user = getAuthenticatedUser();
-        return viewMapper.entityToDtoForBookings(user);
-    }
-
-    @Override
-    public UserProfileAnnouncementResponse getAllUserAnnouncements() {
-        User user = getAuthenticatedUser();
-        return viewMapper.entityToDtoForAnnouncements(user);
 
     }
 
     @Override
-    public UserAnnouncementResponse findById(Long announcementId) {
-        User user = getAuthenticatedUser();
-        Announcement announcement = serviceImpl.getAnnouncementById(announcementId);
-        if (user != announcement.getOwner()) {
-            throw new ForbiddenException("Access is forbidden!");
-        }
-        return viewMapper.announcementToAnnouncementsResponse(announcement);
+    public UserProfileResponse getUserBookingsAndAnnouncements() {
 
+        User user = getAuthenticatedUser();
+        return viewMapper.entityToDto(user);
     }
 
     private User getAuthenticatedUser() {

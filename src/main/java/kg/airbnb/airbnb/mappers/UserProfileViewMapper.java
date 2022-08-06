@@ -3,15 +3,13 @@ package kg.airbnb.airbnb.mappers;
 
 import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileBookingResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.enums.Status;
+import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
-import kg.airbnb.airbnb.models.Feedback;
 import kg.airbnb.airbnb.models.auth.User;
 import org.springframework.stereotype.Component;
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +17,10 @@ import java.util.List;
 @Component
 public class UserProfileViewMapper {
 
-    public UserProfileAnnouncementResponse entityToDtoForAnnouncements(User user){
-        if(user == null){
-            return null;
-        }
-        UserProfileAnnouncementResponse response = new UserProfileAnnouncementResponse();
-        response.setImage(user.getImage());
-        response.setName(user.getFullName());
-        response.setContact(user.getEmail());
-        response.setMyAnnouncements(listUserAnnouncements(user.getAnnouncements()));
-        return response;
+    private final AnnouncementViewMapper announcementViewMapper;
+
+    public UserProfileViewMapper(AnnouncementViewMapper announcementViewMapper) {
+        this.announcementViewMapper = announcementViewMapper;
     }
 
     public UserAnnouncementResponse announcementToAnnouncementsResponse(Announcement announcement){
@@ -38,7 +30,7 @@ public class UserProfileViewMapper {
         UserAnnouncementResponse announcementsResponse = new UserAnnouncementResponse();
         announcementsResponse.setImage(announcement.getImages().get(0));
         announcementsResponse.setPrice(announcement.getPrice());
-        announcementsResponse.setRating(calculateRating(announcement));
+        announcementsResponse.setRating(announcementViewMapper.calculateRating(announcement));
         announcementsResponse.setTitle(announcement.getTitle());
         announcementsResponse.setLocation(announcement.getLocation().getAddress());
         announcementsResponse.setMaxGuests(announcement.getMaxGuests());
@@ -54,15 +46,16 @@ public class UserProfileViewMapper {
         return responses;
     }
 
-    public UserProfileBookingResponse entityToDtoForBookings(User user){
+    public UserProfileResponse entityToDto(User user){
         if(user == null){
             return null;
         }
-        UserProfileBookingResponse response = new UserProfileBookingResponse();
+        UserProfileResponse response = new UserProfileResponse();
         response.setImage(user.getImage());
         response.setName(user.getFullName());
         response.setContact(user.getEmail());
         response.setBookings(listUserBookings(user.getBookings()));
+        response.setAnnouncements(listUserAnnouncements(user.getAnnouncements()));
         return response;
     }
 
@@ -82,8 +75,7 @@ public class UserProfileViewMapper {
         UserBookingsResponse bookingsResponse = new UserBookingsResponse();
         bookingsResponse.setAnnouncementId(booking.getAnnouncement().getId());
         bookingsResponse.setPrice(booking.getAnnouncement().getPrice());
-        bookingsResponse.setRating(calculateRating(booking.getAnnouncement()));
-
+        bookingsResponse.setRating(announcementViewMapper.calculateRating(booking.getAnnouncement()));
         bookingsResponse.setTitle(booking.getAnnouncement().getTitle());
         bookingsResponse.setLocation(booking.getAnnouncement().getLocation().getAddress());
         bookingsResponse.setMaxGuests(booking.getAnnouncement().getMaxGuests());
@@ -93,42 +85,4 @@ public class UserProfileViewMapper {
         return bookingsResponse;
 
     }
-
-    public Double calculateRating(Announcement announcement){
-
-        double rating = 0.0;
-        int sumOfTotalRatings = 0;
-        int fives = 0;
-        int fours = 0;
-        int threes = 0;
-        int twos = 0;
-        int  ones = 0;
-
-        List<Feedback> feedbacks= announcement.getFeedbacks();
-
-        if (feedbacks.size()<=0){
-            rating = 0;
-        }
-
-        sumOfTotalRatings = feedbacks.size();
-
-        for (Feedback feedback:feedbacks) {
-            if(feedback.getRating() == 5) {
-                fives++;
-            }else if(feedback.getRating() == 4) {
-                fours++;
-            }else if (feedback.getRating() == 3){
-                threes++;
-            }else if(feedback.getRating() == 2){
-                twos++;
-            }else if(feedback.getRating() == 1){
-                ones++;
-            }
-            //formula of getting rating of announcement
-            rating = (5*fives+4*fours+3*threes+2*twos+ones)/(double)(sumOfTotalRatings);
-        }
-        return rating;
-    }
-
-
 }

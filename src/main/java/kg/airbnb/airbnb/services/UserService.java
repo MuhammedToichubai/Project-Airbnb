@@ -1,13 +1,8 @@
 package kg.airbnb.airbnb.services;
 
-import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileBookingResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 
 public interface UserService {
-    UserProfileBookingResponse getUserAllBookings();
+    UserProfileResponse getUserBookingsAndAnnouncements();
 
-    UserProfileAnnouncementResponse getAllUserAnnouncements();
-
-    UserAnnouncementResponse findById(Long announcementId);
 }

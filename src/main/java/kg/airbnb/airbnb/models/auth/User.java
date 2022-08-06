@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -36,14 +37,8 @@ public class User {
 
     private String image;
 
-<<<<<<< HEAD
     @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER)
     private List<Announcement> announcements = new ArrayList<>();
-=======
-    @OneToMany(cascade = ALL,mappedBy = "owner")
-    private List<Announcement> announcements;
-
->>>>>>> e039c31a48df66bd53354b784295fb212eccb409
 
     @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
     private List<Feedback> feedbacks = new ArrayList<>();
