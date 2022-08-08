@@ -3,7 +3,7 @@ jwt:
 server:
     error:
         include-message: always
-    port: 7070
+    port: 5000
 spring:
     datasource:
         username: postgres
