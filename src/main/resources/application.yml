@@ -1,8 +1,39 @@
+jwt:
+  secret: airbnb
+server:
+  error:
+    include-message: always
+  port: 7070
+spring:
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://airbnb.ckmwffwc7ag0.eu-central-1.rds.amazonaws.com:5432/airbnb
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      continue-on-error: false
+      data-locations: classpath:data-initial/data.sql
+      mode: always
+
+
 cloud:
   aws:
     credentials:
-      access-key:
-      secret-key:
+      access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
     region:
       static: eu-central-1
     stack:
@@ -10,18 +41,6 @@ cloud:
 
 application:
   bucket:
-    name: gadgetariums
+    name: airbnb-bucket
 
-prefix-for-file-link: https://gadgetariums.s3.eu-central-1.amazonaws.com/
-
-spring:
-  servlet:
-    multipart:
-      enabled: true
-      file-size-threshold: 2MB
-      max-file-size: 5MB
-      max-request-size: 10MB
-
-server:
-  port: 9090
-
+prefix-for-file-link: https://airbnb-bucket.s3.eu-central-1.amazonaws.com/
