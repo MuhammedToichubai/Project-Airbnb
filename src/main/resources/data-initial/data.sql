@@ -1,7 +1,9 @@
 INSERT INTO users (id, full_name, email, password, image, role)
-VALUES (2, 'Admin', 'airbnb@mail.com', '$2a$10$UG2qe9cH4iB00B9dZvLp0exUt5WyQrN/eMOboNE3.tHV4hFXD9lr2',
+VALUES (1, 'Admin', 'airbnb@gmail.com', '$2a$10$UG2qe9cH4iB00B9dZvLp0exUt5WyQrN/eMOboNE3.tHV4hFXD9lr2',
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'ADMIN'),
-       (3, 'Bill Gates', 'billgates@mail.com', '$2a$10$.YQm2c3IhgaqYVzeh3REFeMpCswkZ99bFznWwNLG7l0TRmji/YvRi',
+       (2, 'Bill Gates', 'billgates@gmail.com', '$2a$10$.YQm2c3IhgaqYVzeh3REFeMpCswkZ99bFznWwNLG7l0TRmji/YvRi',
+        'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'USER'),
+       (3, 'Steve Jobs,', 'steve@gmail.com', '$2a$10$.YQm2c3IhgaqYVzeh3REFeMpCswkZ99bFznWwNLG7l0TRmji/YvRi',
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'USER');
 
 INSERT INTO regions(id, region_name)
@@ -30,8 +32,16 @@ VALUES (1, '2021-01-04', 'Peaksoft', '4 спальни, 5 кроватей, 4 в
         2),
        (4, '2022-08-04', 'Маяк', '4 спальни, 5 кроватей, 4 ванные', 1700, 8, 'HOUSE', 0, 4, 2);
 
-
-
+INSERT INTO feedbacks(id, created_at, description, dislike, likes, rating, announcement_id, owner_id)
+VALUES
+       (1, '2021-05-05', 'Peaksoft is an architectural marvel. Breathtaking views from all over the house and the hospitality of the Peaksoft staff ensure that you leave Peaksoft looking forward to returning again and again. A truly unique experience. Highly recommend!',
+        0, 1, 5, 1, 3  ),
+       (2, '2022-06-10', 'Үй-бүлө менен эс алуу үчүн идеалдуу жер. Бизге Ноокаттын атмосферасы абдан жакты.',
+        0, 1, 3, 2, 3  ),
+       (3, '2022-08-04', 'Простое жилье в заливе мечты. Отличная еда в ресторане, а также в соседних ресторанах. Очень хорошие владельцы гостиниц. До других небольших пляжей можно дойти пешком.',
+        0, 1, 2, 3, 3  ),
+       (4, '2022-08-05', 'But I can answer any questions on the phone, of course. The lighthouse is completely at your disposal. I''m staying elsewhere',
+        0, 0, 0, 4, 2  );
 
 
 
