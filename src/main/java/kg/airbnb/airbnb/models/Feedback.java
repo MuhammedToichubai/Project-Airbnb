@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
@@ -34,10 +35,10 @@ public class Feedback {
     private String description;
 
     @Column(name = "likes")
-    private Integer like;
+    private AtomicInteger likeCount;
 
 
-    private Integer dislike;
+    private AtomicInteger dislikeCount;
 
     private Integer rating;
 
