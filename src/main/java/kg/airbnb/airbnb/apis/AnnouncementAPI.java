@@ -13,12 +13,10 @@ public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
 
-
     public AnnouncementAPI(AnnouncementService announcementService) {
         this.announcementService = announcementService;
 
     }
-
     //User
     @PostMapping("/save")
     public SimpleResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
