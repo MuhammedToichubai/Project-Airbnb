@@ -20,9 +20,6 @@ public class ImageApi {
 
     private final ImageService service;
 
-    @Value("${cloud.aws.credentials.access-key}")
-    private String accessKey;
-
     @PostMapping(value = {"/upload"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,7 +29,6 @@ public class ImageApi {
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteFile(@RequestParam String fileName) {
-//        return new ResponseEntity<>(service.deleteFile(fileName), HttpStatus.OK);
-        return new ResponseEntity<>(accessKey, HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteFile(fileName), HttpStatus.OK);
     }
 }
