@@ -4,6 +4,7 @@ import kg.airbnb.airbnb.models.auth.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -32,13 +33,14 @@ public class Feedback {
     @ElementCollection
     private List<String> images;
 
+    @Length(max = 2048, message = "Message too long (more than 2 kB)")
     private String description;
 
     @Column(name = "likes")
-    private AtomicInteger likeCount;
+    private AtomicInteger likes;
 
 
-    private AtomicInteger dislikeCount;
+    private AtomicInteger disLikes;
 
     private Integer rating;
 
@@ -46,5 +48,22 @@ public class Feedback {
     private Announcement announcement;
 
     private LocalDate createdAt;
+
+    public void incrementLikes(){
+        likes.incrementAndGet();
+    }
+
+    public void decrementLikes(){
+        likes.decrementAndGet();
+    }
+
+    public void incrementDisLikes(){
+        disLikes.incrementAndGet();
+    }
+
+    public void decrementDisLikes(){
+        disLikes.decrementAndGet();
+    }
+
 }
 

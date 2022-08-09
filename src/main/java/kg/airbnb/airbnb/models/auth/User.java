@@ -1,5 +1,7 @@
 package kg.airbnb.airbnb.models.auth;
 
+import kg.airbnb.airbnb.dto.request.LikeRequest;
+import kg.airbnb.airbnb.dto.response.FeedbackResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
@@ -8,10 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.Functions;
+import org.hibernate.engine.spi.SelfDirtinessTracker;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
@@ -39,6 +45,8 @@ public class User {
 
     private String image;
 
+
+
     @OneToMany(cascade = ALL, mappedBy = "owner")
     private List<Announcement> announcements = new ArrayList<>();
 
@@ -50,6 +58,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
+    private Set<Feedback> likedFeedbacks = ConcurrentHashMap.newKeySet();
 
     public User(String email) {
         this.email = email;
@@ -69,5 +80,8 @@ public class User {
     }
 
 
+    public Feedback getLikedFeedbacks() {
+        return null;
+    }
 }
 

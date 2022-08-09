@@ -12,5 +12,8 @@ import java.util.List;
 public interface FeedbackService {
     SimpleResponse saveFeedback(Long announcementId, FeedbackRequest request);
     List<FeedbackResponse> getAllFeedback(Long announcementId);
-    LikeRequest likeFeedback();
+    FeedbackResponse likeFeedback(Long feedbackId);
+    FeedbackResponse disLikeFeedback(Long feedbackId);
+    FeedbackResponse getFeedbackDetails(Long feedbackId);
+
 }
