@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/file")
@@ -23,12 +25,12 @@ public class ImageApi {
     @PostMapping(value = {"/upload"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> uploadFile(@RequestParam MultipartFile file) {
-        return new ResponseEntity<>(service.uploadFile(file), HttpStatus.OK);
+    public Map<String, String> uploadFile(@RequestParam MultipartFile file) {
+        return service.uploadFile(file);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteFile(@RequestParam String fileName) {
-        return new ResponseEntity<>(service.deleteFile(fileName), HttpStatus.OK);
+    public Map<String, String> deleteFile(@RequestParam String fileName) {
+        return service.deleteFile(fileName);
     }
 }

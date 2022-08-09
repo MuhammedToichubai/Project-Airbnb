@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 @Slf4j
@@ -29,7 +30,7 @@ public class ImageService {
     private final AmazonS3 s3Client;
 
 
-    public String uploadFile(MultipartFile file) {
+    public Map<String, String> uploadFile(MultipartFile file) {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
         try {
@@ -40,11 +41,15 @@ public class ImageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return prefixForFileLink + fileName;
+        return Map.of(
+                "link", prefixForFileLink + fileName
+        );
     }
 
-    public String deleteFile(String fileName) {
+    public Map<String, String> deleteFile(String fileName) {
         s3Client.deleteObject(bucketName, fileName);
-        return fileName + " removed ...";
+        return Map.of(
+                "message", fileName + " removed ..."
+        );
     }
 }
