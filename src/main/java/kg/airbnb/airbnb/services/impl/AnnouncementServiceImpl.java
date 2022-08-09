@@ -3,6 +3,7 @@ package kg.airbnb.airbnb.services.impl;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.enums.Role;
@@ -295,6 +296,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     }
 
+    @Override
+    public List<Announcement> listAll(String keyword) {
+        if (keyword != null) {
+            return announcementRepository.search(keyword);
+        }
+        return announcementRepository.findAll();
+    }
 
 }
 

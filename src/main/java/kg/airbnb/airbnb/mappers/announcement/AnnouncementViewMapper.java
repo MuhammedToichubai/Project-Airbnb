@@ -2,8 +2,10 @@ package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
+import kg.airbnb.airbnb.models.auth.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -92,6 +94,29 @@ public class AnnouncementViewMapper {
             rating = (5*fives+4*fours+3*threes+2*twos+ones)/(double)(sumOfTotalRatings);
         }
         return rating;
+    }
+
+    public GlobalSearchForAnnouncementResponse entityToDtoConvertingForGlobalSearch(Announcement announcement) {
+        if (announcement == null) {
+            return null;
+        }
+         GlobalSearchForAnnouncementResponse response = new GlobalSearchForAnnouncementResponse();
+        response.setImages(announcement.getImages());
+        response.setPrice(announcement.getPrice());
+        response.setRating(calculateRating(announcement));
+        response.setDescription(announcement.getDescription());
+        response.setAddress(announcement.getLocation().getAddress());
+        List<User> users = announcement.getGuests();
+        response.setGuests(users.size());
+        return response;
+    }
+
+    public List<GlobalSearchForAnnouncementResponse> globalSearchForViewAllAnnouncementResponses(List<Announcement> announcements){
+        List<GlobalSearchForAnnouncementResponse> responses = new ArrayList<>();
+        for (Announcement announcement : announcements){
+            responses.add(entityToDtoConvertingForGlobalSearch(announcement));
+        }
+        return responses;
     }
 
 }
