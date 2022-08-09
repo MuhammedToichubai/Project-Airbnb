@@ -2,8 +2,8 @@ package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +47,8 @@ public class AnnouncementAPI {
         return announcementService.announcementDelete(announcementId);
     }
 
-    @GetMapping("/search")
-    public List<Announcement> viewHomePage(@Param("keyword") String keyword) {
+    @GetMapping("/global/search")
+    public List<GlobalSearchForAnnouncementResponse> viewMainPage(@Param("keyword") String keyword) {
         return announcementService.listAll(keyword);
     }
 }

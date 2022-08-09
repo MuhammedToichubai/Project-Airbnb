@@ -297,11 +297,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<Announcement> listAll(String keyword) {
+    public List<GlobalSearchForAnnouncementResponse> listAll(String keyword) {
         if (keyword != null) {
-            return announcementRepository.search(keyword);
+            return viewMapper.globalSearchForViewAllAnnouncementResponses(announcementRepository.search(keyword));
         }
-        return announcementRepository.findAll();
+        return viewMapper.globalSearchForViewAllAnnouncementResponses(announcementRepository.findAll());
     }
 
 }

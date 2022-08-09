@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.services;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.models.Announcement;
@@ -30,5 +31,5 @@ public interface AnnouncementService {
 
     kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
-    List<Announcement> listAll(String keyword);
+    List<GlobalSearchForAnnouncementResponse> listAll(String keyword);
 }
