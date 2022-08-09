@@ -17,31 +17,33 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ImageService {
 
-    @Value("${application.bucket.name}")
-    private String bucketName;
-
-    @Value("${prefix-for-file-link}")
-    private String prefixForFileLink;
-
-    private final AmazonS3 s3Client;
+//    @Value("${application.bucket.name}")
+//    private String bucketName;
+//
+//    @Value("${prefix-for-file-link}")
+//    private String prefixForFileLink;
+//
+//    private final AmazonS3 s3Client;
 
 
     public String uploadFile(MultipartFile file) {
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-
-        try {
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.addUserMetadata("Content-Type", file.getContentType());
-            metadata.addUserMetadata("Content-Length", String.valueOf(file.getSize()));
-            s3Client.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return prefixForFileLink + fileName;
+//        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+//
+//        try {
+//            ObjectMetadata metadata = new ObjectMetadata();
+//            metadata.addUserMetadata("Content-Type", file.getContentType());
+//            metadata.addUserMetadata("Content-Length", String.valueOf(file.getSize()));
+//            s3Client.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return prefixForFileLink + fileName;
+        return null;
     }
 
     public String deleteFile(String fileName) {
-        s3Client.deleteObject(bucketName, fileName);
-        return fileName + " removed ...";
+//        s3Client.deleteObject(bucketName, fileName);
+//        return fileName + " removed ...";
+        return null;
     }
 }
