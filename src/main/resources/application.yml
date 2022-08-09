@@ -26,10 +26,10 @@ spring:
       continue-on-error: false
       data-locations: classpath:data-initial/data.sql
       mode: always
-#cloud:
-#  aws:
-#    credentials:
-#      access-key: ${AWS_ACCESS_KEY_ID}
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
 #      secret-key: ${AWS_SECRET_ACCESS_KEY}
 #    region:
 #      static: eu-central-1

@@ -1,7 +1,10 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.services.impl.ImageService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/api/file")
 @CrossOrigin
+@Getter @Setter
 public class ImageApi {
 
     private final ImageService service;
+
+    @Value("${cloud.aws.credentials.access-key}")
+    private String accessKey;
 
     @PostMapping(value = {"/upload"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -25,6 +32,7 @@ public class ImageApi {
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteFile(@RequestParam String fileName) {
-        return new ResponseEntity<>(service.deleteFile(fileName), HttpStatus.OK);
+//        return new ResponseEntity<>(service.deleteFile(fileName), HttpStatus.OK);
+        return new ResponseEntity<>(accessKey, HttpStatus.OK);
     }
 }
