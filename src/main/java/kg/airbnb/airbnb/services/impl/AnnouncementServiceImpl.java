@@ -204,7 +204,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         );
     }
 
-    private Announcement getAnnouncementById(Long announcementId) {
+    protected Announcement getAnnouncementById(Long announcementId) {
         return announcementRepository.findById(announcementId)
                 .orElseThrow(() -> new NotFoundException(
                         "Announcement with id " + announcementId + " not found!"
