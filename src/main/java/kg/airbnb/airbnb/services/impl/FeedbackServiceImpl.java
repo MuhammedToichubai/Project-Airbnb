@@ -69,11 +69,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackResponse;
     }
 
-//    @Override
-    public LikeRequest likeFeedback() {
-        return null;
-    }
-
     private Announcement getFindByIdAnnouncement(Long id){
         return announcementRepository.findById(id)
                 .orElseThrow( () -> new NotFoundException(

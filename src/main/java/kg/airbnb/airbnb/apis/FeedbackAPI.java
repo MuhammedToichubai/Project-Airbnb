@@ -37,13 +37,13 @@ public class FeedbackAPI {
 
     //User
     @PostMapping("/{feedbackId}/like")
-    public FeedbackResponse saveLikesFeedback(@PathVariable Long feedbackId){
+    public FeedbackResponse LikeFeedback(@PathVariable Long feedbackId){
         return feedbackService.likeFeedback(feedbackId);
 
     }
 
     @PostMapping("/{feedbackId}/disLike")
-    public FeedbackResponse saveDisLikesFeedback(@PathVariable Long feedbackId){
+    public FeedbackResponse DisLikeFeedback(@PathVariable Long feedbackId){
         feedbackService.disLikeFeedback(feedbackId);
         return null;
     }

@@ -11,13 +11,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
+//@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
 
     @Override
     public boolean ifLikedFeedback(Long feedbackId){
-        return getAuthenticatedUser().getLikedFeedbacks().stream().
+        return getAuthenticatedUser().getLikedFeedbacks().
     }
 
     @Override
