@@ -11,9 +11,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.Functions;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.engine.spi.SelfDirtinessTracker;
 
 import javax.persistence.*;
+import  java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -59,8 +61,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
-    private Set<Feedback> likedFeedbacks = ConcurrentHashMap.newKeySet();
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
+    //potoko bezopasnyi bolush uchun concurenthashmap koldonuldu
+
+
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> disLikedFeedbacks = ConcurrentHashMap.newKeySet();
+    //potoko bezopasnyi bolush uchun concurenthashmap koldonuldu
 
     public User(String email) {
         this.email = email;
@@ -70,6 +80,7 @@ public class User {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
+
     }
 
     public User(String fullName, String email, String password, Role role ) {
@@ -79,9 +90,20 @@ public class User {
         this.role=role;
     }
 
+    public void addToLikedFeedbacks(Long feedbackId) {
+        likedFeedbacks.add(feedbackId);
+    }
 
-    public Feedback getLikedFeedbacks() {
-        return null;
+    public void removeFromLikedFeedbacks(Long feedbackId) {
+        likedFeedbacks.remove(feedbackId);
+    }
+
+    public void removeFromDisLikedFeedbacks(Long feedbackId) {
+        disLikedFeedbacks.remove(feedbackId);
+    }
+
+    public void addToDisLikedFeedbacks(Long feedbackId) {
+        disLikedFeedbacks.add(feedbackId);
     }
 }
 

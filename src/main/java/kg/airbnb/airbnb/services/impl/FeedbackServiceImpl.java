@@ -64,8 +64,8 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackResponse.setImages(savedFeedback.getImages());
         feedbackResponse.setDescription(savedFeedback.getDescription());
         feedbackResponse.setCreatedAt(savedFeedback.getCreatedAt());
-        feedbackResponse.setLikes(savedFeedback.getLikes());
-        feedbackResponse.setDisLikes(savedFeedback.getDisLikes());
+        feedbackResponse.setLikeCount(savedFeedback.getLikes());
+        feedbackResponse.setDisLikeCount(savedFeedback.getDisLikes());
         return feedbackResponse;
     }
 
@@ -108,18 +108,72 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 
         feedbackById.incrementLikes();
+
+        FeedbackResponse feedbackResponse = new FeedbackResponse();
+        User user = new User();
+        feedbackResponse.setFeedbackOwnerImage(user.getImage());
+        feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
+        feedbackResponse.setRating(feedbackById.getRating());
+        feedbackResponse.setImages(feedbackById.getImages());
+        feedbackResponse.setDescription(feedbackById.getDescription());
+        feedbackResponse.setCreatedAt(feedbackById.getCreatedAt());
+        feedbackResponse.setLikeCount(feedbackById.getLikes().get());
+        feedbackResponse.setDisLikeCount(feedbackById.getDisLikes().get());
         return null;
     }
 
     @Override
     public FeedbackResponse disLikeFeedback(Long feedbackId) {
+        // Like Feedback by id
+        Feedback feedbackById = getFeedbackById(feedbackId);
+        // Increment Like Count
+        // If user already like the feedback, then decrement Like Count
+
+        // Like - 0, disLike - 0
+        // Like - 1, disLike - 0
+        // Like - 0, disLike - 0
+
+        // Like - 0, disLike - 0
+        // Like - 0, disLike - 1
+        // Like - 0, disLike - 0
+        // If user already disLike the feedback, then increment Like Count and decrement disLike Count
+
+        if (userService.ifDisLikedFeedback(feedbackId)){
+            feedbackById.decrementDisLikes();
+            userService.removeFromDisLikedFeedbacks(feedbackId);
+        } else if (userService.ifLikedFeedback(feedbackId)){
+            feedbackById.decrementLikes();
+            userService.removeFromLikedFeedbacks(feedbackId);
+            feedbackById.incrementDisLikes();
+            userService.addToDisLikedFeedbacks(feedbackId);
+        }else {
+            feedbackById.incrementDisLikes();
+            userService.addToDisLikedFeedbacks(feedbackId);
+        }
+
+        feedbackRepository.save(feedbackById);
+
+
+        feedbackById.incrementLikes();
+
+        FeedbackResponse feedbackResponse = new FeedbackResponse();
+        User user = new User();
+        feedbackResponse.setFeedbackOwnerImage(user.getImage());
+        feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
+        feedbackResponse.setRating(feedbackById.getRating());
+        feedbackResponse.setImages(feedbackById.getImages());
+        feedbackResponse.setDescription(feedbackById.getDescription());
+        feedbackResponse.setCreatedAt(feedbackById.getCreatedAt());
+        feedbackResponse.setLikeCount(feedbackById.getLikes().get());
+        feedbackResponse.setDisLikeCount(feedbackById.getDisLikes().get());
+
         return null;
     }
 
     @Override
     public FeedbackResponse getFeedbackDetails(Long feedbackId) {
         FeedbackResponse feedbackResponse = new FeedbackResponse();
-        feedbackResponse.
+//        feedbackResponse.
         return feedbackResponse;
     }
 

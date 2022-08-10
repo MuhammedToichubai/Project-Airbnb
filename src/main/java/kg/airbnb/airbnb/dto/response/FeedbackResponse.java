@@ -17,6 +17,6 @@ public class FeedbackResponse {
     private String description;
     private List<String> images;
     private LocalDate createdAt;
-    private AtomicInteger likes;
-    private AtomicInteger disLikes;
+    private Integer likeCount;
+    private Integer disLikeCount;
 }

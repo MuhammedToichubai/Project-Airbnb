@@ -37,10 +37,9 @@ public class Feedback {
     private String description;
 
     @Column(name = "likes")
-    private AtomicInteger likes;
+    private AtomicInteger likes = new AtomicInteger(0);
 
-
-    private AtomicInteger disLikes;
+    private AtomicInteger disLikes = new AtomicInteger(0);
 
     private Integer rating;
 
