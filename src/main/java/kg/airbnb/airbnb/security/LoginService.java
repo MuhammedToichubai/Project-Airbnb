@@ -1,19 +1,19 @@
 package kg.airbnb.airbnb.security;
-
+import kg.airbnb.airbnb.dto.responses.JwtResponse;
+import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import kg.airbnb.airbnb.dto.JwtResponse;
-import kg.airbnb.airbnb.dto.LoginRequest;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.exceptions.WrongPasswordException;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +34,14 @@ public class LoginService {
     @PostConstruct
     void init() throws IOException {
 
-        FileInputStream serviceAccount =
-                new FileInputStream("src/main/resources/firebase/auth-368bd-firebase-adminsdk-6bey6-b79b2aa771.json");
+        GoogleCredentials googleCredentials =
+                GoogleCredentials.fromStream(new ClassPathResource("firebase/auth-368bd-firebase-adminsdk-6bey6-b79b2aa771.json").getInputStream());
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+        FirebaseOptions firebaseOptions = FirebaseOptions.builder()
+                .setCredentials(googleCredentials)
                 .build();
 
-        FirebaseApp.initializeApp(options);
+        FirebaseApp firebaseApp = FirebaseApp.initializeApp(firebaseOptions);
     }
 
     public JwtResponse authenticate(LoginRequest loginRequest) {
