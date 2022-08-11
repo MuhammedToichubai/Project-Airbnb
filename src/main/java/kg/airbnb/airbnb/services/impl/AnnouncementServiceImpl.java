@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
+import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
@@ -24,6 +25,9 @@ import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,7 +35,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -295,6 +302,31 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     }
 
+    @Override
+    public List<AnnouncementCardResponse> getAnnouncementsByFilter(String region, String kind,
+                                                                   String type, String price,
+                                                                   int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
 
+        String query = null;
+
+        if (price.equalsIgnoreCase("low to high")) {
+            query = "a.price asc";
+        } else if (price.equalsIgnoreCase("high to low")) {
+            query = "a.price desc";
+        }
+
+        Page<Announcement> repository = announcementRepository.getAnnouncementsByFilter(
+                region.toUpperCase(Locale.ROOT), type, query, pageable);
+
+        List<Announcement> announcements = new ArrayList<>(repository.getContent());
+
+        if (kind != null && kind.equalsIgnoreCase("popular")) {
+            announcements.sort(Comparator.comparingInt(o -> o.getFeedbacks().size()));
+        } else if (kind != null && kind.equalsIgnoreCase("the lastest")) {
+            announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
+        }
+        return viewMapper.viewCard(announcements);
+    }
 }
 
