@@ -24,6 +24,8 @@ import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -293,6 +295,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
 
+    }
+
+    @Override
+    public List<AdminPageAnnouncementResponse> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return viewMapper.viewAllAdminPageAnnouncementResponses(
+                announcementRepository.findAll(pageable).getContent());
     }
 
 

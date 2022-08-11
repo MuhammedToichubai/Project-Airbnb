@@ -1,10 +1,13 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
+import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/announcements")
@@ -39,5 +42,10 @@ public class AnnouncementAPI {
     @DeleteMapping("/delete/{announcementId}")
     public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId) {
         return announcementService.announcementDelete(announcementId);
+    }
+
+    @GetMapping
+    public List<AdminPageAnnouncementResponse> findAll(@RequestParam int page, @RequestParam int size) {
+        return announcementService.findAll(page, size);
     }
 }
