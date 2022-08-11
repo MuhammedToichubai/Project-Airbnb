@@ -1,15 +1,12 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
-import kg.airbnb.airbnb.dto.responses.UserResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
+import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
 import kg.airbnb.airbnb.models.auth.User;
-import kg.airbnb.airbnb.repositories.BookingRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
 import org.springframework.security.core.Authentication;
@@ -23,11 +20,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserProfileViewMapper viewMapper;
+    private final AnnouncementViewMapper announcementViewMapper;
 
     public UserServiceImpl(UserRepository userRepository
-            , UserProfileViewMapper viewMapper) {
+            , UserProfileViewMapper viewMapper, AnnouncementViewMapper announcementViewMapper) {
         this.userRepository = userRepository;
         this.viewMapper = viewMapper;
+        this.announcementViewMapper = announcementViewMapper;
     }
 
     @Override
@@ -70,6 +69,15 @@ public class UserServiceImpl implements UserService {
             User users = userRepository.findById(id).get();
             return BookingViewMapper.viewAllBooking(users.getBookings());
 
+        } else {
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+    }
+    public List<UserAnnouncementResponse> getAllAnnouncements(Long id) {
+        User user = getAuthenticatedUser();
+        if (user.getRole().equals(Role.ADMIN)) {
+            User users = userRepository.findById(id).get();
+            return announcementViewMapper.viewAdminPageAllAnnouncementsResponse(users.getAnnouncements());
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }

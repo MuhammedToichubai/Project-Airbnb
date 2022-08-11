@@ -1,10 +1,7 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
-import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
-import kg.airbnb.airbnb.dto.responses.UserResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +57,10 @@ public class AdminApi {
     @GetMapping("/bookings/{userId}")
     public List<UserBookingsResponse> getAllBookingsFromUser(@PathVariable Long userId) {
         return userService.getAllBookings(userId);
+    }
+    @GetMapping("/announcement/{userId}")
+    public List<UserAnnouncementResponse> getAllAnnouncementFromUser(@PathVariable Long userId){
+        return userService.getAllAnnouncements(userId);
     }
 
 }

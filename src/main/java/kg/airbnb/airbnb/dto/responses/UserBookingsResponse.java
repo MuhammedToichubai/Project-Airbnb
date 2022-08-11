@@ -1,6 +1,7 @@
 package kg.airbnb.airbnb.dto.responses;
 
 import kg.airbnb.airbnb.enums.Status;
+import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.models.Booking;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,10 @@ public class UserBookingsResponse {
     private String title;
     private String location;
     private Integer maxGuests;
+    private String checkIn;
+    private String checkOut;
+    private Status Status;
 
-    private Long id;
-    private String fullName;
-    private String email;
 
     public UserBookingsResponse(Booking booking, Double rating) {
         this.announcementId = booking.getAnnouncement().getId();
@@ -33,8 +34,7 @@ public class UserBookingsResponse {
         this.title = booking.getAnnouncement().getTitle();
         this.location = booking.getAnnouncement().getLocation().getAddress();
         this.maxGuests = booking.getAnnouncement().getMaxGuests();
-        this.id = booking.getAnnouncement().getOwner().getId();
-        this.fullName = booking.getAnnouncement().getOwner().getFullName();
-        this.email = booking.getAnnouncement().getOwner().getEmail();
     }
+
+
 }
