@@ -14,6 +14,10 @@ public class SimpleResponse {
         this.message = message;
     }
 
+    public SimpleResponse(String message) {
+        this.message = message;
+    }
+
     public SimpleResponse() {
 
     }
