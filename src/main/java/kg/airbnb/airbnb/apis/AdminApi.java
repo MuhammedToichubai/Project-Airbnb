@@ -3,6 +3,7 @@ package kg.airbnb.airbnb.apis;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
@@ -46,13 +47,19 @@ public class AdminApi {
         return announcementService.deleteAnnouncement(announcementId, announcementRejectRequest);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/user/{id}")
     public SimpleResponse deleteUser(@PathVariable Long id) {
-        return userService.delete(id);
+        return userService.deleteUser(id);
     }
 
-    @GetMapping("/getAllUsers")
+    @GetMapping("/users")
     public List<UserResponse> getAllUser() {
-        return userService.getAll();
+        return userService.getAllUser();
     }
+
+    @GetMapping("/bookings/{userId}")
+    public List<UserBookingsResponse> getAllBookingsFromUser(@PathVariable Long userId) {
+        return userService.getAllBookings(userId);
+    }
+
 }
