@@ -299,7 +299,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public List<AdminPageAnnouncementResponse> findAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         return viewMapper.viewAllAdminPageAnnouncementResponses(
                 announcementRepository.findAll(pageable).getContent());
     }
