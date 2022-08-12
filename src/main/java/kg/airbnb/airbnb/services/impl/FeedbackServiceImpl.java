@@ -64,8 +64,8 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackResponse.setImages(savedFeedback.getImages());
         feedbackResponse.setDescription(savedFeedback.getDescription());
         feedbackResponse.setCreatedAt(savedFeedback.getCreatedAt());
-        feedbackResponse.setLikeCount(savedFeedback.getLikes());
-        feedbackResponse.setDisLikeCount(savedFeedback.getDisLikes());
+        feedbackResponse.setLikeCount(savedFeedback.getLikes().get());
+        feedbackResponse.setDisLikeCount(savedFeedback.getDisLikes().get());
         return feedbackResponse;
     }
 
