@@ -23,6 +23,7 @@ public class AnnouncementViewMapper {
         response.setTitle(announcement.getTitle());
         response.setLocation(announcement.getLocation().getAddress());
         response.setDescription(announcement.getDescription());
+        response.setUserID(announcement.getOwner().getId());
         response.setOwnerImage(announcement.getOwner().getImage());
         response.setOwnerFullName(announcement.getOwner().getFullName());
         response.setOwnerEmail(announcement.getOwner().getEmail());

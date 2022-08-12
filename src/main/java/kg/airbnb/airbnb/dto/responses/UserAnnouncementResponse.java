@@ -23,7 +23,7 @@ public class UserAnnouncementResponse {
 
     public UserAnnouncementResponse(Announcement announcement,Double rating) {
         this.id = announcement.getId();
-        this.image = announcement.getImages().get(0);
+       // this.image = announcement.getImages().get(0);
         this.price = announcement.getPrice();
         this.rating = rating;
         this.title = announcement.getTitle();

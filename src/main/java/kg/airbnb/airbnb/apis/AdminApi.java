@@ -62,5 +62,9 @@ public class AdminApi {
     public List<UserAnnouncementResponse> getAllAnnouncementFromUser(@PathVariable Long userId){
         return userService.getAllAnnouncements(userId);
     }
+    @GetMapping("/innerPage/{announcId}")
+    public AnnouncementInnerPageResponse getInnerPageAnnouncementAdmin(@PathVariable Long announcId){
+        return userService.getInnerPageAnnouncement(announcId);
+    }
 
 }
