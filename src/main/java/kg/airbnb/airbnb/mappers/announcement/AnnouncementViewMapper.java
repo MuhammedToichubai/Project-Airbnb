@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
@@ -118,5 +119,28 @@ public class AnnouncementViewMapper {
         }
         return responses;
     }
+
+    public AnnouncementSearchResponse foundAnnouncementToDto(Announcement announcement){
+        if (announcement == null){
+            return null;
+        }
+        AnnouncementSearchResponse response = new AnnouncementSearchResponse();
+        response.setFoundAnnouncement(announcement.getLocation().getRegion().getRegionName()
+                        +", " +announcement.getLocation().getCity()
+                        +", "+announcement.getLocation().getAddress()
+                        + ", "+announcement.getHouseType());
+
+        return response;
+    }
+
+    public List<AnnouncementSearchResponse> getAllFoundAnnouncement(List<Announcement> announcements){
+        List<AnnouncementSearchResponse> responses = new ArrayList<>();
+        for (Announcement announcement : announcements) {
+            responses.add(foundAnnouncementToDto(announcement));
+        }
+        return responses;
+    }
+
+
 
 }

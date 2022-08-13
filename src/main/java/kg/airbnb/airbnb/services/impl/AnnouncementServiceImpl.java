@@ -2,10 +2,7 @@ package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
@@ -25,6 +22,7 @@ import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -32,8 +30,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -298,11 +298,26 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<GlobalSearchForAnnouncementResponse> listAll(String keyword) {
+    public List<AnnouncementSearchResponse> listAll(Integer pageNo, Integer pageSize, String keyword) {
+
+//        List<Announcement> search = announcementRepository.search(keyword);
+//        Set<Announcement> announcements = new TreeSet<>(search);
+
+
         if (keyword != null) {
-            return viewMapper.globalSearchForViewAllAnnouncementResponses(announcementRepository.search(transliterate(keyword)));
+            List<Announcement> foundAnnouncementsList = announcementRepository.search(transliterate(keyword));
+            Optional<Announcement> optional = foundAnnouncementsList.stream().findFirst();
+            optional.orElseThrow(() -> new NotFoundException
+                    ("По запросу '" + keyword +"' ничего не найдено. " +
+                            "Рекомендации: " +
+                            "Убедитесь, что все слова написаны без ошибок. " +
+                            "Попробуйте использовать другие ключевые слова. " +
+                            "Попробуйте использовать более популярные ключевые слова."
+                    ));
+            return viewMapper.getAllFoundAnnouncement(foundAnnouncementsList);
         }
-        return viewMapper.globalSearchForViewAllAnnouncementResponses(announcementRepository.findAll());
+
+        return viewMapper.getAllFoundAnnouncement(announcementRepository.findAll());
     }
 
     public  String transliterate(String message){
@@ -319,7 +334,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             }
             return builder.toString();
         }
-
 
 }
 

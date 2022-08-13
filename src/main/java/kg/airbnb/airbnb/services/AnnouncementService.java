@@ -1,11 +1,7 @@
 package kg.airbnb.airbnb.services;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
-import kg.airbnb.airbnb.models.Announcement;
+import kg.airbnb.airbnb.dto.responses.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,5 +27,5 @@ public interface AnnouncementService {
 
     kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
-    List<GlobalSearchForAnnouncementResponse> listAll(String keyword);
+    List<AnnouncementSearchResponse> listAll(Integer pageNo, Integer pageSize, String keyword);
 }

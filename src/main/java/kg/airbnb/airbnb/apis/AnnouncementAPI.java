@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.services.AnnouncementService;
@@ -46,7 +47,12 @@ public class AnnouncementAPI {
     }
 
     @GetMapping("/global/search")
-    public List<GlobalSearchForAnnouncementResponse> viewMainPage(@Param("keyword") String keyword) {
-        return announcementService.listAll(keyword);
+    public List<AnnouncementSearchResponse> viewMainPage(
+//            @Param("keyword") String keyword,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String keyword) {
+//        List<EmployeeEntity> list = service.getAllEmployees(pageNo, pageSize, sortBy);
+        return announcementService.listAll(pageNo, pageSize, keyword);
     }
 }
