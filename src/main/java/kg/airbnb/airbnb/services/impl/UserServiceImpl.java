@@ -5,8 +5,6 @@ import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
-import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
-import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
@@ -64,35 +62,6 @@ public class UserServiceImpl implements UserService {
         if (user.getRole().equals(Role.ADMIN)) {
             return UserProfileViewMapper.viewFindAllUser(userRepository.findAll());
         } else {
-            throw new ForbiddenException("Only admin can access this page!");
-        }
-    }
-
-    public List<UserBookingsResponse> getAllBookings(Long id) {
-        User user = getAuthenticatedUser();
-        if (user.getRole().equals(Role.ADMIN)) {
-            User users = userRepository.findById(id).get();
-            return BookingViewMapper.viewAllBooking(users.getBookings());
-
-        } else {
-            throw new ForbiddenException("Only admin can access this page!");
-        }
-    }
-    public List<UserAnnouncementResponse> getAllAnnouncements(Long id) {
-        User user = getAuthenticatedUser();
-        if (user.getRole().equals(Role.ADMIN)) {
-            User users = userRepository.findById(id).get();
-            return announcementViewMapper.viewAdminPageAllAnnouncementsResponse(users.getAnnouncements());
-        } else {
-            throw new ForbiddenException("Only admin can access this page!");
-        }
-    }
-    public AnnouncementInnerPageResponse getInnerPageAnnouncement(Long id){
-        User user = getAuthenticatedUser();
-        if (user.getRole().equals(Role.ADMIN)){
-            Announcement announcement1= announcementRepository.findById(id).get();
-            return announcementViewMapper.entityToDtoConverting(announcement1);
-        }else {
             throw new ForbiddenException("Only admin can access this page!");
         }
     }

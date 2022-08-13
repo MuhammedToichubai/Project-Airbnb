@@ -55,18 +55,7 @@ public class AnnouncementViewMapper {
         adminPageAnnouncementResponse.setStatus(announcement.getStatus());
         return adminPageAnnouncementResponse;
 
-
     }
-
-    public List<UserAnnouncementResponse> viewAdminPageAllAnnouncementsResponse(List<Announcement> announcements) {
-        List<UserAnnouncementResponse> userAnnouncementResponsesList = new ArrayList<>();
-        for (Announcement announcement : announcements) {
-            userAnnouncementResponsesList.add(
-                    new UserAnnouncementResponse(announcement, calculateRating(announcement)));
-        }
-        return userAnnouncementResponsesList;
-    }
-
     public Double calculateRating(Announcement announcement) {
 
         double rating = 0.0;

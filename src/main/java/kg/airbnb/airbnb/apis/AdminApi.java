@@ -53,18 +53,4 @@ public class AdminApi {
     public List<UserResponse> getAllUser() {
         return userService.getAllUser();
     }
-
-    @GetMapping("/bookings/{userId}")
-    public List<UserBookingsResponse> getAllBookingsFromUser(@PathVariable Long userId) {
-        return userService.getAllBookings(userId);
-    }
-    @GetMapping("/announcement/{userId}")
-    public List<UserAnnouncementResponse> getAllAnnouncementFromUser(@PathVariable Long userId){
-        return userService.getAllAnnouncements(userId);
-    }
-    @GetMapping("/innerPage/{announcId}")
-    public AnnouncementInnerPageResponse getInnerPageAnnouncementAdmin(@PathVariable Long announcId){
-        return userService.getInnerPageAnnouncement(announcId);
-    }
-
 }
