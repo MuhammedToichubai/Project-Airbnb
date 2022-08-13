@@ -3,10 +3,8 @@ package kg.airbnb.airbnb.apis;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
-import kg.airbnb.airbnb.dto.responses.GlobalSearchForAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.services.AnnouncementService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +20,7 @@ public class AnnouncementAPI {
         this.announcementService = announcementService;
 
     }
+
     //User
     @PostMapping("/save")
     public SimpleResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
@@ -47,12 +46,10 @@ public class AnnouncementAPI {
     }
 
     @GetMapping("/global/search")
-    public List<AnnouncementSearchResponse> viewMainPage(
-//            @Param("keyword") String keyword,
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String keyword) {
-//        List<EmployeeEntity> list = service.getAllEmployees(pageNo, pageSize, sortBy);
-        return announcementService.listAll(pageNo, pageSize, keyword);
+    public List<AnnouncementSearchResponse> searchAnnouncements(
+            @RequestParam(value = "keyword", required = false, defaultValue = " ") String keyword,
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "8") Integer pageSize) {
+        return announcementService.getSearchAnnouncements(pageNo, pageSize, keyword);
     }
 }
