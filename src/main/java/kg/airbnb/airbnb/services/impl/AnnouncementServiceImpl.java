@@ -306,27 +306,59 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public List<AnnouncementCardResponse> getAnnouncementsByFilter(String region, String kind,
                                                                    String type, String price,
                                                                    int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
 
-        String query = null;
-
-        if (price.equalsIgnoreCase("low to high")) {
-            query = "a.price asc";
-        } else if (price.equalsIgnoreCase("high to low")) {
-            query = "a.price desc";
-        }
-
-        Page<Announcement> repository = announcementRepository.getAnnouncementsByFilter(
-                region.toUpperCase(Locale.ROOT), type, query, pageable);
-
-        List<Announcement> announcements = new ArrayList<>(repository.getContent());
+        List<Announcement> announcements = new ArrayList<>(findByFilter
+                (region, type, price, page, size).getContent());
 
         if (kind != null && kind.equalsIgnoreCase("popular")) {
             announcements.sort(Comparator.comparingInt(o -> o.getFeedbacks().size()));
-        } else if (kind != null && kind.equalsIgnoreCase("the lastest")) {
+
+        } else if (kind != null && kind.equalsIgnoreCase("The lastest")) {
             announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
         }
+
         return viewMapper.viewCard(announcements);
+    }
+
+    private Page<Announcement> findByFilter(String region, String type, String price, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<Announcement> announcements = null;
+
+        if (region != null && type == null && price == null) {
+            announcements = announcementRepository.findByRegion(region.toUpperCase(Locale.ROOT), pageable);
+        } else if (region != null && type != null && price == null) {
+            announcements = announcementRepository.findByRegionAndType(region.toUpperCase(Locale.ROOT), type.toUpperCase(Locale.ROOT), pageable);
+        } else if (region != null && type != null && price != null) {
+            if  (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByRegionAndTypeAndPriceLow(region.toUpperCase(Locale.ROOT), type.toUpperCase(Locale.ROOT), pageable);
+            } else if  (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByRegionAndTypeAndPriceHigh(region.toUpperCase(Locale.ROOT), type.toUpperCase(Locale.ROOT), pageable);
+            }
+        } else if (region == null && type != null && price == null) {
+            announcements = announcementRepository.findByType(type.toUpperCase(Locale.ROOT), pageable);
+        } else if (region == null && type == null && price != null) {
+            if  (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByPriceLow(pageable);
+            } else if  (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByPriceHigh(pageable);
+            }
+        } else if (region == null && type != null && price != null) {
+            if  (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByTypeAndPriceLow(type.toUpperCase(Locale.ROOT), pageable);
+            } else if  (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByTypeAndPriceHigh(type.toUpperCase(Locale.ROOT), pageable);
+            }
+        } else if (region != null && type == null && price != null) {
+            if  (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByRegionAndPriceLow(region.toUpperCase(Locale.ROOT), pageable);
+            } else if  (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByRegionAndPriceHigh(region.toUpperCase(Locale.ROOT), pageable);
+            }
+
+        }
+
+        return announcements;
     }
 }
 
