@@ -25,6 +25,8 @@ import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -299,9 +301,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer pageNo, Integer pageSize, String keyword) {
+    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword) {
 
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
 
         if (keyword != null) {
             List<Announcement> searchAnnouncement = announcementRepository.search(transliterate(keyword), pageable);
@@ -315,10 +317,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                             "Попробуйте использовать другие ключевые слова. " +
                             "Попробуйте использовать более популярные ключевые слова."
                     ));
-            return viewMapper.getAllFoundAnnouncements(foundAnnouncementsList);
+            return viewMapper.getViewAllSearchAnnouncements(foundAnnouncementsList);
         }
 
-        return viewMapper.getAllFoundAnnouncements(announcementRepository.findAll());
+        Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
+        List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
+        return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
     }
 
     public String transliterate(String message) {

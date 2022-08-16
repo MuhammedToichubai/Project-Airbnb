@@ -96,7 +96,7 @@ public class AnnouncementViewMapper {
     }
 
 
-    public AnnouncementSearchResponse foundAnnouncementToDto(Announcement announcement){
+    public AnnouncementSearchResponse entityToDtoConversion(Announcement announcement){
         if (announcement == null){
             return null;
         }
@@ -109,10 +109,10 @@ public class AnnouncementViewMapper {
         return response;
     }
 
-    public List<AnnouncementSearchResponse> getAllFoundAnnouncements(List<Announcement> announcements){
+    public List<AnnouncementSearchResponse> getViewAllSearchAnnouncements(List<Announcement> announcements){
         List<AnnouncementSearchResponse> responses = new ArrayList<>();
         for (Announcement announcement : announcements) {
-            responses.add(foundAnnouncementToDto(announcement));
+            responses.add(entityToDtoConversion(announcement));
         }
         return responses;
     }

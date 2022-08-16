@@ -47,9 +47,9 @@ public class AnnouncementAPI {
 
     @GetMapping("/global/search")
     public List<AnnouncementSearchResponse> searchAnnouncements(
-            @RequestParam(value = "keyword", required = false, defaultValue = " ") String keyword,
-            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "8") Integer pageSize) {
-        return announcementService.getSearchAnnouncements(pageNo, pageSize, keyword);
+        return announcementService.getSearchAnnouncements(page, pageSize, keyword);
     }
 }
