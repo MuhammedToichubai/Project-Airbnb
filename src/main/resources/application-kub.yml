@@ -1,0 +1,43 @@
+jwt:
+  secret: airbnb
+server:
+  error:
+    include-message: always
+#  port: 5000
+spring:
+  datasource:
+    username: postgres
+    password: 1234
+    url: jdbc:postgresql://localhost:5432/sql
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+  sql:
+    init:
+      continue-on-error: false
+      data-locations: classpath:data-initial/data.sql
+      mode: always
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    region:
+      static: eu-central-1
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: airbnb-b5
+
+prefix-for-file-link: https://airbnb-b5.s3.eu-central-1.amazonaws.com/
