@@ -1,7 +1,5 @@
 package kg.airbnb.airbnb.models.auth;
 
-import kg.airbnb.airbnb.dto.request.LikeRequest;
-import kg.airbnb.airbnb.dto.response.FeedbackResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
@@ -10,12 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.Functions;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.engine.spi.SelfDirtinessTracker;
-
 import javax.persistence.*;
-import  java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +29,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_generator")
-    @SequenceGenerator(name = "users_id_generator", sequenceName = "user_seq", allocationSize = 1)
+    @SequenceGenerator(name = "users_id_generator", sequenceName = "user_seq", allocationSize = 1, initialValue = 4)
 
     private Long id;
 
@@ -47,9 +41,7 @@ public class User {
 
     private String image;
 
-
-
-    @OneToMany(cascade = ALL, mappedBy = "owner")
+    @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER)
     private List<Announcement> announcements = new ArrayList<>();
 
     @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
@@ -65,7 +57,6 @@ public class User {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
     //potoko bezopasnyi bolush uchun concurenthashmap koldonuldu
-
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)

@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.dto.response;
+package kg.airbnb.airbnb.dto.responses;
 
 import lombok.Getter;
 import lombok.Setter;

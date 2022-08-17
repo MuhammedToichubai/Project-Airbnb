@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class Announcement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_id_generator")
-    @SequenceGenerator(name = "announcement_id_generator", sequenceName = "announcement_seq", allocationSize = 1)
+    @SequenceGenerator(name = "announcement_id_generator", sequenceName = "announcement_seq", allocationSize = 1, initialValue = 5)
     private Long id;
 
     private String title;
@@ -51,7 +52,7 @@ public class Announcement {
     @Enumerated(EnumType.STRING)
     private Type houseType;
 
-    @ManyToOne(cascade = {PERSIST, MERGE, DETACH, REFRESH}, fetch = EAGER)
+    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH},fetch = EAGER)
     private User owner;
 
     @OneToOne(cascade = ALL, orphanRemoval = true)
@@ -59,6 +60,7 @@ public class Announcement {
 
     @ManyToMany(cascade = ALL, fetch = LAZY)
     private List<User> guests;
+
 
     @OneToMany(cascade = ALL, mappedBy = "announcement")
     private List<Booking> bookings;

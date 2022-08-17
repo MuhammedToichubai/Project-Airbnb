@@ -2,8 +2,10 @@ package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.request.FeedbackRequest;
 import kg.airbnb.airbnb.dto.request.LikeRequest;
-import kg.airbnb.airbnb.dto.response.FeedbackResponse;
-import kg.airbnb.airbnb.dto.response.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.models.Feedback;
 import kg.airbnb.airbnb.services.FeedbackService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,4 +48,8 @@ public class FeedbackAPI {
         return feedbackService.disLikeFeedback(feedbackId);
     }
 
+    @GetMapping("/find/{feedbackId}")
+    public Feedback findFeedbackById(@PathVariable Long feedbackId) {
+        return feedbackService.getFeedbackById(feedbackId);
+    }
 }

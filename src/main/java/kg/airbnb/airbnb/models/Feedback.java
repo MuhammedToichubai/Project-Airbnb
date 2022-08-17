@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "feedbacks")
@@ -24,7 +23,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedback_id_generator")
-    @SequenceGenerator(name = "feedback_id_generator", sequenceName = "feedback_seq", allocationSize = 1)
+    @SequenceGenerator(name = "feedback_id_generator", sequenceName = "feedback_seq", allocationSize = 1, initialValue = 5)
     private Long id;
 
     @ManyToOne(cascade = {REFRESH, PERSIST, DETACH, MERGE}, fetch = EAGER)
@@ -39,7 +38,7 @@ public class Feedback {
     @Column(name = "likes")
     private AtomicInteger likes = new AtomicInteger(0);
 
-    private AtomicInteger disLikes = new AtomicInteger(0);
+    private AtomicInteger dislike = new AtomicInteger(0);
 
     private Integer rating;
 
@@ -57,11 +56,11 @@ public class Feedback {
     }
 
     public void incrementDisLikes(){
-        disLikes.incrementAndGet();
+        dislike.incrementAndGet();
     }
 
     public void decrementDisLikes(){
-        disLikes.decrementAndGet();
+        dislike.decrementAndGet();
     }
 
 }

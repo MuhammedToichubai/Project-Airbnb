@@ -1,9 +1,8 @@
 package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.request.FeedbackRequest;
-import kg.airbnb.airbnb.dto.request.LikeRequest;
-import kg.airbnb.airbnb.dto.response.FeedbackResponse;
-import kg.airbnb.airbnb.dto.response.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.models.Announcement;
@@ -18,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -42,39 +42,25 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setImages(request.getImages());
         feedback.setRating(request.getRating());
         feedback.setDescription(request.getDescription());
-        announcement.addFeedback(feedback);
-        return new SimpleResponse("SAVE","Ad saved successfully!");
+        announcement.getFeedbacks().add(feedback);
+        feedback.setAnnouncement(announcement);
+        feedback.setCreatedAt(LocalDate.now());
+        feedback.setOwner(getAuthenticatedUser());
+        feedbackRepository.save(feedback);
+        return new SimpleResponse("SAVE " + announcementId,"Ad saved successfully!");
     }
 
     @Override
     public List<FeedbackResponse> getAllFeedback(Long announcementId) {
         Announcement announcement = getFindByIdAnnouncement(announcementId);
         List<Feedback> feedbacks = announcement.getFeedbacks();
-        return  feedbacks.stream().map(this::getFeedbackDetails).toList();
+        List<FeedbackResponse> feedbackResponses = feedbacks.stream().map(this::getFeedbackResponse).toList();
+
+        return  feedbackResponses;
     }
 
-    public FeedbackResponse getFeedbackDetails(Feedback feedbackId) {
-        Feedback savedFeedback = getFeedbackById(feedbackId.getId());
 
-        FeedbackResponse feedbackResponse = new FeedbackResponse();
-        User user = new User();
-        feedbackResponse.setFeedbackOwnerImage(user.getImage());
-        feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
-        feedbackResponse.setRating(savedFeedback.getRating());
-        feedbackResponse.setImages(savedFeedback.getImages());
-        feedbackResponse.setDescription(savedFeedback.getDescription());
-        feedbackResponse.setCreatedAt(savedFeedback.getCreatedAt());
-        feedbackResponse.setLikeCount(savedFeedback.getLikes().get());
-        feedbackResponse.setDisLikeCount(savedFeedback.getDisLikes().get());
-        return feedbackResponse;
-    }
 
-    private Announcement getFindByIdAnnouncement(Long id){
-        return announcementRepository.findById(id)
-                .orElseThrow( () -> new NotFoundException(
-                        "Announcement whit id = " +id +" not found!"
-                ));
-    }
     @Override
     public FeedbackResponse likeFeedback(Long feedbackId){
         // Like Feedback by id
@@ -103,23 +89,9 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedbackById.incrementLikes();
             userService.addToLikedFeedbacks(feedbackId);
         }
-
         feedbackRepository.save(feedbackById);
 
-
-        feedbackById.incrementLikes();
-
-        FeedbackResponse feedbackResponse = new FeedbackResponse();
-        User user = new User();
-        feedbackResponse.setFeedbackOwnerImage(user.getImage());
-        feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
-        feedbackResponse.setRating(feedbackById.getRating());
-        feedbackResponse.setImages(feedbackById.getImages());
-        feedbackResponse.setDescription(feedbackById.getDescription());
-        feedbackResponse.setCreatedAt(feedbackById.getCreatedAt());
-        feedbackResponse.setLikeCount(feedbackById.getLikes().get());
-        feedbackResponse.setDisLikeCount(feedbackById.getDisLikes().get());
-        return null;
+        return getFeedbackResponse(feedbackById);
     }
 
     @Override
@@ -150,37 +122,56 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedbackById.incrementDisLikes();
             userService.addToDisLikedFeedbacks(feedbackId);
         }
-
         feedbackRepository.save(feedbackById);
 
+        return getFeedbackResponse(feedbackById);
+    }
 
-        feedbackById.incrementLikes();
+    @Override
+    public Feedback getFeedbackById(Long feedbackId) {
+        return feedbackRepository.findById(feedbackId)
+                .orElseThrow(()-> new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
+    }
+
+//    public FeedbackResponse getFeedbackDetails(Feedback feedbackId) {
+//        Feedback savedFeedback = getFeedbackById(feedbackId.getId());
+//
+//        FeedbackResponse feedbackResponse = new FeedbackResponse();
+//        User user = new User();
+//        feedbackResponse.setFeedbackOwnerImage(user.getImage());
+//        feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
+//        feedbackResponse.setRating(savedFeedback.getRating());
+//        feedbackResponse.setImages(savedFeedback.getImages());
+//        feedbackResponse.setDescription(savedFeedback.getDescription());
+//        feedbackResponse.setCreatedAt(savedFeedback.getCreatedAt());
+//        feedbackResponse.setLikeCount(savedFeedback.getLikes().get());
+//        feedbackResponse.setDisLikeCount(savedFeedback.getDislike().get());
+//        feedbackRepository.save(feedbackId);
+//        return feedbackResponse;
+//    }
+
+private Announcement getFindByIdAnnouncement(Long id){
+    return announcementRepository.findById(id)
+            .orElseThrow( () -> new NotFoundException(
+                    "Announcement whit id = " +id +" not found!"
+            ));
+}
+    private FeedbackResponse getFeedbackResponse(Feedback feedback) {
 
         FeedbackResponse feedbackResponse = new FeedbackResponse();
         User user = new User();
         feedbackResponse.setFeedbackOwnerImage(user.getImage());
         feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
-        feedbackResponse.setRating(feedbackById.getRating());
-        feedbackResponse.setImages(feedbackById.getImages());
-        feedbackResponse.setDescription(feedbackById.getDescription());
-        feedbackResponse.setCreatedAt(feedbackById.getCreatedAt());
-        feedbackResponse.setLikeCount(feedbackById.getLikes().get());
-        feedbackResponse.setDisLikeCount(feedbackById.getDisLikes().get());
-
-        return null;
-    }
-
-    @Override
-    public FeedbackResponse getFeedbackDetails(Long feedbackId) {
-        FeedbackResponse feedbackResponse = new FeedbackResponse();
-//        feedbackResponse.
+        feedbackResponse.setRating(feedback.getRating());
+        feedbackResponse.setImages(feedback.getImages());
+        feedbackResponse.setDescription(feedback.getDescription());
+        feedbackResponse.setCreatedAt(feedback.getCreatedAt());
+        feedbackResponse.setLikeCount(feedback.getLikes().get());
+        feedbackResponse.setDisLikeCount(feedback.getDislike().get());
         return feedbackResponse;
     }
 
-    private Feedback getFeedbackById(Long feedbackId) {
-        return feedbackRepository.findById(feedbackId)
-                .orElseThrow(()-> new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
-    }
+
 
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
