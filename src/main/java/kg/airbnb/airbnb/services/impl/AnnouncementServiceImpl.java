@@ -8,7 +8,6 @@ import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
-import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
@@ -34,8 +33,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -83,11 +83,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     private Address savedAddress(AnnouncementRequest request, Announcement announcement) {
         for (Announcement announcement1 : announcementRepository.findAll()) {
-            if (request.getAddress().equals(announcement1.getLocation().getAddress())) {
-                throw new BadRequestException("Announcement  cannot be located at the same address!");
+            if (Objects.equals(request.getAddress(), announcement1.getLocation().getAddress()) && Objects.equals(request.getRegionId(), announcement1.getLocation().getRegion().getId())) {
+                throw new BadRequestException("There cannot be two identical addresses in one region!");
             }
         }
-
         Address address = new Address();
         address.setAddress(request.getAddress());
         address.setCity(request.getTownProvince());
@@ -103,82 +102,24 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public AnnouncementInnerPageResponse announcementFindById(Long announcementId) {
         Announcement announcement = getAnnouncementById(announcementId);
         return viewMapper.entityToDtoConverting(announcement);
-
     }
 
     @Override
     @Transactional
     public SimpleResponse announcementUpdate(Long announcementId, AnnouncementRequest request) {
-        User user = getAuthenticatedUser();
         Announcement announcement = getAnnouncementById(announcementId);
-        if (announcement.getOwner().equals(user)) {
+        editMapper.updateAnnouncement(announcement, request);
+        checkAdField(request, announcement);
 
-            List<String> currentImages = announcement.getImages();
-            List<String> newImages = request.getImages();
-            if (!currentImages.equals(newImages) && newImages.size() <= 4) {
-                announcement.setImages(newImages);
-            }
-
-            Type currentHouseType = announcement.getHouseType();
-            Type newHouseType = request.getHouseType();
-
-            if (!currentHouseType.equals(newHouseType) && newHouseType != null) {
-                announcement.setHouseType(newHouseType);
-            }
-
-            Integer currentMaxGuests = announcement.getMaxGuests();
-            Integer newMaxGuests = request.getMaxGuests();
-
-            if (!currentMaxGuests.equals(newMaxGuests) && newMaxGuests != null) {
-                announcement.setMaxGuests(newMaxGuests);
-            }
-
-            BigDecimal currentPrice = announcement.getPrice();
-            BigDecimal newPrice = request.getPrice();
-
-            if (!currentPrice.equals(newPrice) && newPrice != null) {
-                announcement.setPrice(newPrice);
-            }
-
-            String currentTitle = announcement.getTitle();
-            String newTitle = request.getTitle();
-
-            if (!currentTitle.equals(newTitle) && newTitle != null) {
-                announcement.setTitle(newTitle);
-            }
-
-            String currentDescription = announcement.getDescription();
-            String newDescription = request.getDescription();
-
-            if (!currentDescription.equals(newDescription) && newDescription != null) {
-                announcement.setDescription(newDescription);
-            }
-
-            Address address = announcement.getLocation();
-            String currentAddress = address.getAddress();
-            String newAddress = request.getAddress();
-            if (!currentAddress.equals(newAddress) && newAddress != null) {
-                address.setAddress(newAddress);
-            }
-
-            String currenCity = address.getCity();
-            String newCity = request.getTownProvince();
-            if (!currenCity.equals(newCity) && newCity != null) {
-                address.setCity(newCity);
-            }
-
-            Region currentRegion = announcement.getLocation().getRegion();
-            Region newRegion = regionRepository.findById(request.getRegionId())
-                    .orElseThrow(() -> new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
-
-            if (!currentRegion.equals(newRegion) && newRegion != null) {
-                address.setRegion(newRegion);
-            }
-
-            announcement.setCreatedAt(LocalDate.now());
-        } else {
-            throw new ForbiddenException("You can only edit your announcement !");
+        Region newRegion = regionRepository.findById(request.getRegionId())
+                .orElseThrow(() -> new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
+        Address address = announcement.getLocation();
+        if (address.getAddress().equals(request.getAddress()) && address.getRegion().equals(newRegion) && address.getCity().equals(request.getTownProvince())) {
+            address.setRegion(newRegion);
+            address.setAddress(request.getAddress());
+            address.setCity(request.getTownProvince());
         }
+        savedAddress(request, announcement);
 
         return new SimpleResponse(
                 "UPDATE",
@@ -230,7 +171,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
-
     }
 
     @Override
@@ -243,7 +183,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
     }
-
 
     @Override
     public kg.airbnb.airbnb.dto.responses.SimpleResponse acceptAnnouncement(Long id) {
@@ -260,7 +199,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
-
     }
 
     @Override
@@ -296,7 +234,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
-
     }
 
     @Override

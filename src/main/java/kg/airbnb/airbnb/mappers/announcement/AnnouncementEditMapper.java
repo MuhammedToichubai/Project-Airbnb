@@ -5,6 +5,7 @@ import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class AnnouncementEditMapper {
@@ -28,5 +29,9 @@ public class AnnouncementEditMapper {
         announcement.setMaxGuests(request.getMaxGuests());
         announcement.setHouseType(request.getHouseType());
         announcement.setCreatedAt(LocalDate.now());
+    }
+
+    public void updateAnnouncement(Announcement announcement, AnnouncementRequest request) {
+        dtoToEntityConverting(request, announcement);
     }
 }
