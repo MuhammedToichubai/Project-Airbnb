@@ -7,21 +7,21 @@ VALUES (1, 'Admin', 'airbnb@gmail.com', '$2a$10$UG2qe9cH4iB00B9dZvLp0exUt5WyQrN/
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'USER');
 
 INSERT INTO regions(id, region_name)
-VALUES (1, 'Баткен'),
-       (2, 'Жалал-Абад'),
-       (3, 'Нарын'),
-       (4, 'Ыссык-Кол'),
-       (5, 'Талас'),
-       (6, 'Ош'),
-       (7, 'Чуй'),
-       (8, 'Бишкек');
+VALUES (1, 'Batken'),
+       (2, 'Jalalabat'),
+       (3, 'Naryn'),
+       (4, 'Issyk-Kul'),
+       (5, 'Talas'),
+       (6, 'Osh'),
+       (7, 'Chui'),
+       (8, 'Bishkek');
 
 
 INSERT INTO addresses(id, city, address, region_id)
-VALUES (1, 'Бишкек', 'Гражданская 119', 6),
-       (2, 'Ноокат', 'Кок-жар 39', 8),
-       (3, 'Чолпоната', 'Манас 1', 4),
-       (4, 'Кадамжай', 'Курманжандатка 110', 1);
+VALUES (1, 'Bishkek', 'Grazhdanskyi 119', 8),
+       (2, 'Nookat', 'Kok-jar 39', 6),
+       (3, 'Cholponata', 'Manas 1', 4),
+       (4, 'Kadamjai', 'Kurmanjandatka 110', 1);
 
 INSERT INTO announcements(id, created_at, title, description, price, max_guests, house_type, status,
                           location_id, owner_id)

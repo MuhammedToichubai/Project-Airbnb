@@ -1,6 +1,9 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
-import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
+
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
 import org.springframework.stereotype.Component;
@@ -92,4 +95,25 @@ public class AnnouncementViewMapper {
         return rating;
     }
 
+
+    public AnnouncementSearchResponse entityToDtoConversion(Announcement announcement){
+        if (announcement == null){
+            return null;
+        }
+        AnnouncementSearchResponse response = new AnnouncementSearchResponse();
+        response.setFoundAnnouncement("id: "+announcement.getId()+", "+announcement.getLocation().getRegion().getRegionName()
+                        +", " +announcement.getLocation().getCity()
+                        +", "+announcement.getLocation().getAddress()
+                        + ", "+announcement.getHouseType());
+
+        return response;
+    }
+
+    public List<AnnouncementSearchResponse> getViewAllSearchAnnouncements(List<Announcement> announcements){
+        List<AnnouncementSearchResponse> responses = new ArrayList<>();
+        for (Announcement announcement : announcements) {
+            responses.add(entityToDtoConversion(announcement));
+        }
+        return responses;
+    }
 }

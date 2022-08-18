@@ -4,6 +4,7 @@ import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
@@ -23,12 +24,16 @@ import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -229,6 +234,49 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
+    }
+
+    @Override
+    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword) {
+
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+
+        if (keyword != null) {
+            List<Announcement> searchAnnouncement = announcementRepository.search(transliterate(keyword), pageable);
+            Set<Announcement> foundUniqAnnouncements = new HashSet<>(searchAnnouncement);
+            List<Announcement> foundAnnouncementsList = new ArrayList<>(foundUniqAnnouncements);
+            Optional<Announcement> optional = foundAnnouncementsList.stream().findFirst();
+            optional.orElseThrow(() -> new NotFoundException
+                    ("По запросу '" + keyword + "' ничего не найдено. " +
+                            "Рекомендации: " +
+                            "Убедитесь, что все слова написаны без ошибок. " +
+                            "Попробуйте использовать другие ключевые слова. " +
+                            "Попробуйте использовать более популярные ключевые слова."
+                    ));
+            return viewMapper.getViewAllSearchAnnouncements(foundAnnouncementsList);
+        }
+
+        Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
+        List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
+        return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
+    }
+
+    public String transliterate(String message) {
+        if (message.toUpperCase(Locale.ROOT).equals("APARTMENT") || message.toUpperCase(Locale.ROOT).equals("HOUSE")){
+            message = message.toUpperCase(Locale.ROOT);
+        }
+        String prepareMessage = message.substring(0, 1).toUpperCase(Locale.ROOT) + message.substring(1);
+        char[] abcCyr = {' ', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+        String[] abcLat = {" ", "a", "b", "v", "g", "d", "e", "e", "zh", "z", "i", "y", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts", "ch", "sh", "sch", "", "i", "", "e", "ju", "ja", "A", "B", "V", "G", "D", "E", "E", "Zh", "Z", "I", "Y", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "F", "H", "Ts", "Ch", "Sh", "Sch", "", "I", "", "E", "Ju", "Ja", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < prepareMessage.length(); i++) {
+            for (int x = 0; x < abcCyr.length; x++) {
+                if (prepareMessage.charAt(i) == abcCyr[x]) {
+                    builder.append(abcLat[x]);
+                }
+            }
+        }
+        return builder.toString();
     }
 }
 

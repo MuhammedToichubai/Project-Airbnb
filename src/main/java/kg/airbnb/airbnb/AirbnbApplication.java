@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Locale;
+
 @RestController
 @AllArgsConstructor
 @SpringBootApplication
@@ -17,7 +19,7 @@ public class AirbnbApplication {
 	}
 
 	@GetMapping("/")
-	public String greetingPage(){
+	public String greetingPage() {
 		return "<h1>Welcome to Airbnb application!!!<h1/>";
 	}
 }
