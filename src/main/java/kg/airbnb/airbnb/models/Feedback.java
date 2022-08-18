@@ -36,8 +36,9 @@ public class Feedback {
     private String description;
 
     @Column(name = "likes")
-    private AtomicInteger likes = new AtomicInteger(0);
+    private AtomicInteger like = new AtomicInteger(0);
 
+    @Column(name = "disLikes")
     private AtomicInteger dislike = new AtomicInteger(0);
 
     private Integer rating;
@@ -48,11 +49,11 @@ public class Feedback {
     private LocalDate createdAt;
 
     public void incrementLikes(){
-        likes.incrementAndGet();
+        like.incrementAndGet();
     }
 
     public void decrementLikes(){
-        likes.decrementAndGet();
+        like.decrementAndGet();
     }
 
     public void incrementDisLikes(){

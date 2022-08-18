@@ -7,6 +7,7 @@ import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.models.Feedback;
 import kg.airbnb.airbnb.services.FeedbackService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,13 @@ public class FeedbackAPI {
     @GetMapping("/{announcementId}")
     public List<FeedbackResponse> getAllAnnouncementFeedbacks(@PathVariable Long announcementId) {
         return feedbackService.getAllFeedback(announcementId);
+    }
+
+    //User
+    //findAll
+    @GetMapping
+    public Page<Feedback> findAll(@RequestParam int page, @RequestParam int size){
+        return feedbackService.findAll(page,size);
     }
 
     //User

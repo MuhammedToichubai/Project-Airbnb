@@ -3,6 +3,7 @@ package kg.airbnb.airbnb.services.impl;
 import kg.airbnb.airbnb.dto.request.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.models.Announcement;
@@ -13,6 +14,8 @@ import kg.airbnb.airbnb.repositories.FeedbackRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.FeedbackService;
 import kg.airbnb.airbnb.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -55,11 +58,8 @@ public class FeedbackServiceImpl implements FeedbackService {
         Announcement announcement = getFindByIdAnnouncement(announcementId);
         List<Feedback> feedbacks = announcement.getFeedbacks();
         List<FeedbackResponse> feedbackResponses = feedbacks.stream().map(this::getFeedbackResponse).toList();
-
         return  feedbackResponses;
     }
-
-
 
     @Override
     public FeedbackResponse likeFeedback(Long feedbackId){
@@ -133,6 +133,12 @@ public class FeedbackServiceImpl implements FeedbackService {
                 .orElseThrow(()-> new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
     }
 
+    @Override
+    public Page<Feedback> findAll(Integer page, Integer size) {
+        PageRequest pr = PageRequest.of(page - 1,size);
+        return feedbackRepository.findAll(pr);
+    }
+
 //    public FeedbackResponse getFeedbackDetails(Feedback feedbackId) {
 //        Feedback savedFeedback = getFeedbackById(feedbackId.getId());
 //
@@ -166,12 +172,10 @@ private Announcement getFindByIdAnnouncement(Long id){
         feedbackResponse.setImages(feedback.getImages());
         feedbackResponse.setDescription(feedback.getDescription());
         feedbackResponse.setCreatedAt(feedback.getCreatedAt());
-        feedbackResponse.setLikeCount(feedback.getLikes().get());
+        feedbackResponse.setLikeCount(feedback.getLike().get());
         feedbackResponse.setDisLikeCount(feedback.getDislike().get());
         return feedbackResponse;
     }
-
-
 
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
