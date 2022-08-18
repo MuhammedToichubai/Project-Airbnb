@@ -352,7 +352,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             } else if  (price.equalsIgnoreCase("high to low")) {
                 announcements = announcementRepository.findByRegionAndPriceHigh(region.toUpperCase(Locale.ROOT), pageable);
             }
-
+        } else if (Objects.equals(region, "") && Objects.equals(type, "") && Objects.equals(price, "")) {
+            announcements = announcementRepository.findAll(pageable);
         }
 
         return announcements;
