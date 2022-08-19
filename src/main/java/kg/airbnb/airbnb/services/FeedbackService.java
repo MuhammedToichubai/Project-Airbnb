@@ -12,10 +12,8 @@ import java.util.List;
 @Service
 public interface FeedbackService {
     SimpleResponse saveFeedback(Long announcementId, FeedbackRequest request);
-    List<FeedbackResponse> getAllFeedback(Long announcementId);
     FeedbackResponse likeFeedback(Long feedbackId);
     FeedbackResponse disLikeFeedback(Long feedbackId);
-    Feedback getFeedbackById(Long feedbackId);
-    Page<Feedback> findAll(Integer page, Integer size);
+    List<FeedbackResponse> findAll(Long announcementId, Integer page, Integer size);
 
 }

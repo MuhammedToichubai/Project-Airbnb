@@ -1,8 +1,6 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.request.FeedbackRequest;
-import kg.airbnb.airbnb.dto.request.LikeRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.models.Feedback;
@@ -25,17 +23,10 @@ public class FeedbackAPI {
     }
 
     //User
-    //GetAll
-    @GetMapping("/{announcementId}")
-    public List<FeedbackResponse> getAllAnnouncementFeedbacks(@PathVariable Long announcementId) {
-        return feedbackService.getAllFeedback(announcementId);
-    }
-
-    //User
     //findAll
-    @GetMapping
-    public Page<Feedback> findAll(@RequestParam int page, @RequestParam int size){
-        return feedbackService.findAll(page,size);
+    @GetMapping("/{announcementId}")
+    public List<FeedbackResponse> findAll(@PathVariable Long announcementId,@RequestParam Integer page, @RequestParam Integer size){
+        return feedbackService.findAll(announcementId,page,size);
     }
 
     //User
@@ -56,8 +47,4 @@ public class FeedbackAPI {
         return feedbackService.disLikeFeedback(feedbackId);
     }
 
-    @GetMapping("/find/{feedbackId}")
-    public Feedback findFeedbackById(@PathVariable Long feedbackId) {
-        return feedbackService.getFeedbackById(feedbackId);
-    }
 }

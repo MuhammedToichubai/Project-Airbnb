@@ -3,7 +3,6 @@ package kg.airbnb.airbnb.services.impl;
 import kg.airbnb.airbnb.dto.request.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.models.Announcement;
@@ -14,7 +13,6 @@ import kg.airbnb.airbnb.repositories.FeedbackRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.FeedbackService;
 import kg.airbnb.airbnb.services.UserService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,17 +46,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         announcement.getFeedbacks().add(feedback);
         feedback.setAnnouncement(announcement);
         feedback.setCreatedAt(LocalDate.now());
-        feedback.setOwner(getAuthenticatedUser());
+        feedback.setOwner(getCurrentUser());
         feedbackRepository.save(feedback);
         return new SimpleResponse("SAVE " + announcementId,"Ad saved successfully!");
-    }
-
-    @Override
-    public List<FeedbackResponse> getAllFeedback(Long announcementId) {
-        Announcement announcement = getFindByIdAnnouncement(announcementId);
-        List<Feedback> feedbacks = announcement.getFeedbacks();
-        List<FeedbackResponse> feedbackResponses = feedbacks.stream().map(this::getFeedbackResponse).toList();
-        return  feedbackResponses;
     }
 
     @Override
@@ -128,40 +118,24 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback getFeedbackById(Long feedbackId) {
-        return feedbackRepository.findById(feedbackId)
-                .orElseThrow(()-> new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
-    }
-
-    @Override
-    public Page<Feedback> findAll(Integer page, Integer size) {
+    public List<FeedbackResponse> findAll(Long announcementId, Integer page, Integer size) {
+        Announcement announcement = getFindByIdAnnouncement(announcementId);
         PageRequest pr = PageRequest.of(page - 1,size);
-        return feedbackRepository.findAll(pr);
+        List<Feedback> feedbacks = announcement.getFeedbacks();
+        return feedbacks.stream().map(this::getFeedbackResponse).toList();
     }
 
-//    public FeedbackResponse getFeedbackDetails(Feedback feedbackId) {
-//        Feedback savedFeedback = getFeedbackById(feedbackId.getId());
-//
-//        FeedbackResponse feedbackResponse = new FeedbackResponse();
-//        User user = new User();
-//        feedbackResponse.setFeedbackOwnerImage(user.getImage());
-//        feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
-//        feedbackResponse.setRating(savedFeedback.getRating());
-//        feedbackResponse.setImages(savedFeedback.getImages());
-//        feedbackResponse.setDescription(savedFeedback.getDescription());
-//        feedbackResponse.setCreatedAt(savedFeedback.getCreatedAt());
-//        feedbackResponse.setLikeCount(savedFeedback.getLikes().get());
-//        feedbackResponse.setDisLikeCount(savedFeedback.getDislike().get());
-//        feedbackRepository.save(feedbackId);
-//        return feedbackResponse;
-//    }
+    private Feedback getFeedbackById(Long feedbackId) {
+        return feedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
+    }
 
-private Announcement getFindByIdAnnouncement(Long id){
-    return announcementRepository.findById(id)
-            .orElseThrow( () -> new NotFoundException(
-                    "Announcement whit id = " +id +" not found!"
-            ));
-}
+    private Announcement getFindByIdAnnouncement(Long id) {
+        return announcementRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        "Announcement whit id = " + id + " not found!"
+                ));
+    }
     private FeedbackResponse getFeedbackResponse(Feedback feedback) {
 
         FeedbackResponse feedbackResponse = new FeedbackResponse();
@@ -177,7 +151,7 @@ private Announcement getFindByIdAnnouncement(Long id){
         return feedbackResponse;
     }
 
-    private User getAuthenticatedUser() {
+    private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
         return userRepository.findByEmail(login).orElseThrow(() ->

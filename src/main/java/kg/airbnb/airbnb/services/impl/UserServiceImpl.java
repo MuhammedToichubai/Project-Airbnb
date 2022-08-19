@@ -59,19 +59,18 @@ public class UserServiceImpl implements UserService {
         userRepository.save(currentUser);
     }
 
+    @Override
+    public UserProfileResponse getUserBookingsAndAnnouncements() {
+        User user = getAuthenticatedUser();
+        return viewMapper.entityToDto(user);
+    }
+
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
 
         return userRepository.findByEmail(login).orElseThrow(() ->
                 new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
-    }
-
-    @Override
-    public UserProfileResponse getUserBookingsAndAnnouncements() {
-
-        User user = getAuthenticatedUser();
-        return viewMapper.entityToDto(user);
     }
 }
 
