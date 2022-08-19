@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(currentUser);
     }
 
+    public boolean ifLikedAnnouncement(Long announcementId){
+//        return getAuthenticatedUser().getLikedAnnouncements().stream().anyMatch(l)
+return true;
+    }
+
     @Override
     public void removeFromBookmarkAnnouncements(Long announcementId) {
         User currentUser = getAuthenticatedUser();
