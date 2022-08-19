@@ -43,9 +43,17 @@ public class UserServiceImpl implements UserService {
         userRepository.save(currentUser);
     }
 
+    @Override
     public boolean ifLikedAnnouncement(Long announcementId){
-//        return getAuthenticatedUser().getLikedAnnouncements().stream().anyMatch(l)
-return true;
+        return getAuthenticatedUser().getLikedAnnouncements().stream()
+                .anyMatch(likedAnnouncement -> likedAnnouncement.equals(announcementId));
+    }
+
+    @Override
+    public boolean ifBookmarkAnnouncement(Long announcementId){
+        return getAuthenticatedUser().getBookmarkAnnouncements().stream()
+                .anyMatch(bookmarkAnnouncement -> bookmarkAnnouncement.equals(announcementId));
+
     }
 
     @Override

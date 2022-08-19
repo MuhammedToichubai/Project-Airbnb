@@ -28,4 +28,9 @@ public interface AnnouncementService {
     kg.airbnb.airbnb.dto.responses.SimpleResponse rejectAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
     kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+
+    AnnouncementInnerPageResponse likeAnnouncement(Long announcementId);
+
+    AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId);
+
 }

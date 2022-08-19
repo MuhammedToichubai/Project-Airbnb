@@ -9,4 +9,6 @@ public interface UserService {
     void addToLikedAnnouncements(Long announcementId);
     void removeFromBookmarkAnnouncements(Long announcementId);
     void addToBookmarkAnnouncements(Long announcementId);
+    boolean ifLikedAnnouncement(Long announcementId);
+    boolean ifBookmarkAnnouncement(Long announcementId);
 }

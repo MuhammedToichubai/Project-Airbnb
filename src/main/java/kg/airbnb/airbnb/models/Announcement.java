@@ -77,6 +77,10 @@ public class Announcement {
     @Column(name = "viewAnnouncements")
     private AtomicInteger viewAnnouncement = new AtomicInteger(0);
 
-    private void incrementLikes(){like.incrementAndGet();}
-    private void incrementBookmark(){bookmark.incrementAndGet();}
+    public void incrementLikes(){like.incrementAndGet();}
+    public void incrementBookmark(){bookmark.incrementAndGet();}
+    public void decrementLikes() {
+    }
+    public void decrementBookmark(){}
+
 }

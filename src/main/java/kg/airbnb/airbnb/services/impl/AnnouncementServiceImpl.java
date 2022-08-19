@@ -23,6 +23,7 @@ import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import kg.airbnb.airbnb.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +44,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final UserService userService;
 
     @Override
     public SimpleResponse announcementSave(AnnouncementRequest request) {
@@ -293,6 +295,30 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
 
+    }
+
+    @Override
+    public AnnouncementInnerPageResponse likeAnnouncement(Long announcementId) {
+        // Like Announcement by Id
+        Announcement announcementById = getAnnouncementById(announcementId);
+
+        if (userService.ifLikedAnnouncement(announcementId)){
+            announcementById.decrementLikes();
+            userService.removeFromLikedAnnouncements(announcementId);
+        }else {
+            announcementById.incrementLikes();
+            userService.addToLikedAnnouncements(announcementId);
+        }
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcementById) {
+    }
+
+    @Override
+    public AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId) {
+        return null;
     }
 
 
