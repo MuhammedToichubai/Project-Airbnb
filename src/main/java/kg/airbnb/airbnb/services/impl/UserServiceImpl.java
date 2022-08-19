@@ -29,6 +29,34 @@ public class UserServiceImpl implements UserService {
         return viewMapper.entityToDto(user);
     }
 
+    @Override
+    public void removeFromLikedAnnouncements(Long announcementId) {
+        User currentUser = getAuthenticatedUser();
+        currentUser.removeFromLikedAnnouncements(announcementId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
+    public void addToLikedAnnouncements(Long announcementId) {
+        User currentUser = getAuthenticatedUser();
+        currentUser.addToLikedAnnouncements(announcementId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
+    public void removeFromBookmarkAnnouncements(Long announcementId) {
+        User currentUser = getAuthenticatedUser();
+        currentUser.removeFromBookmarkAnnouncement(announcementId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
+    public void addToBookmarkAnnouncements(Long announcementId) {
+        User currentUser = getAuthenticatedUser();
+        currentUser.addToBookmarkAnnouncements(announcementId);
+        userRepository.save(currentUser);
+    }
+
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();

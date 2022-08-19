@@ -8,9 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
@@ -21,7 +26,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Getter
 @Setter
-public class User {
+public class  User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_generator")
@@ -49,6 +54,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> likedAnnouncements = ConcurrentHashMap.newKeySet();
+
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> bookmarkAnnouncements = ConcurrentHashMap.newKeySet();
+
     public User(String email) {
         this.email = email;
     }
@@ -66,6 +79,15 @@ public class User {
         this.role=role;
     }
 
+    public void addToLikedAnnouncements(Long announcementId){
+    }
+
+    public void removeFromLikedAnnouncements(Long announcementId) {}
+
+    public void addToBookmarkAnnouncements(Long announcementId){
+    }
+
+    public void removeFromBookmarkAnnouncement(Long announcementId){}
 
 }
 
