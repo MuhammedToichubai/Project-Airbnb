@@ -29,6 +29,11 @@ public class AnnouncementAPI {
         return announcementService.likeAnnouncement(announcementId);
     }
 
+    //User
+    @PostMapping("/{announcementId}/bookmark")
+    public AnnouncementInnerPageResponse bookmarkAnnouncement(@PathVariable Long announcementId){
+        return announcementService.bookmarkAnnouncement(announcementId);
+    }
 
     //Admin , User
     @GetMapping("/find/{announcementId}")

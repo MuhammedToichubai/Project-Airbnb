@@ -234,8 +234,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public AdminPageAnnouncementResponse findAnnouncementById(Long id){
         User user = getAuthenticatedUser();
+
         if(user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
+            increaseAnnouncementCount(announcement);
+            userService.addAnnouncementToHistory(announcement);
             return viewMapper.viewAdminPageAnnouncementResponse(announcement);
         }else{
             throw new ForbiddenException("Only admin can access this page!");
@@ -305,9 +308,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (userService.ifLikedAnnouncement(announcementId)){
             announcementById.decrementLikes();
             userService.removeFromLikedAnnouncements(announcementId);
-        }else if(userService.ifLikedAnnouncement(announcementId)){
-            announcementById.incrementLikes();
-            userService.removeFromLikedAnnouncements(announcementId);
         }else {
             announcementById.incrementLikes();
             userService.addToLikedAnnouncements(announcementId);
@@ -317,16 +317,35 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return getAnnouncementInnerPageResponse(announcementById);
     }
 
+    @Override
+    public AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId) {
+        // Bookmark Announcement by Id
+        Announcement announcementById = getAnnouncementById(announcementId);
+        if(userService.ifBookmarkAnnouncement((announcementId))){
+            announcementById.decrementBookmark();
+            userService.removeFromBookmarkAnnouncements(announcementId);
+        }else {
+            announcementById.incrementBookmark();
+            userService.addToBookmarkAnnouncements(announcementId);
+        }
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    public AnnouncementInnerPageResponse getAnnouncementDetails(Announcement announcId){
+//        Announcement savedAnnouncement = getAnnouncementById(announcId);
+//        increaseAnnouncementCount(savedAnnouncement);
+//        userService.addAnnouncementToHistory(savedAnnouncement);
+        return viewMapper.entityToDtoConverting(announcId);
+    }
+
+    private void increaseAnnouncementCount(Announcement savedAnnouncement){
+        savedAnnouncement.incrementViewCount();
+        announcementRepository.save(savedAnnouncement);
+    }
     private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcementId) {
         AnnouncementViewMapper viewMapper = new AnnouncementViewMapper();
         return viewMapper.entityToDtoConverting(announcementId);
     }
-
-    @Override
-    public AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId) {
-        return null;
-    }
-
-
 }
 

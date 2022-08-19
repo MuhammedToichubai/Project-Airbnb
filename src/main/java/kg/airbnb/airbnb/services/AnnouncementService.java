@@ -4,6 +4,7 @@ import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

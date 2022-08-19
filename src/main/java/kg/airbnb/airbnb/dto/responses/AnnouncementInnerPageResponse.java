@@ -21,4 +21,5 @@ public class AnnouncementInnerPageResponse {
     private String ownerEmail;
     private Integer likeCount;
     private Integer bookmarkCount;
+    private Integer viewAnnouncementCount;
 }

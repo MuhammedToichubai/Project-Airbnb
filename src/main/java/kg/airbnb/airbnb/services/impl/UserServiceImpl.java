@@ -3,6 +3,7 @@ package kg.airbnb.airbnb.services.impl;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
+import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
@@ -53,7 +54,13 @@ public class UserServiceImpl implements UserService {
     public boolean ifBookmarkAnnouncement(Long announcementId){
         return getAuthenticatedUser().getBookmarkAnnouncements().stream()
                 .anyMatch(bookmarkAnnouncement -> bookmarkAnnouncement.equals(announcementId));
+    }
 
+    @Override
+    public void addAnnouncementToHistory(Announcement savedAnnouncement) {
+        User currentUser = getAuthenticatedUser();
+        currentUser.addToAnnouncementHistory(savedAnnouncement.getId());
+         userRepository.save(currentUser);
     }
 
     @Override

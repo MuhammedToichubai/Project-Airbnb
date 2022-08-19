@@ -62,6 +62,10 @@ public class  User {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> bookmarkAnnouncements = ConcurrentHashMap.newKeySet();
 
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<Long> videoHistory;
+
     public User(String email) {
         this.email = email;
     }
@@ -80,14 +84,21 @@ public class  User {
     }
 
     public void addToLikedAnnouncements(Long announcementId){
+        likedAnnouncements.add(announcementId);
     }
 
-    public void removeFromLikedAnnouncements(Long announcementId) {}
+    public void removeFromLikedAnnouncements(Long announcementId) {
+        likedAnnouncements.remove(announcementId);
+    }
 
     public void addToBookmarkAnnouncements(Long announcementId){
+        bookmarkAnnouncements.add(announcementId);
     }
 
-    public void removeFromBookmarkAnnouncement(Long announcementId){}
+    public void removeFromBookmarkAnnouncement(Long announcementId){bookmarkAnnouncements.remove(announcementId);}
 
+    public void addToAnnouncementHistory(Long announcementId) {
+        videoHistory.add(announcementId);
+    }
 }
 
