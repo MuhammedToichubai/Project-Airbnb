@@ -80,7 +80,11 @@ public class Announcement {
     public void incrementLikes(){like.incrementAndGet();}
     public void incrementBookmark(){bookmark.incrementAndGet();}
     public void decrementLikes() {
+        like.decrementAndGet();
     }
-    public void decrementBookmark(){}
+    public void decrementBookmark(){
+        bookmark.decrementAndGet();
+
+    }
 
 }

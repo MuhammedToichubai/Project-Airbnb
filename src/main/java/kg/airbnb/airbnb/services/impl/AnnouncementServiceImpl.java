@@ -305,15 +305,21 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (userService.ifLikedAnnouncement(announcementId)){
             announcementById.decrementLikes();
             userService.removeFromLikedAnnouncements(announcementId);
+        }else if(userService.ifLikedAnnouncement(announcementId)){
+            announcementById.incrementLikes();
+            userService.removeFromLikedAnnouncements(announcementId);
         }else {
             announcementById.incrementLikes();
             userService.addToLikedAnnouncements(announcementId);
         }
         announcementRepository.save(announcementById);
+
         return getAnnouncementInnerPageResponse(announcementById);
     }
 
-    private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcementById) {
+    private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcementId) {
+        AnnouncementViewMapper viewMapper = new AnnouncementViewMapper();
+        return viewMapper.entityToDtoConverting(announcementId);
     }
 
     @Override

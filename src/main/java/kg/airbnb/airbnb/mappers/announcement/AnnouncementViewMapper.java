@@ -27,6 +27,8 @@ public class AnnouncementViewMapper {
         response.setOwnerImage(announcement.getOwner().getImage());
         response.setOwnerFullName(announcement.getOwner().getFullName());
         response.setOwnerEmail(announcement.getOwner().getEmail());
+        response.setLikeCount(announcement.getLike().get());
+        response.setBookmarkCount(announcement.getBookmark().get());
         return response;
     }
 

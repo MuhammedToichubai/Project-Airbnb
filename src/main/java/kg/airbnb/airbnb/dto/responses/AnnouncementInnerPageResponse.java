@@ -19,4 +19,6 @@ public class AnnouncementInnerPageResponse {
     private String ownerImage;
     private String ownerFullName;
     private String ownerEmail;
+    private Integer likeCount;
+    private Integer bookmarkCount;
 }

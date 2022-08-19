@@ -23,6 +23,13 @@ public class AnnouncementAPI {
         return announcementService.announcementSave(announcementRequest);
     }
 
+    //User
+    @PostMapping("/{announcementId}/like")
+    public AnnouncementInnerPageResponse likeAnnouncement(@PathVariable Long announcementId){
+        return announcementService.likeAnnouncement(announcementId);
+    }
+
+
     //Admin , User
     @GetMapping("/find/{announcementId}")
     public AnnouncementInnerPageResponse findAnnouncementById(@PathVariable Long announcementId) {
@@ -40,4 +47,5 @@ public class AnnouncementAPI {
     public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId) {
         return announcementService.announcementDelete(announcementId);
     }
+
 }
