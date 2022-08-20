@@ -20,11 +20,4 @@ public interface UserService {
 
     UserProfileResponse getUserBookingsAndAnnouncements();
 }
-//=======
-//import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 
-//public interface UserService {
-
-//
-//>>>>>>> 7c15a0c3e8fd1bc5af126ec37016f42942e118ae
-//}

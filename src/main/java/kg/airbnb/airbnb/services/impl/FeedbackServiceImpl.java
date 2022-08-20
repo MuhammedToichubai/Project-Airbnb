@@ -48,7 +48,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setCreatedAt(LocalDate.now());
         feedback.setOwner(getCurrentUser());
         feedbackRepository.save(feedback);
-        return new SimpleResponse("SAVE " + announcementId,"Ad saved successfully!");
+        return new SimpleResponse("With feedback id" + feedback.getId() + "saved!","Ad saved successfully!");
     }
 
     @Override
