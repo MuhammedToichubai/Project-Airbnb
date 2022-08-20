@@ -11,7 +11,6 @@ import java.util.List;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "feedbacks")
@@ -35,7 +34,6 @@ public class Feedback {
 
     @Column(name = "likes")
     private Integer like;
-
 
     private Integer dislike;
 
