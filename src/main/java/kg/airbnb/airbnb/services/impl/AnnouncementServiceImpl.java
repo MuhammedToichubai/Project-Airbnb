@@ -9,6 +9,7 @@ import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
@@ -266,29 +267,29 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else if (!Objects.equals(region, "") && !Objects.equals(type, "") && Objects.equals(price, "")) {
             announcements = announcementRepository.findByRegionAndType(region.toUpperCase(Locale.ROOT), Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
         } else if (!Objects.equals(region, "") && !Objects.equals(type, "") && !Objects.equals(price, "")) {
-            if  (price.equalsIgnoreCase("low to high")) {
+            if (price.equalsIgnoreCase("low to high")) {
                 announcements = announcementRepository.findByRegionAndTypeAndPriceLow(region.toUpperCase(Locale.ROOT), Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
-            } else if  (price.equalsIgnoreCase("high to low")) {
+            } else if (price.equalsIgnoreCase("high to low")) {
                 announcements = announcementRepository.findByRegionAndTypeAndPriceHigh(region.toUpperCase(Locale.ROOT), Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
             }
         } else if (Objects.equals(region, "") && !Objects.equals(type, "") && Objects.equals(price, "")) {
             announcements = announcementRepository.findByType(Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
         } else if (Objects.equals(region, "") && Objects.equals(type, "") && !Objects.equals(price, "")) {
-            if  (price.equalsIgnoreCase("low to high")) {
+            if (price.equalsIgnoreCase("low to high")) {
                 announcements = announcementRepository.findByPriceLow(pageable);
-            } else if  (price.equalsIgnoreCase("high to low")) {
+            } else if (price.equalsIgnoreCase("high to low")) {
                 announcements = announcementRepository.findByPriceHigh(pageable);
             }
         } else if (Objects.equals(region, "") && !Objects.equals(type, "") && !Objects.equals(price, "")) {
-            if  (price.equalsIgnoreCase("low to high")) {
+            if (price.equalsIgnoreCase("low to high")) {
                 announcements = announcementRepository.findByTypeAndPriceLow(Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
-            } else if  (price.equalsIgnoreCase("high to low")) {
+            } else if (price.equalsIgnoreCase("high to low")) {
                 announcements = announcementRepository.findByTypeAndPriceHigh(Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
             }
         } else if (!Objects.equals(region, "") && Objects.equals(type, "") && !Objects.equals(price, "")) {
-            if  (price.equalsIgnoreCase("low to high")) {
+            if (price.equalsIgnoreCase("low to high")) {
                 announcements = announcementRepository.findByRegionAndPriceLow(region.toUpperCase(Locale.ROOT), pageable);
-            } else if  (price.equalsIgnoreCase("high to low")) {
+            } else if (price.equalsIgnoreCase("high to low")) {
                 announcements = announcementRepository.findByRegionAndPriceHigh(region.toUpperCase(Locale.ROOT), pageable);
             }
         } else if (Objects.equals(region, "") && Objects.equals(type, "") && Objects.equals(price, "")) {
@@ -296,7 +297,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
 
         return announcements;
-        }
+    }
+
     public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword) {
 
         Pageable pageable = PageRequest.of(page - 1, pageSize);
@@ -322,7 +324,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     public String transliterate(String message) {
-        if (message.toUpperCase(Locale.ROOT).equals("APARTMENT") || message.toUpperCase(Locale.ROOT).equals("HOUSE")){
+        if (message.toUpperCase(Locale.ROOT).equals("APARTMENT") || message.toUpperCase(Locale.ROOT).equals("HOUSE")) {
             message = message.toUpperCase(Locale.ROOT);
         }
         String prepareMessage = message.substring(0, 1).toUpperCase(Locale.ROOT) + message.substring(1);
