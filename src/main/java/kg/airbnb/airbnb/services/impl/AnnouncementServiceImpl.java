@@ -302,20 +302,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         if (userService.ifLikedAnnouncement(announcementId)) {
             announcementById.decrementLikes();
+            announcementById.setColorOfLike(null);
             userService.removeFromLikedAnnouncements(announcementId);
         } else {
             announcementById.incrementLikes();
+            announcementById.setColorOfLike("Red");
             userService.addToLikedAnnouncements(announcementId);
         }
 
-        if (announcementById.getLike().get() > 0) {
-            announcementById.setColorOfLike("Red");
-            announcementRepository.save(announcementById);
-        } else {
-            announcementById.setColorOfLike("");
-            announcementRepository.save(announcementById);
-        }
-
+        announcementRepository.save(announcementById);
         return getAnnouncementInnerPageResponse(announcementById);
     }
 
@@ -326,20 +321,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         if (userService.ifBookmarkAnnouncement((announcementId))) {
             announcementById.decrementBookmark();
+            announcementById.setColorOfBookmark(null);
             userService.removeFromBookmarkAnnouncements(announcementId);
         } else {
             announcementById.incrementBookmark();
+            announcementById.setColorOfBookmark("Yellow");
             userService.addToBookmarkAnnouncements(announcementId);
         }
 
-        if (announcementById.getBookmark().get() > 0) {
-            announcementById.setColorOfBookmark("Yellow");
-            announcementRepository.save(announcementById);
-        } else {
-            announcementById.setColorOfBookmark("");
-            announcementRepository.save(announcementById);
-        }
-
+        announcementRepository.save(announcementById);
         return getAnnouncementInnerPageResponse(announcementById);
     }
 
