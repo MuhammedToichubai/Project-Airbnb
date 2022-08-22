@@ -1,28 +1,12 @@
 package kg.airbnb.airbnb.services.impl;
 
-//import kg.airbnb.airbnb.dto.responses.*;
-//import kg.airbnb.airbnb.enums.Role;
-//import kg.airbnb.airbnb.exceptions.ForbiddenException;
-//import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
-//import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
-//import kg.airbnb.airbnb.models.auth.User;
-//import kg.airbnb.airbnb.repositories.AnnouncementRepository;
-//import kg.airbnb.airbnb.repositories.UserRepository;
-//import kg.airbnb.airbnb.services.UserService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.stereotype.Service;
-
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
-import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.models.auth.User;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +21,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
     private final UserProfileViewMapper viewMapper;
-    private final AnnouncementViewMapper announcementViewMapper;
-    private final AnnouncementRepository announcementRepository;
 
     @Override
     public void removeFromLikedFeedbacks(Long feedbackId) {

@@ -22,27 +22,23 @@ public class FeedbackAPI {
         this.feedbackService = feedbackService;
     }
 
-    //User
-    //findAll
     @GetMapping("/{announcementId}")
     public List<FeedbackResponse> findAll(@PathVariable Long announcementId,@RequestParam Integer page, @RequestParam Integer size){
         return feedbackService.findAll(announcementId,page,size);
     }
 
-    //User
     @PostMapping("/leave/feedback/{announcementId}")
     @ResponseStatus(HttpStatus.OK)
     public SimpleResponse leaveFeedback(@PathVariable Long announcementId, @RequestBody FeedbackRequest feedbackRequest) {
         return feedbackService.saveFeedback(announcementId, feedbackRequest);
     }
 
-    //User
-    @PostMapping("/{feedbackId}/like")
+    @PostMapping("/like/{feedbackId}")
     public FeedbackResponse LikeFeedback(@PathVariable Long feedbackId){
         return feedbackService.likeFeedback(feedbackId);
     }
 
-    @PostMapping("/{feedbackId}/disLike")
+    @PostMapping("/disLike/{feedbackId}")
     public FeedbackResponse DisLikeFeedback(@PathVariable Long feedbackId){
         return feedbackService.disLikeFeedback(feedbackId);
     }

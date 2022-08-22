@@ -53,19 +53,8 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public FeedbackResponse likeFeedback(Long feedbackId){
-        // Like Feedback by id
+
         Feedback feedbackById = getFeedbackById(feedbackId);
-        // Increment Like Count
-        // If user already like the feedback, then decrement Like Count
-
-        // Like - 0, disLike - 0
-        // Like - 1, disLike - 0
-        // Like - 0, disLike - 0
-
-        // Like - 0, disLike - 0
-        // Like - 0, disLike - 1
-        // Like - 0, disLike - 0
-        // If user already disLike the feedback, then increment Like Count and decrement disLike Count
 
         if (userService.ifLikedFeedback(feedbackId)){
             feedbackById.decrementLikes();
@@ -86,19 +75,8 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public FeedbackResponse disLikeFeedback(Long feedbackId) {
-        // Like Feedback by id
+
         Feedback feedbackById = getFeedbackById(feedbackId);
-        // Increment Like Count
-        // If user already like the feedback, then decrement Like Count
-
-        // Like - 0, disLike - 0
-        // Like - 1, disLike - 0
-        // Like - 0, disLike - 0
-
-        // Like - 0, disLike - 0
-        // Like - 0, disLike - 1
-        // Like - 0, disLike - 0
-        // If user already disLike the feedback, then increment Like Count and decrement disLike Count
 
         if (userService.ifDisLikedFeedback(feedbackId)){
             feedbackById.decrementDisLikes();

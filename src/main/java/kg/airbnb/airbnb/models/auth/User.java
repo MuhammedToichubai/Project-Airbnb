@@ -56,12 +56,10 @@ public class User {
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
-    //potoko bezopasnyi bolush uchun concurenthashmap koldonuldu
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> disLikedFeedbacks = ConcurrentHashMap.newKeySet();
-    //potoko bezopasnyi bolush uchun concurenthashmap koldonuldu
 
     public User(String email) {
         this.email = email;
