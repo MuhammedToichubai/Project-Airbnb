@@ -1,6 +1,7 @@
 package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
+import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
@@ -8,6 +9,7 @@ import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
@@ -33,6 +35,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.Objects;
@@ -237,6 +240,72 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public List<AnnouncementCardResponse> getAnnouncementsByFilter(Long regionId, String kind,
+                                                                   String type, String price,
+                                                                   int page, int size) {
+
+        List<Announcement> announcements = new ArrayList<>(findByFilter
+                (regionId, type, price, page, size).getContent());
+
+        if (kind != null && kind.equalsIgnoreCase("popular")) {
+            announcements.sort(Comparator.comparingInt(o -> o.getFeedbacks().size()));
+
+        } else if (kind != null && kind.equalsIgnoreCase("The lastest")) {
+            announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
+        }
+
+        return viewMapper.viewCard(announcements);
+    }
+
+    private Page<Announcement> findByFilter(Long regionId, String type, String price, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        Page<Announcement> announcements = null;
+
+        if (!Objects.equals(regionId, null) && Objects.equals(type, null) && Objects.equals(price, null)) {
+            announcements = announcementRepository.findByRegion(regionId, pageable);
+        } else if (!Objects.equals(regionId, null) && !Objects.equals(type, null) && Objects.equals(price, null)) {
+            announcements = announcementRepository.findByRegionAndType(regionId, Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
+        } else if (!Objects.equals(regionId, null) && !Objects.equals(type, null) && !Objects.equals(price, null)) {
+            if (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByRegionAndTypeAndPriceLow(regionId, Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
+            } else if (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByRegionAndTypeAndPriceHigh(regionId, Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
+            }
+        } else if (Objects.equals(regionId, null) && !Objects.equals(type, null) && Objects.equals(price, null)) {
+            announcements = announcementRepository.findByType(Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
+        } else if (Objects.equals(regionId, null) && Objects.equals(type, null) && !Objects.equals(price, null)) {
+            if (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByPriceLow(pageable);
+            } else if (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByPriceHigh(pageable);
+            }
+        } else if (Objects.equals(regionId, null) && !Objects.equals(type, null) && !Objects.equals(price, null)) {
+            if (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByTypeAndPriceLow(Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
+            } else if (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByTypeAndPriceHigh(Type.valueOf(type.toUpperCase(Locale.ROOT)), pageable);
+            }
+        } else if (!Objects.equals(regionId, null) && Objects.equals(type, null) && !Objects.equals(price, null)) {
+            if (price.equalsIgnoreCase("low to high")) {
+                announcements = announcementRepository.findByRegionAndPriceLow(regionId, pageable);
+            } else if (price.equalsIgnoreCase("high to low")) {
+                announcements = announcementRepository.findByRegionAndPriceHigh(regionId, pageable);
+            }
+        } else  {
+            announcements = announcementRepository.findAll(pageable);
+        }
+
+        return announcements;
+    }
+
+    @Override
+    public List<AnnouncementCardResponse> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return viewMapper.viewCard(
+                announcementRepository.findAll(pageable).getContent());
+    }
+
     public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword) {
 
         Pageable pageable = PageRequest.of(page - 1, pageSize);
@@ -262,7 +331,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     public String transliterate(String message) {
-        if (message.toUpperCase(Locale.ROOT).equals("APARTMENT") || message.toUpperCase(Locale.ROOT).equals("HOUSE")){
+        if (message.toUpperCase(Locale.ROOT).equals("APARTMENT") || message.toUpperCase(Locale.ROOT).equals("HOUSE")) {
             message = message.toUpperCase(Locale.ROOT);
         }
         String prepareMessage = message.substring(0, 1).toUpperCase(Locale.ROOT) + message.substring(1);
