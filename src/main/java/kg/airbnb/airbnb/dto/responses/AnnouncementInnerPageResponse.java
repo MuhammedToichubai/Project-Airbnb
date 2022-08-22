@@ -16,6 +16,7 @@ public class AnnouncementInnerPageResponse {
     private String title;
     private String location;
     private String description;
+    private Long userID;
     private String ownerImage;
     private String ownerFullName;
     private String ownerEmail;
