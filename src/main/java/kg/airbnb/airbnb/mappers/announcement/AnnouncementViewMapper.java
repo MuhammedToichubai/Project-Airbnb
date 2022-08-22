@@ -91,7 +91,7 @@ public class AnnouncementViewMapper {
                 ones++;
             }
             //formula of getting rating of announcement
-            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / (double) (sumOfTotalRatings);
+            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / ((double) (sumOfTotalRatings));
         }
         return rating;
     }
