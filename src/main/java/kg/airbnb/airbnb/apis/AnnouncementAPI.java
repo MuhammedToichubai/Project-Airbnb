@@ -1,7 +1,6 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
@@ -52,18 +51,18 @@ public class AnnouncementAPI {
     }
 
     @GetMapping
-    public List<AdminPageAnnouncementResponse> findAll(@RequestParam int page, @RequestParam int size) {
+    public List<AnnouncementCardResponse> findAll(@RequestParam int page, @RequestParam int size) {
         return announcementService.findAll(page, size);
      }
         
     @GetMapping("/filter")
-    public List<AnnouncementCardResponse> getAnnouncementsByFilter(@RequestParam String region,
-                                                                   @RequestParam String kind,
-                                                                   @RequestParam String type,
-                                                                   @RequestParam String price,
-                                                                   @RequestParam int page,
-                                                                   @RequestParam int size) {
-        return announcementService.getAnnouncementsByFilter(region, kind, type, price, page, size);
+    public List<AnnouncementCardResponse> getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
+                                                                   @RequestParam(required = false) String kind,
+                                                                   @RequestParam(required = false) String type,
+                                                                   @RequestParam(required = false) String price,
+                                                                   @RequestParam(defaultValue = "1") int page,
+                                                                   @RequestParam(defaultValue = "16") int size) {
+        return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
     }
 
     @GetMapping("/global/search")
