@@ -48,6 +48,10 @@ public class Feedback {
 
     private LocalDate createdAt;
 
+    private String colorOfLike;
+
+    private String colorOfDisLike;
+
     public void incrementLikes(){
         like.incrementAndGet();
     }

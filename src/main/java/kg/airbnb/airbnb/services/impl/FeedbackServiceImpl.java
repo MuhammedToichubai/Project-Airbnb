@@ -48,7 +48,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setCreatedAt(LocalDate.now());
         feedback.setOwner(getCurrentUser());
         feedbackRepository.save(feedback);
-        return new SimpleResponse("With feedback id" + feedback.getId() + "saved!","Ad saved successfully!");
+        return new SimpleResponse("With feedback id " + feedback.getId() + " saved!","Ad saved successfully!");
     }
 
     @Override
@@ -58,14 +58,18 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         if (userService.ifLikedFeedback(feedbackId)){
             feedbackById.decrementLikes();
+            feedbackById.setColorOfLike(null);
             userService.removeFromLikedFeedbacks(feedbackId);
         } else if (userService.ifDisLikedFeedback(feedbackId)){
-            feedbackById.incrementDisLikes();
+            feedbackById.decrementDisLikes();
+            feedbackById.setColorOfDisLike(null);
             userService.removeFromDisLikedFeedbacks(feedbackId);
             feedbackById.incrementLikes();
+            feedbackById.setColorOfLike("Yellow");
             userService.addToLikedFeedbacks(feedbackId);
         }else {
             feedbackById.incrementLikes();
+            feedbackById.setColorOfLike("Yellow");
             userService.addToLikedFeedbacks(feedbackId);
         }
         feedbackRepository.save(feedbackById);
@@ -80,16 +84,21 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         if (userService.ifDisLikedFeedback(feedbackId)){
             feedbackById.decrementDisLikes();
+            feedbackById.setColorOfDisLike(null);
             userService.removeFromDisLikedFeedbacks(feedbackId);
         } else if (userService.ifLikedFeedback(feedbackId)){
             feedbackById.decrementLikes();
+            feedbackById.setColorOfLike(null);
             userService.removeFromLikedFeedbacks(feedbackId);
             feedbackById.incrementDisLikes();
+            feedbackById.setColorOfDisLike("Yellow");
             userService.addToDisLikedFeedbacks(feedbackId);
         }else {
             feedbackById.incrementDisLikes();
+            feedbackById.setColorOfDisLike("Yellow");
             userService.addToDisLikedFeedbacks(feedbackId);
         }
+
         feedbackRepository.save(feedbackById);
 
         return getFeedbackResponse(feedbackById);
@@ -126,6 +135,8 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackResponse.setCreatedAt(feedback.getCreatedAt());
         feedbackResponse.setLikeCount(feedback.getLike().get());
         feedbackResponse.setDisLikeCount(feedback.getDislike().get());
+        feedbackResponse.setColorOfLike(feedback.getColorOfLike());
+        feedbackResponse.setColorOfDisLike(feedback.getColorOfDisLike());
         return feedbackResponse;
     }
 

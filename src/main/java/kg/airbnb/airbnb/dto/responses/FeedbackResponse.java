@@ -19,4 +19,7 @@ public class FeedbackResponse {
     private LocalDate createdAt;
     private Integer likeCount;
     private Integer disLikeCount;
+    private String colorOfLike;
+    private String colorOfDisLike;
+
 }
