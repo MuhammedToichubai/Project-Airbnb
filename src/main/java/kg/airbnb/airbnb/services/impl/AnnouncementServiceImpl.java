@@ -309,10 +309,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
 
         if (announcementById.getLike().get() > 0) {
-            announcementById.setColor("Red");
+            announcementById.setColorOfLike("Red");
             announcementRepository.save(announcementById);
         } else {
-            announcementById.setColor("");
+            announcementById.setColorOfLike("");
             announcementRepository.save(announcementById);
         }
 
@@ -333,10 +333,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
 
         if (announcementById.getBookmark().get() > 0) {
-            announcementById.setColor("Yellow");
+            announcementById.setColorOfBookmark("Yellow");
             announcementRepository.save(announcementById);
         } else {
-            announcementById.setColor("");
+            announcementById.setColorOfBookmark("");
             announcementRepository.save(announcementById);
         }
 

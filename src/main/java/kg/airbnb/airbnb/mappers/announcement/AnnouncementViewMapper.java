@@ -35,7 +35,8 @@ public class AnnouncementViewMapper {
         response.setLikeCount(announcement.getLike().get());
         response.setBookmarkCount(announcement.getBookmark().get());
         response.setViewAnnouncementCount(announcement.getViewAnnouncement().get());
-        response.setColor(announcement.getColor());
+        response.setColorOfLike(announcement.getColorOfLike());
+        response.setColorOfBookmark(announcement.getColorOfBookmark());
         return response;
     }
 
