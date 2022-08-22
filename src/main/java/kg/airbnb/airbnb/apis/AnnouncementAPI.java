@@ -2,12 +2,16 @@ package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/announcements")
@@ -15,11 +19,14 @@ import java.util.List;
 public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
+    private final AnnouncementRepository announcementRepository;
 
-    public AnnouncementAPI(AnnouncementService announcementService) {
+    public AnnouncementAPI(AnnouncementService announcementService, AnnouncementRepository announcementRepository) {
         this.announcementService = announcementService;
 
+        this.announcementRepository = announcementRepository;
     }
+
     //User
     @PostMapping("/save")
     public SimpleResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
@@ -47,5 +54,23 @@ public class AnnouncementAPI {
     @GetMapping
     public List<AdminPageAnnouncementResponse> findAll(@RequestParam int page, @RequestParam int size) {
         return announcementService.findAll(page, size);
+     }
+        
+    @GetMapping("/filter")
+    public List<AnnouncementCardResponse> getAnnouncementsByFilter(@RequestParam String region,
+                                                                   @RequestParam String kind,
+                                                                   @RequestParam String type,
+                                                                   @RequestParam String price,
+                                                                   @RequestParam int page,
+                                                                   @RequestParam int size) {
+        return announcementService.getAnnouncementsByFilter(region, kind, type, price, page, size);
+    }
+
+    @GetMapping("/global/search")
+    public List<AnnouncementSearchResponse> searchAnnouncements(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "8") Integer pageSize) {
+        return announcementService.getSearchAnnouncements(page, pageSize, keyword);
     }
 }
