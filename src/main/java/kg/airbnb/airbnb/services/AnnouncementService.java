@@ -32,6 +32,8 @@ public interface AnnouncementService {
 
     kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
+    List<AdminPageAnnouncementResponse> findAll(int page, int size);
+
     List<AnnouncementCardResponse> getAnnouncementsByFilter(String region, String kind, String type, String price, int page, int size);
     
     List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword);

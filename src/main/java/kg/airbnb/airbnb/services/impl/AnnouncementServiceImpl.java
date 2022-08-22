@@ -299,6 +299,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return announcements;
     }
 
+    @Override
+    public List<AdminPageAnnouncementResponse> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return viewMapper.viewAllAdminPageAnnouncementResponses(
+                announcementRepository.findAll(pageable).getContent());
+    }
+
     public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword) {
 
         Pageable pageable = PageRequest.of(page - 1, pageSize);

@@ -1,6 +1,7 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
+import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
@@ -50,6 +51,11 @@ public class AnnouncementAPI {
         return announcementService.announcementDelete(announcementId);
     }
 
+    @GetMapping
+    public List<AdminPageAnnouncementResponse> findAll(@RequestParam int page, @RequestParam int size) {
+        return announcementService.findAll(page, size);
+     }
+        
     @GetMapping("/filter")
     public List<AnnouncementCardResponse> getAnnouncementsByFilter(@RequestParam String region,
                                                                    @RequestParam String kind,
