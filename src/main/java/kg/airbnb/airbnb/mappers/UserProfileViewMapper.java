@@ -4,12 +4,14 @@ package kg.airbnb.airbnb.mappers;
 import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
+import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.auth.User;
 import org.springframework.stereotype.Component;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,8 @@ public class UserProfileViewMapper {
         this.announcementViewMapper = announcementViewMapper;
     }
 
-    public UserAnnouncementResponse announcementToAnnouncementsResponse(Announcement announcement){
-        if (announcement == null){
+    public UserAnnouncementResponse announcementToAnnouncementsResponse(Announcement announcement) {
+        if (announcement == null) {
             return null;
         }
         UserAnnouncementResponse announcementsResponse = new UserAnnouncementResponse();
@@ -38,7 +40,7 @@ public class UserProfileViewMapper {
         return announcementsResponse;
     }
 
-    public List<UserAnnouncementResponse> listUserAnnouncements(List<Announcement> announcements){
+    public List<UserAnnouncementResponse> listUserAnnouncements(List<Announcement> announcements) {
         List<UserAnnouncementResponse> responses = new ArrayList<>();
         for (Announcement announcement : announcements) {
             responses.add(announcementToAnnouncementsResponse(announcement));
@@ -46,8 +48,8 @@ public class UserProfileViewMapper {
         return responses;
     }
 
-    public UserProfileResponse entityToDto(User user){
-        if(user == null){
+    public UserProfileResponse entityToDto(User user) {
+        if (user == null) {
             return null;
         }
         UserProfileResponse response = new UserProfileResponse();
@@ -60,7 +62,7 @@ public class UserProfileViewMapper {
     }
 
 
-    public List<UserBookingsResponse> listUserBookings(List<Booking> bookings){
+    public List<UserBookingsResponse> listUserBookings(List<Booking> bookings) {
         List<UserBookingsResponse> responses = new ArrayList<>();
         for (Booking booking : bookings) {
             responses.add(bookingsToBookingResponse(booking));
@@ -69,7 +71,7 @@ public class UserProfileViewMapper {
     }
 
     public UserBookingsResponse bookingsToBookingResponse(Booking booking) {
-        if (booking == null){
+        if (booking == null) {
             return null;
         }
         UserBookingsResponse bookingsResponse = new UserBookingsResponse();
@@ -84,5 +86,13 @@ public class UserProfileViewMapper {
         bookingsResponse.setStatus(Status.NEW);
         return bookingsResponse;
 
+    }
+
+    public static List<UserResponse> viewFindAllUser(List<User> users) {
+        List<UserResponse> userResponsesList = new ArrayList<>();
+        for (User user : users) {
+            userResponsesList.add(new UserResponse(user));
+        }
+        return userResponsesList;
     }
 }
