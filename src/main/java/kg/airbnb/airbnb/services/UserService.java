@@ -3,6 +3,8 @@ package kg.airbnb.airbnb.services;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.models.Announcement;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public interface UserService {
     UserProfileResponse getUserBookingsAndAnnouncements();
 
@@ -12,5 +14,5 @@ public interface UserService {
     void addToBookmarkAnnouncements(Long announcementId);
     boolean ifLikedAnnouncement(Long announcementId);
     boolean ifBookmarkAnnouncement(Long announcementId);
-    void addAnnouncementToHistory(Announcement savedAnnouncement);
+    void addAnnouncementToHistory(Long announcementId);
 }

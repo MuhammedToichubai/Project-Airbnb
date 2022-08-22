@@ -77,16 +77,14 @@ public class Announcement {
     @Column(name = "viewAnnouncements")
     private AtomicInteger viewAnnouncement = new AtomicInteger(0);
 
+    private String color;
+
     public void incrementLikes(){like.incrementAndGet();}
     public void incrementBookmark(){bookmark.incrementAndGet();}
     public void decrementLikes() {
         like.decrementAndGet();
     }
-    public void decrementBookmark(){
-        bookmark.decrementAndGet();
-    }
-    public void incrementViewCount(){
-        viewAnnouncement.incrementAndGet();
-    }
+    public void decrementBookmark(){bookmark.decrementAndGet();}
+    public void incrementViewCount(){viewAnnouncement.incrementAndGet();}
 
 }

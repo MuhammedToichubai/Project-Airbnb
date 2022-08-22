@@ -24,21 +24,21 @@ public class AnnouncementAPI {
     }
 
     //User
-    @PostMapping("/{announcementId}/like")
+    @PostMapping("/like/{announcementId}")
     public AnnouncementInnerPageResponse likeAnnouncement(@PathVariable Long announcementId){
         return announcementService.likeAnnouncement(announcementId);
     }
 
     //User
-    @PostMapping("/{announcementId}/bookmark")
+    @PostMapping("/bookmark/{announcementId}")
     public AnnouncementInnerPageResponse bookmarkAnnouncement(@PathVariable Long announcementId){
         return announcementService.bookmarkAnnouncement(announcementId);
     }
 
     //Admin , User
     @GetMapping("/find/{announcementId}")
-    public AnnouncementInnerPageResponse findAnnouncementById(@PathVariable Long announcementId) {
-        return announcementService.announcementFindById(announcementId);
+    public AnnouncementInnerPageResponse getAnnouncementDetails(@PathVariable Long announcementId) {
+        return announcementService.getAnnouncementDetails(announcementId);
     }
 
     //User //Admin

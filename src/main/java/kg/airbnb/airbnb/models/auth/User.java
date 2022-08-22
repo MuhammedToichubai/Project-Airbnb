@@ -64,7 +64,7 @@ public class  User {
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<Long> videoHistory;
+    private Set<Long> videoHistory = ConcurrentHashMap.newKeySet();
 
     public User(String email) {
         this.email = email;
@@ -97,8 +97,6 @@ public class  User {
 
     public void removeFromBookmarkAnnouncement(Long announcementId){bookmarkAnnouncements.remove(announcementId);}
 
-    public void addToAnnouncementHistory(Long announcementId) {
-        videoHistory.add(announcementId);
-    }
+    public void addToAnnouncementHistory(Long announcementId) {videoHistory.add(announcementId);}
 }
 

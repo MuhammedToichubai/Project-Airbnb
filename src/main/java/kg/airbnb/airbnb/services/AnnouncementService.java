@@ -14,8 +14,6 @@ public interface AnnouncementService {
 
     SimpleResponse announcementSave(AnnouncementRequest request);
 
-    AnnouncementInnerPageResponse announcementFindById(Long announcementId);
-
     SimpleResponse announcementUpdate(Long id, AnnouncementRequest request);
 
     SimpleResponse announcementDelete(Long announcementId);
@@ -33,5 +31,7 @@ public interface AnnouncementService {
     AnnouncementInnerPageResponse likeAnnouncement(Long announcementId);
 
     AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId);
+
+    AnnouncementInnerPageResponse getAnnouncementDetails(Long announcementId);
 
 }

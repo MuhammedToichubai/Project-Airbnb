@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -57,10 +59,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addAnnouncementToHistory(Announcement savedAnnouncement) {
+    public void addAnnouncementToHistory(Long announcementId) {
         User currentUser = getAuthenticatedUser();
-        currentUser.addToAnnouncementHistory(savedAnnouncement.getId());
-         userRepository.save(currentUser);
+        currentUser.addToAnnouncementHistory(announcementId);
+        userRepository.save(currentUser);
     }
 
     @Override

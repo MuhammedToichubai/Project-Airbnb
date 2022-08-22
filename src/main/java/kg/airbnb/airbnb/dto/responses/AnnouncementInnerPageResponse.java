@@ -22,4 +22,5 @@ public class AnnouncementInnerPageResponse {
     private Integer likeCount;
     private Integer bookmarkCount;
     private Integer viewAnnouncementCount;
+    private String color;
 }

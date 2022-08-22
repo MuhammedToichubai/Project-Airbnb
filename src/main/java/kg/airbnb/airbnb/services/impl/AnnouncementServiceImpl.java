@@ -98,13 +98,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public AnnouncementInnerPageResponse announcementFindById(Long announcementId) {
-        Announcement announcement = getAnnouncementById(announcementId);
-        return viewMapper.entityToDtoConverting(announcement);
-
-    }
-
-    @Override
     @Transactional
     public SimpleResponse announcementUpdate(Long announcementId, AnnouncementRequest request) {
         User user = getAuthenticatedUser();
@@ -234,17 +227,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public AdminPageAnnouncementResponse findAnnouncementById(Long id){
         User user = getAuthenticatedUser();
-
         if(user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
-            increaseAnnouncementCount(announcement);
-            userService.addAnnouncementToHistory(announcement);
             return viewMapper.viewAdminPageAnnouncementResponse(announcement);
         }else{
             throw new ForbiddenException("Only admin can access this page!");
         }
     }
-
 
     @Override
     public kg.airbnb.airbnb.dto.responses.SimpleResponse acceptAnnouncement(Long id) {
@@ -302,7 +291,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public AnnouncementInnerPageResponse likeAnnouncement(Long announcementId) {
-        // Like Announcement by Id
+
         Announcement announcementById = getAnnouncementById(announcementId);
 
         if (userService.ifLikedAnnouncement(announcementId)){
@@ -312,15 +301,23 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcementById.incrementLikes();
             userService.addToLikedAnnouncements(announcementId);
         }
-        announcementRepository.save(announcementById);
+
+        if (announcementById.getLike().get() > 0){
+            announcementById.setColor("Red");
+            announcementRepository.save(announcementById);
+        }else {
+            announcementById.setColor("");
+            announcementRepository.save(announcementById);
+        }
 
         return getAnnouncementInnerPageResponse(announcementById);
     }
 
     @Override
     public AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId) {
-        // Bookmark Announcement by Id
+
         Announcement announcementById = getAnnouncementById(announcementId);
+
         if(userService.ifBookmarkAnnouncement((announcementId))){
             announcementById.decrementBookmark();
             userService.removeFromBookmarkAnnouncements(announcementId);
@@ -328,21 +325,27 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcementById.incrementBookmark();
             userService.addToBookmarkAnnouncements(announcementId);
         }
+
+        if (announcementById.getBookmark().get() > 0){
+            announcementById.setColor("Yellow");
+            announcementRepository.save(announcementById);
+        }else {
+            announcementById.setColor("");
+            announcementRepository.save(announcementById);
+        }
+
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    @Override
+    public AnnouncementInnerPageResponse getAnnouncementDetails(Long announcementId){
+        Announcement announcementById = getAnnouncementById(announcementId);
+        announcementById.incrementViewCount();
+        userService.addAnnouncementToHistory(announcementId);
         announcementRepository.save(announcementById);
         return getAnnouncementInnerPageResponse(announcementById);
     }
 
-    public AnnouncementInnerPageResponse getAnnouncementDetails(Announcement announcId){
-//        Announcement savedAnnouncement = getAnnouncementById(announcId);
-//        increaseAnnouncementCount(savedAnnouncement);
-//        userService.addAnnouncementToHistory(savedAnnouncement);
-        return viewMapper.entityToDtoConverting(announcId);
-    }
-
-    private void increaseAnnouncementCount(Announcement savedAnnouncement){
-        savedAnnouncement.incrementViewCount();
-        announcementRepository.save(savedAnnouncement);
-    }
     private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcementId) {
         AnnouncementViewMapper viewMapper = new AnnouncementViewMapper();
         return viewMapper.entityToDtoConverting(announcementId);

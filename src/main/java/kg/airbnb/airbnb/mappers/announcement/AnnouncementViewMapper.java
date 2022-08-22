@@ -16,7 +16,7 @@ public class AnnouncementViewMapper {
         if (announcement == null) {
             return null;
         }
-//        increaseAnnouncementCount();
+
         AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse();
         response.setId(announcement.getId());
         response.setImages(announcement.getImages());
@@ -31,6 +31,7 @@ public class AnnouncementViewMapper {
         response.setLikeCount(announcement.getLike().get());
         response.setBookmarkCount(announcement.getBookmark().get());
         response.setViewAnnouncementCount(announcement.getViewAnnouncement().get());
+        response.setColor(announcement.getColor());
         return response;
     }
 
