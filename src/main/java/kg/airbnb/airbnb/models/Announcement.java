@@ -30,7 +30,7 @@ public class Announcement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_id_generator")
-    @SequenceGenerator(name = "announcement_id_generator", sequenceName = "announcement_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "announcement_id_generator", sequenceName = "announcement_seq", allocationSize = 1, initialValue = 28)
     private Long id;
 
     private String title;
