@@ -1,5 +1,6 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
+import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
@@ -95,6 +96,38 @@ public class AnnouncementViewMapper {
         return rating;
     }
 
+    public AnnouncementCardResponse viewCardAnnouncement(Announcement announcement) {
+
+        if (announcement == null) {
+            return null;
+        }
+
+        AnnouncementCardResponse response = new AnnouncementCardResponse();
+        response.setDescription(announcement.getDescription());
+        response.setPrice(announcement.getPrice());
+        response.setMaxGuests(announcement.getMaxGuests());
+        response.setLocation(announcement.getLocation().getAddress() + ", " +
+                announcement.getLocation().getCity() + ", " +
+                announcement.getLocation().getRegion().getRegionName());
+        response.setImages(announcement.getImages());
+        double a = 0;
+        double b = 0;
+        for (Feedback f: announcement.getFeedbacks()) {
+            a = a + f.getRating();
+            b ++;
+        }
+        double rating = a / b;
+        response.setRating(rating);
+        return response;
+    }
+
+    public List<AnnouncementCardResponse> viewCard(List<Announcement> announcements){
+        List<AnnouncementCardResponse> responses = new ArrayList<>();
+        for (Announcement announcement : announcements){
+            responses.add(viewCardAnnouncement(announcement));
+        }
+        return responses;
+    }
 
     public AnnouncementSearchResponse entityToDtoConversion(Announcement announcement){
         if (announcement == null){
