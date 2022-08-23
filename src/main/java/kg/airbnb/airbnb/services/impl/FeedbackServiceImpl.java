@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,7 +39,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public SimpleResponse saveFeedback(Long announcementId, FeedbackRequest request) {
-        Announcement announcement = getFindByIdAnnouncement(announcementId);
+        Announcement announcement = getFindByAnnouncementId(announcementId);
         Feedback feedback = new Feedback();
         feedback.setImages(request.getImages());
         feedback.setRating(request.getRating());
@@ -106,13 +107,55 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public List<FeedbackResponse> findAll(Long announcementId, Integer page, Integer size) {
-        Announcement announcement = getFindByIdAnnouncement(announcementId);
+        Announcement announcement = getFindByAnnouncementId(announcementId);
         PageRequest pr = PageRequest.of(page - 1,size);
         List<Feedback> feedbacks = announcement.getFeedbacks();
         return feedbacks.stream().map(this::getFeedbackResponse).toList();
     }
 
-//    public
+    public Double calculateRating(Long announcementId) {
+        Announcement announcement = getFindByAnnouncementId(announcementId);
+        double rating = 0.0;
+        int sumOfTotalRatings = 0;
+        int fives = 0;
+        int fours = 0;
+        int threes = 0;
+        int twos = 0;
+        int ones = 0;
+
+        List<Feedback> allFeedbacksOfAnnouncement = announcement.getFeedbacks();
+        List<Integer> ratings = new ArrayList<>();
+        for (Feedback feedback : allFeedbacksOfAnnouncement) {
+            if (feedback.getRating()!=null){
+                ratings.add(feedback.getRating());
+            }
+        }
+
+        if (ratings.size() <= 0) {
+            rating = 0.0;
+        }else {
+            sumOfTotalRatings = ratings.size();
+
+            for (Integer integer : ratings) {
+                if (integer == 5) {
+                    fives++;
+                } else if (integer == 4) {
+                    fours++;
+                } else if (integer == 3) {
+                    threes++;
+                } else if (integer == 2) {
+                    twos++;
+                } else if (integer == 1) {
+                    ones++;
+                }
+            }
+            //formula of getting rating of announcement
+            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / ((double) (sumOfTotalRatings));
+        }
+        return rating;
+    }
+
+
 
 
     private Feedback getFeedbackById(Long feedbackId) {
@@ -120,7 +163,7 @@ public class FeedbackServiceImpl implements FeedbackService {
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
     }
 
-    private Announcement getFindByIdAnnouncement(Long id) {
+    private Announcement getFindByAnnouncementId(Long id) {
         return announcementRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         "Announcement whit id = " + id + " not found!"

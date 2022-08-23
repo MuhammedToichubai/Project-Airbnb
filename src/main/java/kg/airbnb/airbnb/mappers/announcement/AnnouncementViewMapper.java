@@ -7,6 +7,7 @@ import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
+import kg.airbnb.airbnb.repositories.FeedbackRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Component
 public class AnnouncementViewMapper {
+
 
     public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
         if (announcement == null) {
@@ -91,7 +93,7 @@ public class AnnouncementViewMapper {
                 ones++;
             }
             //formula of getting rating of announcement
-            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / ((double) (sumOfTotalRatings));
+            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / (double) (sumOfTotalRatings);
         }
         return rating;
     }
