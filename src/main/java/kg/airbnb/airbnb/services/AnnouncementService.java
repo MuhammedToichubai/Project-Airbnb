@@ -22,7 +22,7 @@ public interface AnnouncementService {
 
     SimpleResponse announcementDelete(Long announcementId);
 
-    List<AdminPageAnnouncementResponse> getAllAnnouncements();
+    List<AdminPageAnnouncementResponse> getAllAnnouncements(int page, int size);
 
     AdminPageAnnouncementResponse findAnnouncementById(Long id);
 

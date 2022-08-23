@@ -167,10 +167,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<AdminPageAnnouncementResponse> getAllAnnouncements() {
+    public List<AdminPageAnnouncementResponse> getAllAnnouncements(int page,int size) {
         User user = getAuthenticatedUser();
+        Pageable pageable = PageRequest.of(page-1,size);
         if (user.getRole().equals(Role.ADMIN)) {
-            return viewMapper.viewAllAdminPageAnnouncementResponses(announcementRepository.findAll());
+            Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
+            List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
+            return viewMapper.viewAllAdminPageAnnouncementResponses(allAnnouncementsPageToListConversion);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
@@ -188,11 +191,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public kg.airbnb.airbnb.dto.responses.SimpleResponse acceptAnnouncement(Long id) {
+    public SimpleResponse acceptAnnouncement(Long id) {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
-            kg.airbnb.airbnb.dto.responses.SimpleResponse simpleResponse = new kg.airbnb.airbnb.dto.responses.SimpleResponse();
+            SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
             announcement.setStatus(Status.ACCEPTED);
             announcementRepository.save(announcement);
@@ -205,11 +208,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public kg.airbnb.airbnb.dto.responses.SimpleResponse rejectAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
+    public SimpleResponse rejectAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
-            kg.airbnb.airbnb.dto.responses.SimpleResponse simpleResponse = new kg.airbnb.airbnb.dto.responses.SimpleResponse();
+            SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
             announcement.setStatus(Status.REJECTED);
             announcementRepository.save(announcement);
@@ -223,11 +226,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
+    public SimpleResponse deleteAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
-            kg.airbnb.airbnb.dto.responses.SimpleResponse simpleResponse = new kg.airbnb.airbnb.dto.responses.SimpleResponse();
+            SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
             announcement.setStatus(Status.DELETED);
             announcementRepository.deleteById(id);
