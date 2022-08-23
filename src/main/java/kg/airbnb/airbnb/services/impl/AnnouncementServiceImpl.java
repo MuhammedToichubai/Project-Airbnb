@@ -1,12 +1,8 @@
 package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
@@ -35,7 +31,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.Objects;
@@ -331,6 +326,17 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
+    }
+
+    @Override
+    public AdminApplicationsAnnouncementSize getAllAnnouncementsSize() {
+        User currentUser = getAuthenticatedUser();
+        if (!currentUser.getRole().equals(Role.ADMIN)) {
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+            AdminApplicationsAnnouncementSize announcementSize = new AdminApplicationsAnnouncementSize();
+            announcementSize.setAnnouncementsSize(announcementRepository.findAll().size());
+        return announcementSize;
     }
 
     public String transliterate(String message) {

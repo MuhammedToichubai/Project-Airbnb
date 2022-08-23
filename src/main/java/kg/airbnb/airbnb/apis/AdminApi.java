@@ -19,6 +19,12 @@ public class AdminApi {
 
     private final UserServiceImpl userService;
 
+    @GetMapping("/announcements/size")
+    public AdminApplicationsAnnouncementSize announcementsSize(){
+        return announcementService.getAllAnnouncementsSize();
+
+    }
+
     @GetMapping("/applications")
     public List<AdminPageAnnouncementResponse> getAllAnnouncements(@RequestParam(defaultValue = "1") int page,
                                                                    @RequestParam(defaultValue = "15") int size) {
