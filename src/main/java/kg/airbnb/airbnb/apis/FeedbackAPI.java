@@ -1,6 +1,7 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.request.FeedbackRequest;
+import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.models.Feedback;
@@ -43,4 +44,8 @@ public class FeedbackAPI {
         return feedbackService.disLikeFeedback(feedbackId);
     }
 
+    @GetMapping("/feedback/rating/with/percentages")
+    public FeedbackRatingResponse getFeedbackRatingWithPercentage(Long announcementId){
+        return feedbackService.feedbackRatingWithPercentage(announcementId);
+    }
 }

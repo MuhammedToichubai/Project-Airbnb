@@ -1,6 +1,7 @@
 package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.request.FeedbackRequest;
+import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
@@ -113,10 +114,15 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbacks.stream().map(this::getFeedbackResponse).toList();
     }
 
-    public Double calculateRating(Long announcementId) {
+    @Override
+    public FeedbackRatingResponse feedbackRatingWithPercentage(Long announcementId) {
         Announcement announcement = getFindByAnnouncementId(announcementId);
-        double rating = 0.0;
-        int sumOfTotalRatings = 0;
+        double rating;
+        double percentageOfFive;
+        double percentageOfFour;
+        double percentageOfThree;
+        double percentageOfTwo;
+        double percentageOfOne;
         int fives = 0;
         int fours = 0;
         int threes = 0;
@@ -126,36 +132,58 @@ public class FeedbackServiceImpl implements FeedbackService {
         List<Feedback> allFeedbacksOfAnnouncement = announcement.getFeedbacks();
         List<Integer> ratings = new ArrayList<>();
         for (Feedback feedback : allFeedbacksOfAnnouncement) {
-            if (feedback.getRating()!=null){
+            if (feedback.getRating() != 0){
                 ratings.add(feedback.getRating());
             }
         }
-
-        if (ratings.size() <= 0) {
+        FeedbackRatingResponse response = new FeedbackRatingResponse();
+        if ( ratings.size() <= 0) {
             rating = 0.0;
-        }else {
-            sumOfTotalRatings = ratings.size();
+            percentageOfFive = 0.0;
+            percentageOfFour = 0.0;
+            percentageOfThree = 0.0;
+            percentageOfTwo = 0.0;
+            percentageOfOne = 0.0;
 
-            for (Integer integer : ratings) {
-                if (integer == 5) {
+            response.setRating(rating);
+            response.setPercentageOfFive(percentageOfFive);
+            response.setPercentageOfFour(percentageOfFour);
+            response.setPercentageOfThree(percentageOfThree);
+            response.setPercentageOfTwo(percentageOfTwo);
+            response.setPercentageOfOne(percentageOfOne);
+            return response;
+        }else {
+            for (int i = 0; i < ratings.size(); i++) {
+                if (ratings.get(i) == 5){
                     fives++;
-                } else if (integer == 4) {
+                } else if (ratings.get(i) == 4){
                     fours++;
-                } else if (integer == 3) {
+                }else if (ratings.get(i) == 3){
                     threes++;
-                } else if (integer == 2) {
+                }else if (ratings.get(i) == 2){
                     twos++;
-                } else if (integer == 1) {
+                }else if (ratings.get(i) == 1){
                     ones++;
                 }
             }
-            //formula of getting rating of announcement
-            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / ((double) (sumOfTotalRatings));
+
+            percentageOfFive = (double) ( fives * 100 ) / ratings.size();
+            percentageOfFour = (double) (fours * 100 ) / ratings.size();
+            percentageOfThree = (double)(threes * 100 ) / ratings.size();
+            percentageOfTwo = (double) (twos * 100 ) / ratings.size();
+            percentageOfOne = (double) (ones * 100 ) / ratings.size();
+            rating = (double) (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) /  (ratings.size());
+
+            response.setRating(rating);
+            response.setPercentageOfFive(percentageOfFive);
+            response.setPercentageOfFour(percentageOfFour);
+            response.setPercentageOfThree(percentageOfThree);
+            response.setPercentageOfTwo(percentageOfTwo);
+            response.setPercentageOfOne(percentageOfOne);
+            return response;
         }
-        return rating;
+
     }
-
-
 
 
     private Feedback getFeedbackById(Long feedbackId) {

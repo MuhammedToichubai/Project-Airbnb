@@ -1,13 +1,9 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
-import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
-import kg.airbnb.airbnb.repositories.FeedbackRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -62,38 +58,43 @@ public class AnnouncementViewMapper {
         return adminPageAnnouncementResponse;
 
     }
+
     public Double calculateRating(Announcement announcement) {
 
         double rating = 0.0;
-        int sumOfTotalRatings = 0;
         int fives = 0;
         int fours = 0;
         int threes = 0;
         int twos = 0;
         int ones = 0;
 
-        List<Feedback> feedbacks = announcement.getFeedbacks();
-
-        if (feedbacks.size() <= 0) {
-            rating = 0;
+        List<Feedback> allFeedbacksOfAnnouncement = announcement.getFeedbacks();
+        List<Integer> ratings = new ArrayList<>();
+        for (Feedback feedback : allFeedbacksOfAnnouncement) {
+            if (feedback.getRating()!=null){
+                ratings.add(feedback.getRating());
+            }
         }
 
-        sumOfTotalRatings = feedbacks.size();
+        if (ratings.size() <= 0) {
+            rating = 0.0;
+        }else {
 
-        for (Feedback feedback : feedbacks) {
-            if (feedback.getRating() == 5) {
-                fives++;
-            } else if (feedback.getRating() == 4) {
-                fours++;
-            } else if (feedback.getRating() == 3) {
-                threes++;
-            } else if (feedback.getRating() == 2) {
-                twos++;
-            } else if (feedback.getRating() == 1) {
-                ones++;
+            for (int i = 0; i < ratings.size(); i++) {
+                if (ratings.get(i) == 5){
+                    fives++;
+                } else if (ratings.get(i) == 4){
+                    fours++;
+                }else if (ratings.get(i) == 3){
+                    threes++;
+                }else if (ratings.get(i) == 2){
+                    twos++;
+                }else if (ratings.get(i) == 1){
+                    ones++;
+                }
             }
             //formula of getting rating of announcement
-            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / (double) (sumOfTotalRatings);
+            rating = (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / (double) ratings.size();
         }
         return rating;
     }
