@@ -19,12 +19,9 @@ import java.util.Locale;
 public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
-    private final AnnouncementRepository announcementRepository;
 
-    public AnnouncementAPI(AnnouncementService announcementService, AnnouncementRepository announcementRepository) {
+    public AnnouncementAPI(AnnouncementService announcementService) {
         this.announcementService = announcementService;
-
-        this.announcementRepository = announcementRepository;
     }
 
     //User

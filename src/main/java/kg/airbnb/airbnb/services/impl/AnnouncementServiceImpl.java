@@ -1,9 +1,15 @@
 package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
-import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
+<<<<<<< HEAD
+import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.enums.Role;
+import kg.airbnb.airbnb.enums.Status;
+import kg.airbnb.airbnb.enums.Type;
+=======
 import kg.airbnb.airbnb.enums.*;
+>>>>>>> 9ffe7c4a680fbe0efe2a6401b27a08d50bf04352
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
@@ -30,8 +36,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -160,16 +164,19 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<AdminPageAnnouncementResponse> getAllAnnouncements(int page,int size) {
-        User user = getAuthenticatedUser();
-        Pageable pageable = PageRequest.of(page-1,size);
-        if (user.getRole().equals(Role.ADMIN)) {
-            Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
-            List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
-            return viewMapper.viewAllAdminPageAnnouncementResponses(allAnnouncementsPageToListConversion);
-        } else {
+    public AdminPageApplicationsResponse getAllAnnouncementsAndSize(int page, int size) {
+        User currentUser = getAuthenticatedUser();
+        if (!currentUser.getRole().equals(Role.ADMIN)) {
             throw new ForbiddenException("Only admin can access this page!");
         }
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
+        List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
+        List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = viewMapper.viewAllAdminPageAnnouncementResponses(allAnnouncementsPageToListConversion);
+        AdminPageApplicationsResponse response = new AdminPageApplicationsResponse();
+        response.setAllAnnouncementsSize(announcementRepository.findAll().size());
+        response.setPageAnnouncementResponseList(adminPageAnnouncementResponses);
+        return response;
     }
 
     @Override
@@ -294,7 +301,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             } else if (price.equals(PriceType.HIGH_TO_LOW)) {
                 announcements = announcementRepository.findByRegionAndPriceHigh(regionId, pageable);
             }
-        } else  {
+        } else {
             announcements = announcementRepository.findAll(pageable);
         }
 
@@ -330,17 +337,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
-    }
-
-    @Override
-    public AdminApplicationsAnnouncementSize getAllAnnouncementsSize() {
-        User currentUser = getAuthenticatedUser();
-        if (!currentUser.getRole().equals(Role.ADMIN)) {
-            throw new ForbiddenException("Only admin can access this page!");
-        }
-            AdminApplicationsAnnouncementSize announcementSize = new AdminApplicationsAnnouncementSize();
-            announcementSize.setAnnouncementsSize(announcementRepository.findAll().size());
-        return announcementSize;
     }
 
     public String transliterate(String message) {

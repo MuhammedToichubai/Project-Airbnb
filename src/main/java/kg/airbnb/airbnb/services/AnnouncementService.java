@@ -21,21 +21,19 @@ public interface AnnouncementService {
 
     SimpleResponse announcementDelete(Long announcementId);
 
-    List<AdminPageAnnouncementResponse> getAllAnnouncements(int page, int size);
+    AdminPageApplicationsResponse getAllAnnouncementsAndSize(int page, int size);
 
     AdminPageAnnouncementResponse findAnnouncementById(Long id);
 
-    kg.airbnb.airbnb.dto.responses.SimpleResponse acceptAnnouncement(Long announcementId);
+    SimpleResponse acceptAnnouncement(Long announcementId);
 
-    kg.airbnb.airbnb.dto.responses.SimpleResponse rejectAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+    SimpleResponse rejectAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
-    kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+    SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
     List<AnnouncementCardResponse> findAll(int page, int size);
 
     FilterResponse getAnnouncementsByFilter(Long region, Kind kind, Type type, PriceType price, int page, int size);
     
     List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword);
-
-    AdminApplicationsAnnouncementSize getAllAnnouncementsSize();
 }
