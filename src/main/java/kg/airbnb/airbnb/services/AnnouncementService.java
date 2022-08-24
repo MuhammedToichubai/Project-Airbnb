@@ -35,5 +35,5 @@ public interface AnnouncementService {
 
     FilterResponse getAnnouncementsByFilter(Long region, Kind kind, Type type, PriceType price, int page, int size);
     
-    List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword);
+    List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address);
 }

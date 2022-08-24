@@ -44,13 +44,21 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Query("select a from Announcement a where a.location.region.id = :regionId order by a.price desc ")
     Page<Announcement> findByRegionAndPriceHigh(@Param("regionId") Long regionId, Pageable pageable);
     
-    @Query(value = "SELECT a FROM Announcement a" + " WHERE a.location.region.regionName LIKE %?1%"
+    @Query(value = "SELECT a FROM Announcement a WHERE a.location.region.regionName LIKE %?1%"
             + " OR a.location.city LIKE %?1%"
             + " OR a.location.address LIKE %?1%"
             + "OR a.description LIKE %?1%"
-            + " OR CONCAT(a.maxGuests, '') LIKE %?1% "
             + " OR CONCAT(a.houseType, '') LIKE %?1% "
-            + "OR CONCAT(a.price, '') LIKE %?1% "
+
     )
-    List<Announcement> search(String keyword, Pageable pageable);
+    List<Announcement> globalSearch(String keyword, Pageable pageable);
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.location.region.regionName LIKE %?1%")
+    List<Announcement> searchByRegion(String region, Pageable pageable);
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.location.city LIKE %?1%")
+    List<Announcement> searchByCity(String city, Pageable pageable);
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.location.address LIKE %?1%")
+    List<Announcement> searchByAddress(String address, Pageable pageable);
 }

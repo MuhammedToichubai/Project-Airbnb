@@ -312,29 +312,39 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 announcementRepository.findAll(pageable).getContent());
     }
 
-    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword) {
+    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address) {
 
         Pageable pageable = PageRequest.of(page - 1, pageSize);
 
-        if (keyword != null) {
-            List<Announcement> searchAnnouncement = announcementRepository.search(transliterate(keyword), pageable);
-            Set<Announcement> foundUniqAnnouncements = new HashSet<>(searchAnnouncement);
-            List<Announcement> foundAnnouncementsList = new ArrayList<>(foundUniqAnnouncements);
-            Optional<Announcement> optional = foundAnnouncementsList.stream().findFirst();
-            optional.orElseThrow(() -> new NotFoundException
-                    ("По запросу '" + keyword + "' ничего не найдено. " +
-                            "Рекомендации: " +
-                            "Убедитесь, что все слова написаны без ошибок. " +
-                            "Попробуйте использовать другие ключевые слова. " +
-                            "Попробуйте использовать более популярные ключевые слова."
-                    ));
-            return viewMapper.getViewAllSearchAnnouncements(foundAnnouncementsList);
+        if (region != null && city != null && address == null){
+            List<Announcement> searchByRegion = announcementRepository.searchByRegion(region, pageable);
+            if ()
         }
-
-        Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
-        List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
-        return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
+//
+//        if (region != null) {
+//            List<Announcement> searchAnnouncement = announcementRepository.search(transliterate(region), pageable);
+//            Set<Announcement> foundUniqAnnouncements = new HashSet<>(searchAnnouncement);
+//            List<Announcement> foundAnnouncementsList = new ArrayList<>(foundUniqAnnouncements);
+//            Optional<Announcement> optional = foundAnnouncementsList.stream().findFirst();
+//            optional.orElseThrow(() -> new NotFoundException
+//                    ("По запросу '" + region + "' ничего не найдено. " +
+//                            "Рекомендации: " +
+//                            "Убедитесь, что все слова написаны без ошибок. " +
+//                            "Попробуйте использовать другие ключевые слова. " +
+//                            "Попробуйте использовать более популярные ключевые слова."
+//                    ));
+//            return viewMapper.getViewAllSearchAnnouncements(foundAnnouncementsList);
+//        }
+//
+//        Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
+//        List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
+//        return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
     }
+    private List<AnnouncementSearchResponse> getAnnouncementResponseList(){
+
+    return null;
+    }
+
 
     public String transliterate(String message) {
         if (message.toUpperCase(Locale.ROOT).equals("APARTMENT") || message.toUpperCase(Locale.ROOT).equals("HOUSE")) {
