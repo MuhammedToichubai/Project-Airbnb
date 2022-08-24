@@ -2,14 +2,11 @@ package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-<<<<<<< HEAD
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
-=======
 import kg.airbnb.airbnb.enums.*;
->>>>>>> 9ffe7c4a680fbe0efe2a6401b27a08d50bf04352
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
