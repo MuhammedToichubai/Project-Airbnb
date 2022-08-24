@@ -5,13 +5,10 @@ import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Kind;
 import kg.airbnb.airbnb.enums.PriceType;
 import kg.airbnb.airbnb.enums.Type;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/announcements")
