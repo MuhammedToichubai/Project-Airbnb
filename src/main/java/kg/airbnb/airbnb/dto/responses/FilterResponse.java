@@ -1,6 +1,5 @@
 package kg.airbnb.airbnb.dto.responses;
 
-import kg.airbnb.airbnb.models.Announcement;
 import lombok.Getter;
 import lombok.Setter;
 

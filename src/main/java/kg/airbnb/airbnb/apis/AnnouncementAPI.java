@@ -2,6 +2,9 @@ package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import org.springframework.ui.Model;
@@ -55,9 +58,9 @@ public class AnnouncementAPI {
         
     @GetMapping("/filter")
     public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
-                                                   @RequestParam(required = false) String kind,
-                                                   @RequestParam(required = false) String type,
-                                                   @RequestParam(required = false) String price,
+                                                   @RequestParam(required = false) Kind kind,
+                                                   @RequestParam(required = false) Type type,
+                                                   @RequestParam(required = false) PriceType price,
                                                    @RequestParam(defaultValue = "1") int page,
                                                    @RequestParam(defaultValue = "16") int size) {
         return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
