@@ -238,7 +238,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<AnnouncementCardResponse> getAnnouncementsByFilter(Long regionId, String kind,
+    public FilterResponse getAnnouncementsByFilter(Long regionId, String kind,
                                                                    String type, String price,
                                                                    int page, int size) {
 
@@ -252,7 +252,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
         }
 
-        return viewMapper.viewCard(announcements);
+        FilterResponse filterResponse = new FilterResponse();
+        filterResponse.setResponses(viewMapper.viewCard(announcements));
+        filterResponse.setCountOfResult(findByFilter
+                (regionId, type, price, page, size).getTotalElements());
+        return filterResponse;
     }
 
     private Page<Announcement> findByFilter(Long regionId, String type, String price, int page, int size) {

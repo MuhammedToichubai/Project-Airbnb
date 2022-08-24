@@ -1,12 +1,10 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,12 +54,12 @@ public class AnnouncementAPI {
      }
         
     @GetMapping("/filter")
-    public List<AnnouncementCardResponse> getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
-                                                                   @RequestParam(required = false) String kind,
-                                                                   @RequestParam(required = false) String type,
-                                                                   @RequestParam(required = false) String price,
-                                                                   @RequestParam(defaultValue = "1") int page,
-                                                                   @RequestParam(defaultValue = "16") int size) {
+    public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
+                                                   @RequestParam(required = false) String kind,
+                                                   @RequestParam(required = false) String type,
+                                                   @RequestParam(required = false) String price,
+                                                   @RequestParam(defaultValue = "1") int page,
+                                                   @RequestParam(defaultValue = "16") int size) {
         return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
     }
 
