@@ -16,8 +16,8 @@ public class UserProfileAPI {
         this.userService = userService;
     }
 
-//    @GetMapping("/bookings/myAnnouncements")
-//    public UserProfileResponse getUserBookingsAndAnnouncements() {
-//        return userService.getUserBookingsAndAnnouncements();
-//    }
+    @GetMapping("/bookings/myAnnouncements")
+    public UserProfileResponse getUserBookingsAndAnnouncements() {
+        return userService.getUserBookingsAndAnnouncements();
+    }
 }

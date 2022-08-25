@@ -36,13 +36,9 @@ src/main/resources/application-altynbek.properties
 src/main/resources/application-dev.properties
 src/main/resources/application-chynara.properties
 src/main/resources/application-kan.yml
-<<<<<<< HEAD
-
-
 src/main/resources/application-jak.yml
 src/main/resources/application-mukhammed.yml
-=======
+
 src/main/resources/application-mukhammed.yml
 src/main/resources/application-kub.yml
 src/main/resources/application-jak.yml
->>>>>>> 469c5696ebb4cae64b6216b18860dd44c8b6d540

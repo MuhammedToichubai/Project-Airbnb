@@ -29,7 +29,6 @@ public class FeedbackAPI {
     }
 
     @PostMapping("/leave/feedback/{announcementId}")
-    @ResponseStatus(HttpStatus.OK)
     public SimpleResponse leaveFeedback(@PathVariable Long announcementId, @RequestBody FeedbackRequest feedbackRequest) {
         return feedbackService.saveFeedback(announcementId, feedbackRequest);
     }

@@ -32,7 +32,7 @@ public class Feedback {
     @ElementCollection
     private List<String> images;
 
-    @Length(max = 2048, message = "Message too long (more than 2 kB)")
+    @Column(name = "descriptions",length = 10000)
     private String description;
 
     @Column(name = "likes")
