@@ -1,16 +1,14 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
+import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/announcements")
@@ -18,12 +16,9 @@ import java.util.Locale;
 public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
-    private final AnnouncementRepository announcementRepository;
 
-    public AnnouncementAPI(AnnouncementService announcementService, AnnouncementRepository announcementRepository) {
+    public AnnouncementAPI(AnnouncementService announcementService) {
         this.announcementService = announcementService;
-
-        this.announcementRepository = announcementRepository;
     }
 
     //User
@@ -56,12 +51,12 @@ public class AnnouncementAPI {
      }
         
     @GetMapping("/filter")
-    public List<AnnouncementCardResponse> getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
-                                                                   @RequestParam(required = false) String kind,
-                                                                   @RequestParam(required = false) String type,
-                                                                   @RequestParam(required = false) String price,
-                                                                   @RequestParam(defaultValue = "1") int page,
-                                                                   @RequestParam(defaultValue = "16") int size) {
+    public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
+                                                   @RequestParam(required = false) Kind kind,
+                                                   @RequestParam(required = false) Type type,
+                                                   @RequestParam(required = false) PriceType price,
+                                                   @RequestParam(defaultValue = "1") int page,
+                                                   @RequestParam(defaultValue = "16") int size) {
         return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
     }
 
