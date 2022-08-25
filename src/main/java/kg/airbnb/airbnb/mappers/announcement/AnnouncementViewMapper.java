@@ -104,6 +104,7 @@ public class AnnouncementViewMapper {
 
         AnnouncementCardResponse response = new AnnouncementCardResponse();
         response.setId(announcement.getId());
+        response.setTitle(announcement.getTitle());
         response.setDescription(announcement.getDescription());
         response.setPrice(announcement.getPrice());
         response.setMaxGuests(announcement.getMaxGuests());
