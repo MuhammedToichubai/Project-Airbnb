@@ -268,6 +268,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         Page<Announcement> announcements = null;
 
+        try {
+            regionRepository.findById(regionId).get();
+        } catch (NoSuchElementException e) {
+            throw new BadRequestException("There is no region with id = " + regionId);
+        }
+
         if (!Objects.equals(regionId, null) && Objects.equals(type, null) && Objects.equals(price, null)) {
             announcements = announcementRepository.findByRegion(regionId, pageable);
         } else if (!Objects.equals(regionId, null) && !Objects.equals(type, null) && Objects.equals(price, null)) {
@@ -300,6 +306,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             }
         } else {
             announcements = announcementRepository.findAll(pageable);
+        }
+
+        if (announcements.isEmpty()) {
+            throw new NotFoundException("There is no result");
         }
 
         return announcements;
