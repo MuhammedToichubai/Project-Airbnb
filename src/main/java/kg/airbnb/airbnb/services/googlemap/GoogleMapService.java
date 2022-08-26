@@ -1,6 +1,5 @@
 package kg.airbnb.airbnb.services.googlemap;
 
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,14 +12,12 @@ import org.springframework.web.client.RestTemplate;
 public class GoogleMapService {
 
     private final RestTemplate restTemplate;
-    private final AnnouncementRepository announcementRepository;
 
     @Value("${google.api-key}")
     private String googleApikey;
 
 
-    public GoogleMapService(AnnouncementRepository announcementRepository) {
-        this.announcementRepository = announcementRepository;
+    public GoogleMapService() {
         this.restTemplate = new RestTemplate();
     }
 
