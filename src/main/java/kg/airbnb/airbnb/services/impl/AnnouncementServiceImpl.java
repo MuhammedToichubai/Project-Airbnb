@@ -3,9 +3,6 @@ package kg.airbnb.airbnb.services.impl;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.*;
-import kg.airbnb.airbnb.enums.Role;
-import kg.airbnb.airbnb.enums.Status;
-import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.enums.*;
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
@@ -241,8 +238,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public FilterResponse getAnnouncementsByFilter(Long regionId, Kind kind,
-                                                                   Type type, PriceType price,
-                                                                   int page, int size) {
+                                                   Type type, PriceType price,
+                                                   int page, int size) {
 
         List<Announcement> announcements = new ArrayList<>(findByFilter
                 (regionId, type, price, page, size).getContent());
@@ -312,31 +309,73 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 announcementRepository.findAll(pageable).getContent());
     }
 
-    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword) {
+    @Override
+    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address) {
 
         Pageable pageable = PageRequest.of(page - 1, pageSize);
 
-        if (keyword != null) {
-            List<Announcement> searchAnnouncement = announcementRepository.search(transliterate(keyword), pageable);
-            Set<Announcement> foundUniqAnnouncements = new HashSet<>(searchAnnouncement);
-            List<Announcement> foundAnnouncementsList = new ArrayList<>(foundUniqAnnouncements);
-            Optional<Announcement> optional = foundAnnouncementsList.stream().findFirst();
-            optional.orElseThrow(() -> new NotFoundException
-                    ("По запросу '" + keyword + "' ничего не найдено. " +
-                            "Рекомендации: " +
-                            "Убедитесь, что все слова написаны без ошибок. " +
-                            "Попробуйте использовать другие ключевые слова. " +
-                            "Попробуйте использовать более популярные ключевые слова."
-                    ));
-            return viewMapper.getViewAllSearchAnnouncements(foundAnnouncementsList);
+        if (region != null && city == null && address == null) {
+            List<Announcement> announcementList = announcementRepository.globalSearch(transliterate(region), pageable);
+            return viewMapper.getViewAllSearchAnnouncements(convertingAndAnnouncementList(region ,announcementList));
         }
+        else if (region != null && city != null && address == null) {
+            List<Announcement> announcementList1 = announcementRepository.searchByRegion(transliterate(region), pageable);
+            List<Announcement> announcementsByRegion = convertingAndAnnouncementList(region, announcementList1);
+            List<Announcement> announcementList2 = announcementRepository.searchByCity(transliterate(city), pageable);
+            List<Announcement> announcementsByCity = convertingAndAnnouncementList(city, announcementList2);
+            List<Announcement> resultAnnouncements = new ArrayList<>();
+            for (Announcement announcement : announcementsByRegion) {
+                if (announcement.getLocation().getCity().equals(announcementsByCity.get(0).getLocation().getCity())&&
+                announcement.getLocation().getRegion().getRegionName().equals(announcementsByCity.get(0).getLocation().getRegion().getRegionName())){
+                    resultAnnouncements.add(announcement);
+                }
+            }
+            return viewMapper.getViewAllSearchAnnouncements(resultAnnouncements);
+        }
+        else if (region != null && city != null && address != null) {
+            List<Announcement> announcementList1 = announcementRepository.searchByRegion(transliterate(region), pageable);
+            List<Announcement> announcementsByRegion = convertingAndAnnouncementList(region, announcementList1);
+            List<Announcement> announcementList2 = announcementRepository.searchByCity(transliterate(city), pageable);
+            List<Announcement> announcementsByCity = convertingAndAnnouncementList(city, announcementList2);
+            List<Announcement> announcementList3 = announcementRepository.searchByAddress(transliterate(address), pageable);
+            List<Announcement> announcementsByAddress = convertingAndAnnouncementList(address, announcementList3);
+            List<Announcement> inOneCityInOneRegionAds = new ArrayList<>();
+            List<Announcement> resultAnnouncements = new ArrayList<>();
+            for (Announcement announcement : announcementsByRegion) {
+                if (announcement.getLocation().getCity().equals(announcementsByCity.get(0).getLocation().getCity())){
+                    inOneCityInOneRegionAds.add(announcement);
+                }
+            }
+            for (Announcement announcement : inOneCityInOneRegionAds) {
+                if (announcement.getLocation().getAddress().equals(announcementsByAddress.get(0).getLocation().getAddress())){
+                    resultAnnouncements.add(announcement);
+                }
+            }
+            return viewMapper.getViewAllSearchAnnouncements(resultAnnouncements);
 
+        }
         Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
     }
 
-    public String transliterate(String message) {
+    private List<Announcement> convertingAndAnnouncementList(String keyword, List<Announcement> announcements
+    ) {
+        Set<Announcement> foundUniqAnnouncements = new HashSet<>(announcements);
+        List<Announcement> foundAnnouncementsList = new ArrayList<>(foundUniqAnnouncements);
+        Optional<Announcement> optional = foundAnnouncementsList.stream().findFirst();
+        optional.orElseThrow(() -> new NotFoundException
+                ("По запросу '" + keyword + "' ничего не найдено. " +
+                        "Рекомендации: " +
+                        "Убедитесь, что все слова написаны без ошибок. " +
+                        "Попробуйте использовать другие ключевые слова. " +
+                        "Попробуйте использовать более популярные ключевые слова."
+                ));
+
+        return foundAnnouncementsList;
+    }
+
+    private String transliterate(String message) {
         if (message.toUpperCase(Locale.ROOT).equals("APARTMENT") || message.toUpperCase(Locale.ROOT).equals("HOUSE")) {
             message = message.toUpperCase(Locale.ROOT);
         }
