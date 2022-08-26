@@ -137,7 +137,8 @@ public class AnnouncementViewMapper {
             return null;
         }
         AnnouncementSearchResponse response = new AnnouncementSearchResponse();
-        response.setFoundAnnouncement("id: "+announcement.getId()+", "+announcement.getLocation().getRegion().getRegionName()
+        response.setAnnouncementId(announcement.getId());
+        response.setAnnouncementInfo(announcement.getLocation().getRegion().getRegionName()
                         +", " +announcement.getLocation().getCity()
                         +", "+announcement.getLocation().getAddress()
                         + ", "+announcement.getHouseType());
