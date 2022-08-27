@@ -355,18 +355,37 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else if (region == null && city == null && address == null && latitude != null && longitude != null) {
             String place = googleMapService.findPlace(latitude, longitude);
             System.out.println("place = " + place);
-            if (place.toLowerCase().contains("chüy")){
-                List<Announcement> announcementList1 = announcementRepository.searchByRegion("Chui", pageable);
-                List<Announcement> announcementsByRegion = convertingAndAnnouncementList("Chui", announcementList1);
-                System.out.println("announcementsByRegion = " + announcementsByRegion);
-                return viewMapper.getViewAllSearchAnnouncements(convertingAndAnnouncementList("Chui", announcementsByRegion));
+            if (place.toLowerCase().contains("chüy region") && place.toLowerCase().contains("bishkek") ){
+                return getAnnouncementsByRegion("Bishkek", pageable);
+            }else if (place.toLowerCase().contains("chüy region")){
+                return getAnnouncementsByRegion("Chui", pageable);
+            }else if (place.toLowerCase().contains("talas region")){
+                return getAnnouncementsByRegion("Talas", pageable);
+            }else if (place.toLowerCase().contains("issyk-kul")){
+                return getAnnouncementsByRegion("Issyk-Kul", pageable);
+            }else if (place.toLowerCase().contains("naryn region")){
+                return getAnnouncementsByRegion("Naryn", pageable);
+            }else if (place.toLowerCase().contains("jalal-abad region")){
+                return getAnnouncementsByRegion("Jalalabad", pageable);
+            }else if (place.toLowerCase().contains("osh region") && place.toLowerCase().contains("osh city")){
+                return getAnnouncementsByRegion("Osh City", pageable);
+            }else if (place.toLowerCase().contains("osh region")){
+                return getAnnouncementsByRegion("Osh Obl", pageable);
+            }else if (place.toLowerCase().contains("batken region")){
+                return getAnnouncementsByRegion("Batken", pageable);
+            }else {
+                throw new BadRequestException("You are not in Kyrgyzstan!");
             }
-
         }
 
         Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
+    }
+    private List<AnnouncementSearchResponse> getAnnouncementsByRegion(String regionName , Pageable pageable){
+        List<Announcement> announcementList1 = announcementRepository.searchByRegion(regionName, pageable);
+        List<Announcement> announcementsByRegion = convertingAndAnnouncementList(regionName, announcementList1);
+        return viewMapper.getViewAllSearchAnnouncements(convertingAndAnnouncementList(regionName, announcementsByRegion));
     }
 
     private List<Announcement> convertingAndAnnouncementList(String keyword, List<Announcement> announcements
