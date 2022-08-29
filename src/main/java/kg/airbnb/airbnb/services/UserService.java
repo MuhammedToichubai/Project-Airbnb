@@ -1,18 +1,38 @@
 package kg.airbnb.airbnb.services;
 
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
-import kg.airbnb.airbnb.models.Announcement;
+import org.springframework.stereotype.Service;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
+@Service
 public interface UserService {
-    UserProfileResponse getUserBookingsAndAnnouncements();
 
     void removeFromLikedAnnouncements(Long announcementId);
+
     void addToLikedAnnouncements(Long announcementId);
+
     void removeFromBookmarkAnnouncements(Long announcementId);
+
     void addToBookmarkAnnouncements(Long announcementId);
+
     boolean ifLikedAnnouncement(Long announcementId);
+
     boolean ifBookmarkAnnouncement(Long announcementId);
+
     void addAnnouncementToHistory(Long announcementId);
+
+    void removeFromLikedFeedbacks(Long feedbackId);
+
+    void removeFromDisLikedFeedbacks(Long feedbackId);
+
+    void addToLikedFeedbacks(Long feedbackId);
+
+    boolean ifLikedFeedback(Long feedbackId);
+
+    boolean ifDisLikedFeedback(Long feedbackId);
+
+    void addToDisLikedFeedbacks(Long feedbackId);
+
+    UserProfileResponse getUserBookingsAndAnnouncements();
+
 }
+

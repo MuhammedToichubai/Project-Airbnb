@@ -6,5 +6,6 @@ import lombok.Setter;
 @Getter @Setter
 public class AnnouncementSearchResponse {
 
-    private String foundAnnouncement;
+    private Long announcementId;
+    private String announcementInfo;
 }

@@ -20,8 +20,9 @@ public class AdminApi {
     private final UserServiceImpl userService;
 
     @GetMapping("/applications")
-    public List<AdminPageAnnouncementResponse> getAllAnnouncements() {
-        return announcementService.getAllAnnouncements();
+    public AdminPageApplicationsResponse getAllAnnouncements(@RequestParam(defaultValue = "1") int page,
+                                                             @RequestParam(defaultValue = "15") int size) {
+        return announcementService.getAllAnnouncementsAndSize(page, size);
     }
 
     @GetMapping("/find/announcement/{announcementId}")

@@ -88,5 +88,7 @@ public class Announcement {
     }
     public void decrementBookmark(){bookmark.decrementAndGet();}
     public void incrementViewCount(){viewAnnouncement.incrementAndGet();}
-
+    public void addFeedback(Feedback feedback) {
+        feedbacks.add(feedback);
+    }
 }

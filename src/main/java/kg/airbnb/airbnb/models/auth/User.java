@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +65,14 @@ public class  User {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> videoHistory = ConcurrentHashMap.newKeySet();
 
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
+
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> disLikedFeedbacks = ConcurrentHashMap.newKeySet();
+
     public User(String email) {
         this.email = email;
     }
@@ -98,5 +105,22 @@ public class  User {
     public void removeFromBookmarkAnnouncement(Long announcementId){bookmarkAnnouncements.remove(announcementId);}
 
     public void addToAnnouncementHistory(Long announcementId) {videoHistory.add(announcementId);}
+
+    public void addToLikedFeedbacks(Long feedbackId) {
+        likedFeedbacks.add(feedbackId);
+    }
+
+    public void removeFromLikedFeedbacks(Long feedbackId) {
+        likedFeedbacks.remove(feedbackId);
+    }
+
+    public void removeFromDisLikedFeedbacks(Long feedbackId) {
+        disLikedFeedbacks.remove(feedbackId);
+    }
+
+    public void addToDisLikedFeedbacks(Long feedbackId) {
+        disLikedFeedbacks.add(feedbackId);
+    }
+
 }
 

@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
@@ -30,12 +31,14 @@ public class Feedback {
     @ElementCollection
     private List<String> images;
 
+    @Column(name = "descriptions",length = 10000)
     private String description;
 
     @Column(name = "likes")
-    private Integer like;
+    private AtomicInteger like = new AtomicInteger(0);
 
-    private Integer dislike;
+    @Column(name = "disLikes")
+    private AtomicInteger dislike = new AtomicInteger(0);
 
     private Integer rating;
 
@@ -43,5 +46,26 @@ public class Feedback {
     private Announcement announcement;
 
     private LocalDate createdAt;
+
+    private String colorOfLike;
+
+    private String colorOfDisLike;
+
+    public void incrementLikes(){
+        like.incrementAndGet();
+    }
+
+    public void decrementLikes(){
+        like.decrementAndGet();
+    }
+
+    public void incrementDisLikes(){
+        dislike.incrementAndGet();
+    }
+
+    public void decrementDisLikes(){
+        dislike.decrementAndGet();
+    }
+
 }
 

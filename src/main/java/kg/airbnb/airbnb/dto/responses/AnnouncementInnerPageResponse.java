@@ -4,6 +4,7 @@ import kg.airbnb.airbnb.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -16,6 +17,7 @@ public class AnnouncementInnerPageResponse {
     private String title;
     private String location;
     private String description;
+    private BigDecimal price;
     private Long userID;
     private String ownerImage;
     private String ownerFullName;

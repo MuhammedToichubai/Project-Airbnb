@@ -1,16 +1,14 @@
 package kg.airbnb.airbnb.apis;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
+import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/announcements")
@@ -18,12 +16,9 @@ import java.util.Locale;
 public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
-    private final AnnouncementRepository announcementRepository;
 
-    public AnnouncementAPI(AnnouncementService announcementService, AnnouncementRepository announcementRepository) {
+    public AnnouncementAPI(AnnouncementService announcementService) {
         this.announcementService = announcementService;
-
-        this.announcementRepository = announcementRepository;
     }
 
     //User
@@ -65,23 +60,27 @@ public class AnnouncementAPI {
     @GetMapping
     public List<AnnouncementCardResponse> findAll(@RequestParam int page, @RequestParam int size) {
         return announcementService.findAll(page, size);
-     }
-        
+    }
+
     @GetMapping("/filter")
-    public List<AnnouncementCardResponse> getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
-                                                                   @RequestParam(required = false) String kind,
-                                                                   @RequestParam(required = false) String type,
-                                                                   @RequestParam(required = false) String price,
-                                                                   @RequestParam(defaultValue = "1") int page,
-                                                                   @RequestParam(defaultValue = "16") int size) {
+    public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
+                                                   @RequestParam(required = false) Kind kind,
+                                                   @RequestParam(required = false) Type type,
+                                                   @RequestParam(required = false) PriceType price,
+                                                   @RequestParam(defaultValue = "1") int page,
+                                                   @RequestParam(defaultValue = "16") int size) {
         return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
     }
 
     @GetMapping("/global/search")
     public List<AnnouncementSearchResponse> searchAnnouncements(
-            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "region", required = false) String region,
+            @RequestParam(value = "city", required = false) String city,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "latitude", required = false) String latitude,
+            @RequestParam(value = "longitude", required = false) String longitude,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "8") Integer pageSize) {
-        return announcementService.getSearchAnnouncements(page, pageSize, keyword);
+        return announcementService.getSearchAnnouncements(page, pageSize, region, city, address, latitude, longitude);
     }
 }
