@@ -354,7 +354,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             return viewMapper.getViewAllSearchAnnouncements(resultAnnouncements);
         } else if (region == null && city == null && address == null && latitude != null && longitude != null) {
             String place = googleMapService.findPlace(latitude, longitude);
-            System.out.println("place = " + place);
             if (place.toLowerCase().contains("chüy region") && place.toLowerCase().contains("bishkek") ){
                 return getAnnouncementsByRegion("Bishkek", pageable);
             }else if (place.toLowerCase().contains("chüy region")){
