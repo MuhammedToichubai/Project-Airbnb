@@ -3,7 +3,7 @@ jwt:
 server:
   error:
     include-message: always
-#  port: 5000
+  port: 5000
 spring:
   datasource:
     username: postgres
@@ -30,7 +30,6 @@ cloud:
     credentials:
       access-key: ${AWS_ACCESS_KEY_ID}
       secret-key: ${AWS_SECRET_ACCESS_KEY}
-
     region:
       static: eu-central-1
     stack:
