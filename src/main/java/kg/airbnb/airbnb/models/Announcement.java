@@ -66,4 +66,8 @@ public class Announcement {
     private List<Booking> bookings;
 
     private LocalDate createdAt;
+
+    public void addFeedback(Feedback feedback) {
+        feedbacks.add(feedback);
+    }
 }
