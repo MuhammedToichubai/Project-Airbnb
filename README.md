@@ -1,2 +1,12 @@
-airbnb database diagram
-![img.png](img.png) (https://lucid.app/lucidchart/819a267e-87de-4ffb-b506-7b39a4a2146a/edit?invitationId=inv_550a8c12-84a6-46a9-a56e-a77cf90b8f06&page=0_0#?referringapp=slack)
+### Airbnb Database Schema
+![img_1.png](img_1.png)
+
+#### Backend Swagger Link
+<a href="http://airbnb-env.eba-bxmudt83.eu-central-1.elasticbeanstalk.com/swagger-ui/index.html">
+<img src="https://www.mocklab.io/images/screenshots/swagger-logo2.png">
+</a>
+
+#### Figma UI Design
+<a href="https://www.figma.com/file/qYJpUbocX2Nk0xrXLwQh5X/Airbnb?node-id=0%3A1">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2-yF5mczA9v0Xsy3QEyqMkQx3DT37RRhJAQ&usqp=CAU">
+</a>

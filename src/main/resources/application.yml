@@ -9,7 +9,6 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://airbnb.ckmwffwc7ag0.eu-central-1.rds.amazonaws.com:5432/airbnb
-
   servlet:
     multipart:
       enabled: true
@@ -31,6 +30,7 @@ cloud:
     credentials:
       access-key: ${AWS_ACCESS_KEY_ID}
       secret-key: ${AWS_SECRET_ACCESS_KEY}
+
     region:
       static: eu-central-1
     stack:
