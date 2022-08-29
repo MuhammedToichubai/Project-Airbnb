@@ -5,6 +5,7 @@ import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
 
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
 import org.springframework.stereotype.Component;
@@ -121,6 +122,7 @@ public class AnnouncementViewMapper {
         }
         double rating = a / b;
         response.setRating(rating);
+        response.setType(String.valueOf(announcement.getHouseType()));
         return response;
     }
 
