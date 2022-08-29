@@ -245,8 +245,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 (regionId, type, price, page, size).getContent());
 
         if (kind != null && kind.equals(Kind.POPULAR)) {
-            announcements.sort(Comparator.comparingInt(o -> o.getFeedbacks().size()));
-
+            Collections.sort(announcements);
         } else if (kind != null && kind.equals(Kind.THE_LASTEST)) {
             announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
         }
