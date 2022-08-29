@@ -25,6 +25,7 @@ public class AnnouncementViewMapper {
         response.setTitle(announcement.getTitle());
         response.setLocation(announcement.getLocation().getAddress());
         response.setDescription(announcement.getDescription());
+        response.setPrice(announcement.getPrice());
         response.setUserID(announcement.getOwner().getId());
         response.setOwnerImage(announcement.getOwner().getImage());
         response.setOwnerFullName(announcement.getOwner().getFullName());
@@ -106,6 +107,8 @@ public class AnnouncementViewMapper {
         }
 
         AnnouncementCardResponse response = new AnnouncementCardResponse();
+        response.setId(announcement.getId());
+        response.setTitle(announcement.getTitle());
         response.setDescription(announcement.getDescription());
         response.setPrice(announcement.getPrice());
         response.setMaxGuests(announcement.getMaxGuests());
@@ -137,7 +140,8 @@ public class AnnouncementViewMapper {
             return null;
         }
         AnnouncementSearchResponse response = new AnnouncementSearchResponse();
-        response.setFoundAnnouncement("id: "+announcement.getId()+", "+announcement.getLocation().getRegion().getRegionName()
+        response.setAnnouncementId(announcement.getId());
+        response.setAnnouncementInfo(announcement.getLocation().getRegion().getRegionName()
                         +", " +announcement.getLocation().getCity()
                         +", "+announcement.getLocation().getAddress()
                         + ", "+announcement.getHouseType());

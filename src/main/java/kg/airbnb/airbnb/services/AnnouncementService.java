@@ -1,12 +1,11 @@
 package kg.airbnb.airbnb.services;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
-import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
+import kg.airbnb.airbnb.enums.Type;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,19 +21,19 @@ public interface AnnouncementService {
 
     SimpleResponse announcementDelete(Long announcementId);
 
-    List<AdminPageAnnouncementResponse> getAllAnnouncements();
+    AdminPageApplicationsResponse getAllAnnouncementsAndSize(int page, int size);
 
     AdminPageAnnouncementResponse findAnnouncementById(Long id);
 
-    kg.airbnb.airbnb.dto.responses.SimpleResponse acceptAnnouncement(Long announcementId);
+    SimpleResponse acceptAnnouncement(Long announcementId);
 
-    kg.airbnb.airbnb.dto.responses.SimpleResponse rejectAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+    SimpleResponse rejectAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
-    kg.airbnb.airbnb.dto.responses.SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+    SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
     List<AnnouncementCardResponse> findAll(int page, int size);
 
-    List<AnnouncementCardResponse> getAnnouncementsByFilter(Long region, String kind, String type, String price, int page, int size);
+    FilterResponse getAnnouncementsByFilter(Long region, Kind kind, Type type, PriceType price, int page, int size);
     
-    List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String keyword);
+    List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address);
 }
