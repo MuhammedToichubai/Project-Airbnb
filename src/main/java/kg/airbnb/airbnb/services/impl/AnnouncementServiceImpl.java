@@ -267,11 +267,14 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         Page<Announcement> announcements = null;
 
-        try {
-            regionRepository.findById(regionId).get();
-        } catch (NoSuchElementException e) {
-            throw new BadRequestException("There is no region with id = " + regionId);
+        if  (regionId != null) {
+            try {
+                regionRepository.findById(regionId).get();
+            } catch (NoSuchElementException e) {
+                throw new BadRequestException("There is no region with id = " + regionId);
+            }
         }
+
 
         if (!Objects.equals(regionId, null) && Objects.equals(type, null) && Objects.equals(price, null)) {
             announcements = announcementRepository.findByRegion(regionId, pageable);
