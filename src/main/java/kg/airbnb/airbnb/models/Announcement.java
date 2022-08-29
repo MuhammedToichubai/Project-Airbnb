@@ -67,6 +67,10 @@ public class Announcement implements Comparable<Announcement> {
 
     private LocalDate createdAt;
 
+    public void addFeedback(Feedback feedback) {
+        this.feedbacks.add(feedback);
+    }
+
     @Override
     public int compareTo(Announcement o) {
 
