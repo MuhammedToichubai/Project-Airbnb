@@ -45,12 +45,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final GoogleMapService googleMapService;
 
     @Override
-    public SimpleResponse announcementSave(AnnouncementRequest request) {
+    public AnnouncementSaveResponse announcementSave(AnnouncementRequest request) {
         Announcement newAnnouncement = editMapper.saveAnnouncement(request);
         checkAdField(request, newAnnouncement);
         addressRepository.save(savedAddress(request, newAnnouncement));
         announcementRepository.save(newAnnouncement);
-        return new SimpleResponse("SAVE", "Announcement with id " + newAnnouncement.getId() + ", saved successfully !");
+        return viewMapper.convertingEntityToDto(newAnnouncement);
     }
 
     private void checkAdField(AnnouncementRequest request, Announcement announcement) {
