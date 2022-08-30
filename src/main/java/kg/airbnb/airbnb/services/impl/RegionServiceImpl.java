@@ -7,8 +7,6 @@ import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.services.RegionService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

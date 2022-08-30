@@ -39,5 +39,6 @@ src/main/resources/application-chynara.properties
 src/main/resources/application-mukhammed.yml
 src/main/resources/application-kub.yml
 src/main/resources/application-jak.yml
+src/main/resources/application-kan.yml
 
 src/main/resources/application-chynara.yml

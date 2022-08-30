@@ -25,7 +25,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @ToString
-public class Announcement {
+public class Announcement implements Comparable<Announcement> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_id_generator")
@@ -66,4 +66,24 @@ public class Announcement {
     private List<Booking> bookings;
 
     private LocalDate createdAt;
+
+    public void addFeedback(Feedback feedback) {
+        this.feedbacks.add(feedback);
+    }
+
+    @Override
+    public int compareTo(Announcement o) {
+
+        int a = 0;
+        int b = 0;
+
+        for (Feedback c: this.feedbacks) {
+            a = a + c.getRating();
+        }
+        for (Feedback d: o.getFeedbacks()) {
+            b = b + d.getRating();
+        }
+
+        return b - a;
+    }
 }

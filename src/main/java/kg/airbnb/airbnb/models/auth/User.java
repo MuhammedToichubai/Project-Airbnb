@@ -8,9 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
@@ -49,6 +53,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
+
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> disLikedFeedbacks = ConcurrentHashMap.newKeySet();
+
     public User(String email) {
         this.email = email;
     }
@@ -66,6 +78,20 @@ public class User {
         this.role=role;
     }
 
+    public void addToLikedFeedbacks(Long feedbackId) {
+        likedFeedbacks.add(feedbackId);
+    }
 
+    public void removeFromLikedFeedbacks(Long feedbackId) {
+        likedFeedbacks.remove(feedbackId);
+    }
+
+    public void removeFromDisLikedFeedbacks(Long feedbackId) {
+        disLikedFeedbacks.remove(feedbackId);
+    }
+
+    public void addToDisLikedFeedbacks(Long feedbackId) {
+        disLikedFeedbacks.add(feedbackId);
+    }
 }
 

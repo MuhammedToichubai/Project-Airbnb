@@ -19,5 +19,6 @@ public class AnnouncementCardResponse {
     private Integer maxGuests;
     private String location;
     private double rating;
+    private String type;
 
 }
