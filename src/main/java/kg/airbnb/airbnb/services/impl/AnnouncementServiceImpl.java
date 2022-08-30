@@ -176,11 +176,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public AdminPageAnnouncementResponse findAnnouncementById(Long id) {
+    public AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id) {
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
-            return viewMapper.viewAdminPageAnnouncementResponse(announcement);
+            return viewMapper.entityToDtoConver(announcement);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
