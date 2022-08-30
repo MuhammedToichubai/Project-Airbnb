@@ -13,6 +13,27 @@ import java.util.List;
 @Component
 public class AnnouncementViewMapper {
 
+    public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement){
+        if (announcement == null){
+            return null;
+        }
+        AnnouncementSaveResponse response = new AnnouncementSaveResponse(
+                "Announcement saved successfully !",
+                announcement.getId(),
+                announcement.getImages(),
+                announcement.getHouseType(),
+                announcement.getMaxGuests(),
+                announcement.getPrice(),
+                announcement.getTitle(),
+                announcement.getDescription(),
+                announcement.getLocation().getRegion().getId(),
+                announcement.getLocation().getRegion().getRegionName(),
+                announcement.getLocation().getCity(),
+                announcement.getLocation().getAddress()
+        );
+        return response;
+
+    }
 
     public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
         if (announcement == null) {
