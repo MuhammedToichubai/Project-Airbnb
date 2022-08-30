@@ -23,7 +23,7 @@ public class AnnouncementAPI {
 
     //User
     @PostMapping("/save")
-    public SimpleResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
+    public AnnouncementSaveResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
         return announcementService.announcementSave(announcementRequest);
     }
 
@@ -48,8 +48,8 @@ public class AnnouncementAPI {
     @GetMapping
     public List<AnnouncementCardResponse> findAll(@RequestParam int page, @RequestParam int size) {
         return announcementService.findAll(page, size);
-     }
-        
+    }
+
     @GetMapping("/filter")
     public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
                                                    @RequestParam(required = false) Kind kind,
@@ -65,8 +65,10 @@ public class AnnouncementAPI {
             @RequestParam(value = "region", required = false) String region,
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "latitude", required = false) String latitude,
+            @RequestParam(value = "longitude", required = false) String longitude,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "8") Integer pageSize) {
-        return announcementService.getSearchAnnouncements(page, pageSize, region, city, address);
+        return announcementService.getSearchAnnouncements(page, pageSize, region, city, address, latitude, longitude);
     }
 }

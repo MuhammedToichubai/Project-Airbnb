@@ -13,7 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnnouncementInnerPageResponse {
+public class AnnouncementSaveResponse {
+    private String message;
     private Long id;
     private List<String> images;
     private Type houseType;
@@ -25,4 +26,5 @@ public class AnnouncementInnerPageResponse {
     private String RegionName;
     private String townProvince;
     private String address;
+
 }

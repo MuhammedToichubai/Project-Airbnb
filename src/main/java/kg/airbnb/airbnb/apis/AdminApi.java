@@ -26,7 +26,7 @@ public class AdminApi {
     }
 
     @GetMapping("/find/announcement/{announcementId}")
-    public AdminPageAnnouncementResponse findAnnouncementById(@PathVariable Long announcementId) {
+    public AdminPageApplicationsAnnouncementResponse findAnnouncementById(@PathVariable Long announcementId) {
         return announcementService.findAnnouncementById(announcementId);
     }
 

@@ -40,3 +40,8 @@ application:
     name: airbnb-b5
 
 prefix-for-file-link: https://airbnb-b5.s3.eu-central-1.amazonaws.com/
+
+#google-map
+google:
+  api-key: ${GOOGLE_API_KEY}
+

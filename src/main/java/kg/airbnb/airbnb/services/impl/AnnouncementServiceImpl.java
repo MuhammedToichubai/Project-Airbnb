@@ -19,6 +19,7 @@ import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,14 +42,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final GoogleMapService googleMapService;
 
     @Override
-    public SimpleResponse announcementSave(AnnouncementRequest request) {
+    public AnnouncementSaveResponse announcementSave(AnnouncementRequest request) {
         Announcement newAnnouncement = editMapper.saveAnnouncement(request);
         checkAdField(request, newAnnouncement);
         addressRepository.save(savedAddress(request, newAnnouncement));
         announcementRepository.save(newAnnouncement);
-        return new SimpleResponse("SAVE", "Announcement with id " + newAnnouncement.getId() + ", saved successfully !");
+        return viewMapper.convertingEntityToDto(newAnnouncement);
     }
 
     private void checkAdField(AnnouncementRequest request, Announcement announcement) {
@@ -174,11 +176,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public AdminPageAnnouncementResponse findAnnouncementById(Long id) {
+    public AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id) {
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
-            return viewMapper.viewAdminPageAnnouncementResponse(announcement);
+            return viewMapper.entityToDtoConver(announcement);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
@@ -245,8 +247,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 (regionId, type, price, page, size).getContent());
 
         if (kind != null && kind.equals(Kind.POPULAR)) {
-            announcements.sort(Comparator.comparingInt(o -> o.getFeedbacks().size()));
-
+            Collections.sort(announcements);
         } else if (kind != null && kind.equals(Kind.THE_LASTEST)) {
             announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
         }
@@ -265,11 +266,14 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         Page<Announcement> announcements = null;
 
-        try {
-            regionRepository.findById(regionId).get();
-        } catch (NoSuchElementException e) {
-            throw new BadRequestException("There is no region with id = " + regionId);
+        if  (regionId != null) {
+            try {
+                regionRepository.findById(regionId).get();
+            } catch (NoSuchElementException e) {
+                throw new BadRequestException("There is no region with id = " + regionId);
+            }
         }
+
 
         if (!Objects.equals(regionId, null) && Objects.equals(type, null) && Objects.equals(price, null)) {
             announcements = announcementRepository.findByRegion(regionId, pageable);
@@ -320,29 +324,27 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address) {
+    public List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address, String latitude, String longitude) {
 
         Pageable pageable = PageRequest.of(page - 1, pageSize);
 
-        if (region != null && city == null && address == null) {
+        if (region != null && city == null && address == null && latitude == null && longitude == null) {
             List<Announcement> announcementList = announcementRepository.globalSearch(transliterate(region), pageable);
-            return viewMapper.getViewAllSearchAnnouncements(convertingAndAnnouncementList(region ,announcementList));
-        }
-        else if (region != null && city != null && address == null) {
+            return viewMapper.getViewAllSearchAnnouncements(convertingAndAnnouncementList(region, announcementList));
+        } else if (region != null && city != null && address == null && latitude == null && longitude == null) {
             List<Announcement> announcementList1 = announcementRepository.searchByRegion(transliterate(region), pageable);
             List<Announcement> announcementsByRegion = convertingAndAnnouncementList(region, announcementList1);
             List<Announcement> announcementList2 = announcementRepository.searchByCity(transliterate(city), pageable);
             List<Announcement> announcementsByCity = convertingAndAnnouncementList(city, announcementList2);
             List<Announcement> resultAnnouncements = new ArrayList<>();
             for (Announcement announcement : announcementsByRegion) {
-                if (announcement.getLocation().getCity().equals(announcementsByCity.get(0).getLocation().getCity())&&
-                announcement.getLocation().getRegion().getRegionName().equals(announcementsByCity.get(0).getLocation().getRegion().getRegionName())){
+                if (announcement.getLocation().getCity().equals(announcementsByCity.get(0).getLocation().getCity()) &&
+                        announcement.getLocation().getRegion().getRegionName().equals(announcementsByCity.get(0).getLocation().getRegion().getRegionName())) {
                     resultAnnouncements.add(announcement);
                 }
             }
             return viewMapper.getViewAllSearchAnnouncements(resultAnnouncements);
-        }
-        else if (region != null && city != null && address != null) {
+        } else if (region != null && city != null && address != null && latitude == null && longitude == null) {
             List<Announcement> announcementList1 = announcementRepository.searchByRegion(transliterate(region), pageable);
             List<Announcement> announcementsByRegion = convertingAndAnnouncementList(region, announcementList1);
             List<Announcement> announcementList2 = announcementRepository.searchByCity(transliterate(city), pageable);
@@ -352,21 +354,49 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             List<Announcement> inOneCityInOneRegionAds = new ArrayList<>();
             List<Announcement> resultAnnouncements = new ArrayList<>();
             for (Announcement announcement : announcementsByRegion) {
-                if (announcement.getLocation().getCity().equals(announcementsByCity.get(0).getLocation().getCity())){
+                if (announcement.getLocation().getCity().equals(announcementsByCity.get(0).getLocation().getCity())) {
                     inOneCityInOneRegionAds.add(announcement);
                 }
             }
             for (Announcement announcement : inOneCityInOneRegionAds) {
-                if (announcement.getLocation().getAddress().equals(announcementsByAddress.get(0).getLocation().getAddress())){
+                if (announcement.getLocation().getAddress().equals(announcementsByAddress.get(0).getLocation().getAddress())) {
                     resultAnnouncements.add(announcement);
                 }
             }
             return viewMapper.getViewAllSearchAnnouncements(resultAnnouncements);
-
+        } else if (region == null && city == null && address == null && latitude != null && longitude != null) {
+            String place = googleMapService.findPlace(latitude, longitude);
+            if (place.toLowerCase().contains("chüy region") && place.toLowerCase().contains("bishkek") ){
+                return getAnnouncementsByRegion("Bishkek", pageable);
+            }else if (place.toLowerCase().contains("chüy region")){
+                return getAnnouncementsByRegion("Chui", pageable);
+            }else if (place.toLowerCase().contains("talas region")){
+                return getAnnouncementsByRegion("Talas", pageable);
+            }else if (place.toLowerCase().contains("issyk-kul")){
+                return getAnnouncementsByRegion("Issyk-Kul", pageable);
+            }else if (place.toLowerCase().contains("naryn region")){
+                return getAnnouncementsByRegion("Naryn", pageable);
+            }else if (place.toLowerCase().contains("jalal-abad region")){
+                return getAnnouncementsByRegion("Jalalabad", pageable);
+            }else if (place.toLowerCase().contains("osh region") && place.toLowerCase().contains("osh city")){
+                return getAnnouncementsByRegion("Osh City", pageable);
+            }else if (place.toLowerCase().contains("osh region")){
+                return getAnnouncementsByRegion("Osh Obl", pageable);
+            }else if (place.toLowerCase().contains("batken region")){
+                return getAnnouncementsByRegion("Batken", pageable);
+            }else {
+                throw new BadRequestException("You are not in Kyrgyzstan!");
+            }
         }
+
         Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
+    }
+    private List<AnnouncementSearchResponse> getAnnouncementsByRegion(String regionName , Pageable pageable){
+        List<Announcement> announcementList1 = announcementRepository.searchByRegion(regionName, pageable);
+        List<Announcement> announcementsByRegion = convertingAndAnnouncementList(regionName, announcementList1);
+        return viewMapper.getViewAllSearchAnnouncements(convertingAndAnnouncementList(regionName, announcementsByRegion));
     }
 
     private List<Announcement> convertingAndAnnouncementList(String keyword, List<Announcement> announcements
