@@ -2,7 +2,6 @@ package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.responses.*;
 
-import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
 import org.springframework.stereotype.Component;
@@ -39,7 +38,6 @@ public class AnnouncementViewMapper {
         if (announcement == null) {
             return null;
         }
-<<<<<<< HEAD
 
         AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse();
         response.setId(announcement.getId());
@@ -59,21 +57,7 @@ public class AnnouncementViewMapper {
         response.setViewAnnouncementCount(announcement.getViewAnnouncement().get());
         response.setColorOfLike(announcement.getColorOfLike());
         response.setColorOfBookmark(announcement.getColorOfBookmark());
-=======
-        AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse(
-                announcement.getId(),
-                announcement.getImages(),
-                announcement.getHouseType(),
-                announcement.getMaxGuests(),
-                announcement.getPrice(),
-                announcement.getTitle(),
-                announcement.getDescription(),
-                announcement.getLocation().getRegion().getId(),
-                announcement.getLocation().getRegion().getRegionName(),
-                announcement.getLocation().getCity(),
-                announcement.getLocation().getAddress()
-        );
->>>>>>> 88be080ca19a035331b4714ede38c8c490b4a1f7
+
         return response;
     }
 
