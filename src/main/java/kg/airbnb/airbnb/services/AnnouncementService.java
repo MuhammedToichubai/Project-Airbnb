@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public interface AnnouncementService {
 
-    SimpleResponse announcementSave(AnnouncementRequest request);
+    AnnouncementSaveResponse announcementSave(AnnouncementRequest request);
 
     AnnouncementInnerPageResponse announcementFindById(Long announcementId);
 
@@ -23,7 +23,7 @@ public interface AnnouncementService {
 
     AdminPageApplicationsResponse getAllAnnouncementsAndSize(int page, int size);
 
-    AdminPageAnnouncementResponse findAnnouncementById(Long id);
+    AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id);
 
     SimpleResponse acceptAnnouncement(Long announcementId);
 

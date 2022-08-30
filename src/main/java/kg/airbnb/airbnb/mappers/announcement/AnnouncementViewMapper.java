@@ -13,6 +13,27 @@ import java.util.List;
 @Component
 public class AnnouncementViewMapper {
 
+    public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement){
+        if (announcement == null){
+            return null;
+        }
+        AnnouncementSaveResponse response = new AnnouncementSaveResponse(
+                "Announcement saved successfully !",
+                announcement.getId(),
+                announcement.getImages(),
+                announcement.getHouseType(),
+                announcement.getMaxGuests(),
+                announcement.getPrice(),
+                announcement.getTitle(),
+                announcement.getDescription(),
+                announcement.getLocation().getRegion().getId(),
+                announcement.getLocation().getRegion().getRegionName(),
+                announcement.getLocation().getCity(),
+                announcement.getLocation().getAddress()
+        );
+        return response;
+
+    }
 
     public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
         if (announcement == null) {
@@ -40,6 +61,26 @@ public class AnnouncementViewMapper {
             adminPageAnnouncementResponses.add(viewAdminPageAnnouncementResponse(announcement));
         }
         return adminPageAnnouncementResponses;
+    }
+
+    public AdminPageApplicationsAnnouncementResponse entityToDtoConver(Announcement announcement){
+        if (announcement == null) {
+            return null;
+        }
+        AdminPageApplicationsAnnouncementResponse response = new AdminPageApplicationsAnnouncementResponse();
+        response.setAnnouncementId(announcement.getId());
+        response.setTitle(announcement.getTitle());
+        response.setImages(announcement.getImages());
+        response.setHouseType(announcement.getHouseType());
+        response.setMaxGuests(announcement.getMaxGuests());
+        response.setLocation(announcement.getLocation().getFullAddress());
+        response.setDescription(announcement.getDescription());
+        response.setOwnerImage(announcement.getOwner().getImage());
+        response.setOwnerFullName(announcement.getOwner().getFullName());
+        response.setOwnerEmail(announcement.getOwner().getEmail());
+        response.setStatus(announcement.getStatus());
+
+        return response;
     }
 
 

@@ -1,9 +1,8 @@
 package kg.airbnb.airbnb.dto.responses;
 
 import kg.airbnb.airbnb.enums.Status;
-import lombok.AllArgsConstructor;
+import kg.airbnb.airbnb.enums.Type;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -11,10 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-
-public class AdminPageAnnouncementResponse {
+public class AdminPageApplicationsAnnouncementResponse {
 
     private Long announcementId;
 
@@ -22,13 +18,20 @@ public class AdminPageAnnouncementResponse {
 
     private List<String> images;
 
-    private BigDecimal price;
+    private Type houseType;
 
     private Integer maxGuests;
 
-    private Double rating;
-
     private String location;
 
+    private String description;
+
+    private String ownerImage;
+
+    private String ownerFullName;
+
+    private String ownerEmail;
+
     private Status status;
+
 }

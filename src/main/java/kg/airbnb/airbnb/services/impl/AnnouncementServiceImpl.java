@@ -45,12 +45,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final GoogleMapService googleMapService;
 
     @Override
-    public SimpleResponse announcementSave(AnnouncementRequest request) {
+    public AnnouncementSaveResponse announcementSave(AnnouncementRequest request) {
         Announcement newAnnouncement = editMapper.saveAnnouncement(request);
         checkAdField(request, newAnnouncement);
         addressRepository.save(savedAddress(request, newAnnouncement));
         announcementRepository.save(newAnnouncement);
-        return new SimpleResponse("SAVE", "Announcement with id " + newAnnouncement.getId() + ", saved successfully !");
+        return viewMapper.convertingEntityToDto(newAnnouncement);
     }
 
     private void checkAdField(AnnouncementRequest request, Announcement announcement) {
@@ -176,11 +176,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public AdminPageAnnouncementResponse findAnnouncementById(Long id) {
+    public AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id) {
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
-            return viewMapper.viewAdminPageAnnouncementResponse(announcement);
+            return viewMapper.entityToDtoConver(announcement);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
