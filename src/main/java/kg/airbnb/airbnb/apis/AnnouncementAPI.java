@@ -29,7 +29,7 @@ public class AnnouncementAPI {
 
     //Admin , User
     @GetMapping("/find/{announcementId}")
-    public AnnouncementInnerPageResponse findAnnouncementById(@PathVariable Long announcementId) {
+    public AnnouncementResponse findAnnouncementById(@PathVariable Long announcementId) {
         return announcementService.announcementFindById(announcementId);
     }
 
