@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.responses.*;
 
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
 import org.springframework.stereotype.Component;
@@ -12,11 +13,33 @@ import java.util.List;
 @Component
 public class AnnouncementViewMapper {
 
+    public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement){
+        if (announcement == null){
+            return null;
+        }
+        AnnouncementSaveResponse response = new AnnouncementSaveResponse(
+                "Announcement saved successfully !",
+                announcement.getId(),
+                announcement.getImages(),
+                announcement.getHouseType(),
+                announcement.getMaxGuests(),
+                announcement.getPrice(),
+                announcement.getTitle(),
+                announcement.getDescription(),
+                announcement.getLocation().getRegion().getId(),
+                announcement.getLocation().getRegion().getRegionName(),
+                announcement.getLocation().getCity(),
+                announcement.getLocation().getAddress()
+        );
+        return response;
+
+    }
 
     public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
         if (announcement == null) {
             return null;
         }
+<<<<<<< HEAD
 
         AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse();
         response.setId(announcement.getId());
@@ -36,6 +59,21 @@ public class AnnouncementViewMapper {
         response.setViewAnnouncementCount(announcement.getViewAnnouncement().get());
         response.setColorOfLike(announcement.getColorOfLike());
         response.setColorOfBookmark(announcement.getColorOfBookmark());
+=======
+        AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse(
+                announcement.getId(),
+                announcement.getImages(),
+                announcement.getHouseType(),
+                announcement.getMaxGuests(),
+                announcement.getPrice(),
+                announcement.getTitle(),
+                announcement.getDescription(),
+                announcement.getLocation().getRegion().getId(),
+                announcement.getLocation().getRegion().getRegionName(),
+                announcement.getLocation().getCity(),
+                announcement.getLocation().getAddress()
+        );
+>>>>>>> 88be080ca19a035331b4714ede38c8c490b4a1f7
         return response;
     }
 
@@ -45,6 +83,26 @@ public class AnnouncementViewMapper {
             adminPageAnnouncementResponses.add(viewAdminPageAnnouncementResponse(announcement));
         }
         return adminPageAnnouncementResponses;
+    }
+
+    public AdminPageApplicationsAnnouncementResponse entityToDtoConver(Announcement announcement){
+        if (announcement == null) {
+            return null;
+        }
+        AdminPageApplicationsAnnouncementResponse response = new AdminPageApplicationsAnnouncementResponse();
+        response.setAnnouncementId(announcement.getId());
+        response.setTitle(announcement.getTitle());
+        response.setImages(announcement.getImages());
+        response.setHouseType(announcement.getHouseType());
+        response.setMaxGuests(announcement.getMaxGuests());
+        response.setLocation(announcement.getLocation().getFullAddress());
+        response.setDescription(announcement.getDescription());
+        response.setOwnerImage(announcement.getOwner().getImage());
+        response.setOwnerFullName(announcement.getOwner().getFullName());
+        response.setOwnerEmail(announcement.getOwner().getEmail());
+        response.setStatus(announcement.getStatus());
+
+        return response;
     }
 
 
@@ -130,6 +188,7 @@ public class AnnouncementViewMapper {
         }
         double rating = a / b;
         response.setRating(rating);
+        response.setType(String.valueOf(announcement.getHouseType()));
         return response;
     }
 

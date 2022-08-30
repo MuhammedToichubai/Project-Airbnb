@@ -15,6 +15,7 @@ import java.util.List;
 @CrossOrigin
 public class AnnouncementAPI {
 
+
     private final AnnouncementService announcementService;
 
     public AnnouncementAPI(AnnouncementService announcementService) {
@@ -23,7 +24,7 @@ public class AnnouncementAPI {
 
     //User
     @PostMapping("/save")
-    public SimpleResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
+    public AnnouncementSaveResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
         return announcementService.announcementSave(announcementRequest);
     }
 

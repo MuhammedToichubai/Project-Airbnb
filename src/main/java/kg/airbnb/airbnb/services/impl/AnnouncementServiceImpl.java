@@ -47,12 +47,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final GoogleMapService googleMapService;
 
     @Override
-    public SimpleResponse announcementSave(AnnouncementRequest request) {
+    public AnnouncementSaveResponse announcementSave(AnnouncementRequest request) {
         Announcement newAnnouncement = editMapper.saveAnnouncement(request);
         checkAdField(request, newAnnouncement);
         addressRepository.save(savedAddress(request, newAnnouncement));
         announcementRepository.save(newAnnouncement);
-        return new SimpleResponse("SAVE", "Announcement with id " + newAnnouncement.getId() + ", saved successfully !");
+        return viewMapper.convertingEntityToDto(newAnnouncement);
     }
 
     private void checkAdField(AnnouncementRequest request, Announcement announcement) {
@@ -172,11 +172,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public AdminPageAnnouncementResponse findAnnouncementById(Long id) {
+    public AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id) {
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
-            return viewMapper.viewAdminPageAnnouncementResponse(announcement);
+            return viewMapper.entityToDtoConver(announcement);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
@@ -243,8 +243,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 (regionId, type, price, page, size).getContent());
 
         if (kind != null && kind.equals(Kind.POPULAR)) {
-            announcements.sort(Comparator.comparingInt(o -> o.getFeedbacks().size()));
-
+            Collections.sort(announcements);
         } else if (kind != null && kind.equals(Kind.THE_LASTEST)) {
             announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
         }
@@ -263,11 +262,14 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         Page<Announcement> announcements = null;
 
-        try {
-            regionRepository.findById(regionId).get();
-        } catch (NoSuchElementException e) {
-            throw new BadRequestException("There is no region with id = " + regionId);
+        if  (regionId != null) {
+            try {
+                regionRepository.findById(regionId).get();
+            } catch (NoSuchElementException e) {
+                throw new BadRequestException("There is no region with id = " + regionId);
+            }
         }
+
 
         if (!Objects.equals(regionId, null) && Objects.equals(type, null) && Objects.equals(price, null)) {
             announcements = announcementRepository.findByRegion(regionId, pageable);

@@ -13,7 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnnouncementInnerPageResponse {
+public class AnnouncementSaveResponse {
+    private String message;
     private Long id;
     private List<String> images;
     private Type houseType;
@@ -21,21 +22,9 @@ public class AnnouncementInnerPageResponse {
     private BigDecimal price;
     private String title;
     private String description;
-<<<<<<< HEAD
-    private BigDecimal price;
-    private Long userID;
-    private String ownerImage;
-    private String ownerFullName;
-    private String ownerEmail;
-    private Integer likeCount;
-    private Integer bookmarkCount;
-    private Integer viewAnnouncementCount;
-    private String colorOfLike;
-    private String colorOfBookmark;
-=======
     private Long regionId;
     private String RegionName;
     private String townProvince;
     private String address;
->>>>>>> 88be080ca19a035331b4714ede38c8c490b4a1f7
+
 }
