@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.mappers;
+package kg.airbnb.airbnb.mappers.user;
 
 
 import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
@@ -30,6 +30,7 @@ public class UserProfileViewMapper {
             return null;
         }
         UserAnnouncementResponse announcementsResponse = new UserAnnouncementResponse();
+        announcementsResponse.setId(announcement.getId());
         announcementsResponse.setImage(announcement.getImages().get(0));
         announcementsResponse.setPrice(announcement.getPrice());
         announcementsResponse.setRating(announcementViewMapper.calculateRating(announcement));
