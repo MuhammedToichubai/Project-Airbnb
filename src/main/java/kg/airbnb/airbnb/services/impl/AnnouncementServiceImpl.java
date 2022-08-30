@@ -97,6 +97,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public AnnouncementInnerPageResponse announcementFindById(Long announcementId) {
+        Announcement announcement = getAnnouncementById(announcementId);
+        return viewMapper.entityToDtoConverting(announcement);
+    }
+
+    @Override
     @Transactional
     public SimpleResponse announcementUpdate(Long announcementId, AnnouncementRequest request) {
         Announcement announcement = getAnnouncementById(announcementId);

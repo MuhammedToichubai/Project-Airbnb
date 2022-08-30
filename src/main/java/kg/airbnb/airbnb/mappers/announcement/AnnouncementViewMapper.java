@@ -1,7 +1,6 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.responses.*;
-
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
 import org.springframework.stereotype.Component;
@@ -12,8 +11,8 @@ import java.util.List;
 @Component
 public class AnnouncementViewMapper {
 
-    public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement){
-        if (announcement == null){
+    public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement) {
+        if (announcement == null) {
             return null;
         }
         AnnouncementSaveResponse response = new AnnouncementSaveResponse(
@@ -57,9 +56,14 @@ public class AnnouncementViewMapper {
         response.setViewAnnouncementCount(announcement.getViewAnnouncement().get());
         response.setColorOfLike(announcement.getColorOfLike());
         response.setColorOfBookmark(announcement.getColorOfBookmark());
+        response.setRegionId(announcement.getLocation().getRegion().getId());
+        response.setTownProvince(announcement.getLocation().getCity());
+        response.setRegionName(announcement.getLocation().getRegion().getRegionName());
 
         return response;
     }
+
+
 
     public List<AdminPageAnnouncementResponse> viewAllAdminPageAnnouncementResponses(List<Announcement> announcements) {
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = new ArrayList<>();
@@ -69,7 +73,7 @@ public class AnnouncementViewMapper {
         return adminPageAnnouncementResponses;
     }
 
-    public AdminPageApplicationsAnnouncementResponse entityToDtoConver(Announcement announcement){
+    public AdminPageApplicationsAnnouncementResponse entityToDtoConver(Announcement announcement) {
         if (announcement == null) {
             return null;
         }
@@ -120,25 +124,25 @@ public class AnnouncementViewMapper {
         List<Feedback> allFeedbacksOfAnnouncement = announcement.getFeedbacks();
         List<Integer> ratings = new ArrayList<>();
         for (Feedback feedback : allFeedbacksOfAnnouncement) {
-            if (feedback.getRating()!=null){
+            if (feedback.getRating() != null) {
                 ratings.add(feedback.getRating());
             }
         }
 
         if (ratings.size() <= 0) {
             rating = 0.0;
-        }else {
+        } else {
 
             for (int i = 0; i < ratings.size(); i++) {
-                if (ratings.get(i) == 5){
+                if (ratings.get(i) == 5) {
                     fives++;
-                } else if (ratings.get(i) == 4){
+                } else if (ratings.get(i) == 4) {
                     fours++;
-                }else if (ratings.get(i) == 3){
+                } else if (ratings.get(i) == 3) {
                     threes++;
-                }else if (ratings.get(i) == 2){
+                } else if (ratings.get(i) == 2) {
                     twos++;
-                }else if (ratings.get(i) == 1){
+                } else if (ratings.get(i) == 1) {
                     ones++;
                 }
             }
@@ -166,9 +170,9 @@ public class AnnouncementViewMapper {
         response.setImages(announcement.getImages());
         double a = 0;
         double b = 0;
-        for (Feedback f: announcement.getFeedbacks()) {
+        for (Feedback f : announcement.getFeedbacks()) {
             a = a + f.getRating();
-            b ++;
+            b++;
         }
         double rating = a / b;
         response.setRating(rating);
@@ -176,29 +180,29 @@ public class AnnouncementViewMapper {
         return response;
     }
 
-    public List<AnnouncementCardResponse> viewCard(List<Announcement> announcements){
+    public List<AnnouncementCardResponse> viewCard(List<Announcement> announcements) {
         List<AnnouncementCardResponse> responses = new ArrayList<>();
-        for (Announcement announcement : announcements){
+        for (Announcement announcement : announcements) {
             responses.add(viewCardAnnouncement(announcement));
         }
         return responses;
     }
 
-    public AnnouncementSearchResponse entityToDtoConversion(Announcement announcement){
-        if (announcement == null){
+    public AnnouncementSearchResponse entityToDtoConversion(Announcement announcement) {
+        if (announcement == null) {
             return null;
         }
         AnnouncementSearchResponse response = new AnnouncementSearchResponse();
         response.setAnnouncementId(announcement.getId());
         response.setAnnouncementInfo(announcement.getLocation().getRegion().getRegionName()
-                        +", " +announcement.getLocation().getCity()
-                        +", "+announcement.getLocation().getAddress()
-                        + ", "+announcement.getHouseType());
+                + ", " + announcement.getLocation().getCity()
+                + ", " + announcement.getLocation().getAddress()
+                + ", " + announcement.getHouseType());
 
         return response;
     }
 
-    public List<AnnouncementSearchResponse> getViewAllSearchAnnouncements(List<Announcement> announcements){
+    public List<AnnouncementSearchResponse> getViewAllSearchAnnouncements(List<Announcement> announcements) {
         List<AnnouncementSearchResponse> responses = new ArrayList<>();
         for (Announcement announcement : announcements) {
             responses.add(entityToDtoConversion(announcement));
