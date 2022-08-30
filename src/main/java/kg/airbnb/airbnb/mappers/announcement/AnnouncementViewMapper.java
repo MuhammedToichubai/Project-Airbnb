@@ -42,6 +42,26 @@ public class AnnouncementViewMapper {
         return adminPageAnnouncementResponses;
     }
 
+    public AdminPageApplicationsAnnouncementResponse entityToDtoConver(Announcement announcement){
+        if (announcement == null) {
+            return null;
+        }
+        AdminPageApplicationsAnnouncementResponse response = new AdminPageApplicationsAnnouncementResponse();
+        response.setAnnouncementId(announcement.getId());
+        response.setTitle(announcement.getTitle());
+        response.setImages(announcement.getImages());
+        response.setHouseType(announcement.getHouseType());
+        response.setMaxGuests(announcement.getMaxGuests());
+        response.setLocation(announcement.getLocation().getFullAddress());
+        response.setDescription(announcement.getDescription());
+        response.setOwnerImage(announcement.getOwner().getImage());
+        response.setOwnerFullName(announcement.getOwner().getFullName());
+        response.setOwnerEmail(announcement.getOwner().getEmail());
+        response.setStatus(announcement.getStatus());
+
+        return response;
+    }
+
 
     public AdminPageAnnouncementResponse viewAdminPageAnnouncementResponse(Announcement announcement) {
         if (announcement == null) {
