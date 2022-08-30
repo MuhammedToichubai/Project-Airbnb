@@ -5,7 +5,7 @@ import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
-import kg.airbnb.airbnb.mappers.UserProfileViewMapper;
+import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
