@@ -386,7 +386,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public List<AnnouncementCardResponse> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return viewMapper.viewCard(
-                announcementRepository.findAll(pageable).getContent());
+                announcementRepository.findAllAccepted(pageable).getContent());
     }
 
     @Override
