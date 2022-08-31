@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,8 +15,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
+
+;
 
 @Entity
 @Table(name = "announcements")
@@ -38,7 +36,6 @@ public class Announcement implements Comparable<Announcement> {
     private String description;
 
     @ElementCollection
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<String> images;
 
     private Status status;
@@ -53,13 +50,13 @@ public class Announcement implements Comparable<Announcement> {
     @Enumerated(EnumType.STRING)
     private Type houseType;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH},fetch = EAGER)
+    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     private User owner;
 
-    @OneToOne(cascade = ALL, orphanRemoval = true)
+    @OneToOne(cascade = ALL)
     private Address location;
 
-    @ManyToMany(cascade = ALL, fetch = LAZY)
+    @ManyToMany(cascade = ALL)
     private List<User> guests;
 
 
@@ -81,13 +78,26 @@ public class Announcement implements Comparable<Announcement> {
 
     private String colorOfBookmark;
 
-    public void incrementLikes(){like.incrementAndGet();}
-    public void incrementBookmark(){bookmark.incrementAndGet();}
+    public void incrementLikes() {
+        like.incrementAndGet();
+    }
+
+    public void incrementBookmark() {
+        bookmark.incrementAndGet();
+    }
+
     public void decrementLikes() {
         like.decrementAndGet();
     }
-    public void decrementBookmark(){bookmark.decrementAndGet();}
-    public void incrementViewCount(){viewAnnouncement.incrementAndGet();}
+
+    public void decrementBookmark() {
+        bookmark.decrementAndGet();
+    }
+
+    public void incrementViewCount() {
+        viewAnnouncement.incrementAndGet();
+    }
+
     public void addFeedback(Feedback feedback) {
         this.feedbacks.add(feedback);
     }
@@ -98,10 +108,10 @@ public class Announcement implements Comparable<Announcement> {
         int a = 0;
         int b = 0;
 
-        for (Feedback c: this.feedbacks) {
+        for (Feedback c : this.feedbacks) {
             a = a + c.getRating();
         }
-        for (Feedback d: o.getFeedbacks()) {
+        for (Feedback d : o.getFeedbacks()) {
             b = b + d.getRating();
         }
 
