@@ -68,14 +68,6 @@ public class Announcement implements Comparable<Announcement> {
 
     private LocalDate createdAt;
 
-
-//    private volatile int counter;
-//
-//    public int getNextUniqueIndex() {
-//        return counter++; // Not atomic, multiple threads could get the same result
-//    }
-
-
     @Column(name = "likes")
     private volatile int like = 0;
 

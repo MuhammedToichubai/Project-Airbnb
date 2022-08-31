@@ -35,10 +35,10 @@ public class Feedback {
     private String description;
 
     @Column(name = "likes")
-    private AtomicInteger like = new AtomicInteger(0);
+    private volatile int like;
 
     @Column(name = "disLikes")
-    private AtomicInteger dislike = new AtomicInteger(0);
+    private volatile int dislike;
 
     private Integer rating;
 
@@ -51,20 +51,20 @@ public class Feedback {
 
     private String colorOfDisLike;
 
-    public void incrementLikes(){
-        like.incrementAndGet();
+    public int incrementLikes(){
+        return like++;
     }
 
-    public void decrementLikes(){
-        like.decrementAndGet();
+    public int decrementLikes(){
+        return like--;
     }
 
-    public void incrementDisLikes(){
-        dislike.incrementAndGet();
+    public int incrementDisLikes(){
+         return dislike++;
     }
 
-    public void decrementDisLikes(){
-        dislike.decrementAndGet();
+    public int decrementDisLikes(){
+        return dislike--;
     }
 
 }
