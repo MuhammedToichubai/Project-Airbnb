@@ -33,25 +33,37 @@ public class AnnouncementViewMapper {
 
     }
 
-    public AnnouncementResponse entityToDtoConverting(Announcement announcement) {
+    public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
         if (announcement == null) {
             return null;
         }
-        AnnouncementResponse response = new AnnouncementResponse(
-                announcement.getId(),
-                announcement.getImages(),
-                announcement.getHouseType(),
-                announcement.getMaxGuests(),
-                announcement.getPrice(),
-                announcement.getTitle(),
-                announcement.getDescription(),
-                announcement.getLocation().getRegion().getId(),
-                announcement.getLocation().getRegion().getRegionName(),
-                announcement.getLocation().getCity(),
-                announcement.getLocation().getAddress()
-        );
+
+        AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse();
+        response.setId(announcement.getId());
+        response.setImages(announcement.getImages());
+        response.setHouseType(announcement.getHouseType());
+        response.setMaxGuests(announcement.getMaxGuests());
+        response.setTitle(announcement.getTitle());
+        response.setLocation(announcement.getLocation().getAddress());
+        response.setDescription(announcement.getDescription());
+        response.setPrice(announcement.getPrice());
+        response.setUserID(announcement.getOwner().getId());
+        response.setOwnerImage(announcement.getOwner().getImage());
+        response.setOwnerFullName(announcement.getOwner().getFullName());
+        response.setOwnerEmail(announcement.getOwner().getEmail());
+        response.setLikeCount(announcement.getLike().get());
+        response.setBookmarkCount(announcement.getBookmark().get());
+        response.setViewAnnouncementCount(announcement.getViewAnnouncement().get());
+        response.setColorOfLike(announcement.getColorOfLike());
+        response.setColorOfBookmark(announcement.getColorOfBookmark());
+        response.setRegionId(announcement.getLocation().getRegion().getId());
+        response.setTownProvince(announcement.getLocation().getCity());
+        response.setRegionName(announcement.getLocation().getRegion().getRegionName());
+
         return response;
     }
+
+
 
     public List<AdminPageAnnouncementResponse> viewAllAdminPageAnnouncementResponses(List<Announcement> announcements) {
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = new ArrayList<>();

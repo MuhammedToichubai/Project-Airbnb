@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
@@ -67,6 +68,26 @@ public class Announcement implements Comparable<Announcement> {
 
     private LocalDate createdAt;
 
+    @Column(name = "likes")
+    private AtomicInteger like = new AtomicInteger(0);
+
+    @Column(name = "bookmarks")
+    private AtomicInteger bookmark = new AtomicInteger(0);
+
+    @Column(name = "viewAnnouncements")
+    private AtomicInteger viewAnnouncement = new AtomicInteger(0);
+
+    private String colorOfLike;
+
+    private String colorOfBookmark;
+
+    public void incrementLikes(){like.incrementAndGet();}
+    public void incrementBookmark(){bookmark.incrementAndGet();}
+    public void decrementLikes() {
+        like.decrementAndGet();
+    }
+    public void decrementBookmark(){bookmark.decrementAndGet();}
+    public void incrementViewCount(){viewAnnouncement.incrementAndGet();}
     public void addFeedback(Feedback feedback) {
         this.feedbacks.add(feedback);
     }

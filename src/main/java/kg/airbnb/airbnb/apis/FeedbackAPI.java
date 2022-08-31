@@ -4,10 +4,7 @@ import kg.airbnb.airbnb.dto.request.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.models.Feedback;
 import kg.airbnb.airbnb.services.FeedbackService;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

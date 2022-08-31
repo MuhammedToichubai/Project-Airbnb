@@ -15,7 +15,7 @@ public interface AnnouncementService {
 
     AnnouncementSaveResponse announcementSave(AnnouncementRequest request);
 
-    AnnouncementResponse announcementFindById(Long announcementId);
+    AnnouncementInnerPageResponse announcementFindById(Long announcementId);
 
     SimpleResponse announcementUpdate(Long id, AnnouncementRequest request);
 
@@ -30,6 +30,12 @@ public interface AnnouncementService {
     SimpleResponse rejectAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
 
     SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+
+    AnnouncementInnerPageResponse likeAnnouncement(Long announcementId);
+
+    AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId);
+
+    AnnouncementInnerPageResponse getAnnouncementDetails(Long announcementId);
 
     List<AnnouncementCardResponse> findAll(int page, int size);
 

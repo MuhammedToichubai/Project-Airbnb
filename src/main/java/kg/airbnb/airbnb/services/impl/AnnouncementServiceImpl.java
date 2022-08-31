@@ -14,8 +14,12 @@ import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Region;
 import kg.airbnb.airbnb.models.auth.User;
-import kg.airbnb.airbnb.repositories.*;
+import kg.airbnb.airbnb.repositories.AddressRepository;
+import kg.airbnb.airbnb.repositories.AnnouncementRepository;
+import kg.airbnb.airbnb.repositories.RegionRepository;
+import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,8 +43,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
-    private final FeedbackRepository feedbackRepository;
-    private final BookingRepository bookingRepository;
+    private final UserService userService;
     private final GoogleMapService googleMapService;
 
     @Override
@@ -94,7 +97,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public AnnouncementResponse announcementFindById(Long announcementId) {
+    public AnnouncementInnerPageResponse announcementFindById(Long announcementId) {
         Announcement announcement = getAnnouncementById(announcementId);
         return viewMapper.entityToDtoConverting(announcement);
     }
@@ -227,9 +230,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (user.getRole().equals(Role.ADMIN)) {
             SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
-            addressRepository.delete(announcement.getLocation());
-            bookingRepository.deleteAll(announcement.getBookings());
-            feedbackRepository.deleteAll(announcement.getFeedbacks());
             announcement.setStatus(Status.DELETED);
             announcementRepository.deleteById(id);
             simpleResponse.setStatus("DELETED");
@@ -319,11 +319,61 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public AnnouncementInnerPageResponse likeAnnouncement(Long announcementId) {
+
+        Announcement announcementById = getAnnouncementById(announcementId);
+
+        if (userService.ifLikedAnnouncement(announcementId)) {
+            announcementById.decrementLikes();
+            announcementById.setColorOfLike(null);
+            userService.removeFromLikedAnnouncements(announcementId);
+        } else {
+            announcementById.incrementLikes();
+            announcementById.setColorOfLike("Red");
+            userService.addToLikedAnnouncements(announcementId);
+        }
+
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    @Override
+    public AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId) {
+
+        Announcement announcementById = getAnnouncementById(announcementId);
+
+        if (userService.ifBookmarkAnnouncement((announcementId))) {
+            announcementById.decrementBookmark();
+            announcementById.setColorOfBookmark(null);
+            userService.removeFromBookmarkAnnouncements(announcementId);
+        } else {
+            announcementById.incrementBookmark();
+            announcementById.setColorOfBookmark("Yellow");
+            userService.addToBookmarkAnnouncements(announcementId);
+        }
+
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    @Override
+    public AnnouncementInnerPageResponse getAnnouncementDetails(Long announcementId) {
+        Announcement announcementById = getAnnouncementById(announcementId);
+        announcementById.incrementViewCount();
+        userService.addAnnouncementToHistory(announcementId);
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcementId) {
+        AnnouncementViewMapper viewMapper = new AnnouncementViewMapper();
+        return viewMapper.entityToDtoConverting(announcementId);
+    }
+
     public List<AnnouncementCardResponse> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return viewMapper.viewCard(
                 announcementRepository.findAll(pageable).getContent());
-
     }
 
     @Override
@@ -434,6 +484,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             }
         }
         return builder.toString();
+
     }
 }
+
 
