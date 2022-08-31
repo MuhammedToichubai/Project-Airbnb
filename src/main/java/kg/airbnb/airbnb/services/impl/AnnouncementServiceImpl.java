@@ -14,10 +14,7 @@ import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Region;
 import kg.airbnb.airbnb.models.auth.User;
-import kg.airbnb.airbnb.repositories.AddressRepository;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
-import kg.airbnb.airbnb.repositories.RegionRepository;
-import kg.airbnb.airbnb.repositories.UserRepository;
+import kg.airbnb.airbnb.repositories.*;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +39,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final FeedbackRepository feedbackRepository;
+    private final BookingRepository bookingRepository;
     private final GoogleMapService googleMapService;
 
     @Override
@@ -228,6 +227,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (user.getRole().equals(Role.ADMIN)) {
             SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
+            addressRepository.delete(announcement.getLocation());
+            bookingRepository.deleteAll(announcement.getBookings());
+            feedbackRepository.deleteAll(announcement.getFeedbacks());
             announcement.setStatus(Status.DELETED);
             announcementRepository.deleteById(id);
             simpleResponse.setStatus("DELETED");
@@ -321,6 +323,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Pageable pageable = PageRequest.of(page - 1, size);
         return viewMapper.viewCard(
                 announcementRepository.findAll(pageable).getContent());
+
     }
 
     @Override
