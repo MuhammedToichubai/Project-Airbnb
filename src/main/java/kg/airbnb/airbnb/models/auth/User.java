@@ -55,15 +55,15 @@ public class  User {
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<Long> likedAnnouncements = ConcurrentHashMap.newKeySet();
+    private Set<Long> likedAnnouncements;
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<Long> bookmarkAnnouncements = ConcurrentHashMap.newKeySet();
+    private Set<Long> bookmarkAnnouncements;
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<Long> videoHistory = ConcurrentHashMap.newKeySet();
+    private Set<Long> announcementHistory;
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
@@ -104,7 +104,7 @@ public class  User {
 
     public void removeFromBookmarkAnnouncement(Long announcementId){bookmarkAnnouncements.remove(announcementId);}
 
-    public void addToAnnouncementHistory(Long announcementId) {videoHistory.add(announcementId);}
+    public void addToAnnouncementHistory(Long announcementId) {announcementHistory.add(announcementId);}
 
     public void addToLikedFeedbacks(Long feedbackId) {
         likedFeedbacks.add(feedbackId);
