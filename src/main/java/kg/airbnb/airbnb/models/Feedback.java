@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
