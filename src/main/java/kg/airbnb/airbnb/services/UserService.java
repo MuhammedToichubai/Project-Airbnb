@@ -6,6 +6,20 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
+    void removeFromLikedAnnouncements(Long announcementId);
+
+    void addToLikedAnnouncements(Long announcementId);
+
+    void removeFromBookmarkAnnouncements(Long announcementId);
+
+    void addToBookmarkAnnouncements(Long announcementId);
+
+    boolean ifLikedAnnouncement(Long announcementId);
+
+    boolean ifBookmarkAnnouncement(Long announcementId);
+
+    void addAnnouncementToHistory(Long announcementId);
+
     void removeFromLikedFeedbacks(Long feedbackId);
 
     void removeFromDisLikedFeedbacks(Long feedbackId);
@@ -19,5 +33,6 @@ public interface UserService {
     void addToDisLikedFeedbacks(Long feedbackId);
 
     UserProfileResponse getUserBookingsAndAnnouncements();
+
 }
 

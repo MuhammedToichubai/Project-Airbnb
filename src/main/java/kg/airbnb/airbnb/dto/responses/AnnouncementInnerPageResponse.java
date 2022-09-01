@@ -27,5 +27,7 @@ public class AnnouncementInnerPageResponse {
     private Integer viewAnnouncementCount;
     private String colorOfLike;
     private String colorOfBookmark;
-
+    private Long regionId;
+    private String RegionName;
+    private String townProvince;
 }

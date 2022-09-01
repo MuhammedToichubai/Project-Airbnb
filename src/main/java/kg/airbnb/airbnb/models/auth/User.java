@@ -25,7 +25,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Getter
 @Setter
-public class User {
+public class  User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_generator")
@@ -55,6 +55,18 @@ public class User {
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> likedAnnouncements = ConcurrentHashMap.newKeySet();
+
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> bookmarkAnnouncements = ConcurrentHashMap.newKeySet();
+
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Set<Long> videoHistory = ConcurrentHashMap.newKeySet();
+
+    @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
 
     @ElementCollection
@@ -78,6 +90,22 @@ public class User {
         this.role=role;
     }
 
+    public void addToLikedAnnouncements(Long announcementId){
+        likedAnnouncements.add(announcementId);
+    }
+
+    public void removeFromLikedAnnouncements(Long announcementId) {
+        likedAnnouncements.remove(announcementId);
+    }
+
+    public void addToBookmarkAnnouncements(Long announcementId){
+        bookmarkAnnouncements.add(announcementId);
+    }
+
+    public void removeFromBookmarkAnnouncement(Long announcementId){bookmarkAnnouncements.remove(announcementId);}
+
+    public void addToAnnouncementHistory(Long announcementId) {videoHistory.add(announcementId);}
+
     public void addToLikedFeedbacks(Long feedbackId) {
         likedFeedbacks.add(feedbackId);
     }
@@ -93,5 +121,6 @@ public class User {
     public void addToDisLikedFeedbacks(Long feedbackId) {
         disLikedFeedbacks.add(feedbackId);
     }
+
 }
 
