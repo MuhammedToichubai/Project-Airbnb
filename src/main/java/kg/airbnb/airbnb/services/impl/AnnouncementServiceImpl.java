@@ -126,19 +126,32 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    @Transactional
     public SimpleResponse announcementDelete(Long announcementId) {
         User user = getAuthenticatedUser();
+
         Announcement announcement = getAnnouncementById(announcementId);
+
         if (user.equals(announcement.getOwner())) {
+
             List<Booking> announcementBookings = announcement.getBookings();
+
             if (!announcementBookings.isEmpty()) {
                 throw new ForbiddenException("You cannot delete the listing because the listing has a booking!");
             }
-            announcementRepository.deleteById(announcementId);
+
+            announcementRepository.clearImages(announcementId);
+
+            announcementRepository.customDeleteById(announcementId);
+
         } else if (user.getRole() == Role.ADMIN) {
-            announcementRepository.deleteById(announcementId);
+
+            announcementRepository.clearImages(announcementId);
+
+            announcementRepository.customDeleteById(announcementId);
+
         } else {
-            throw new ForbiddenException("You can delete your announcement !");
+            throw new ForbiddenException("You cannot delete this announcement!");
         }
 
         return new SimpleResponse(
