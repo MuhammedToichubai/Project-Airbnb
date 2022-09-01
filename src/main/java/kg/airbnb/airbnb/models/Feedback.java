@@ -21,7 +21,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedback_id_generator")
-    @SequenceGenerator(name = "feedback_id_generator", sequenceName = "feedback_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "feedback_id_generator", sequenceName = "feedback_seq", allocationSize = 1, initialValue = 137)
     private Long id;
 
     @ManyToOne(cascade = {REFRESH, PERSIST, DETACH, MERGE}, fetch = EAGER)

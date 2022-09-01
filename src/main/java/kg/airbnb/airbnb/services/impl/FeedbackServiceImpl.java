@@ -200,7 +200,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     private FeedbackResponse getFeedbackResponse(Feedback feedback) {
         User user = getCurrentUser();
         FeedbackResponse feedbackResponse = new FeedbackResponse();
-        feedbackResponse.setId(user.getId());
+        feedbackResponse.setId(feedback.getId());
         feedbackResponse.setFeedbackOwnerImage(user.getImage());
         feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
         feedbackResponse.setRating(feedback.getRating());
