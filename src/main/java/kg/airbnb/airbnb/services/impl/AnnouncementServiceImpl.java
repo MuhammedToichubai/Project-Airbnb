@@ -243,8 +243,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (user.getRole().equals(Role.ADMIN)) {
             SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
-            announcement.setStatus(Status.DELETED);
-            announcementRepository.deleteById(id);
+            announcementRepository.deleteById(announcement.getId());
             simpleResponse.setStatus("DELETED");
             simpleResponse.setMessage(announcementRejectRequest.getMessage());
             return simpleResponse;
