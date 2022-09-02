@@ -18,8 +18,6 @@ public interface UserService {
 
     boolean ifBookmarkAnnouncement(Long announcementId);
 
-    void addAnnouncementToHistory(Long announcementId);
-
     void removeFromLikedFeedbacks(Long feedbackId);
 
     void removeFromDisLikedFeedbacks(Long feedbackId);
