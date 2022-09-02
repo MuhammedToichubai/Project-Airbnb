@@ -50,7 +50,7 @@ VALUES (1, 'Bishkek', 'Grazhdanskyi 119', 1),
        (26, 'Balykchy', 'Abdrahmanova 63', 9),
        (27, 'Karakol', 'Tynystanov 128', 9);
 
-INSERT INTO announcements(id, created_at, title, descriptions, price, max_guests, house_type, status,
+INSERT INTO announcements(id, created_at, title, description, price, max_guests, house_type, status,
                           location_id, owner_id, likes, bookmarks, view_Announcements, color_Of_Like, color_Of_Bookmark)
 VALUES (1, '2022-08-19', 'Peaksoft', '4 спальни, 5 кроватей, 4 ванные', 2500, 10, 'HOUSE', 0, 1, 4, 0, 0, 0, null,null ),
        (2, '2022-04-10', 'Уютная квартира в Тунгуче', '3-комнат, 8-этаж', 1500, 3, 'APARTMENT', 0, 2, 5, 0, 0, 0, null,null ),
