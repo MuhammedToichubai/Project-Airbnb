@@ -181,11 +181,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
+        Page<Announcement> allAnnouncementsPage = announcementRepository.findAllNewAndAccepted(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = viewMapper.viewAllAdminPageAnnouncementResponses(allAnnouncementsPageToListConversion);
         AdminPageApplicationsResponse response = new AdminPageApplicationsResponse();
-        response.setAllAnnouncementsSize(announcementRepository.findAll().size());
+        response.setAllAnnouncementsSize(announcementRepository.findAllNewAndAccepted().size());
         response.setPageAnnouncementResponseList(adminPageAnnouncementResponses);
         return response;
     }
@@ -243,8 +243,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (user.getRole().equals(Role.ADMIN)) {
             SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
-            announcement.setStatus(Status.DELETED);
-            announcementRepository.deleteById(id);
+            announcementRepository.clearImages(announcement.getId());
+            announcementRepository.customDeleteById(announcement.getId());
             simpleResponse.setStatus("DELETED");
             simpleResponse.setMessage(announcementRejectRequest.getMessage());
             return simpleResponse;
@@ -386,7 +386,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public List<AnnouncementCardResponse> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return viewMapper.viewCard(
-                announcementRepository.findAll(pageable).getContent());
+                announcementRepository.findAllAccepted(pageable).getContent());
     }
 
     @Override

@@ -1,9 +1,10 @@
 package kg.airbnb.airbnb.apis;
 
-import kg.airbnb.airbnb.dto.request.FeedbackRequest;
+import kg.airbnb.airbnb.dto.requests.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.models.Feedback;
 import kg.airbnb.airbnb.services.FeedbackService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class FeedbackAPI {
     }
 
     @PostMapping("/leave/feedback/{announcementId}")
-    public SimpleResponse leaveFeedback(@PathVariable Long announcementId, @RequestBody FeedbackRequest feedbackRequest) {
+    public FeedbackResponse leaveFeedback(@PathVariable Long announcementId, @RequestBody FeedbackRequest feedbackRequest) {
         return feedbackService.saveFeedback(announcementId, feedbackRequest);
     }
 

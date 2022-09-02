@@ -12,11 +12,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
-
-;
 
 @Entity
 @Table(name = "announcements")
@@ -33,6 +30,7 @@ public class Announcement implements Comparable<Announcement> {
 
     private String title;
 
+    @Column(length = 10000)
     private String description;
 
     @ElementCollection
@@ -66,38 +64,23 @@ public class Announcement implements Comparable<Announcement> {
     private LocalDate createdAt;
 
     @Column(name = "likes")
-    private AtomicInteger like = new AtomicInteger(0);
+    private volatile int like = 0;
 
     @Column(name = "bookmarks")
-    private AtomicInteger bookmark = new AtomicInteger(0);
+    private volatile int bookmark = 0;
 
     @Column(name = "viewAnnouncements")
-    private AtomicInteger viewAnnouncement = new AtomicInteger(0);
+    private volatile int viewAnnouncement = 0;
 
     private String colorOfLike;
 
     private String colorOfBookmark;
 
-    public void incrementLikes() {
-        like.incrementAndGet();
-    }
-
-    public void incrementBookmark() {
-        bookmark.incrementAndGet();
-    }
-
-    public void decrementLikes() {
-        like.decrementAndGet();
-    }
-
-    public void decrementBookmark() {
-        bookmark.decrementAndGet();
-    }
-
-    public void incrementViewCount() {
-        viewAnnouncement.incrementAndGet();
-    }
-
+    public int incrementLikes(){return like++;}
+    public int incrementBookmark(){return bookmark++;}
+    public int decrementLikes() {return like--;}
+    public int decrementBookmark(){return bookmark--;}
+    public int incrementViewCount(){return viewAnnouncement++;}
     public void addFeedback(Feedback feedback) {
         this.feedbacks.add(feedback);
     }
