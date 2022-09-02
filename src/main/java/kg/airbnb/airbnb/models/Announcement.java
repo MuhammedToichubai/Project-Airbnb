@@ -30,7 +30,7 @@ public class Announcement implements Comparable<Announcement> {
 
     private String title;
 
-    @Column(name = "descriptions",length = 10000)
+    @Column(length = 10000)
     private String description;
 
     @ElementCollection
