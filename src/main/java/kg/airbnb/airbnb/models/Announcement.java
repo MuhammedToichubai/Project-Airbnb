@@ -70,7 +70,7 @@ public class Announcement implements Comparable<Announcement> {
     private volatile int bookmark = 0;
 
     @Column(name = "viewAnnouncements")
-    private volatile int viewAnnouncement = 0;
+    private volatile int viewAnnouncementHistoryCount = 0;
 
     private String colorOfLike;
 
@@ -80,7 +80,7 @@ public class Announcement implements Comparable<Announcement> {
     public int incrementBookmark(){return bookmark++;}
     public int decrementLikes() {return like--;}
     public int decrementBookmark(){return bookmark--;}
-    public int incrementViewCount(){return viewAnnouncement++;}
+    public int incrementViewCount(){return viewAnnouncementHistoryCount++;}
     public void addFeedback(Feedback feedback) {
         this.feedbacks.add(feedback);
     }
