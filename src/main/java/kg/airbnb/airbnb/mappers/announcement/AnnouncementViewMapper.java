@@ -53,7 +53,7 @@ public class AnnouncementViewMapper {
         response.setOwnerEmail(announcement.getOwner().getEmail());
         response.setLikeCount(announcement.getLike());
         response.setBookmarkCount(announcement.getBookmark());
-        response.setViewAnnouncementCount(announcement.getViewAnnouncement());
+        response.setViewAnnouncementCount(announcement.getViewAnnouncementHistoryCount());
         response.setColorOfLike(announcement.getColorOfLike());
         response.setColorOfBookmark(announcement.getColorOfBookmark());
         response.setRegionId(announcement.getLocation().getRegion().getId());
@@ -198,7 +198,6 @@ public class AnnouncementViewMapper {
                 + ", " + announcement.getLocation().getCity()
                 + ", " + announcement.getLocation().getAddress()
                 + ", " + announcement.getHouseType());
-
         return response;
     }
 

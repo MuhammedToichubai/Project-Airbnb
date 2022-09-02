@@ -63,10 +63,6 @@ public class  User {
 
     @ElementCollection
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<Long> announcementHistory;
-
-    @ElementCollection
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
 
     @ElementCollection
@@ -104,7 +100,7 @@ public class  User {
 
     public void removeFromBookmarkAnnouncement(Long announcementId){bookmarkAnnouncements.remove(announcementId);}
 
-    public void addToAnnouncementHistory(Long announcementId) {announcementHistory.add(announcementId);}
+//    public void addToAnnouncementHistory(Long announcementId) {announcementHistory.add(announcementId);}
 
     public void addToLikedFeedbacks(Long feedbackId) {
         likedFeedbacks.add(feedbackId);

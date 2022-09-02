@@ -182,9 +182,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             response.setPercentageOfOne(percentageOfOne);
             return response;
         }
-
     }
-
 
     private Feedback getFeedbackById(Long feedbackId) {
         return feedbackRepository.findById(feedbackId)
@@ -197,6 +195,7 @@ public class FeedbackServiceImpl implements FeedbackService {
                         "Announcement whit id = " + id + " not found!"
                 ));
     }
+
     private FeedbackResponse getFeedbackResponse(Feedback feedback) {
         User user = getCurrentUser();
         FeedbackResponse feedbackResponse = new FeedbackResponse();

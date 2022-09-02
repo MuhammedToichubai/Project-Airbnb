@@ -55,13 +55,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addAnnouncementToHistory(Long announcementId) {
-        User currentUser = getAuthenticatedUser();
-        currentUser.addToAnnouncementHistory(announcementId);
-        userRepository.save(currentUser);
-    }
-
-    @Override
     public void removeFromBookmarkAnnouncements(Long announcementId) {
         User currentUser = getAuthenticatedUser();
         currentUser.removeFromBookmarkAnnouncement(announcementId);
@@ -74,7 +67,6 @@ public class UserServiceImpl implements UserService {
         currentUser.addToBookmarkAnnouncements(announcementId);
         userRepository.save(currentUser);
     }
-
 
     @Override
     public void removeFromDisLikedFeedbacks(Long feedbackId) {
