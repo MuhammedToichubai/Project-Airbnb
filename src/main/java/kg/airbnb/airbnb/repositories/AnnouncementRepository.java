@@ -82,4 +82,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
             value = "delete from announcement_images i where i.announcement_id = ?1"
     )
     void clearImages(Long announcementId);
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1")
+    Page<Announcement> findAllNewAndAccepted(Pageable pageable);
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1")
+    List<Announcement> findAllNewAndAccepted();
 }
