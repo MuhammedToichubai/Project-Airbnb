@@ -37,7 +37,7 @@ public class UserProfileViewMapper {
         announcementsResponse.setTitle(announcement.getTitle());
         announcementsResponse.setLocation(announcement.getLocation().getAddress());
         announcementsResponse.setMaxGuests(announcement.getMaxGuests());
-        announcementsResponse.setStatus(Status.NEW);
+        announcementsResponse.setStatus(announcement.getStatus());
         return announcementsResponse;
     }
 

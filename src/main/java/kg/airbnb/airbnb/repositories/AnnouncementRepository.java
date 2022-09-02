@@ -13,40 +13,40 @@ import java.util.List;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
 
-    @Query("select a from Announcement a where a.location.region.id = :regionId")
+    @Query("select a from Announcement a where a.location.region.id = :regionId and a.status = 1")
     Page<Announcement> findByRegion(@Param("regionId") Long regionId, Pageable pageable);
 
-    @Query("select a from Announcement a where a.location.region.id = :regionId and upper(a.houseType) = :type ")
+    @Query("select a from Announcement a where a.location.region.id = :regionId and upper(a.houseType) = :type and a.status = 1")
     Page<Announcement> findByRegionAndType(@Param("regionId") Long regionId, @Param("type") Type type, Pageable pageable);
 
-    @Query("select a from Announcement a where a.location.region.id = :regionId and upper(a.houseType) = :type order by a.price asc ")
+    @Query("select a from Announcement a where a.status = 1 AND a.location.region.id = :regionId and upper(a.houseType) = :type order by a.price asc")
     Page<Announcement> findByRegionAndTypeAndPriceLow(@Param("regionId") Long regionId, @Param("type") Type type, Pageable pageable);
 
-    @Query("select a from Announcement a where a.location.region.id = :regionId and upper(a.houseType) = :type order by a.price desc ")
+    @Query("select a from Announcement a where a.status = 1 AND a.location.region.id = :regionId and upper(a.houseType) = :type order by a.price desc")
     Page<Announcement> findByRegionAndTypeAndPriceHigh(@Param("regionId") Long regionId, @Param("type") Type type, Pageable pageable);
 
-    @Query("select a from Announcement a where upper(a.houseType) = :type")
+    @Query("select a from Announcement a where upper(a.houseType) = :type and a.status = 1")
     Page<Announcement> findByType(@Param("type") Type type, Pageable pageable);
 
-    @Query("select a from Announcement a order by a.price asc ")
+    @Query("select a from Announcement a WHERE a.status = 1 order by a.price asc")
     Page<Announcement> findByPriceLow(Pageable pageable);
 
-    @Query("select a from Announcement a order by a.price desc ")
+    @Query("select a from Announcement a WHERE a.status = 1 order by a.price desc")
     Page<Announcement> findByPriceHigh(Pageable pageable);
 
-    @Query("select a from Announcement a where upper(a.houseType) = :type order by a.price asc ")
+    @Query("select a from Announcement a where a.status = 1 AND upper(a.houseType) = :type order by a.price asc ")
     Page<Announcement> findByTypeAndPriceLow(@Param("type") Type type, Pageable pageable);
 
-    @Query("select a from Announcement a where upper(a.houseType) = :type order by a.price desc ")
+    @Query("select a from Announcement a where a.status = 1 AND upper(a.houseType) = :type order by a.price desc ")
     Page<Announcement> findByTypeAndPriceHigh(@Param("type") Type type, Pageable pageable);
 
-    @Query("select a from Announcement a where a.location.region.id = :regionId order by a.price asc ")
+    @Query("select a from Announcement a where a.status = 1 AND  a.location.region.id = :regionId order by a.price asc ")
     Page<Announcement> findByRegionAndPriceLow(@Param("regionId") Long regionId, Pageable pageable);
 
-    @Query("select a from Announcement a where a.location.region.id = :regionId order by a.price desc ")
+    @Query("select a from Announcement a where a.status = 1 AND  a.location.region.id = :regionId order by a.price desc ")
     Page<Announcement> findByRegionAndPriceHigh(@Param("regionId") Long regionId, Pageable pageable);
-    
-    @Query(value = "SELECT a FROM Announcement a WHERE a.location.region.regionName LIKE %?1%"
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 1 AND a.location.region.regionName LIKE %?1%"
             + " OR a.location.city LIKE %?1%"
             + " OR a.location.address LIKE %?1%"
             + "OR a.description LIKE %?1%"
@@ -55,14 +55,17 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     )
     List<Announcement> globalSearch(String keyword, Pageable pageable);
 
-    @Query(value = "SELECT a FROM Announcement a WHERE a.location.region.regionName LIKE %?1%")
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 1 AND a.location.region.regionName LIKE %?1%")
     List<Announcement> searchByRegion(String region, Pageable pageable);
 
-    @Query(value = "SELECT a FROM Announcement a WHERE a.location.city LIKE %?1%")
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 1 AND a.location.city LIKE %?1%")
     List<Announcement> searchByCity(String city, Pageable pageable);
 
-    @Query(value = "SELECT a FROM Announcement a WHERE a.location.address LIKE %?1%")
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 1 AND  a.location.address LIKE %?1%")
     List<Announcement> searchByAddress(String address, Pageable pageable);
+
+    @Query("SELECT a FROM Announcement a WHERE a.status = 1")
+    Page<Announcement> findAllAccepted(Pageable pageable);
 
     @Modifying
     @Transactional
@@ -79,4 +82,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
             value = "delete from announcement_images i where i.announcement_id = ?1"
     )
     void clearImages(Long announcementId);
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1")
+    Page<Announcement> findAllNewAndAccepted(Pageable pageable);
+
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1")
+    List<Announcement> findAllNewAndAccepted();
 }
