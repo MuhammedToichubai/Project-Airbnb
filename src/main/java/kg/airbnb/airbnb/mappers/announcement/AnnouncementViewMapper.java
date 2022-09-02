@@ -51,9 +51,9 @@ public class AnnouncementViewMapper {
         response.setOwnerImage(announcement.getOwner().getImage());
         response.setOwnerFullName(announcement.getOwner().getFullName());
         response.setOwnerEmail(announcement.getOwner().getEmail());
-        response.setLikeCount(announcement.getLike().get());
-        response.setBookmarkCount(announcement.getBookmark().get());
-        response.setViewAnnouncementCount(announcement.getViewAnnouncement().get());
+        response.setLikeCount(announcement.getLike());
+        response.setBookmarkCount(announcement.getBookmark());
+        response.setViewAnnouncementCount(announcement.getViewAnnouncement());
         response.setColorOfLike(announcement.getColorOfLike());
         response.setColorOfBookmark(announcement.getColorOfBookmark());
         response.setRegionId(announcement.getLocation().getRegion().getId());
