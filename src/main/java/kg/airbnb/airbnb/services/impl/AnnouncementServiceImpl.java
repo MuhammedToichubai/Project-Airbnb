@@ -19,6 +19,7 @@ import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final RegionRepository regionRepository;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final UserService userService;
     private final GoogleMapService googleMapService;
 
     @Override
@@ -95,12 +97,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public AnnouncementInnerPageResponse announcementFindById(Long announcementId) {
-        Announcement announcement = getAnnouncementById(announcementId);
-        return viewMapper.entityToDtoConverting(announcement);
-    }
-
-    @Override
     @Transactional
     public SimpleResponse announcementUpdate(Long announcementId, AnnouncementRequest request) {
         Announcement announcement = getAnnouncementById(announcementId);
@@ -124,19 +120,32 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    @Transactional
     public SimpleResponse announcementDelete(Long announcementId) {
         User user = getAuthenticatedUser();
+
         Announcement announcement = getAnnouncementById(announcementId);
+
         if (user.equals(announcement.getOwner())) {
+
             List<Booking> announcementBookings = announcement.getBookings();
+
             if (!announcementBookings.isEmpty()) {
                 throw new ForbiddenException("You cannot delete the listing because the listing has a booking!");
             }
-            announcementRepository.deleteById(announcementId);
+
+            announcementRepository.clearImages(announcementId);
+
+            announcementRepository.customDeleteById(announcementId);
+
         } else if (user.getRole() == Role.ADMIN) {
-            announcementRepository.deleteById(announcementId);
+
+            announcementRepository.clearImages(announcementId);
+
+            announcementRepository.customDeleteById(announcementId);
+
         } else {
-            throw new ForbiddenException("You can delete your announcement !");
+            throw new ForbiddenException("You cannot delete this announcement!");
         }
 
         return new SimpleResponse(
@@ -166,11 +175,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
+        Page<Announcement> allAnnouncementsPage = announcementRepository.findAllNewAndAccepted(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = viewMapper.viewAllAdminPageAnnouncementResponses(allAnnouncementsPageToListConversion);
         AdminPageApplicationsResponse response = new AdminPageApplicationsResponse();
-        response.setAllAnnouncementsSize(announcementRepository.findAll().size());
+        response.setAllAnnouncementsSize(announcementRepository.findAllNewAndAccepted().size());
         response.setPageAnnouncementResponseList(adminPageAnnouncementResponses);
         return response;
     }
@@ -228,8 +237,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (user.getRole().equals(Role.ADMIN)) {
             SimpleResponse simpleResponse = new SimpleResponse();
             Announcement announcement = getAnnouncementById(id);
-            announcement.setStatus(Status.DELETED);
-            announcementRepository.deleteById(id);
+            announcementRepository.clearImages(announcement.getId());
+            announcementRepository.customDeleteById(announcement.getId());
             simpleResponse.setStatus("DELETED");
             simpleResponse.setMessage(announcementRejectRequest.getMessage());
             return simpleResponse;
@@ -317,10 +326,60 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public AnnouncementInnerPageResponse likeAnnouncement(Long announcementId) {
+
+        Announcement announcementById = getAnnouncementById(announcementId);
+
+        if (userService.ifLikedAnnouncement(announcementId)) {
+            announcementById.decrementLikes();
+            announcementById.setColorOfLike(null);
+            userService.removeFromLikedAnnouncements(announcementId);
+        } else {
+            announcementById.incrementLikes();
+            announcementById.setColorOfLike("Red");
+            userService.addToLikedAnnouncements(announcementId);
+        }
+
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    @Override
+    public AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId) {
+
+        Announcement announcementById = getAnnouncementById(announcementId);
+
+        if (userService.ifBookmarkAnnouncement((announcementId))) {
+            announcementById.decrementBookmark();
+            announcementById.setColorOfBookmark(null);
+            userService.removeFromBookmarkAnnouncements(announcementId);
+        } else {
+            announcementById.incrementBookmark();
+            announcementById.setColorOfBookmark("Yellow");
+            userService.addToBookmarkAnnouncements(announcementId);
+        }
+
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    @Override
+    public AnnouncementInnerPageResponse getAnnouncementDetails(Long announcementId) {
+        Announcement announcementById = getAnnouncementById(announcementId);
+        announcementById.incrementViewCount();
+        announcementRepository.save(announcementById);
+        return getAnnouncementInnerPageResponse(announcementById);
+    }
+
+    private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcementId) {
+        AnnouncementViewMapper viewMapper = new AnnouncementViewMapper();
+        return viewMapper.entityToDtoConverting(announcementId);
+    }
+
     public List<AnnouncementCardResponse> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return viewMapper.viewCard(
-                announcementRepository.findAll(pageable).getContent());
+                announcementRepository.findAllAccepted(pageable).getContent());
     }
 
     @Override
@@ -431,6 +490,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             }
         }
         return builder.toString();
+
     }
 }
+
 

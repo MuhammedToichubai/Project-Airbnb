@@ -14,12 +14,20 @@ public class AnnouncementInnerPageResponse {
     private List<String> images;
     private Type houseType;
     private Integer maxGuests;
+    private BigDecimal price;
     private String title;
     private String location;
     private String description;
-    private BigDecimal price;
     private Long userID;
     private String ownerImage;
     private String ownerFullName;
     private String ownerEmail;
+    private Integer likeCount;
+    private Integer bookmarkCount;
+    private Integer viewAnnouncementCount;
+    private String colorOfLike;
+    private String colorOfBookmark;
+    private Long regionId;
+    private String RegionName;
+    private String townProvince;
 }

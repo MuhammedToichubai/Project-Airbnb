@@ -1,9 +1,8 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.request.FeedbackRequest;
+import kg.airbnb.airbnb.dto.requests.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.models.Announcement;
@@ -40,18 +39,18 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 
     @Override
-    public SimpleResponse saveFeedback(Long announcementId, FeedbackRequest request) {
-        Announcement announcement = getFindByAnnouncementId(announcementId);
-        Feedback feedback = new Feedback();
-        feedback.setImages(request.getImages());
-        feedback.setRating(request.getRating());
-        feedback.setDescription(request.getDescription());
-        announcement.getFeedbacks().add(feedback);
-        feedback.setAnnouncement(announcement);
-        feedback.setCreatedAt(LocalDate.now());
-        feedback.setOwner(getCurrentUser());
-        feedbackRepository.save(feedback);
-        return new SimpleResponse("With feedback id " + feedback.getId() + " saved!","Ad saved successfully!");
+    public FeedbackResponse saveFeedback(Long announcementId, FeedbackRequest request) {
+       Announcement announcement = getFindByAnnouncementId(announcementId);
+       Feedback newFeedback = new Feedback();
+       newFeedback.setImages(request.getImages());
+       newFeedback.setRating(request.getRating());
+       newFeedback.setDescription(request.getDescription());
+       announcement.getFeedbacks().add(newFeedback);
+       newFeedback.setAnnouncement(announcement);
+       newFeedback.setCreatedAt(LocalDate.now());
+       newFeedback.setOwner(getCurrentUser());
+       feedbackRepository.save(newFeedback);
+       return getFeedbackResponse(newFeedback);
     }
 
     @Override
@@ -183,9 +182,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             response.setPercentageOfOne(percentageOfOne);
             return response;
         }
-
     }
-
 
     private Feedback getFeedbackById(Long feedbackId) {
         return feedbackRepository.findById(feedbackId)
@@ -198,18 +195,19 @@ public class FeedbackServiceImpl implements FeedbackService {
                         "Announcement whit id = " + id + " not found!"
                 ));
     }
-    private FeedbackResponse getFeedbackResponse(Feedback feedback) {
 
+    private FeedbackResponse getFeedbackResponse(Feedback feedback) {
+        User user = getCurrentUser();
         FeedbackResponse feedbackResponse = new FeedbackResponse();
-        User user = new User();
+        feedbackResponse.setId(feedback.getId());
         feedbackResponse.setFeedbackOwnerImage(user.getImage());
         feedbackResponse.setFeedbackOwnerFullName(user.getFullName());
         feedbackResponse.setRating(feedback.getRating());
         feedbackResponse.setImages(feedback.getImages());
         feedbackResponse.setDescription(feedback.getDescription());
         feedbackResponse.setCreatedAt(feedback.getCreatedAt());
-        feedbackResponse.setLikeCount(feedback.getLike().get());
-        feedbackResponse.setDisLikeCount(feedback.getDislike().get());
+        feedbackResponse.setLikeCount(feedback.getLike());
+        feedbackResponse.setDisLikeCount(feedback.getDislike());
         feedbackResponse.setColorOfLike(feedback.getColorOfLike());
         feedbackResponse.setColorOfDisLike(feedback.getColorOfDisLike());
         return feedbackResponse;

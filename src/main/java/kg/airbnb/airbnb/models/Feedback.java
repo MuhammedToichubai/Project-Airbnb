@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
@@ -22,7 +21,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedback_id_generator")
-    @SequenceGenerator(name = "feedback_id_generator", sequenceName = "feedback_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "feedback_id_generator", sequenceName = "feedback_seq", allocationSize = 1, initialValue = 137)
     private Long id;
 
     @ManyToOne(cascade = {REFRESH, PERSIST, DETACH, MERGE}, fetch = EAGER)
@@ -35,10 +34,10 @@ public class Feedback {
     private String description;
 
     @Column(name = "likes")
-    private AtomicInteger like = new AtomicInteger(0);
+    private volatile int like;
 
     @Column(name = "disLikes")
-    private AtomicInteger dislike = new AtomicInteger(0);
+    private volatile int dislike;
 
     private Integer rating;
 
@@ -51,20 +50,20 @@ public class Feedback {
 
     private String colorOfDisLike;
 
-    public void incrementLikes(){
-        like.incrementAndGet();
+    public int incrementLikes(){
+        return like++;
     }
 
-    public void decrementLikes(){
-        like.decrementAndGet();
+    public int decrementLikes(){
+        return like--;
     }
 
-    public void incrementDisLikes(){
-        dislike.incrementAndGet();
+    public int incrementDisLikes(){
+         return dislike++;
     }
 
-    public void decrementDisLikes(){
-        dislike.decrementAndGet();
+    public int decrementDisLikes(){
+        return dislike--;
     }
 
 }
