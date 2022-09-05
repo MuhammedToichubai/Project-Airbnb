@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthApi {
 
-    private final Logger logger = LogManager.getLogger(AuthApi.class);
     private final AuthService authService;
     private final LoginService loginService;
 
     @PostMapping("/user/register")
     public JwtResponse registrationPerson(@RequestBody UserRegisterRequest userRegisterRequest) {
-        logger.info("register successfully");
         return authService.registerUser(userRegisterRequest);
     }
 

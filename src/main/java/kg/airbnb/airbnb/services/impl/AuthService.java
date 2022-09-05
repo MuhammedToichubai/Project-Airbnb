@@ -8,11 +8,13 @@ import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 @Transactional
 public class AuthService {
@@ -36,6 +38,7 @@ public class AuthService {
             throw new AlreadyExistException("The email " + userRegisterRequest.getEmail() + " is already in use!");
 
         User savedUser = userRepository.save(user);
+        log.info("sdfsfsfsfsfsfsfsfsfsssssssssssssssssssssssssssssss");
         String token = jwtUtils.generateToken(userRegisterRequest.getEmail());
 
         return new JwtResponse(

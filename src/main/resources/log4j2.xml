@@ -21,28 +21,20 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
-    </Appenders>
-    <Loggers>
-        <Root level="info">
-            <AppenderRef ref="ConsoleAppender" />
-            <AppenderRef ref="FileAppender" />
-        </Root>
-    </Loggers>
 
-    <Appenders>
-
-        <!-- Replace these parameters with your configuration -->
         <LogzioAppender name="Logzio">
             <logzioToken>psSFKCPAKEhiGssCWIZHGuGoDBoMKbrN</logzioToken>
             <logzioUrl>https://listener-eu.logz.io:8071</logzioUrl>
             <logzioType>airbnb</logzioType>
         </LogzioAppender>
-
     </Appenders>
 
-    <Loggers>
-        <Root level="info">
-            <AppenderRef ref="Logzio"/>
-        </Root>
-    </Loggers>
+        <Loggers>
+            <Root level="info">
+                <AppenderRef ref="Logzio"/>
+                <AppenderRef ref="ConsoleAppender" />
+                <AppenderRef ref="FileAppender" />
+            </Root>
+        </Loggers>
+
 </Configuration>
