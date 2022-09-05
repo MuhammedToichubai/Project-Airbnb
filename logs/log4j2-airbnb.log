@@ -1,0 +1,493 @@
+2022-09-05 05:47:36.607  INFO DESKTOP-DBLHPRP --- [kground-preinit] o.h.v.i.u.Version                        : HV000001: Hibernate Validator 6.2.3.Final
+2022-09-05 05:47:36.634  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Starting AirbnbApplication using Java 17.0.2 on DESKTOP-DBLHPRP with PID 6316 (C:\Users\abdullah\IdeaProjects\airbnb\m\target\classes started by Muhammed in C:\Users\abdullah\IdeaProjects\airbnb\m)
+2022-09-05 05:47:36.640  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : The following 1 profile is active: "mukhammed"
+2022-09-05 05:47:37.394  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-09-05 05:47:37.474  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 72 ms. Found 6 JPA repository interfaces.
+2022-09-05 05:47:37.617  INFO DESKTOP-DBLHPRP --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=f4e6c193-30cb-36be-a51e-cc7384132e72
+2022-09-05 05:47:37.969  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 9797 (http)
+2022-09-05 05:47:37.976  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Initializing ProtocolHandler ["http-nio-9797"]
+2022-09-05 05:47:37.977  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2022-09-05 05:47:37.977  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-09-05 05:47:38.107  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2022-09-05 05:47:38.108  INFO DESKTOP-DBLHPRP --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1432 ms
+2022-09-05 05:47:38.235  INFO DESKTOP-DBLHPRP --- [           main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-09-05 05:47:38.279  INFO DESKTOP-DBLHPRP --- [           main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.6.9.Final
+2022-09-05 05:47:38.414  INFO DESKTOP-DBLHPRP --- [           main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-09-05 05:47:38.497  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2022-09-05 05:47:38.620  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2022-09-05 05:47:38.633  INFO DESKTOP-DBLHPRP --- [           main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-09-05 05:47:39.368  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.369  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "addresses" does not exist, skipping
+2022-09-05 05:47:39.370  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.370  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcement_images" does not exist, skipping
+2022-09-05 05:47:39.371  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.371  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 05:47:39.372  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.372  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 05:47:39.373  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.373  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 05:47:39.374  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.374  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 05:47:39.375  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.375  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 05:47:39.375  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.376  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 05:47:39.376  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.377  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedback_images" does not exist, skipping
+2022-09-05 05:47:39.377  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.377  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 05:47:39.378  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.378  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 05:47:39.379  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.379  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_bookmark_announcements" does not exist, skipping
+2022-09-05 05:47:39.379  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.380  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 05:47:39.380  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.380  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_announcements" does not exist, skipping
+2022-09-05 05:47:39.381  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.381  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_feedbacks" does not exist, skipping
+2022-09-05 05:47:39.382  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.382  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "addresses" does not exist, skipping
+2022-09-05 05:47:39.382  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.383  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcement_images" does not exist, skipping
+2022-09-05 05:47:39.383  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.384  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements" does not exist, skipping
+2022-09-05 05:47:39.384  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.384  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements_guests" does not exist, skipping
+2022-09-05 05:47:39.385  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.385  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "bookings" does not exist, skipping
+2022-09-05 05:47:39.386  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.386  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedback_images" does not exist, skipping
+2022-09-05 05:47:39.387  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.387  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedbacks" does not exist, skipping
+2022-09-05 05:47:39.388  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.388  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "regions" does not exist, skipping
+2022-09-05 05:47:39.388  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.389  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_bookmark_announcements" does not exist, skipping
+2022-09-05 05:47:39.389  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.389  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 05:47:39.390  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.390  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_announcements" does not exist, skipping
+2022-09-05 05:47:39.390  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.391  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_feedbacks" does not exist, skipping
+2022-09-05 05:47:39.391  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.391  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "users" does not exist, skipping
+2022-09-05 05:47:39.392  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.392  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "address_seq" does not exist, skipping
+2022-09-05 05:47:39.393  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.393  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "announcement_seq" does not exist, skipping
+2022-09-05 05:47:39.394  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.395  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "booking_seq" does not exist, skipping
+2022-09-05 05:47:39.395  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.396  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "feedback_seq" does not exist, skipping
+2022-09-05 05:47:39.397  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.397  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "region_seq" does not exist, skipping
+2022-09-05 05:47:39.398  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:47:39.398  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "user_seq" does not exist, skipping
+2022-09-05 05:47:39.571  INFO DESKTOP-DBLHPRP --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-09-05 05:47:39.578  INFO DESKTOP-DBLHPRP --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 05:47:41.271  WARN DESKTOP-DBLHPRP --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-09-05 05:47:42.074  INFO DESKTOP-DBLHPRP --- [           main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6a2d0a19, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5702e6f3, org.springframework.security.web.context.SecurityContextPersistenceFilter@4795876e, org.springframework.security.web.header.HeaderWriterFilter@6a5a99d9, org.springframework.web.filter.CorsFilter@5687e92d, org.springframework.security.web.authentication.logout.LogoutFilter@74fd5fb0, kg.airbnb.airbnb.security.TokenVerifierFilter@4c6fabba, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@56897de0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@40874f54, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2eef43f5, org.springframework.security.web.session.SessionManagementFilter@138110f8, org.springframework.security.web.access.ExceptionTranslationFilter@79392584, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@59456e1]
+2022-09-05 05:47:42.545  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Starting ProtocolHandler ["http-nio-9797"]
+2022-09-05 05:47:42.562  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 9797 (http) with context path ''
+2022-09-05 05:47:42.625  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Started AirbnbApplication in 6.43 seconds (JVM running for 7.844)
+2022-09-05 05:50:43.204  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 05:50:43.205  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-09-05 05:50:43.258  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2022-09-05 05:50:43.261  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2022-09-05 05:50:51.466  INFO DESKTOP-DBLHPRP --- [kground-preinit] o.h.v.i.u.Version                        : HV000001: Hibernate Validator 6.2.3.Final
+2022-09-05 05:50:51.493  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Starting AirbnbApplication using Java 17.0.2 on DESKTOP-DBLHPRP with PID 4556 (C:\Users\abdullah\IdeaProjects\airbnb\m\target\classes started by Muhammed in C:\Users\abdullah\IdeaProjects\airbnb\m)
+2022-09-05 05:50:51.497  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : The following 1 profile is active: "mukhammed"
+2022-09-05 05:50:52.223  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-09-05 05:50:52.308  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 79 ms. Found 6 JPA repository interfaces.
+2022-09-05 05:50:52.458  INFO DESKTOP-DBLHPRP --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=f4e6c193-30cb-36be-a51e-cc7384132e72
+2022-09-05 05:50:52.786  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 9797 (http)
+2022-09-05 05:50:52.794  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Initializing ProtocolHandler ["http-nio-9797"]
+2022-09-05 05:50:52.795  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2022-09-05 05:50:52.796  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-09-05 05:50:52.927  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2022-09-05 05:50:52.927  INFO DESKTOP-DBLHPRP --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1395 ms
+2022-09-05 05:50:53.056  INFO DESKTOP-DBLHPRP --- [           main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-09-05 05:50:53.097  INFO DESKTOP-DBLHPRP --- [           main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.6.9.Final
+2022-09-05 05:50:53.214  INFO DESKTOP-DBLHPRP --- [           main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-09-05 05:50:53.291  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2022-09-05 05:50:53.532  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2022-09-05 05:50:53.546  INFO DESKTOP-DBLHPRP --- [           main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-09-05 05:50:54.305  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.306  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "addresses" does not exist, skipping
+2022-09-05 05:50:54.306  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.307  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcement_images" does not exist, skipping
+2022-09-05 05:50:54.307  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.308  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 05:50:54.308  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.308  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 05:50:54.309  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.310  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 05:50:54.310  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.310  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 05:50:54.311  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.311  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 05:50:54.311  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.312  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 05:50:54.312  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.312  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedback_images" does not exist, skipping
+2022-09-05 05:50:54.313  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.313  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 05:50:54.313  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.314  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 05:50:54.314  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.314  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_bookmark_announcements" does not exist, skipping
+2022-09-05 05:50:54.315  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.315  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 05:50:54.315  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.316  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_announcements" does not exist, skipping
+2022-09-05 05:50:54.316  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.316  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_feedbacks" does not exist, skipping
+2022-09-05 05:50:54.317  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.317  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "addresses" does not exist, skipping
+2022-09-05 05:50:54.317  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.318  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcement_images" does not exist, skipping
+2022-09-05 05:50:54.318  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.318  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements" does not exist, skipping
+2022-09-05 05:50:54.319  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.319  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements_guests" does not exist, skipping
+2022-09-05 05:50:54.319  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.319  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "bookings" does not exist, skipping
+2022-09-05 05:50:54.320  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.320  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedback_images" does not exist, skipping
+2022-09-05 05:50:54.320  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.321  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedbacks" does not exist, skipping
+2022-09-05 05:50:54.321  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.321  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "regions" does not exist, skipping
+2022-09-05 05:50:54.321  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.322  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_bookmark_announcements" does not exist, skipping
+2022-09-05 05:50:54.322  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.322  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 05:50:54.323  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.323  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_announcements" does not exist, skipping
+2022-09-05 05:50:54.323  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.323  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_feedbacks" does not exist, skipping
+2022-09-05 05:50:54.323  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.324  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "users" does not exist, skipping
+2022-09-05 05:50:54.324  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.324  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "address_seq" does not exist, skipping
+2022-09-05 05:50:54.325  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.325  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "announcement_seq" does not exist, skipping
+2022-09-05 05:50:54.325  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.325  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "booking_seq" does not exist, skipping
+2022-09-05 05:50:54.326  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.326  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "feedback_seq" does not exist, skipping
+2022-09-05 05:50:54.327  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.327  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "region_seq" does not exist, skipping
+2022-09-05 05:50:54.327  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:50:54.328  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "user_seq" does not exist, skipping
+2022-09-05 05:50:54.506  INFO DESKTOP-DBLHPRP --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-09-05 05:50:54.514  INFO DESKTOP-DBLHPRP --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 05:50:55.803  WARN DESKTOP-DBLHPRP --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-09-05 05:50:56.532  INFO DESKTOP-DBLHPRP --- [           main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@46c28400, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d6abfc7, org.springframework.security.web.context.SecurityContextPersistenceFilter@22db12f6, org.springframework.security.web.header.HeaderWriterFilter@7a553110, org.springframework.web.filter.CorsFilter@4f5d587c, org.springframework.security.web.authentication.logout.LogoutFilter@7c08461b, kg.airbnb.airbnb.security.TokenVerifierFilter@66a50c93, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@c8d20bb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1ead6e20, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@138a51d5, org.springframework.security.web.session.SessionManagementFilter@7c16cc25, org.springframework.security.web.access.ExceptionTranslationFilter@50f65fe0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5166fe7a]
+2022-09-05 05:50:57.031  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Starting ProtocolHandler ["http-nio-9797"]
+2022-09-05 05:50:57.048  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 9797 (http) with context path ''
+2022-09-05 05:50:57.116  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Started AirbnbApplication in 6.029 seconds (JVM running for 7.289)
+2022-09-05 05:54:08.988  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 05:54:08.990  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-09-05 05:54:09.079  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2022-09-05 05:54:09.083  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2022-09-05 05:54:13.874  INFO DESKTOP-DBLHPRP --- [kground-preinit] o.h.v.i.u.Version                        : HV000001: Hibernate Validator 6.2.3.Final
+2022-09-05 05:54:13.908  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Starting AirbnbApplication using Java 17.0.2 on DESKTOP-DBLHPRP with PID 17216 (C:\Users\abdullah\IdeaProjects\airbnb\m\target\classes started by Muhammed in C:\Users\abdullah\IdeaProjects\airbnb\m)
+2022-09-05 05:54:13.912  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : The following 1 profile is active: "mukhammed"
+2022-09-05 05:54:14.622  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-09-05 05:54:14.692  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 6 JPA repository interfaces.
+2022-09-05 05:54:14.846  INFO DESKTOP-DBLHPRP --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=f4e6c193-30cb-36be-a51e-cc7384132e72
+2022-09-05 05:54:15.159  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 9797 (http)
+2022-09-05 05:54:15.166  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Initializing ProtocolHandler ["http-nio-9797"]
+2022-09-05 05:54:15.167  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2022-09-05 05:54:15.168  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-09-05 05:54:15.303  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2022-09-05 05:54:15.303  INFO DESKTOP-DBLHPRP --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1341 ms
+2022-09-05 05:54:15.426  INFO DESKTOP-DBLHPRP --- [           main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-09-05 05:54:15.467  INFO DESKTOP-DBLHPRP --- [           main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.6.9.Final
+2022-09-05 05:54:15.598  INFO DESKTOP-DBLHPRP --- [           main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-09-05 05:54:15.676  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2022-09-05 05:54:15.827  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2022-09-05 05:54:15.841  INFO DESKTOP-DBLHPRP --- [           main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-09-05 05:54:16.636  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.636  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "addresses" does not exist, skipping
+2022-09-05 05:54:16.637  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.638  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcement_images" does not exist, skipping
+2022-09-05 05:54:16.639  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.640  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 05:54:16.641  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.641  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 05:54:16.642  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.642  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 05:54:16.643  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.643  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 05:54:16.644  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.644  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 05:54:16.645  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.645  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 05:54:16.646  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.646  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedback_images" does not exist, skipping
+2022-09-05 05:54:16.647  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.647  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 05:54:16.647  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.648  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 05:54:16.648  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.648  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_bookmark_announcements" does not exist, skipping
+2022-09-05 05:54:16.649  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.649  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 05:54:16.649  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.650  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_announcements" does not exist, skipping
+2022-09-05 05:54:16.650  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.650  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_feedbacks" does not exist, skipping
+2022-09-05 05:54:16.651  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.651  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "addresses" does not exist, skipping
+2022-09-05 05:54:16.651  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.651  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcement_images" does not exist, skipping
+2022-09-05 05:54:16.652  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.652  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements" does not exist, skipping
+2022-09-05 05:54:16.652  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.653  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements_guests" does not exist, skipping
+2022-09-05 05:54:16.653  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.653  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "bookings" does not exist, skipping
+2022-09-05 05:54:16.654  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.654  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedback_images" does not exist, skipping
+2022-09-05 05:54:16.654  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.654  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedbacks" does not exist, skipping
+2022-09-05 05:54:16.655  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.655  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "regions" does not exist, skipping
+2022-09-05 05:54:16.655  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.656  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_bookmark_announcements" does not exist, skipping
+2022-09-05 05:54:16.656  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.656  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 05:54:16.657  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.657  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_announcements" does not exist, skipping
+2022-09-05 05:54:16.657  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.658  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_feedbacks" does not exist, skipping
+2022-09-05 05:54:16.658  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.658  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "users" does not exist, skipping
+2022-09-05 05:54:16.659  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.659  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "address_seq" does not exist, skipping
+2022-09-05 05:54:16.660  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.660  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "announcement_seq" does not exist, skipping
+2022-09-05 05:54:16.661  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.661  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "booking_seq" does not exist, skipping
+2022-09-05 05:54:16.662  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.662  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "feedback_seq" does not exist, skipping
+2022-09-05 05:54:16.663  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.663  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "region_seq" does not exist, skipping
+2022-09-05 05:54:16.663  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 05:54:16.664  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "user_seq" does not exist, skipping
+2022-09-05 05:54:16.868  INFO DESKTOP-DBLHPRP --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-09-05 05:54:16.876  INFO DESKTOP-DBLHPRP --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 05:54:18.195  WARN DESKTOP-DBLHPRP --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-09-05 05:54:19.005  INFO DESKTOP-DBLHPRP --- [           main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4700db93, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@560e1459, org.springframework.security.web.context.SecurityContextPersistenceFilter@7c08461b, org.springframework.security.web.header.HeaderWriterFilter@1fa8a4f7, org.springframework.web.filter.CorsFilter@6aa7d7a0, org.springframework.security.web.authentication.logout.LogoutFilter@5b9c74a, kg.airbnb.airbnb.security.TokenVerifierFilter@17ebbf1e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2060df8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5e38329d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4c3125ff, org.springframework.security.web.session.SessionManagementFilter@5c94d4b8, org.springframework.security.web.access.ExceptionTranslationFilter@389fad5b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@12d24c43]
+2022-09-05 05:54:19.588  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Starting ProtocolHandler ["http-nio-9797"]
+2022-09-05 05:54:19.605  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 9797 (http) with context path ''
+2022-09-05 05:54:19.689  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Started AirbnbApplication in 6.285 seconds (JVM running for 7.565)
+2022-09-05 06:19:48.629  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-09-05 06:19:48.634  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2022-09-05 06:19:48.664  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 30 ms
+2022-09-05 06:19:48.990  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] k.a.a.s.i.AuthService                    : sdfsfsfsfsfsfsfsfsfsssssssssssssssssssssssssssssss
+2022-09-05 07:30:56.260  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 07:30:56.276  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-09-05 07:30:56.370  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2022-09-05 07:30:56.385  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2022-09-05 07:31:05.866  INFO DESKTOP-DBLHPRP --- [kground-preinit] o.h.v.i.u.Version                        : HV000001: Hibernate Validator 6.2.3.Final
+2022-09-05 07:31:05.897  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Starting AirbnbApplication using Java 17.0.2 on DESKTOP-DBLHPRP with PID 12784 (C:\Users\abdullah\IdeaProjects\airbnb\m\target\classes started by Muhammed in C:\Users\abdullah\IdeaProjects\airbnb\m)
+2022-09-05 07:31:05.909  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : The following 1 profile is active: "mukhammed"
+2022-09-05 07:31:06.752  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-09-05 07:31:06.846  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 77 ms. Found 6 JPA repository interfaces.
+2022-09-05 07:31:07.017  INFO DESKTOP-DBLHPRP --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=f4e6c193-30cb-36be-a51e-cc7384132e72
+2022-09-05 07:31:07.392  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 9797 (http)
+2022-09-05 07:31:07.408  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Initializing ProtocolHandler ["http-nio-9797"]
+2022-09-05 07:31:07.408  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2022-09-05 07:31:07.408  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-09-05 07:31:07.549  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2022-09-05 07:31:07.549  INFO DESKTOP-DBLHPRP --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1604 ms
+2022-09-05 07:31:07.674  INFO DESKTOP-DBLHPRP --- [           main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-09-05 07:31:07.752  INFO DESKTOP-DBLHPRP --- [           main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.6.9.Final
+2022-09-05 07:31:07.924  INFO DESKTOP-DBLHPRP --- [           main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-09-05 07:31:08.017  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2022-09-05 07:31:08.174  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2022-09-05 07:31:08.189  INFO DESKTOP-DBLHPRP --- [           main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-09-05 07:31:09.017  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.017  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "addresses" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcement_images" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedback_images" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_bookmark_announcements" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_announcements" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_feedbacks" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "addresses" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcement_images" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements_guests" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "bookings" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedback_images" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedbacks" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "regions" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_bookmark_announcements" does not exist, skipping
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.033  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_announcements" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_feedbacks" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "users" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "address_seq" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "announcement_seq" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "booking_seq" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "feedback_seq" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "region_seq" does not exist, skipping
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:31:09.049  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "user_seq" does not exist, skipping
+2022-09-05 07:31:09.252  INFO DESKTOP-DBLHPRP --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-09-05 07:31:09.267  INFO DESKTOP-DBLHPRP --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 07:31:10.595  WARN DESKTOP-DBLHPRP --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-09-05 07:31:11.417  INFO DESKTOP-DBLHPRP --- [           main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5166fe7a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7a925ac4, org.springframework.security.web.context.SecurityContextPersistenceFilter@22db12f6, org.springframework.security.web.header.HeaderWriterFilter@7a553110, org.springframework.web.filter.CorsFilter@3b09582d, org.springframework.security.web.authentication.logout.LogoutFilter@77587422, kg.airbnb.airbnb.security.TokenVerifierFilter@1a0b4955, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@10acfe30, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@22bbbe6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@29f72685, org.springframework.security.web.session.SessionManagementFilter@7c16cc25, org.springframework.security.web.access.ExceptionTranslationFilter@50f65fe0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6a2d0a19]
+2022-09-05 07:31:11.886  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Starting ProtocolHandler ["http-nio-9797"]
+2022-09-05 07:31:11.902  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 9797 (http) with context path ''
+2022-09-05 07:31:11.964  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Started AirbnbApplication in 6.993 seconds (JVM running for 8.871)
+2022-09-05 07:31:25.073  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-09-05 07:31:25.073  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2022-09-05 07:31:25.075  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 1 ms
+2022-09-05 07:31:25.268  WARN DESKTOP-DBLHPRP --- [nio-9797-exec-1] k.a.a.s.i.AuthService                    : USER logged in through registration
+2022-09-05 07:32:30.686  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 07:32:30.686  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-09-05 07:32:30.749  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2022-09-05 07:32:30.749  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2022-09-05 07:32:38.121  INFO DESKTOP-DBLHPRP --- [kground-preinit] o.h.v.i.u.Version                        : HV000001: Hibernate Validator 6.2.3.Final
+2022-09-05 07:32:38.144  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Starting AirbnbApplication using Java 17.0.2 on DESKTOP-DBLHPRP with PID 9276 (C:\Users\abdullah\IdeaProjects\airbnb\m\target\classes started by Muhammed in C:\Users\abdullah\IdeaProjects\airbnb\m)
+2022-09-05 07:32:38.159  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : The following 1 profile is active: "mukhammed"
+2022-09-05 07:32:39.008  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-09-05 07:32:39.087  INFO DESKTOP-DBLHPRP --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 75 ms. Found 6 JPA repository interfaces.
+2022-09-05 07:32:39.300  INFO DESKTOP-DBLHPRP --- [           main] o.s.c.c.s.GenericScope                   : BeanFactory id=f4e6c193-30cb-36be-a51e-cc7384132e72
+2022-09-05 07:32:39.719  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 9797 (http)
+2022-09-05 07:32:39.727  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Initializing ProtocolHandler ["http-nio-9797"]
+2022-09-05 07:32:39.728  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2022-09-05 07:32:39.728  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.64]
+2022-09-05 07:32:39.885  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2022-09-05 07:32:39.886  INFO DESKTOP-DBLHPRP --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1688 ms
+2022-09-05 07:32:40.015  INFO DESKTOP-DBLHPRP --- [           main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-09-05 07:32:40.073  INFO DESKTOP-DBLHPRP --- [           main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.6.9.Final
+2022-09-05 07:32:40.201  INFO DESKTOP-DBLHPRP --- [           main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-09-05 07:32:40.286  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2022-09-05 07:32:40.533  INFO DESKTOP-DBLHPRP --- [           main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2022-09-05 07:32:40.548  INFO DESKTOP-DBLHPRP --- [           main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-09-05 07:32:41.393  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.394  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "addresses" does not exist, skipping
+2022-09-05 07:32:41.394  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.394  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcement_images" does not exist, skipping
+2022-09-05 07:32:41.395  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.395  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 07:32:41.396  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.396  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements" does not exist, skipping
+2022-09-05 07:32:41.396  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.397  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 07:32:41.397  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.397  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "announcements_guests" does not exist, skipping
+2022-09-05 07:32:41.398  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.398  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 07:32:41.398  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.399  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "bookings" does not exist, skipping
+2022-09-05 07:32:41.399  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.399  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedback_images" does not exist, skipping
+2022-09-05 07:32:41.400  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.400  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 07:32:41.400  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.401  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "feedbacks" does not exist, skipping
+2022-09-05 07:32:41.401  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.401  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_bookmark_announcements" does not exist, skipping
+2022-09-05 07:32:41.402  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.402  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 07:32:41.403  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.403  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_announcements" does not exist, skipping
+2022-09-05 07:32:41.404  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.405  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : relation "user_liked_feedbacks" does not exist, skipping
+2022-09-05 07:32:41.406  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.406  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "addresses" does not exist, skipping
+2022-09-05 07:32:41.406  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.407  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcement_images" does not exist, skipping
+2022-09-05 07:32:41.407  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.407  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements" does not exist, skipping
+2022-09-05 07:32:41.408  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.408  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "announcements_guests" does not exist, skipping
+2022-09-05 07:32:41.409  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.409  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "bookings" does not exist, skipping
+2022-09-05 07:32:41.410  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.410  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedback_images" does not exist, skipping
+2022-09-05 07:32:41.410  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.411  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "feedbacks" does not exist, skipping
+2022-09-05 07:32:41.411  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.411  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "regions" does not exist, skipping
+2022-09-05 07:32:41.412  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.412  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_bookmark_announcements" does not exist, skipping
+2022-09-05 07:32:41.412  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.412  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_dis_liked_feedbacks" does not exist, skipping
+2022-09-05 07:32:41.413  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.413  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_announcements" does not exist, skipping
+2022-09-05 07:32:41.413  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.413  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "user_liked_feedbacks" does not exist, skipping
+2022-09-05 07:32:41.414  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.414  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : table "users" does not exist, skipping
+2022-09-05 07:32:41.414  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.415  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "address_seq" does not exist, skipping
+2022-09-05 07:32:41.415  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.415  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "announcement_seq" does not exist, skipping
+2022-09-05 07:32:41.415  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.416  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "booking_seq" does not exist, skipping
+2022-09-05 07:32:41.416  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.416  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "feedback_seq" does not exist, skipping
+2022-09-05 07:32:41.417  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.417  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "region_seq" does not exist, skipping
+2022-09-05 07:32:41.417  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : SQL Warning Code: 0, SQLState: 00000
+2022-09-05 07:32:41.417  WARN DESKTOP-DBLHPRP --- [           main] o.h.e.j.s.SqlExceptionHelper             : sequence "user_seq" does not exist, skipping
+2022-09-05 07:32:41.604  INFO DESKTOP-DBLHPRP --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-09-05 07:32:41.614  INFO DESKTOP-DBLHPRP --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-09-05 07:32:42.973  WARN DESKTOP-DBLHPRP --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-09-05 07:32:43.852  INFO DESKTOP-DBLHPRP --- [           main] o.s.s.w.DefaultSecurityFilterChain       : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@31b827a6, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@525aadf2, org.springframework.security.web.context.SecurityContextPersistenceFilter@3599b7e8, org.springframework.security.web.header.HeaderWriterFilter@5edd2170, org.springframework.web.filter.CorsFilter@203b98cf, org.springframework.security.web.authentication.logout.LogoutFilter@68e6856c, kg.airbnb.airbnb.security.TokenVerifierFilter@60f1f95b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@52e5ad71, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@696a6506, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@52bcd7c9, org.springframework.security.web.session.SessionManagementFilter@56897de0, org.springframework.security.web.access.ExceptionTranslationFilter@278df226, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@66f88fd3]
+2022-09-05 07:32:44.294  INFO DESKTOP-DBLHPRP --- [           main] o.a.c.h.Http11NioProtocol                : Starting ProtocolHandler ["http-nio-9797"]
+2022-09-05 07:32:44.311  INFO DESKTOP-DBLHPRP --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 9797 (http) with context path ''
+2022-09-05 07:32:44.376  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Started AirbnbApplication in 6.722 seconds (JVM running for 8.301)
+2022-09-05 07:32:58.986  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-09-05 07:32:58.987  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2022-09-05 07:32:58.989  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 2 ms
+2022-09-05 07:32:59.173  WARN DESKTOP-DBLHPRP --- [nio-9797-exec-1] k.a.a.s.i.AuthService                    : USER logged in through registration
