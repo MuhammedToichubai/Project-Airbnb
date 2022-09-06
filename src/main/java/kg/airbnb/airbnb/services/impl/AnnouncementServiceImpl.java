@@ -22,6 +22,7 @@ import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class AnnouncementServiceImpl implements AnnouncementService {
 
     private final AnnouncementRepository announcementRepository;
@@ -60,6 +62,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcement.setOwner(user);
         List<Announcement> announcements = user.getAnnouncements();
         announcements.add(announcement);
+
+        log.info("The {} started saving the announcement", user.getRole());
 
         if (request.getImages().size() <= 4) {
             announcement.setImages(request.getImages());
@@ -146,6 +150,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         } else {
             throw new ForbiddenException("You cannot delete this announcement!");
+        }
+
+        Optional<Announcement> id = announcementRepository.findById(announcementId);
+        if (id.isEmpty()){
+            log.info("The {} is trying to remove their announcement - {}",user.getRole(), announcement);
+            log.error("The announcement is not deleted in the database");
         }
 
         return new SimpleResponse(
@@ -378,8 +388,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     public List<AnnouncementCardResponse> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        return viewMapper.viewCard(
-                announcementRepository.findAllAccepted(pageable).getContent());
+        List<Announcement> announcementList = announcementRepository.findAllAccepted(pageable).getContent();
+        if (announcementList.isEmpty()){
+            log.warn("The database is empty, there is no announcement or the admin has not yet accepted !");
+        }
+        return viewMapper.viewCard(announcementList);
     }
 
     @Override
