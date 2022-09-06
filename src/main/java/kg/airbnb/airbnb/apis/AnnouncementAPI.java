@@ -1,5 +1,6 @@
 package kg.airbnb.airbnb.apis;
 
+import io.swagger.v3.oas.annotations.Operation;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Kind;
@@ -22,13 +23,13 @@ public class AnnouncementAPI {
         this.announcementService = announcementService;
     }
 
-    //User
+    @Operation(summary = "Save", description = "Any registered user can save.")
     @PostMapping("/save")
     public AnnouncementSaveResponse saveAnnouncement(@RequestBody AnnouncementRequest announcementRequest) {
         return announcementService.announcementSave(announcementRequest);
     }
 
-    //User
+    @Operation(summary = "Favorites", description = "Any registered user can favorites.")
     @PostMapping("/like/{announcementId}")
     public AnnouncementInnerPageResponse likeAnnouncement(@PathVariable Long announcementId){
         return announcementService.likeAnnouncement(announcementId);
