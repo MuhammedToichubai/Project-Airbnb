@@ -63,6 +63,12 @@ public class Announcement implements Comparable<Announcement> {
 
     private LocalDate createdAt;
 
+    @ElementCollection
+    private List<LocalDate> blockedDates;
+
+    @ElementCollection
+    private List<LocalDate> blockedDatesByUser;
+
     @Column(name = "likes")
     private volatile int like = 0;
 
@@ -83,6 +89,12 @@ public class Announcement implements Comparable<Announcement> {
     public int incrementViewCount(){return viewAnnouncementHistoryCount++;}
     public void addFeedback(Feedback feedback) {
         this.feedbacks.add(feedback);
+    }
+    public void addBlockedDateByUser(LocalDate date) {
+        this.blockedDatesByUser.add(date);
+    }
+    public void removeBlockedDateByUser(LocalDate date) {
+        this.blockedDatesByUser.remove(date);
     }
 
     @Override

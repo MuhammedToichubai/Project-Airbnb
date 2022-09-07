@@ -1,7 +1,14 @@
 package kg.airbnb.airbnb.services;
 
+import kg.airbnb.airbnb.dto.requests.BlockBookDateRequest;
+import kg.airbnb.airbnb.dto.requests.BookRequest;
+import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserService {
@@ -32,5 +39,10 @@ public interface UserService {
 
     UserProfileResponse getUserBookingsAndAnnouncements();
 
+    Map<String, String> requestToBook(BookRequest request);
+
+    Map<String, String> blockDateByUser(BlockBookDateRequest dateToBlock);
+
+    List<BookingCardResponse> findUsersBookings(Long userId);
 }
 

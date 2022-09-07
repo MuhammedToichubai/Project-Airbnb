@@ -27,7 +27,7 @@ public class Booking {
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH}, fetch = EAGER)
     private User user;
 
-    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH}, fetch = LAZY)
+    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH}, fetch = EAGER)
     private Announcement announcement;
 
     private LocalDate checkin;
@@ -35,4 +35,6 @@ public class Booking {
     private LocalDate checkout;
 
     private Status status;
+
+    private LocalDate createdAt;
 }

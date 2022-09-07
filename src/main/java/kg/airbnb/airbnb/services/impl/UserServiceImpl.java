@@ -1,12 +1,22 @@
 package kg.airbnb.airbnb.services.impl;
 
+import kg.airbnb.airbnb.dto.requests.BlockBookDateRequest;
+import kg.airbnb.airbnb.dto.requests.BookRequest;
+import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Role;
+import kg.airbnb.airbnb.enums.Status;
+import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
+import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
+import kg.airbnb.airbnb.models.Announcement;
+import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.repositories.AnnouncementRepository;
+import kg.airbnb.airbnb.repositories.BookingRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +24,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final AnnouncementRepository announcementRepository;
+    private final BookingRepository bookingRepository;
     private final UserProfileViewMapper viewMapper;
+    private final BookingViewMapper bookingViewMapper;
 
     @Override
     public void removeFromLikedFeedbacks(Long feedbackId) {
@@ -129,6 +146,91 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
+    }
+
+    @Override
+    public Map<String, String> requestToBook(BookRequest request) {
+
+        if (request.getCheckIn().isAfter(request.getCheckOut()) ||
+                request.getCheckIn().equals(request.getCheckOut()) || request.getCheckIn().isBefore(LocalDate.now())) {
+            throw new BadRequestException("дата заселения не может быть после даты выселения");
+        }
+
+        List<LocalDate> datesForBook = findIntervalDates(request.getCheckIn(), request.getCheckOut());
+
+        User client = userRepository.findById(request.getClientId()).get();
+        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
+
+        for (LocalDate localDate : datesForBook) {
+            if (announcement.getBlockedDatesByUser().contains(localDate)) {
+                throw new BadRequestException("промежуточные даты вышего бронирования заняты Хозяином");
+            }
+        }
+
+        for (LocalDate localDate : datesForBook) {
+            if (announcement.getBlockedDates().contains(localDate)) {
+                throw new BadRequestException("промежуточные даты вышего бронирования заняты");
+            }
+        }
+
+        Booking booking = new Booking();
+        booking.setUser(client);
+        booking.setAnnouncement(announcement);
+        booking.setCheckin(request.getCheckIn());
+        booking.setCheckout(request.getCheckOut());
+        booking.setStatus(Status.NEW);
+        booking.setCreatedAt(LocalDate.now());
+
+        bookingRepository.save(booking);
+
+        return Map.of("massage", "заявка на бронирование отправилась ");
+    }
+
+    @Override
+    public Map<String, String> blockDateByUser(BlockBookDateRequest request) {
+
+        User user = userRepository.findById(request.getOwnerId()).get();
+        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
+
+        if (!announcement.getOwner().equals(user)) {
+            throw new ForbiddenException("This user not allowed to block dates of this ann");
+        }
+
+        for (int i = 0; i < request.getDatesToBlock().size(); i++) {
+            if (!announcement.getBlockedDatesByUser().contains(request.getDatesToBlock().get(i))) {
+                announcement.addBlockedDateByUser(request.getDatesToBlock().get(i));
+            } else {
+                announcement.removeBlockedDateByUser(request.getDatesToBlock().get(i));
+            }
+        }
+
+        announcementRepository.save(announcement);
+
+        return Map.of("massage", "ok");
+    }
+
+    @Override
+    public List<BookingCardResponse> findUsersBookings(Long userId) {
+        try {
+            User user = userRepository.findById(userId).get();
+            List<Booking> bookings = user.getBookings();
+            return bookingViewMapper.viewCard(bookings);
+        } catch (NoSuchElementException e) {
+            throw new BadRequestException("There is no user with id {" + userId + "} ");
+        }
+    }
+
+    private List<LocalDate> findIntervalDates(LocalDate checkIn, LocalDate checkOut) {
+        List<LocalDate> datesForBook = new ArrayList<>();
+        while (checkIn.isBefore(checkOut)) {
+            datesForBook.add(checkIn);
+            checkIn = checkIn.plusDays(1L);
+        }
+
+        datesForBook.add(checkOut);
+
+        System.out.println(datesForBook);
+        return datesForBook;
     }
 }
 
