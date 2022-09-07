@@ -1,5 +1,6 @@
 package kg.airbnb.airbnb.apis;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/feedbacks")
 @CrossOrigin
+@Tag(name = "This API is for Feedback")
 public class FeedbackAPI {
 
     private final FeedbackService feedbackService;

@@ -15,9 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/announcements")
 @CrossOrigin
-@Tag(name = "This API is for announcement")
+@Tag(name = "This API is for Announcement")
 public class AnnouncementAPI {
-
 
     private final AnnouncementService announcementService;
 
@@ -31,13 +30,13 @@ public class AnnouncementAPI {
         return announcementService.announcementSave(announcementRequest);
     }
 
-    @Operation(summary = "Favorites", description = "Any registered user can favorites.")
+    @Operation(summary = "Like", description = "Any registered user can like")
     @PostMapping("/like/{announcementId}")
     public AnnouncementInnerPageResponse likeAnnouncement(@PathVariable Long announcementId){
         return announcementService.likeAnnouncement(announcementId);
     }
 
-
+    @Operation(summary = "Favorites", description = "Any registered user can favorites.")
     @PostMapping("/bookmark/{announcementId}")
     public AnnouncementInnerPageResponse bookmarkAnnouncement(@PathVariable Long announcementId){
         return announcementService.bookmarkAnnouncement(announcementId);
@@ -62,7 +61,7 @@ public class AnnouncementAPI {
         return announcementService.announcementDelete(announcementId);
     }
 
-    @Operation(summary = "Get announcements", description = "Any user can receive announcements")
+    @Operation(summary = "Get all announcements", description = "Any user can view all announcements accepted by the administrator")
     @GetMapping
     public List<AnnouncementCardResponse> findAll(@RequestParam int page, @RequestParam int size) {
         return announcementService.findAll(page, size);
