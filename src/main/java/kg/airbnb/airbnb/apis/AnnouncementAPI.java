@@ -30,19 +30,19 @@ public class AnnouncementAPI {
         return announcementService.announcementSave(announcementRequest);
     }
 
-    @Operation(summary = "Like", description = "Any registered user can like")
+    @Operation(summary = "Like announcement", description = "Any registered user can like")
     @PostMapping("/like/{announcementId}")
     public AnnouncementInnerPageResponse likeAnnouncement(@PathVariable Long announcementId){
         return announcementService.likeAnnouncement(announcementId);
     }
 
-    @Operation(summary = "Favorites", description = "Any registered user can favorites.")
+    @Operation(summary = "Add to Favorites", description = "Any registered user can add to favorites")
     @PostMapping("/bookmark/{announcementId}")
     public AnnouncementInnerPageResponse bookmarkAnnouncement(@PathVariable Long announcementId){
         return announcementService.bookmarkAnnouncement(announcementId);
     }
 
-    @Operation(summary = "Find an ad by id", description = "Any user can find it")
+    @Operation(summary = "Find an announcement by id", description = "Any user can find announcement by id")
     @GetMapping("/find/{announcementId}")
     public AnnouncementInnerPageResponse getAnnouncementDetails(@PathVariable Long announcementId) {
         return announcementService.getAnnouncementDetails(announcementId);
@@ -55,7 +55,7 @@ public class AnnouncementAPI {
         return announcementService.announcementUpdate(announcementId, announcementRequest);
     }
 
-    @Operation(summary = "Delete announcement", description = "Any registered user or administrator can delete.")
+    @Operation(summary = "Delete announcement", description = "Any registered user can delete his own announcement or administrator can delete any announcement.")
     @DeleteMapping("/delete/{announcementId}")
     public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId) {
         return announcementService.announcementDelete(announcementId);
@@ -67,8 +67,8 @@ public class AnnouncementAPI {
         return announcementService.findAll(page, size);
     }
 
-    @Operation(summary = "Filter by Region, Popular, Latest, House Type, and Price Low to High and High to Low",
-               description = "Any user can filter.")
+    @Operation(summary = "Filter accepted announcements by Region, Popular, Latest, House Type, and Price Low to High and High to Low",
+               description = "Any user can filter announcements.")
     @GetMapping("/filter")
     public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
                                                    @RequestParam(required = false) Kind kind,
@@ -79,8 +79,8 @@ public class AnnouncementAPI {
         return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
     }
 
-    @Operation(summary = "search by region & city & location & house type & latitude and longitude",
-               description = "Any user can search.")
+    @Operation(summary = "Search accepted announcements by region & city & location & house type & latitude and longitude",
+               description = "Any user can search announcements.")
     @GetMapping("/global/search")
     public List<AnnouncementSearchResponse> searchAnnouncements(
                                 @RequestParam(value = "region", required = false) String region,

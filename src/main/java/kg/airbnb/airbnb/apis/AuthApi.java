@@ -26,13 +26,13 @@ public class AuthApi {
         return authService.registerUser(userRegisterRequest);
     }
 
-    @Operation(summary = "Sign in", description = "Any user can login.")
+    @Operation(summary = "Sign in", description = "Any registered user can login.")
     @PostMapping("/login")
     public JwtResponse performLogin(@RequestBody LoginRequest loginResponse) {
         return loginService.authenticate(loginResponse);
     }
 
-    @Operation(summary = "Sign in with Google", description = "Any user can login.")
+    @Operation(summary = "Sign in with Google", description = "Any user can login with google account.")
     @PostMapping("/login/google")
     public JwtResponse loginWithGoogle(@RequestParam String token) throws FirebaseAuthException {
         return loginService.authenticateWithGoogle(token);

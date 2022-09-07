@@ -24,39 +24,44 @@ public class AdminApi {
 
     private final UserServiceImpl userService;
 
-    @Operation(summary = "Get all ads", description = "Only admin can view all announcements")
+    @Operation(summary = "Get all announcements", description = "Only admin can view all announcements")
     @GetMapping("/applications")
     public AdminPageApplicationsResponse getAllAnnouncements(@RequestParam(defaultValue = "1") int page,
                                                              @RequestParam(defaultValue = "15") int size) {
         return announcementService.getAllAnnouncementsAndSize(page, size);
     }
 
-    @Operation(summary = "Find an ad by id", description = "Only admin can find it")
+    @Operation(summary = "Find an announcement by id", description = "Only admin can find announcement by id")
     @GetMapping("/find/announcement/{announcementId}")
     public AdminPageApplicationsAnnouncementResponse findAnnouncementById(@PathVariable Long announcementId) {
         return announcementService.findAnnouncementById(announcementId);
     }
 
+    @Operation(summary = "Accept announcement", description = "Only admin can accept newly created announcement")
     @PutMapping("/announcement/accept/{announcementId}")
     public SimpleResponse acceptAnnouncement(@PathVariable Long announcementId) {
         return announcementService.acceptAnnouncement(announcementId);
     }
 
+    @Operation(summary = "Reject announcement", description = "Only admin can reject newly created announcement")
     @PutMapping("/announcement/reject/{announcementId}")
     public SimpleResponse rejectAnnouncement(@PathVariable Long announcementId, @RequestBody AnnouncementRejectRequest announcementRejectRequest) {
         return announcementService.rejectAnnouncement(announcementId, announcementRejectRequest);
     }
 
+    @Operation(summary = "Delete announcement", description = "Only admin can delete announcements")
     @DeleteMapping("/announcement/delete/{announcementId}")
     public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId, @RequestBody AnnouncementRejectRequest announcementRejectRequest) {
         return announcementService.deleteAnnouncement(announcementId, announcementRejectRequest);
     }
 
+    @Operation(summary = "Delete users", description = "Only admin can delete users")
     @DeleteMapping("/delete/user/{id}")
     public SimpleResponse deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
 
+    @Operation(summary = "Get all users", description = "Only admin can see all users")
     @GetMapping("/users")
     public List<UserResponse> getAllUser() {
         return userService.getAllUser();

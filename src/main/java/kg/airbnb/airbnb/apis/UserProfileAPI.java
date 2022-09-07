@@ -19,7 +19,7 @@ public class UserProfileAPI {
         this.userService = userService;
     }
 
-    @Operation(summary = "User profile", description = "Any registered user can access their profile")
+    @Operation(summary = "User profile", description = "Any registered user can access their own profile")
     @GetMapping("/bookings/myAnnouncements")
     public UserProfileResponse getUserBookingsAndAnnouncements() {
         return userService.getUserBookingsAndAnnouncements();

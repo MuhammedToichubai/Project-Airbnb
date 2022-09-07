@@ -20,7 +20,7 @@ public class RegionAPI {
         this.regionService = regionService;
     }
 
-    @Operation(summary = "Get all Region", description = "Any user can view the entire region.")
+    @Operation(summary = "Get all Regions", description = "Any user can view the entire regions")
     @GetMapping
     public List<RegionResponse> getAllRegions() {
         return regionService.getAllRegions();
