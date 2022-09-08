@@ -8,6 +8,7 @@ import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -67,5 +68,10 @@ public class UserProfileAPI {
     @PutMapping("/rejectBooking")
     public Map<String, String> rejectBooking(@RequestBody BookRequest request) {
         return userService.rejectRequestToBook(request);
+    }
+
+    @GetMapping("/getClosedDates")
+    public List<LocalDate> getClosedDates(@RequestParam Long userId, @RequestParam Long announcementId) {
+        return userService.getClosedDates(userId, announcementId);
     }
 }

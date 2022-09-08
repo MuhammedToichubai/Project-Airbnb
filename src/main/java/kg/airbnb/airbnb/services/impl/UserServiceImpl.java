@@ -334,6 +334,20 @@ public class UserServiceImpl implements UserService {
         return Map.of("massage", "Request to book rejected");
     }
 
+    @Override
+    public List<LocalDate> getClosedDates(Long userId, Long announcementId) {
+        Announcement announcement = announcementRepository.findById(announcementId).get();
+
+        if (!announcement.getOwner().getId().equals(userId)) {
+            throw new ForbiddenException();
+        }
+
+        List<LocalDate> closedDates = new ArrayList<>(announcement.getBlockedDates());
+        closedDates.addAll(announcement.getBlockedDatesByUser());
+
+        return closedDates;
+    }
+
     private List<LocalDate> findIntervalDates(LocalDate checkIn, LocalDate checkOut) {
         List<LocalDate> datesForBook = new ArrayList<>();
         while (checkIn.isBefore(checkOut)) {

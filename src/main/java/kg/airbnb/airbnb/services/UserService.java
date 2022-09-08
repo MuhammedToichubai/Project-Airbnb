@@ -55,5 +55,7 @@ public interface UserService {
     Map<String, String> acceptRequestToBook(BookRequest request);
 
     Map<String, String> rejectRequestToBook(BookRequest request);
+
+    List<LocalDate> getClosedDates(Long userId, Long announcementId);
 }
 
