@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.services;
 
 import kg.airbnb.airbnb.dto.requests.BlockBookDateRequest;
 import kg.airbnb.airbnb.dto.requests.BookRequest;
+import kg.airbnb.airbnb.dto.responses.BookedResponse;
 import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,15 @@ public interface UserService {
     Map<String, String> blockDateByUser(BlockBookDateRequest dateToBlock);
 
     List<BookingCardResponse> findUsersBookings(Long userId);
+
+    Map<String, String> deleteRequestToBook(Long userId, Long bookingId);
+
+    Map<String, String> updateRequestToBook(BookRequest request);
+
+    List<BookedResponse> getAnnouncementsBookings(Long userId, Long announcementId);
+
+    Map<String, String> acceptRequestToBook(BookRequest request);
+
+    Map<String, String> rejectRequestToBook(BookRequest request);
 }
 

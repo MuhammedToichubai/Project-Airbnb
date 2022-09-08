@@ -15,6 +15,7 @@ import java.util.List;
 public class BookingCardResponse {
 
     private Long id;
+    private Long bookingId;
     private String title;
     private String description;
     private List<String> images = new ArrayList<>();

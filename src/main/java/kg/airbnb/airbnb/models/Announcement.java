@@ -93,6 +93,15 @@ public class Announcement implements Comparable<Announcement> {
     public void addBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.add(date);
     }
+    public void addBlockedDate(LocalDate date) {
+        this.blockedDates.add(date);
+    }
+    public void addBlockedDateByUser(List<LocalDate> date) {
+        this.blockedDatesByUser.addAll(date);
+    }
+    public void addBlockedDate(List<LocalDate> date) {
+        this.blockedDates.addAll(date);
+    }
     public void removeBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.remove(date);
     }

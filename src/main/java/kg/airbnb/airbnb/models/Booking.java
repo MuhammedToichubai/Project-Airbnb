@@ -21,7 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_id_generator")
-    @SequenceGenerator(name = "booking_id_generator", sequenceName = "booking_seq", allocationSize = 1)
+    @SequenceGenerator(name = "booking_id_generator", sequenceName = "booking_seq", allocationSize = 1, initialValue = 28)
     private Long id;
 
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH}, fetch = EAGER)
