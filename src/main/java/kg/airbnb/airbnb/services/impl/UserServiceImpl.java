@@ -1,8 +1,6 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.requests.BlockBookDateRequest;
-import kg.airbnb.airbnb.dto.requests.BookRequest;
-import kg.airbnb.airbnb.dto.requests.BookedRequest;
+import kg.airbnb.airbnb.dto.requests.*;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
@@ -156,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
         List<LocalDate> datesForBook = findIntervalDates(request.getCheckIn(), request.getCheckOut());
 
-        User client = userRepository.findById(request.getClientId()).get();
+        User user = userRepository.findById(request.getUserId()).get();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
 
         for (LocalDate localDate : datesForBook) {
@@ -172,7 +170,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Booking booking = new Booking();
-        booking.setUser(client);
+        booking.setUser(user);
         booking.setAnnouncement(announcement);
         booking.setCheckin(request.getCheckIn());
         booking.setCheckout(request.getCheckOut());
@@ -187,7 +185,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> blockDateByUser(BlockBookDateRequest request) {
 
-        User user = userRepository.findById(request.getOwnerId()).get();
+        User user = userRepository.findById(request.getVendorId()).get();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
 
         if (!announcement.getOwner().equals(user)) {
@@ -233,7 +231,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> updateRequestToBook(BookRequest request) {
+    public Map<String, String> updateRequestToBook(UpdateBookRequest request) {
 
         if (request.getCheckIn().isAfter(request.getCheckOut()) ||
                 request.getCheckIn().equals(request.getCheckOut()) || request.getCheckIn().isBefore(LocalDate.now())) {
@@ -245,7 +243,7 @@ public class UserServiceImpl implements UserService {
         Booking booking = bookingRepository.findById(request.getBookingId()).get();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
 
-        if (!booking.getUser().getId().equals(request.getClientId()) ||
+        if (!booking.getUser().getId().equals(request.getUserId()) ||
              !booking.getAnnouncement().getId().equals(request.getAnnouncementId())) {
             throw new ForbiddenException("incorrect id");
         }
@@ -271,9 +269,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<BookedResponse> getAnnouncementsBookings(Long userId, Long announcementId) {
+    public List<BookedResponse> getAnnouncementsBookings(Long vendorId, Long announcementId) {
 
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(vendorId).get();
         Announcement announcement = announcementRepository.findById(announcementId).get();
 
         if (!user.getId().equals(announcement.getOwner().getId())) {
@@ -295,9 +293,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> acceptRequestToBook(BookRequest request) {
+    public Map<String, String> changeBookingsStatus(ChangeBookingsStatusRequest request) {
 
-        User user = userRepository.findById(request.getClientId()).get();
+        User user = userRepository.findById(request.getVendorId()).get();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
         Booking booking = bookingRepository.findById(request.getBookingId()).get();
 
@@ -305,47 +303,49 @@ public class UserServiceImpl implements UserService {
         !announcement.getOwner().equals(user)) {
             throw new ForbiddenException();
         }
-
-        booking.setStatus(Status.ACCEPTED);
-        announcement.addBlockedDate(findIntervalDates(booking.getCheckin(), booking.getCheckout()));
-
-        bookingRepository.save(booking);
-        announcementRepository.save(announcement);
-
-        return Map.of("massage", "Request to book accepted");
-    }
-
-    @Override
-    public Map<String, String> rejectRequestToBook(BookRequest request) {
-
-        User user = userRepository.findById(request.getClientId()).get();
-        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
-        Booking booking = bookingRepository.findById(request.getBookingId()).get();
-
-        if (!booking.getAnnouncement().equals(announcement) ||
-                !announcement.getOwner().equals(user)) {
-            throw new ForbiddenException();
+        if (request.getStatus().equals(Status.ACCEPTED)) {
+            booking.setStatus(Status.ACCEPTED);
+            announcement.addBlockedDate(findIntervalDates(booking.getCheckin(), booking.getCheckout()));
+            bookingRepository.save(booking);
+            announcementRepository.save(announcement);
+        } else if (request.getStatus().equals(Status.REJECTED)){
+            if (booking.getStatus().equals(Status.ACCEPTED)) {
+                for (LocalDate l: findIntervalDates(booking.getCheckin(), booking.getCheckout())) {
+                    announcement.removeIfExistDate(l);
+                }
+            }
+            booking.setStatus(Status.REJECTED);
+            bookingRepository.save(booking);
+            announcementRepository.save(announcement);
+        } else if (request.getStatus().equals(Status.NEW)){
+            if (booking.getStatus().equals(Status.ACCEPTED)) {
+                for (LocalDate l: findIntervalDates(booking.getCheckin(), booking.getCheckout())) {
+                    announcement.removeIfExistDate(l);
+                }
+            }
+            booking.setStatus(Status.NEW);
+            bookingRepository.save(booking);
+            announcementRepository.save(announcement);
+        } else {
+            return Map.of("massage", "Nothing changed!");
         }
 
-        booking.setStatus(Status.REJECTED);
-
-        bookingRepository.save(booking);
-
-        return Map.of("massage", "Request to book rejected");
+        return Map.of("massage", "Request to book accepted!");
     }
 
     @Override
-    public List<LocalDate> getClosedDates(Long userId, Long announcementId) {
+    public ClosedDatesResponse getClosedDates(Long vendorId, Long announcementId) {
         Announcement announcement = announcementRepository.findById(announcementId).get();
 
-        if (!announcement.getOwner().getId().equals(userId)) {
+        if (!announcement.getOwner().getId().equals(vendorId)) {
             throw new ForbiddenException();
         }
 
-        List<LocalDate> closedDates = new ArrayList<>(announcement.getBlockedDates());
-        closedDates.addAll(announcement.getBlockedDatesByUser());
+        ClosedDatesResponse response = new ClosedDatesResponse();
+        response.setTakenDates(announcement.getBlockedDates());
+        response.setDatesBlockedByVendor(announcement.getBlockedDatesByUser());
 
-        return closedDates;
+        return response;
     }
 
     private List<LocalDate> findIntervalDates(LocalDate checkIn, LocalDate checkOut) {
@@ -354,10 +354,7 @@ public class UserServiceImpl implements UserService {
             datesForBook.add(checkIn);
             checkIn = checkIn.plusDays(1L);
         }
-
         datesForBook.add(checkOut);
-
-        System.out.println(datesForBook);
         return datesForBook;
     }
 }

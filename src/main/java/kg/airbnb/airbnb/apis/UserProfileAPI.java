@@ -1,9 +1,12 @@
 package kg.airbnb.airbnb.apis;
 
+import kg.airbnb.airbnb.dto.requests.ChangeBookingsStatusRequest;
 import kg.airbnb.airbnb.dto.requests.BlockBookDateRequest;
 import kg.airbnb.airbnb.dto.requests.BookRequest;
+import kg.airbnb.airbnb.dto.requests.UpdateBookRequest;
 import kg.airbnb.airbnb.dto.responses.BookedResponse;
 import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
+import kg.airbnb.airbnb.dto.responses.ClosedDatesResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +42,12 @@ public class UserProfileAPI {
         return userService.deleteRequestToBook(userId, bookingId);
     }
 
-    @PutMapping("/update")
-    public Map<String, String> updateRequestToBook(@RequestBody BookRequest request) {
+    @PutMapping("/changeBookingDates")
+    public Map<String, String> updateRequestToBook(@RequestBody UpdateBookRequest request) {
         return userService.updateRequestToBook(request);
     }
 
-    // User
-    @PostMapping("/blockDates")
+    @PostMapping("/blockDatesToBook")
     public Map<String, String> blockDate(@RequestBody BlockBookDateRequest request) {
         return userService.blockDateByUser(request);
     }
@@ -56,22 +58,17 @@ public class UserProfileAPI {
     }
 
     @GetMapping("/announcementsBookings")
-    public List<BookedResponse> getAnnouncementsBookings(@RequestParam Long userId, @RequestParam Long announcementId) {
-        return userService.getAnnouncementsBookings(userId, announcementId);
+    public List<BookedResponse> getAnnouncementsBookings(@RequestParam Long vendorId, @RequestParam Long announcementId) {
+        return userService.getAnnouncementsBookings(vendorId, announcementId);
     }
 
-    @PutMapping("/acceptBooking")
-    public Map<String, String> acceptBooking(@RequestBody BookRequest request) {
-        return userService.acceptRequestToBook(request);
-    }
-
-    @PutMapping("/rejectBooking")
-    public Map<String, String> rejectBooking(@RequestBody BookRequest request) {
-        return userService.rejectRequestToBook(request);
+    @PutMapping("/changeBookingsStatus")
+    public Map<String, String> changeBookingsStatus(@RequestBody ChangeBookingsStatusRequest request) {
+        return userService.changeBookingsStatus(request);
     }
 
     @GetMapping("/getClosedDates")
-    public List<LocalDate> getClosedDates(@RequestParam Long userId, @RequestParam Long announcementId) {
-        return userService.getClosedDates(userId, announcementId);
+    public ClosedDatesResponse getClosedDates(@RequestParam Long vendorId, @RequestParam Long announcementId) {
+        return userService.getClosedDates(vendorId, announcementId);
     }
 }

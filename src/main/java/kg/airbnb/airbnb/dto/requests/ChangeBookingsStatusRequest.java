@@ -1,17 +1,15 @@
 package kg.airbnb.airbnb.dto.requests;
 
+import kg.airbnb.airbnb.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Getter
 @Setter
-public class BlockBookDateRequest {
+public class ChangeBookingsStatusRequest {
 
     private Long vendorId;
     private Long announcementId;
-
-    private List<LocalDate> datesToBlock;
+    private Long bookingId;
+    private Status status;
 }

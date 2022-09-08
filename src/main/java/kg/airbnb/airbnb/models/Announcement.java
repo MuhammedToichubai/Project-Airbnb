@@ -105,6 +105,9 @@ public class Announcement implements Comparable<Announcement> {
     public void removeBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.remove(date);
     }
+    public void removeIfExistDate(LocalDate date) {
+        this.blockedDates.remove(date);
+    }
 
     @Override
     public int compareTo(Announcement o) {

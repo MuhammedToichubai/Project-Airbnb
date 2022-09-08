@@ -7,10 +7,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class BookRequest {
+public class UpdateBookRequest {
 
     private Long userId;
     private Long announcementId;
     private LocalDate checkIn;
     private LocalDate checkOut;
+    private Long bookingId;
 }
