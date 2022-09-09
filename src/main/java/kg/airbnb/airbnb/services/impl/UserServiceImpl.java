@@ -5,6 +5,7 @@ import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
+import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
@@ -100,9 +101,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileResponse getUserBookingsAndAnnouncements() {
+    public UserProfileResponse getUserProfile() {
         User user = getAuthenticatedUser();
         return viewMapper.entityToDto(user);
+    }
+
+    @Override
+    public UserProfileResponse getUserProfile(Long userId) {
+        User currentUser = getAuthenticatedUser();
+        UserProfileResponse userProfileResponse;
+        if (currentUser.getRole().equals(Role.ADMIN)){
+            User user = userRepository.findById(userId).orElseThrow(() ->
+                    new NotFoundException("User with " + userId + " not found !"));
+            if (user.getRole().equals(Role.ADMIN)){
+                throw new NotFoundException("User with " + userId + " not found !");
+            }
+            else {
+                userProfileResponse = viewMapper.entityToDto(user);
+            }
+        }else {
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+        return userProfileResponse;
     }
 
     private User getAuthenticatedUser() {
@@ -111,24 +131,35 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
     }
 
-    public SimpleResponse deleteUser(Long id) {
-        User users = getAuthenticatedUser();
-        if (users.getRole().equals(Role.ADMIN)) {
-            User user = userRepository.findById(id).get();
-            if (user.getRole().equals(Role.ADMIN)){
+    public SimpleResponse deleteUser(Long userId) {
+
+        User currentUser = getAuthenticatedUser();
+
+        if (currentUser.getRole().equals(Role.ADMIN)) {
+            User user = userRepository.findById(userId).orElseThrow(() ->
+                    new NotFoundException("User with " + userId + "not found !"));
+
+            if (user.getRole().equals(Role.ADMIN)) {
                 throw new ForbiddenException("Admin cannot be deleted!");
             }
+
             userRepository.delete(user);
-            return new SimpleResponse("User successfully deleted!");
-        } else {
-            throw new ForbiddenException("Only admin can access this page!");
         }
+        else {
+            throw new ForbiddenException("Only admin can access this page!");
+
+        }
+           return new SimpleResponse(
+                   "DELETE",
+                   "User successfully deleted!"
+
+           ) ;
     }
 
     public List<UserResponse> getAllUser() {
-        User user = getAuthenticatedUser();
-        if (user.getRole().equals(Role.ADMIN)) {
-            return UserProfileViewMapper.viewFindAllUser(userRepository.findAll());
+        User currentUser = getAuthenticatedUser();
+        if (currentUser.getRole().equals(Role.ADMIN)) {
+            return UserProfileViewMapper.viewFindAllUser(userRepository.findAllUsers());
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }

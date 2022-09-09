@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,8 @@ public class AdminApi {
     private final AnnouncementService announcementService;
 
     private final UserServiceImpl userService;
+
+    private final UserService service;
 
     @Operation(summary = "Get all announcements", description = "Only admin can view all announcements")
     @GetMapping("/applications")
@@ -56,14 +59,20 @@ public class AdminApi {
     }
 
     @Operation(summary = "Delete users", description = "Only admin can delete users")
-    @DeleteMapping("/delete/user/{id}")
-    public SimpleResponse deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
+    @DeleteMapping("/delete/user/{userId}")
+    public SimpleResponse deleteUser(@PathVariable Long userId) {
+        return userService.deleteUser(userId);
     }
 
     @Operation(summary = "Get all users", description = "Only admin can see all users")
     @GetMapping("/users")
     public List<UserResponse> getAllUser() {
         return userService.getAllUser();
+    }
+
+    @Operation(summary = "User profile for admin page")
+    @GetMapping("user/profile/{userId}")
+    public UserProfileResponse getUserProfile(@PathVariable Long userId) {
+        return service.getUserProfile(userId);
     }
 }
