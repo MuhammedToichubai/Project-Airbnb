@@ -16,8 +16,11 @@ public class AnnouncementInnerPageResponse {
     private Integer maxGuests;
     private BigDecimal price;
     private String title;
-    private String location;
     private String description;
+    private Long regionId;
+    private String RegionName;
+    private String townProvince;
+    private String location;
     private Long userID;
     private String ownerImage;
     private String ownerFullName;
@@ -27,7 +30,6 @@ public class AnnouncementInnerPageResponse {
     private Integer viewAnnouncementCount;
     private String colorOfLike;
     private String colorOfBookmark;
-    private Long regionId;
-    private String RegionName;
-    private String townProvince;
+    private List<BookingResponse> announcementBookings;
+
 }

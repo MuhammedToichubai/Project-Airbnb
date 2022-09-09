@@ -30,7 +30,8 @@ public interface UserService {
 
     void addToDisLikedFeedbacks(Long feedbackId);
 
-    UserProfileResponse getUserBookingsAndAnnouncements();
+    UserProfileResponse getUserProfile();
 
+    UserProfileResponse getUserProfile(Long userId);
 }
 

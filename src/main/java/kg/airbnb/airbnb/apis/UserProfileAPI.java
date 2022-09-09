@@ -18,6 +18,6 @@ public class UserProfileAPI {
 
     @GetMapping("/bookings/myAnnouncements")
     public UserProfileResponse getUserBookingsAndAnnouncements() {
-        return userService.getUserBookingsAndAnnouncements();
+        return userService.getUserProfile();
     }
 }

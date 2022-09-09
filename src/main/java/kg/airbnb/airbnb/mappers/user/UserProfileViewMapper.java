@@ -38,6 +38,8 @@ public class UserProfileViewMapper {
         announcementsResponse.setLocation(announcement.getLocation().getAddress());
         announcementsResponse.setMaxGuests(announcement.getMaxGuests());
         announcementsResponse.setStatus(announcement.getStatus());
+        announcementsResponse.setLikeCountAnnouncement(announcement.getLike());
+        announcementsResponse.setBookmarkCountAnnouncement(announcement.getBookmark());
         return announcementsResponse;
     }
 

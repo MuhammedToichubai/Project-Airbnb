@@ -3,6 +3,7 @@ package kg.airbnb.airbnb.apis;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,8 @@ public class AdminApi {
     private final AnnouncementService announcementService;
 
     private final UserServiceImpl userService;
+
+    private final UserService service;
 
     @GetMapping("/applications")
     public AdminPageApplicationsResponse getAllAnnouncements(@RequestParam(defaultValue = "1") int page,
@@ -45,13 +48,18 @@ public class AdminApi {
         return announcementService.deleteAnnouncement(announcementId, announcementRejectRequest);
     }
 
-    @DeleteMapping("/delete/user/{id}")
-    public SimpleResponse deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
+    @DeleteMapping("/delete/user/{userId}")
+    public SimpleResponse deleteUser(@PathVariable Long userId) {
+        return userService.deleteUser(userId);
     }
 
     @GetMapping("/users")
     public List<UserResponse> getAllUser() {
         return userService.getAllUser();
+    }
+
+    @GetMapping("user/profile/{userId}")
+    public UserProfileResponse getUserProfile(@PathVariable Long userId) {
+        return service.getUserProfile(userId);
     }
 }

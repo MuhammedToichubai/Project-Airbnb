@@ -5,6 +5,7 @@ import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
+import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
@@ -100,9 +101,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileResponse getUserBookingsAndAnnouncements() {
+    public UserProfileResponse getUserProfile() {
         User user = getAuthenticatedUser();
         return viewMapper.entityToDto(user);
+    }
+
+    @Override
+    public UserProfileResponse getUserProfile(Long userId) {
+        User currentUser = getAuthenticatedUser();
+        UserProfileResponse userProfileResponse;
+        if (currentUser.getRole().equals(Role.ADMIN)){
+            User user = userRepository.findById(userId).orElseThrow(() ->
+                    new NotFoundException("User with " + userId + "not found !"));
+            userProfileResponse = viewMapper.entityToDto(user);
+
+        }else {
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+        return userProfileResponse;
     }
 
     private User getAuthenticatedUser() {
@@ -111,12 +127,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
     }
 
-    public SimpleResponse deleteUser(Long id) {
+    public SimpleResponse deleteUser(Long userId) {
         User users = getAuthenticatedUser();
         if (users.getRole().equals(Role.ADMIN)) {
-            User user = userRepository.findById(id).get();
+            User user = userRepository.findById(userId).orElseThrow(() ->
+                    new NotFoundException("User with " + userId + "not found !"));
             userRepository.delete(user);
-            return new SimpleResponse("Пользователь успешно удалён!");
+            return new SimpleResponse("User deleted successfully!");
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
