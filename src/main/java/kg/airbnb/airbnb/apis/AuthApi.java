@@ -1,8 +1,9 @@
 package kg.airbnb.airbnb.apis;
-import kg.airbnb.airbnb.dto.responses.JwtResponse;
+
+import com.google.firebase.auth.FirebaseAuthException;
 import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
-import com.google.firebase.auth.FirebaseAuthException;
+import kg.airbnb.airbnb.dto.responses.JwtResponse;
 import kg.airbnb.airbnb.security.LoginService;
 import kg.airbnb.airbnb.services.impl.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,4 @@ public class AuthApi {
     public JwtResponse loginWithGoogle(@RequestParam String token) throws FirebaseAuthException {
         return loginService.authenticateWithGoogle(token);
     }
-
 }
