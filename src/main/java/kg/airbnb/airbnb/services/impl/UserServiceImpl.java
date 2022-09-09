@@ -115,8 +115,11 @@ public class UserServiceImpl implements UserService {
         User users = getAuthenticatedUser();
         if (users.getRole().equals(Role.ADMIN)) {
             User user = userRepository.findById(id).get();
+            if (user.getRole().equals(Role.ADMIN)){
+                throw new ForbiddenException("Admin cannot be deleted!");
+            }
             userRepository.delete(user);
-            return new SimpleResponse("Пользователь успешно удалён!");
+            return new SimpleResponse("User successfully deleted!");
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
