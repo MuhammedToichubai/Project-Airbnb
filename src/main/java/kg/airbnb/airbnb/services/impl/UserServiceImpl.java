@@ -112,9 +112,9 @@ public class UserServiceImpl implements UserService {
         UserProfileResponse userProfileResponse;
         if (currentUser.getRole().equals(Role.ADMIN)){
             User user = userRepository.findById(userId).orElseThrow(() ->
-                    new NotFoundException("User with " + userId + "not found !"));
+                    new NotFoundException("User with " + userId + " not found !"));
             if (user.getRole().equals(Role.ADMIN)){
-                throw new NotFoundException("User with " + userId + "not found !");
+                throw new NotFoundException("User with " + userId + " not found !");
             }
             else {
                 userProfileResponse = viewMapper.entityToDto(user);
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
     public List<UserResponse> getAllUser() {
         User currentUser = getAuthenticatedUser();
         if (currentUser.getRole().equals(Role.ADMIN)) {
-            return UserProfileViewMapper.viewFindAllUser(userRepository.findAll());
+            return UserProfileViewMapper.viewFindAllUser(userRepository.findAllUsers());
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
