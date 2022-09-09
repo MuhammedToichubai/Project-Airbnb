@@ -13,6 +13,7 @@ import kg.airbnb.airbnb.exceptions.WrongPasswordException;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class LoginService {
 
     private final JwtUtils jwtUtils;
@@ -70,6 +72,8 @@ public class LoginService {
 
     public JwtResponse authenticateWithGoogle(String token) throws FirebaseAuthException {
 
+        log.info("User started logging in with google");
+
         FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(token);
 
         User user = null;
@@ -85,8 +89,13 @@ public class LoginService {
             newUser.setImage(firebaseToken.getPicture());
 
             user = userRepository.save(newUser);
+
+            log.info("{} successfully logged in via google", newUser.getEmail());
         } else {
-            user = userRepository.findByEmail(firebaseToken.getEmail()).get();
+            user = userRepository.findByEmail(firebaseToken.getEmail())
+                    .orElseThrow(() -> new NotFoundException(
+                    "user with email: " + firebaseToken.getEmail() + " not found!"
+            ));
         }
 
         return new JwtResponse(
