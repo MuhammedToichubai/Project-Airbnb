@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class ChangeBookingsStatusRequest {
 
-    private Long vendorId;
     private Long announcementId;
     private Long bookingId;
     private Status status;

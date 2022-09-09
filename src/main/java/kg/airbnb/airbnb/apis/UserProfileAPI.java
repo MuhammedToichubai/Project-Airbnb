@@ -32,14 +32,14 @@ public class UserProfileAPI {
         return userService.getUserBookingsAndAnnouncements();
     }
 
-    @PostMapping("/booking")
+    @PostMapping("/sendRequestToBook")
     public Map<String, String> sendRequestToBook(@RequestBody BookRequest request) {
         return userService.requestToBook(request);
     }
 
     @DeleteMapping("/deleteMyBooking")
-    public Map<String, String> deleteRequestToBook(@RequestParam Long userId, @RequestParam Long bookingId) {
-        return userService.deleteRequestToBook(userId, bookingId);
+    public Map<String, String> deleteRequestToBook(@RequestParam Long bookingId) {
+        return userService.deleteRequestToBook(bookingId);
     }
 
     @PutMapping("/changeBookingDates")
@@ -53,13 +53,13 @@ public class UserProfileAPI {
     }
 
     @GetMapping("/myBookings")
-    public List<BookingCardResponse> getMyBookings(@RequestParam Long userId) {
-        return userService.findUsersBookings(userId);
+    public List<BookingCardResponse> getMyBookings() {
+        return userService.findUsersBookings();
     }
 
     @GetMapping("/announcementsBookings")
-    public List<BookedResponse> getAnnouncementsBookings(@RequestParam Long vendorId, @RequestParam Long announcementId) {
-        return userService.getAnnouncementsBookings(vendorId, announcementId);
+    public List<BookedResponse> getAcceptedAnnouncementsBookings(@RequestParam Long announcementId) {
+        return userService.getAnnouncementsBookings(announcementId);
     }
 
     @PutMapping("/changeBookingsStatus")
@@ -68,7 +68,7 @@ public class UserProfileAPI {
     }
 
     @GetMapping("/getClosedDates")
-    public ClosedDatesResponse getClosedDates(@RequestParam Long vendorId, @RequestParam Long announcementId) {
-        return userService.getClosedDates(vendorId, announcementId);
+    public ClosedDatesResponse getClosedDates(@RequestParam Long announcementId) {
+        return userService.getClosedDates(announcementId);
     }
 }

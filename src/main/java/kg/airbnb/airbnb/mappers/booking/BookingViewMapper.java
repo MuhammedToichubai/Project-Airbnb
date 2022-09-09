@@ -1,17 +1,11 @@
 package kg.airbnb.airbnb.mappers.booking;
 
-import kg.airbnb.airbnb.dto.requests.BookedRequest;
-import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.responses.BookedResponse;
 import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
-import kg.airbnb.airbnb.enums.Status;
-import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Feedback;
-import kg.airbnb.airbnb.models.auth.User;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +23,7 @@ public class BookingViewMapper {
         response.setBookingId(booking.getId());
         response.setTitle(booking.getAnnouncement().getTitle());
         response.setDescription(booking.getAnnouncement().getDescription());
-        response.setPrice(booking.getAnnouncement().getPrice());
+        response.setPrice(booking.getPricePerDay());
         response.setMaxGuests(booking.getAnnouncement().getMaxGuests());
         response.setLocation(booking.getAnnouncement().getLocation().getAddress() + ", " +
                 booking.getAnnouncement().getLocation().getCity() + ", " +
@@ -58,25 +52,25 @@ public class BookingViewMapper {
         return responses;
     }
 
-    public BookedResponse viewBooked(BookedRequest request) {
+    public BookedResponse viewBooked(Booking request) {
 
         if (request == null) {
             return null;
         }
 
         BookedResponse response = new BookedResponse();
-        response.setPrice(request.getPrice());
-        response.setCheckIn(request.getBooking().getCheckin());
-        response.setCheckOut(request.getBooking().getCheckout());
-        response.setUserName(request.getBooking().getUser().getFullName());
-        response.setUserEmail(request.getBooking().getUser().getEmail());
-        response.setUserImage(request.getBooking().getUser().getImage());
+        response.setPrice(request.getPricePerDay());
+        response.setCheckIn(request.getCheckin());
+        response.setCheckOut(request.getCheckout());
+        response.setUserName(request.getUser().getFullName());
+        response.setUserEmail(request.getUser().getEmail());
+        response.setUserImage(request.getUser().getImage());
         return response;
     }
 
-    public List<BookedResponse> viewBooked(List<BookedRequest> requests) {
+    public List<BookedResponse> viewBooked(List<Booking> requests) {
         List<BookedResponse> responses = new ArrayList<>();
-        for (BookedRequest a : requests) {
+        for (Booking a : requests) {
             responses.add(viewBooked(a));
         }
         return responses;

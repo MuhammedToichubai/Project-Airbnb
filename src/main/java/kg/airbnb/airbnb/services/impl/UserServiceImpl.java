@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
         List<LocalDate> datesForBook = findIntervalDates(request.getCheckIn(), request.getCheckOut());
 
-        User user = userRepository.findById(request.getUserId()).get();
+        User user = getAuthenticatedUser();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
 
         for (LocalDate localDate : datesForBook) {
@@ -174,6 +174,7 @@ public class UserServiceImpl implements UserService {
         booking.setAnnouncement(announcement);
         booking.setCheckin(request.getCheckIn());
         booking.setCheckout(request.getCheckOut());
+        booking.setPricePerDay(announcement.getPrice());
         booking.setStatus(Status.NEW);
         booking.setCreatedAt(LocalDate.now());
 
@@ -185,7 +186,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> blockDateByUser(BlockBookDateRequest request) {
 
-        User user = userRepository.findById(request.getVendorId()).get();
+        User user = getAuthenticatedUser();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
 
         if (!announcement.getOwner().equals(user)) {
@@ -206,23 +207,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<BookingCardResponse> findUsersBookings(Long userId) {
+    public List<BookingCardResponse> findUsersBookings() {
         try {
-            User user = userRepository.findById(userId).get();
+            User user = getAuthenticatedUser();
             List<Booking> bookings = user.getBookings();
             return bookingViewMapper.viewCard(bookings);
         } catch (NoSuchElementException e) {
-            throw new BadRequestException("There is no user with id {" + userId + "} ");
+            throw new BadRequestException("There is no user ");
         }
     }
 
     @Override
-    public Map<String, String> deleteRequestToBook(Long userId, Long bookingId) {
+    public Map<String, String> deleteRequestToBook(Long bookingId) {
 
+        User user = getAuthenticatedUser();
         Booking booking = bookingRepository.findById(bookingId).get();
 
-        if (!userId.equals(booking.getUser().getId())) {
-            throw new ForbiddenException("This booking is not belong to user with id = " + userId);
+        if (!user.getId().equals(booking.getUser().getId())) {
+            throw new ForbiddenException("This booking is not belong to user with id = " + user.getId());
         }
 
         bookingRepository.delete(booking);
@@ -242,8 +244,9 @@ public class UserServiceImpl implements UserService {
 
         Booking booking = bookingRepository.findById(request.getBookingId()).get();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
+        User user = getAuthenticatedUser();
 
-        if (!booking.getUser().getId().equals(request.getUserId()) ||
+        if (!booking.getUser().getId().equals(user.getId()) ||
              !booking.getAnnouncement().getId().equals(request.getAnnouncementId())) {
             throw new ForbiddenException("incorrect id");
         }
@@ -269,9 +272,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<BookedResponse> getAnnouncementsBookings(Long vendorId, Long announcementId) {
+    public List<BookedResponse> getAnnouncementsBookings(Long announcementId) {
 
-        User user = userRepository.findById(vendorId).get();
+        User user = getAuthenticatedUser();
         Announcement announcement = announcementRepository.findById(announcementId).get();
 
         if (!user.getId().equals(announcement.getOwner().getId())) {
@@ -280,22 +283,13 @@ public class UserServiceImpl implements UserService {
 
         List<Booking> bookings = bookingRepository.findByAnnouncementId(announcementId);
 
-        List<BookedRequest> requests = new ArrayList<>();
-
-        for (Booking b: bookings) {
-            BookedRequest bookedRequest = new BookedRequest();
-            bookedRequest.setBooking(b);
-            bookedRequest.setPrice(announcement.getPrice());
-            requests.add(bookedRequest);
-        }
-
-        return bookingViewMapper.viewBooked(requests);
+        return bookingViewMapper.viewBooked(bookings);
     }
 
     @Override
     public Map<String, String> changeBookingsStatus(ChangeBookingsStatusRequest request) {
 
-        User user = userRepository.findById(request.getVendorId()).get();
+        User user = getAuthenticatedUser();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
         Booking booking = bookingRepository.findById(request.getBookingId()).get();
 
@@ -330,15 +324,16 @@ public class UserServiceImpl implements UserService {
             return Map.of("massage", "Nothing changed!");
         }
 
-        return Map.of("massage", "Request to book accepted!");
+        return Map.of("massage", "booking updated!");
     }
 
     @Override
-    public ClosedDatesResponse getClosedDates(Long vendorId, Long announcementId) {
+    public ClosedDatesResponse getClosedDates(Long announcementId) {
         Announcement announcement = announcementRepository.findById(announcementId).get();
+        User user = getAuthenticatedUser();
 
-        if (!announcement.getOwner().getId().equals(vendorId)) {
-            throw new ForbiddenException();
+        if (!announcement.getOwner().getId().equals(user.getId())) {
+            throw new ForbiddenException("this announcement not yours");
         }
 
         ClosedDatesResponse response = new ClosedDatesResponse();

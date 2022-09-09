@@ -10,8 +10,6 @@ import java.util.List;
 @Setter
 public class BlockBookDateRequest {
 
-    private Long vendorId;
     private Long announcementId;
-
     private List<LocalDate> datesToBlock;
 }

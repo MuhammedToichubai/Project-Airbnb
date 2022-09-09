@@ -10,7 +10,6 @@ import kg.airbnb.airbnb.dto.responses.ClosedDatesResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -47,16 +46,16 @@ public interface UserService {
 
     Map<String, String> blockDateByUser(BlockBookDateRequest dateToBlock);
 
-    List<BookingCardResponse> findUsersBookings(Long userId);
+    List<BookingCardResponse> findUsersBookings();
 
-    Map<String, String> deleteRequestToBook(Long userId, Long bookingId);
+    Map<String, String> deleteRequestToBook(Long bookingId);
 
     Map<String, String> updateRequestToBook(UpdateBookRequest request);
 
-    List<BookedResponse> getAnnouncementsBookings(Long vendorId, Long announcementId);
+    List<BookedResponse> getAnnouncementsBookings(Long announcementId);
 
     Map<String, String> changeBookingsStatus(ChangeBookingsStatusRequest request);
 
-    ClosedDatesResponse getClosedDates(Long vendorId, Long announcementId);
+    ClosedDatesResponse getClosedDates(Long announcementId);
 }
 

@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Setter
 public class BookRequest {
 
-    private Long userId;
     private Long announcementId;
     private LocalDate checkIn;
     private LocalDate checkOut;
