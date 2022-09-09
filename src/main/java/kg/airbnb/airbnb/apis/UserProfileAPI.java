@@ -2,9 +2,12 @@ package kg.airbnb.airbnb.apis;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.services.UserService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -23,5 +26,10 @@ public class UserProfileAPI {
     @GetMapping("/bookings/myAnnouncements")
     public UserProfileResponse getUserBookingsAndAnnouncements() {
         return userService.getUserProfile();
+    }
+
+    @Operation(summary = "Favorite", description = "The user's favorite announcements")
+    public List<FavoriteAnnouncementResponse> getUserFavoriteAnnouncements(){
+       return userService.getUserFavoriteAnnouncements();
     }
 }

@@ -1,5 +1,6 @@
 package kg.airbnb.airbnb.services.impl;
 
+import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
@@ -7,7 +8,9 @@ import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
+import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserProfileViewMapper viewMapper;
+    private final AnnouncementRepository announcementRepository;
 
     @Override
     public void removeFromLikedFeedbacks(Long feedbackId) {
@@ -123,6 +129,39 @@ public class UserServiceImpl implements UserService {
             throw new ForbiddenException("Only admin can access this page!");
         }
         return userProfileResponse;
+    }
+
+    @Override
+    public List<FavoriteAnnouncementResponse> getUserFavoriteAnnouncements() {
+        User currentUser = getAuthenticatedUser();
+        if (!currentUser.getRole().equals(Role.ADMIN)){
+            Set<Long> likedAnnouncementsId = currentUser.getLikedAnnouncements();
+            List<Announcement> favoriteAnnouncement = new ArrayList<>();
+            for (Long aLong : likedAnnouncementsId) {
+                Announcement announcement = getAnnouncementFindId(aLong);
+                favoriteAnnouncement.add(announcement);
+            }
+
+            List<FavoriteAnnouncementResponse> responseList = new ArrayList<>();
+            for (Announcement announcement : favoriteAnnouncement) {
+                FavoriteAnnouncementResponse response = new FavoriteAnnouncementResponse(
+                        announcement.getId(),
+                        announcement.getImages().get(0),
+                        announcement.getPrice(),
+                        announcement.
+
+                );
+            }
+            return
+
+        }
+        return null;
+    }
+
+    private Announcement getAnnouncementFindId(Long announcementId){
+        return announcementRepository.findById(announcementId).orElseThrow(() ->
+                new NotFoundException("Announcement with "+ announcementId+ " not found!")
+                );
     }
 
     private User getAuthenticatedUser() {
