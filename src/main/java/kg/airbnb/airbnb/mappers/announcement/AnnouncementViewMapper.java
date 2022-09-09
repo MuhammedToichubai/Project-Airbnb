@@ -1,9 +1,11 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.responses.*;
-import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
+import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Feedback;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,7 +14,6 @@ import java.util.List;
 @Component
 public class AnnouncementViewMapper {
 
-    private BookingViewMapper bookingViewMapper;
 
     public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement) {
         if (announcement == null) {
@@ -62,7 +63,6 @@ public class AnnouncementViewMapper {
         response.setRegionId(announcement.getLocation().getRegion().getId());
         response.setRegionName(announcement.getLocation().getRegion().getRegionName());
         response.setTownProvince(announcement.getLocation().getCity());
-        response.setAnnouncementBookings(bookingViewMapper.viewAllBookingsResponse(announcement.getBookings()));
         return response;
     }
 

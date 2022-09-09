@@ -30,6 +30,6 @@ public class AnnouncementInnerPageResponse {
     private Integer viewAnnouncementCount;
     private String colorOfLike;
     private String colorOfBookmark;
-    private List<BookingResponse> announcementBookings;
+    private List<UserBookingsResponse> announcementBookings;
 
 }

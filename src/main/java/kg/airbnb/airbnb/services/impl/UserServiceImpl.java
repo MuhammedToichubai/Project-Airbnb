@@ -113,8 +113,12 @@ public class UserServiceImpl implements UserService {
         if (currentUser.getRole().equals(Role.ADMIN)){
             User user = userRepository.findById(userId).orElseThrow(() ->
                     new NotFoundException("User with " + userId + "not found !"));
-            userProfileResponse = viewMapper.entityToDto(user);
-
+            if (user.getRole().equals(Role.ADMIN)){
+                throw new NotFoundException("User with " + userId + "not found !");
+            }
+            else {
+                userProfileResponse = viewMapper.entityToDto(user);
+            }
         }else {
             throw new ForbiddenException("Only admin can access this page!");
         }
@@ -128,20 +132,33 @@ public class UserServiceImpl implements UserService {
     }
 
     public SimpleResponse deleteUser(Long userId) {
-        User users = getAuthenticatedUser();
-        if (users.getRole().equals(Role.ADMIN)) {
+
+        User currentUser = getAuthenticatedUser();
+
+        if (currentUser.getRole().equals(Role.ADMIN)) {
             User user = userRepository.findById(userId).orElseThrow(() ->
                     new NotFoundException("User with " + userId + "not found !"));
+
+            if (user.getRole().equals(Role.ADMIN)) {
+                throw new ForbiddenException("Admin cannot be deleted!");
+            }
+
             userRepository.delete(user);
-            return new SimpleResponse("User deleted successfully!");
-        } else {
-            throw new ForbiddenException("Only admin can access this page!");
         }
+        else {
+            throw new ForbiddenException("Only admin can access this page!");
+
+        }
+           return new SimpleResponse(
+                   "DELETE",
+                   "User successfully deleted!"
+
+           ) ;
     }
 
     public List<UserResponse> getAllUser() {
-        User user = getAuthenticatedUser();
-        if (user.getRole().equals(Role.ADMIN)) {
+        User currentUser = getAuthenticatedUser();
+        if (currentUser.getRole().equals(Role.ADMIN)) {
             return UserProfileViewMapper.viewFindAllUser(userRepository.findAll());
         } else {
             throw new ForbiddenException("Only admin can access this page!");
