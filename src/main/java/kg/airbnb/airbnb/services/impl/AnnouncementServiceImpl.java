@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
+import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.*;
@@ -225,7 +225,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public SimpleResponse rejectAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
+    public SimpleResponse rejectAnnouncement(Long id, AdminMessageRequest announcementRejectRequest) {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
@@ -243,7 +243,50 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public SimpleResponse deleteAnnouncement(Long id, AnnouncementRejectRequest announcementRejectRequest) {
+    @Transactional
+    public SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
+
+        Announcement announcement = getAnnouncementById(announcementId);
+        changeAnnouncementStatus(announcement);
+
+        return new SimpleResponse(
+                "BLOCK",
+                "Announcement with "+announcementId+" blocked. "+messageRequest.getMessage()
+        );
+    }
+
+    @Override
+    @Transactional
+    public SimpleResponse blockAllAnnouncement(AdminMessageRequest messageRequest, Long userId) {
+
+        List<Announcement> announcements = announcementRepository.findUserAllAnnouncement(userId);
+
+        for (Announcement announcement : announcements) {
+            changeAnnouncementStatus(announcement);
+        }
+
+        return new SimpleResponse(
+                "BLOCK",
+                "All announcements are block. "+ messageRequest.getMessage()
+
+        );
+    }
+
+    @Transactional
+    public void changeAnnouncementStatus(Announcement announcement){
+        User currentUser = getAuthenticatedUser();
+
+        if (!currentUser.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+
+        announcement.setStatus(Status.BLOCK);
+
+    }
+
+
+    @Override
+    public SimpleResponse deleteAnnouncement(Long id, AdminMessageRequest announcementRejectRequest) {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
@@ -335,6 +378,29 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
 
         return announcements;
+    }
+
+    @Override
+    public FilterResponse getAnnouncementsByFilter(BookedType bookedType, int page, int size) {
+        User currentUser = getAuthenticatedUser();
+
+        FilterResponse response = new FilterResponse();
+
+        if (!currentUser.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+        if (bookedType.equals(BookedType.BOOKED)){
+
+            List<Announcement> allBookedAnnouncement = announcementRepository.findAllBookedAnnouncement(page);
+            response.setCountOfResult((long) allBookedAnnouncement.size());
+            response.setResponses(viewMapper.viewCard(allBookedAnnouncement));
+            return response;
+        }
+        List<Announcement> allNotBookedAnnouncement = announcementRepository.findAllNotBookedAnnouncement(page);
+        response.setCountOfResult((long) allNotBookedAnnouncement.size());
+        response.setResponses(viewMapper.viewCard(allNotBookedAnnouncement));
+
+        return response;
     }
 
     @Override
@@ -468,6 +534,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
     }
+
     private List<AnnouncementSearchResponse> getAnnouncementsByRegion(String regionName , Pageable pageable){
         List<Announcement> announcementList1 = announcementRepository.searchByRegion(regionName, pageable);
         List<Announcement> announcementsByRegion = convertingAndAnnouncementList(regionName, announcementList1);
