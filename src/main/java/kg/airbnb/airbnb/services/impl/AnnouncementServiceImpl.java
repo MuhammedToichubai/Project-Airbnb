@@ -337,6 +337,23 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return announcements;
     }
 
+    public FilterResponse getAnnouncementsByFilter(BookedType bookedType, Long regionId, Kind kind,
+                                                   Type type, PriceType price,
+                                                   int page, int size) {
+        User currentUser = getAuthenticatedUser();
+
+        if (!currentUser.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+        if (bookedType.equals(BookedType.BOOKED)){
+            announcementRepository.findAllBookedAnnouncement(bookedType, page);
+        }else {
+            announcementRepository.findAllNotBookedAnnouncement(bookedType, page);
+        }
+
+
+    }
+
     @Override
     public AnnouncementInnerPageResponse likeAnnouncement(Long announcementId) {
 

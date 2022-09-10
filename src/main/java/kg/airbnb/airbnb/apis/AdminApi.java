@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
 import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
@@ -74,5 +77,16 @@ public class AdminApi {
     @GetMapping("user/profile/{userId}")
     public UserProfileResponse getUserProfile(@PathVariable Long userId) {
         return service.getUserProfile(userId);
+    }
+
+    @Operation(summary = "Filter  announcements by Booked and Not Booked, Popular, Latest, House Type, and Price Low to High and High to Low",
+               description = "Only admin can filter announcements.")
+    public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
+                                                   @RequestParam(required = false) Kind kind,
+                                                   @RequestParam(required = false) Type type,
+                                                   @RequestParam(required = false) PriceType price,
+                                                   @RequestParam(defaultValue = "1") int page,
+                                                   @RequestParam(defaultValue = "16") int size) {
+        return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
     }
 }

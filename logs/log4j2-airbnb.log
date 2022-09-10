@@ -486,6 +486,10 @@ kg.airbnb.airbnb.exceptions.NotFoundException: User with chynaraMamatalieva@gmai
 2022-09-10 01:14:18.487  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
 2022-09-10 01:14:18.549  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
 2022-09-10 01:14:18.565  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
+2022-09-10 02:25:27.229  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-09-10 02:25:27.245  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-09-10 02:25:27.323  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2022-09-10 02:25:27.338  INFO DESKTOP-DBLHPRP --- [ionShutdownHook] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
 2022-09-10 01:14:27.314  INFO DESKTOP-DBLHPRP --- [kground-preinit] o.h.v.i.u.Version                        : HV000001: Hibernate Validator 6.2.3.Final
 2022-09-10 01:14:27.334  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : Starting AirbnbApplication using Java 17.0.2 on DESKTOP-DBLHPRP with PID 11728 (C:\Users\abdullah\IdeaProjects\airbnb\m\target\classes started by Muhammed in C:\Users\abdullah\IdeaProjects\airbnb\m)
 2022-09-10 01:14:27.334  INFO DESKTOP-DBLHPRP --- [           main] k.a.a.AirbnbApplication                  : The following 1 profile is active: "mukhammed"
