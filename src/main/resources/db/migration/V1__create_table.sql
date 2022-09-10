@@ -1,19 +1,11 @@
 CREATE SEQUENCE address_seq START 28 INCREMENT 1;
 CREATE SEQUENCE announcement_seq START 28 INCREMENT 1;
 CREATE SEQUENCE booking_seq START 1 INCREMENT 1;
-CREATE SEQUENCE feedback_seq START 5 INCREMENT 1;
+CREATE SEQUENCE feedback_seq START 137 INCREMENT 1;
 CREATE SEQUENCE region_seq START 1 INCREMENT 1;
-CREATE SEQUENCE user_seq START 6 INCREMENT 1;
+CREATE SEQUENCE user_seq START 7 INCREMENT 1;
 
-CREATE TABLE users (
-    id BIGSERIAL NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    full_name VARCHAR(255) NOT NULL,
-    image VARCHAR(255),
-    password VARCHAR(255) NOT NULL ,
-    role VARCHAR(255),
-    PRIMARY KEY (id)
-);
+
 CREATE TABLE addresses (
     id BIGSERIAL NOT NULL,
     address VARCHAR (255),
@@ -24,13 +16,18 @@ CREATE TABLE addresses (
 
 CREATE TABLE announcements (
     id BIGSERIAL NOT NULL,
+    bookmarks INTEGER,
+    color_of_bookmark VARCHAR (255),
+    color_of_like VARCHAR (255),
     created_at DATE,
-    description VARCHAR (2048),
+    description VARCHAR (10000),
     house_type VARCHAR (255),
+    likes INTEGER,
     max_guests INTEGER,
     price NUMERIC (19, 2),
     status INTEGER,
     title VARCHAR (255),
+    view_announcements INTEGER,
     location_id BIGINT,
     owner_id BIGINT,
     PRIMARY KEY (id)
@@ -58,9 +55,11 @@ CREATE TABLE bookings (
 
 CREATE TABLE feedbacks (
     id BIGSERIAL NOT NULL,
+    color_of_dis_like VARCHAR (255),
+    color_of_like varchar(255),
     created_at DATE,
-    description VARCHAR(2048),
-    dislike INTEGER,
+    descriptions VARCHAR(10000),
+    dis_likes INTEGER,
     likes INTEGER,
     rating INTEGER,
     announcement_id BIGINT,
@@ -76,6 +75,31 @@ CREATE TABLE feedback_images (
 CREATE TABLE regions (
     id BIGSERIAL NOT NULL,
     region_name VARCHAR (255),
+    PRIMARY KEY (id)
+);
+CREATE TABLE user_bookmark_announcements (
+    user_id BIGSERIAL NOT NULL,
+    bookmark_announcements BIGINT
+);
+CREATE TABLE user_dis_liked_feedbacks (
+    user_id BIGSERIAL NOT NULL,
+    dis_liked_feedbacks BIGINT
+);
+CREATE TABLE user_liked_announcements (
+    user_id BIGSERIAL NOT NULL,
+    liked_announcements BIGINT
+);
+CREATE TABLE user_liked_feedbacks (
+    user_id BIGSERIAL NOT NULL,
+    liked_feedbacks BIGINT
+);
+CREATE TABLE users (
+    id BIGSERIAL NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    image VARCHAR(255),
+    password VARCHAR(255) NOT NULL ,
+    role VARCHAR(255),
     PRIMARY KEY (id)
 );
 
@@ -112,6 +136,17 @@ ALTER TABLE IF EXISTS feedbacks
 ALTER TABLE IF EXISTS feedbacks
     ADD CONSTRAINT feedback_user_fk FOREIGN KEY (owner_id) REFERENCES users;
 
+ALTER TABLE IF EXISTS user_bookmark_announcements
+    ADD CONSTRAINT user_bookmark_announcements_user_fk FOREIGN KEY (user_id) REFERENCES users;
+
+ALTER TABLE IF EXISTS user_dis_liked_feedbacks
+    ADD CONSTRAINT user_dis_liked_feedbacks_user_fk FOREIGN KEY (user_id) REFERENCES users;
+
+ALTER TABLE IF EXISTS user_liked_announcements
+    ADD CONSTRAINT user_liked_announcements_user_fk FOREIGN KEY (user_id) REFERENCES users;
+
+ALTER TABLE IF EXISTS user_liked_feedbacks
+    ADD CONSTRAINT user_liked_feedbacks_user_fk FOREIGN KEY (user_id) REFERENCES users;
 
 
 
