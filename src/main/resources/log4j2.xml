@@ -33,7 +33,7 @@
             <Root level="info">
                 <AppenderRef ref="Logzio"/>
                 <AppenderRef ref="ConsoleAppender" />
-                <AppenderRef ref="FileAppender" />
+<!--                <AppenderRef ref="FileAppender" />-->
             </Root>
         </Loggers>
 
