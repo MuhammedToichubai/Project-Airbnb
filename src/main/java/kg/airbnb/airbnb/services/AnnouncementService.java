@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.services;
 
-import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
+import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Kind;
@@ -25,9 +25,9 @@ public interface AnnouncementService {
 
     SimpleResponse acceptAnnouncement(Long announcementId);
 
-    SimpleResponse rejectAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+    SimpleResponse rejectAnnouncement(Long announcementId, AdminMessageRequest announcementRejectRequest);
 
-    SimpleResponse deleteAnnouncement(Long announcementId, AnnouncementRejectRequest announcementRejectRequest);
+    SimpleResponse deleteAnnouncement(Long announcementId, AdminMessageRequest announcementRejectRequest);
 
     AnnouncementInnerPageResponse likeAnnouncement(Long announcementId);
 
@@ -40,4 +40,8 @@ public interface AnnouncementService {
     FilterResponse getAnnouncementsByFilter(Long region, Kind kind, Type type, PriceType price, int page, int size);
 
     List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address, String latitude, String longitude);
+
+    SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
+
+    SimpleResponse blockAllAnnouncement(AdminMessageRequest messageRequest, Long userId);
 }
