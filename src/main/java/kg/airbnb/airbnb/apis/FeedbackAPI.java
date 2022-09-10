@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.models.Feedback;
 import kg.airbnb.airbnb.services.FeedbackService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +24,9 @@ public class FeedbackAPI {
 
     @Operation(summary = "Get all feedbacks of announcement")
     @GetMapping("/{announcementId}")
-    public List<FeedbackResponse> findAll(@PathVariable Long announcementId,@RequestParam Integer page, @RequestParam Integer size){
+    public List<FeedbackResponse> findAll(@PathVariable Long announcementId,
+                                  @RequestParam(required = false, defaultValue = "1") Integer page,
+                                  @RequestParam (required = false, defaultValue = "3")Integer size){
         return feedbackService.findAll(announcementId,page,size);
     }
 
