@@ -16,7 +16,7 @@ spring:
       max-file-size: 5MB
       max-request-size: 10MB
   jpa:
-#    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
 #    defer-datasource-initialization: true
     hibernate:
       ddl-auto: none
