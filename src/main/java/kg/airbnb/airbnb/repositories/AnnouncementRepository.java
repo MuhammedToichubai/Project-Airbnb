@@ -1,4 +1,5 @@
 package kg.airbnb.airbnb.repositories;
+import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;
@@ -89,6 +90,11 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1 order by a.createdAt desc")
     List<Announcement> findAllNewAndAccepted();
 
+    @Query("select a from Announcement a where a.bookings is not empty and a.status = 0")
+    List<Announcement> findAllBookedAnnouncement( int page);
+
+    @Query("select a from Announcement a where a.bookings is empty and a.status = 1")
+    List<Announcement> findAllNotBookedAnnouncement(int page);
 
     @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
     List<Announcement> findUserAllAnnouncement(Long userId);

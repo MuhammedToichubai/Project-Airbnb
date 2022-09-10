@@ -381,6 +381,29 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public FilterResponse getAnnouncementsByFilter(BookedType bookedType, int page, int size) {
+        User currentUser = getAuthenticatedUser();
+
+        FilterResponse response = new FilterResponse();
+
+        if (!currentUser.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+        if (bookedType.equals(BookedType.BOOKED)){
+
+            List<Announcement> allBookedAnnouncement = announcementRepository.findAllBookedAnnouncement(page);
+            response.setCountOfResult((long) allBookedAnnouncement.size());
+            response.setResponses(viewMapper.viewCard(allBookedAnnouncement));
+            return response;
+        }
+        List<Announcement> allNotBookedAnnouncement = announcementRepository.findAllNotBookedAnnouncement(page);
+        response.setCountOfResult((long) allNotBookedAnnouncement.size());
+        response.setResponses(viewMapper.viewCard(allNotBookedAnnouncement));
+
+        return response;
+    }
+
+    @Override
     public AnnouncementInnerPageResponse likeAnnouncement(Long announcementId) {
 
         Announcement announcementById = getAnnouncementById(announcementId);

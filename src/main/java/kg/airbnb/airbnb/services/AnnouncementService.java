@@ -3,6 +3,7 @@ package kg.airbnb.airbnb.services;
 import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Kind;
 import kg.airbnb.airbnb.enums.PriceType;
 import kg.airbnb.airbnb.enums.Type;
@@ -40,6 +41,8 @@ public interface AnnouncementService {
     FilterResponse getAnnouncementsByFilter(Long region, Kind kind, Type type, PriceType price, int page, int size);
 
     List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address, String latitude, String longitude);
+
+    FilterResponse getAnnouncementsByFilter(BookedType bookedType, int page, int size);
 
     SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
 

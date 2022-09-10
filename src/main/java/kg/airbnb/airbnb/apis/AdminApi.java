@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
@@ -88,5 +89,14 @@ public class AdminApi {
     @GetMapping("user/profile/{userId}")
     public UserProfileResponse getUserProfile(@PathVariable Long userId) {
         return service.getUserProfile(userId);
+    }
+
+    @Operation(summary = "Filter  announcements by Booked and Not Booked",
+               description = "Only admin can filter announcements.")
+    @GetMapping("/filter")
+    public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) BookedType bookedType,
+                                                   @RequestParam(defaultValue = "1") int page,
+                                                   @RequestParam(defaultValue = "16") int size) {
+        return announcementService.getAnnouncementsByFilter(bookedType, page, size);
     }
 }
