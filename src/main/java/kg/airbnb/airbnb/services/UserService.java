@@ -1,7 +1,11 @@
 package kg.airbnb.airbnb.services;
 
+import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
+import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface UserService {
@@ -18,8 +22,6 @@ public interface UserService {
 
     boolean ifBookmarkAnnouncement(Long announcementId);
 
-    void addAnnouncementToHistory(Long announcementId);
-
     void removeFromLikedFeedbacks(Long feedbackId);
 
     void removeFromDisLikedFeedbacks(Long feedbackId);
@@ -32,7 +34,13 @@ public interface UserService {
 
     void addToDisLikedFeedbacks(Long feedbackId);
 
-    UserProfileResponse getUserBookingsAndAnnouncements();
+    UserProfileResponse getUserProfile();
+
+    UserProfileResponse getUserProfile(Long userId);
+
+    List<FavoriteAnnouncementResponse> userFavoriteAnnouncements();
+
+    FavoritesResponse getUserFavoriteAnnouncements();
 
 }
 

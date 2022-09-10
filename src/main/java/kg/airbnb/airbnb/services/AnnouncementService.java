@@ -15,8 +15,6 @@ public interface AnnouncementService {
 
     AnnouncementSaveResponse announcementSave(AnnouncementRequest request);
 
-    AnnouncementInnerPageResponse announcementFindById(Long announcementId);
-
     SimpleResponse announcementUpdate(Long id, AnnouncementRequest request);
 
     SimpleResponse announcementDelete(Long announcementId);

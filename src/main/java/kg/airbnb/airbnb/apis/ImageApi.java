@@ -1,13 +1,11 @@
 package kg.airbnb.airbnb.apis;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.services.impl.ImageService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +16,7 @@ import java.util.Map;
 @RequestMapping("/api/file")
 @CrossOrigin
 @Getter @Setter
+@Tag(name = "This API for saving files {images} to amazon S3 bucket")
 public class ImageApi {
 
     private final ImageService service;
