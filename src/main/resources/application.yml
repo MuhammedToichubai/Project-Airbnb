@@ -17,19 +17,19 @@ spring:
       max-request-size: 10MB
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
-#    defer-datasource-initialization: true
+    #    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
       properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQL10Dialect
-#  sql:
-#    init:
-#      continue-on-error: false
-#      data-locations: classpath:data-initial/data.sql
-#      mode: always
+    show-sql: true
   flyway:
-   baseline-on-migrate: true
+    baseline-on-migrate: true
+  sql:
+    init:
+      data-locations: classpath:data-initial/data.sql
+      mode: always
 
 cloud:
   aws:
