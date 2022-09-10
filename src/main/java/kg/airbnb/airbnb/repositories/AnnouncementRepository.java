@@ -83,9 +83,9 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     )
     void clearImages(Long announcementId);
 
-    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1")
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1 order by a.createdAt desc")
     Page<Announcement> findAllNewAndAccepted(Pageable pageable);
 
-    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1")
+    @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1 order by a.createdAt desc")
     List<Announcement> findAllNewAndAccepted();
 }
