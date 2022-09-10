@@ -1,13 +1,14 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
-import kg.airbnb.airbnb.dto.responses.UserResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
+import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
+import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserProfileViewMapper viewMapper;
+    private final UserProfileViewMapper userProfileViewMapper;
+    private final AnnouncementRepository announcementRepository;
+    private final AnnouncementViewMapper announcementViewMapper;
 
     @Override
     public void removeFromLikedFeedbacks(Long feedbackId) {
@@ -103,7 +108,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileResponse getUserProfile() {
         User user = getAuthenticatedUser();
-        return viewMapper.entityToDto(user);
+        return userProfileViewMapper.entityToDto(user);
     }
 
     @Override
@@ -117,12 +122,64 @@ public class UserServiceImpl implements UserService {
                 throw new NotFoundException("User with " + userId + " not found !");
             }
             else {
-                userProfileResponse = viewMapper.entityToDto(user);
+                userProfileResponse = userProfileViewMapper.entityToDto(user);
             }
         }else {
             throw new ForbiddenException("Only admin can access this page!");
         }
         return userProfileResponse;
+    }
+
+    @Override
+    public List<FavoriteAnnouncementResponse> userFavoriteAnnouncements() {
+        User currentUser = getAuthenticatedUser();
+
+        Set<Long> bookmarkAnnouncements = currentUser.getBookmarkAnnouncements();
+
+        List<Announcement> favoriteAnnouncement = new ArrayList<>();
+
+        for (Long aLong : bookmarkAnnouncements) {
+                Announcement announcement = getAnnouncementFindId(aLong);
+                favoriteAnnouncement.add(announcement);
+            }
+
+            List<FavoriteAnnouncementResponse> responseList = new ArrayList<>();
+
+        for (Announcement announcement : favoriteAnnouncement) {
+                FavoriteAnnouncementResponse response = new FavoriteAnnouncementResponse(
+                        announcement.getId(),
+                        announcement.getImages(),
+                        announcement.getPrice(),
+                        announcementViewMapper.calculateRating(announcement),
+                        announcement.getTitle(),
+                        announcement.getLocation().getAddress()+ ", "
+                                +announcement.getLocation().getCity()+", "
+                                +announcement.getLocation().getRegion().getRegionName(),
+                        announcement.getMaxGuests(),
+                        announcement.getLike(),
+                        announcement.getBookmark(),
+                        announcement.getStatus()
+                );
+                responseList.add(response);
+            }
+
+        return responseList;
+    }
+
+    @Override
+    public FavoritesResponse getUserFavoriteAnnouncements() {
+        List<FavoriteAnnouncementResponse> responseList = userFavoriteAnnouncements();
+        FavoritesResponse response = new FavoritesResponse(
+                responseList.size(),
+                responseList
+        );
+        return response;
+    }
+
+    private Announcement getAnnouncementFindId(Long announcementId){
+        return announcementRepository.findById(announcementId).orElseThrow(() ->
+                new NotFoundException("Announcement with "+ announcementId+ " not found!")
+                );
     }
 
     private User getAuthenticatedUser() {
