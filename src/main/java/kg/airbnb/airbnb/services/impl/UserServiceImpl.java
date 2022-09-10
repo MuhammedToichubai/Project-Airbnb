@@ -1,12 +1,10 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
-import kg.airbnb.airbnb.dto.responses.UserResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
+import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.auth.User;
@@ -27,8 +25,9 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserProfileViewMapper viewMapper;
+    private final UserProfileViewMapper userProfileViewMapper;
     private final AnnouncementRepository announcementRepository;
+    private final AnnouncementViewMapper announcementViewMapper;
 
     @Override
     public void removeFromLikedFeedbacks(Long feedbackId) {
@@ -109,7 +108,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileResponse getUserProfile() {
         User user = getAuthenticatedUser();
-        return viewMapper.entityToDto(user);
+        return userProfileViewMapper.entityToDto(user);
     }
 
     @Override
@@ -123,7 +122,7 @@ public class UserServiceImpl implements UserService {
                 throw new NotFoundException("User with " + userId + " not found !");
             }
             else {
-                userProfileResponse = viewMapper.entityToDto(user);
+                userProfileResponse = userProfileViewMapper.entityToDto(user);
             }
         }else {
             throw new ForbiddenException("Only admin can access this page!");
@@ -132,30 +131,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<FavoriteAnnouncementResponse> getUserFavoriteAnnouncements() {
+    public List<FavoriteAnnouncementResponse> userFavoriteAnnouncements() {
         User currentUser = getAuthenticatedUser();
-        if (!currentUser.getRole().equals(Role.ADMIN)){
-            Set<Long> likedAnnouncementsId = currentUser.getLikedAnnouncements();
-            List<Announcement> favoriteAnnouncement = new ArrayList<>();
-            for (Long aLong : likedAnnouncementsId) {
+
+        Set<Long> bookmarkAnnouncements = currentUser.getBookmarkAnnouncements();
+
+        List<Announcement> favoriteAnnouncement = new ArrayList<>();
+
+        for (Long aLong : bookmarkAnnouncements) {
                 Announcement announcement = getAnnouncementFindId(aLong);
                 favoriteAnnouncement.add(announcement);
             }
 
             List<FavoriteAnnouncementResponse> responseList = new ArrayList<>();
-            for (Announcement announcement : favoriteAnnouncement) {
+
+        for (Announcement announcement : favoriteAnnouncement) {
                 FavoriteAnnouncementResponse response = new FavoriteAnnouncementResponse(
                         announcement.getId(),
                         announcement.getImages().get(0),
                         announcement.getPrice(),
-                        announcement.
-
+                        announcementViewMapper.calculateRating(announcement),
+                        announcement.getTitle(),
+                        announcement.getLocation().getAddress()+ ", "
+                                +announcement.getLocation().getCity()+", "
+                                +announcement.getLocation().getRegion().getRegionName(),
+                        announcement.getMaxGuests(),
+                        announcement.getLike(),
+                        announcement.getBookmark(),
+                        announcement.getStatus()
                 );
+                responseList.add(response);
             }
-            return
 
-        }
-        return null;
+        return responseList;
+    }
+
+    @Override
+    public CountFavoritesResponse getUserFavoriteAnnouncements() {
+        List<FavoriteAnnouncementResponse> responseList = userFavoriteAnnouncements();
+        CountFavoritesResponse response = new CountFavoritesResponse(
+                responseList.size(),
+                responseList
+        );
+        return response;
     }
 
     private Announcement getAnnouncementFindId(Long announcementId){

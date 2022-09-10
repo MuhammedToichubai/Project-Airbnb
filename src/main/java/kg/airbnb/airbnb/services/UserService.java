@@ -1,5 +1,6 @@
 package kg.airbnb.airbnb.services;
 
+import kg.airbnb.airbnb.dto.responses.CountFavoritesResponse;
 import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public interface UserService {
 
     UserProfileResponse getUserProfile(Long userId);
 
-    List<FavoriteAnnouncementResponse> getUserFavoriteAnnouncements();
+    List<FavoriteAnnouncementResponse> userFavoriteAnnouncements();
+
+    CountFavoritesResponse getUserFavoriteAnnouncements();
+
 }
 
