@@ -2,7 +2,7 @@ package kg.airbnb.airbnb.apis;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.airbnb.airbnb.dto.requests.AnnouncementRejectRequest;
+import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.services.AnnouncementService;
@@ -49,13 +49,27 @@ public class AdminApi {
 
     @Operation(summary = "Reject announcement", description = "Only admin can reject newly created announcement")
     @PutMapping("/announcement/reject/{announcementId}")
-    public SimpleResponse rejectAnnouncement(@PathVariable Long announcementId, @RequestBody AnnouncementRejectRequest announcementRejectRequest) {
-        return announcementService.rejectAnnouncement(announcementId, announcementRejectRequest);
+    public SimpleResponse rejectAnnouncement(@PathVariable Long announcementId, @RequestBody AdminMessageRequest messageRequest) {
+        return announcementService.rejectAnnouncement(announcementId, messageRequest);
+    }
+
+    @Operation(summary = "Block announcement")
+    @PutMapping("/announcement/block/{announcementId}")
+    public SimpleResponse blockAnnouncement(@PathVariable Long announcementId,
+                                            @RequestBody AdminMessageRequest messageRequest){
+        return announcementService.blockAnnouncement(announcementId, messageRequest);
+    }
+
+    @Operation(summary = "Block all announcement")
+    @PutMapping("/announcements/block/{userId}")
+    public SimpleResponse blockAllAnnouncement(@RequestBody AdminMessageRequest messageRequest,
+                                               @PathVariable Long userId){
+        return announcementService.blockAllAnnouncement(messageRequest, userId);
     }
 
     @Operation(summary = "Delete announcement", description = "Only admin can delete announcements")
     @DeleteMapping("/announcement/delete/{announcementId}")
-    public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId, @RequestBody AnnouncementRejectRequest announcementRejectRequest) {
+    public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId, @RequestBody AdminMessageRequest announcementRejectRequest) {
         return announcementService.deleteAnnouncement(announcementId, announcementRejectRequest);
     }
 

@@ -41,4 +41,8 @@ src/main/resources/application-kub.yml
 src/main/resources/application-jak.yml
 src/main/resources/application-kan.yml
 
+<<<<<<< HEAD
+src/main/resources/application-chynara.yml
+=======
 
+>>>>>>> e1ee4062754d731600e27ffd56c5fc993a8ab3e8
