@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
         for (Announcement announcement : favoriteAnnouncement) {
                 FavoriteAnnouncementResponse response = new FavoriteAnnouncementResponse(
                         announcement.getId(),
-                        announcement.getImages().get(0),
+                        announcement.getImages(),
                         announcement.getPrice(),
                         announcementViewMapper.calculateRating(announcement),
                         announcement.getTitle(),
@@ -167,9 +167,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CountFavoritesResponse getUserFavoriteAnnouncements() {
+    public FavoritesResponse getUserFavoriteAnnouncements() {
         List<FavoriteAnnouncementResponse> responseList = userFavoriteAnnouncements();
-        CountFavoritesResponse response = new CountFavoritesResponse(
+        FavoritesResponse response = new FavoritesResponse(
                 responseList.size(),
                 responseList
         );
