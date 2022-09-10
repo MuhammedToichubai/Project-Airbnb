@@ -88,4 +88,8 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1")
     List<Announcement> findAllNewAndAccepted();
+
+
+    @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
+    List<Announcement> findUserAllAnnouncement(Long userId);
 }
