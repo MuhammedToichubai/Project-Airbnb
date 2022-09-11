@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -217,8 +218,15 @@ public class FeedbackServiceImpl implements FeedbackService {
     private FeedbackResponse getFeedbackResponseForGetAll(Feedback feedback){
         FeedbackResponse feedbackResponse = new FeedbackResponse();
         feedbackResponse.setId(feedback.getId());
-        feedbackResponse.setFeedbackOwnerImage(feedback.getOwner().getImage());
-        feedbackResponse.setFeedbackOwnerFullName(feedback.getOwner().getFullName());
+
+        if (Objects.isNull(feedback.getOwner())) {
+            feedbackResponse.setFeedbackOwnerImage(null);
+            feedbackResponse.setFeedbackOwnerFullName(null);
+        } else {
+            feedbackResponse.setFeedbackOwnerImage(feedback.getOwner().getImage());
+            feedbackResponse.setFeedbackOwnerFullName(feedback.getOwner().getFullName());
+        }
+
         feedbackResponse.setRating(feedback.getRating());
         feedbackResponse.setImages(feedback.getImages());
         feedbackResponse.setDescription(feedback.getDescription());
