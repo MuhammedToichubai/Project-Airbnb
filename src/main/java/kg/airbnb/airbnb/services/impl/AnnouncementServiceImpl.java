@@ -426,6 +426,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public FilterResponse getAnnouncementsByFilter(BookedType bookedType, int page, int size) {
         User currentUser = getAuthenticatedUser();
 
+        Pageable pageable = PageRequest.of(page -1, size);
+
         FilterResponse response = new FilterResponse();
 
         if (!currentUser.getRole().equals(Role.ADMIN)){
@@ -433,12 +435,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
         if (bookedType.equals(BookedType.BOOKED)){
 
-            List<Announcement> allBookedAnnouncement = announcementRepository.findAllBookedAnnouncement(page);
+            List<Announcement> allBookedAnnouncement = announcementRepository.findAllBookedAnnouncement( pageable);
+
             response.setCountOfResult((long) allBookedAnnouncement.size());
             response.setResponses(viewMapper.viewCard(allBookedAnnouncement));
             return response;
         }
-        List<Announcement> allNotBookedAnnouncement = announcementRepository.findAllNotBookedAnnouncement(page);
+        List<Announcement> allNotBookedAnnouncement = announcementRepository.findAllNotBookedAnnouncement(pageable);
         response.setCountOfResult((long) allNotBookedAnnouncement.size());
         response.setResponses(viewMapper.viewCard(allNotBookedAnnouncement));
 
