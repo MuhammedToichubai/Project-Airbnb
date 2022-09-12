@@ -60,11 +60,25 @@ public class AdminApi {
         return announcementService.blockAnnouncement(announcementId, messageRequest);
     }
 
-    @Operation(summary = "Block all announcement")
+    @Operation(summary = "UnBlock announcement")
+    @PutMapping("/announcement/unblock/{announcementId}")
+    public SimpleResponse UnBlockAnnouncement(@PathVariable Long announcementId,
+                                            @RequestBody AdminMessageRequest messageRequest){
+        return announcementService.UnBlockAnnouncement(announcementId, messageRequest);
+    }
+
+    @Operation(summary = "Block all announcements")
     @PutMapping("/announcements/block/{userId}")
     public SimpleResponse blockAllAnnouncement(@RequestBody AdminMessageRequest messageRequest,
                                                @PathVariable Long userId){
-        return announcementService.blockAllAnnouncement(messageRequest, userId);
+        return announcementService.blockAllAnnouncements(messageRequest, userId);
+    }
+
+    @Operation(summary = "Unblock all announcements")
+    @PutMapping("/announcements/unblock/{userId}")
+    public SimpleResponse unBlockAllAnnouncement(@RequestBody AdminMessageRequest messageRequest,
+                                               @PathVariable Long userId){
+        return announcementService.unBlockAllAnnouncements(messageRequest, userId);
     }
 
     @Operation(summary = "Delete announcement", description = "Only admin can delete announcements")
