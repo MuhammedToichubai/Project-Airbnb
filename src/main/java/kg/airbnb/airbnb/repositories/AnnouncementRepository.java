@@ -91,10 +91,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     List<Announcement> findAllNewAndAccepted();
 
     @Query("select a from Announcement a where a.bookings is not empty and a.status = 0")
-    List<Announcement> findAllBookedAnnouncement( int page);
+    List<Announcement> findAllBookedAnnouncement( Pageable pageable);
 
     @Query("select a from Announcement a where a.bookings is empty and a.status = 1")
-    List<Announcement> findAllNotBookedAnnouncement(int page);
+    List<Announcement> findAllNotBookedAnnouncement(Pageable page);
 
     @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
     List<Announcement> findUserAllAnnouncement(Long userId);
