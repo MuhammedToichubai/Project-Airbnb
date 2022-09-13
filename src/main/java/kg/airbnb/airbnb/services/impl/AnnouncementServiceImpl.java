@@ -197,10 +197,14 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    @Transactional
     public AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id) {
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
+            if(announcement.getStatus().equals(Status.NEW)){
+                announcement.setStatus(Status.SEEN);
+            }
             return viewMapper.entityToDtoConver(announcement);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
