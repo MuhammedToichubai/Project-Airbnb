@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.models;
 
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
+import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.models.auth.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -96,12 +97,6 @@ public class Announcement implements Comparable<Announcement> {
     public void addBlockedDate(LocalDate date) {
         this.blockedDates.add(date);
     }
-    public void addBlockedDateByUser(List<LocalDate> date) {
-        this.blockedDatesByUser.addAll(date);
-    }
-    public void addBlockedDate(List<LocalDate> date) {
-        this.blockedDates.addAll(date);
-    }
     public void removeBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.remove(date);
     }
@@ -123,5 +118,21 @@ public class Announcement implements Comparable<Announcement> {
         }
 
         return b - a;
+    }
+
+    public void releaseTakenDates(LocalDate checkin, LocalDate checkout) {
+        while (checkin.isBefore(checkout)) {
+            this.blockedDates.remove(checkin);
+            checkin = checkin.plusDays(1L);
+        }
+        this.blockedDates.remove(checkout);
+    }
+
+    public void addBlockedDate(LocalDate checkin, LocalDate checkout) {
+        while (checkin.isBefore(checkout)) {
+            this.blockedDates.add(checkin);
+            checkin = checkin.plusDays(1L);
+        }
+        this.blockedDates.add(checkout);
     }
 }

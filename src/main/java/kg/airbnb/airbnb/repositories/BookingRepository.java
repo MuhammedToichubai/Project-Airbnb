@@ -9,5 +9,5 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query("select b from Booking b where b.announcement.id = ?1 and b.status = 1 order by b.createdAt")
-    List<Booking> findByAnnouncementId(Long announcementId);
+    List<Booking> findAcceptedByAnnouncementId(Long announcementId);
 }

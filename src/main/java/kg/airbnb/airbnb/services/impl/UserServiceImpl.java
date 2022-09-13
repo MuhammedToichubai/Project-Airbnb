@@ -124,6 +124,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
     }
 
+    private User getAuthenticatedRoleUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        User user = userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
+        if  (!user.getRole().equals(Role.USER)) {
+            throw new ForbiddenException("You are not user!");
+        }
+        return user;
+    }
+
     public SimpleResponse deleteUser(Long id) {
         User users = getAuthenticatedUser();
         if (users.getRole().equals(Role.ADMIN)) {
@@ -147,27 +157,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> requestToBook(BookRequest request) {
 
+        User user = getAuthenticatedRoleUser();
+        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).orElseThrow(BadRequestException::new);
+
+        if  (request.getAnnouncementId() == null || request.getCheckIn() == null || request.getCheckOut() == null) {
+            throw new BadRequestException("не полная информация");
+        }
+
         if (request.getCheckIn().isAfter(request.getCheckOut()) ||
                 request.getCheckIn().equals(request.getCheckOut()) || request.getCheckIn().isBefore(LocalDate.now())) {
-            throw new BadRequestException("дата заселения не может быть после даты выселения");
+            throw new BadRequestException("даты неверны");
         }
 
-        List<LocalDate> datesForBook = findIntervalDates(request.getCheckIn(), request.getCheckOut());
-
-        User user = getAuthenticatedUser();
-        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
-
-        for (LocalDate localDate : datesForBook) {
-            if (announcement.getBlockedDatesByUser().contains(localDate)) {
-                throw new BadRequestException("промежуточные даты вышего бронирования заняты Хозяином");
-            }
-        }
-
-        for (LocalDate localDate : datesForBook) {
-            if (announcement.getBlockedDates().contains(localDate)) {
-                throw new BadRequestException("промежуточные даты вышего бронирования заняты");
-            }
-        }
+        findTakenDates(request.getCheckIn(), request.getCheckOut(), announcement.getBlockedDates(), announcement.getBlockedDatesByUser());
 
         Booking booking = new Booking();
         booking.setUser(user);
@@ -186,8 +188,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> blockDateByUser(BlockBookDateRequest request) {
 
-        User user = getAuthenticatedUser();
-        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
+        User user = getAuthenticatedRoleUser();
+        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).orElseThrow(BadRequestException::new);
 
         if (!announcement.getOwner().equals(user)) {
             throw new ForbiddenException("This user not allowed to block dates of this ann");
@@ -203,7 +205,7 @@ public class UserServiceImpl implements UserService {
 
         announcementRepository.save(announcement);
 
-        return Map.of("massage", "ok");
+        return Map.of("massage", "blocked dates has been updated");
     }
 
     @Override
@@ -220,11 +222,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> deleteRequestToBook(Long bookingId) {
 
-        User user = getAuthenticatedUser();
-        Booking booking = bookingRepository.findById(bookingId).get();
+        User user = getAuthenticatedRoleUser();
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(BadRequestException::new);
 
         if (!user.getId().equals(booking.getUser().getId())) {
             throw new ForbiddenException("This booking is not belong to user with id = " + user.getId());
+        }
+
+        if (booking.getStatus().equals(Status.ACCEPTED)) {
+            Announcement announcement = announcementRepository.findById(booking.getAnnouncement().getId()).orElseThrow(BadRequestException::new);
+            announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
         }
 
         bookingRepository.delete(booking);
@@ -236,37 +243,34 @@ public class UserServiceImpl implements UserService {
     public Map<String, String> updateRequestToBook(UpdateBookRequest request) {
 
         if (request.getCheckIn().isAfter(request.getCheckOut()) ||
-                request.getCheckIn().equals(request.getCheckOut()) || request.getCheckIn().isBefore(LocalDate.now())) {
-            throw new BadRequestException("дата заселения не может быть после даты выселения");
+                request.getCheckIn().equals(request.getCheckOut()) ||
+                request.getCheckIn().isBefore(LocalDate.now())) {
+            throw new BadRequestException("дата указана неверно!");
         }
 
-        List<LocalDate> datesForBook = findIntervalDates(request.getCheckIn(), request.getCheckOut());
-
-        Booking booking = bookingRepository.findById(request.getBookingId()).get();
-        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
-        User user = getAuthenticatedUser();
+        Booking booking = bookingRepository.findById(request.getBookingId()).orElseThrow(BadRequestException::new);
+        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).orElseThrow(BadRequestException::new);
+        User user = getAuthenticatedRoleUser();
 
         if (!booking.getUser().getId().equals(user.getId()) ||
              !booking.getAnnouncement().getId().equals(request.getAnnouncementId())) {
             throw new ForbiddenException("incorrect id");
         }
 
-        for (LocalDate localDate : datesForBook) {
-            if (announcement.getBlockedDatesByUser().contains(localDate)) {
-                throw new BadRequestException("промежуточные даты вышего бронирования заняты Хозяином");
-            }
-        }
+        findTakenDates(booking.getCheckin(), booking.getCheckout(), announcement.getBlockedDates(), announcement.getBlockedDatesByUser());
 
-        for (LocalDate localDate : datesForBook) {
-            if (announcement.getBlockedDates().contains(localDate)) {
-                throw new BadRequestException("промежуточные даты вышего бронирования заняты");
-            }
+        if  (booking.getStatus().equals(Status.ACCEPTED)) {
+            booking.setStatus(Status.NEW);
+            announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
+        } else  if  (booking.getStatus().equals(Status.REJECTED)) {
+            booking.setStatus(Status.NEW);
         }
 
         booking.setCheckin(request.getCheckIn());
         booking.setCheckout(request.getCheckOut());
 
         bookingRepository.save(booking);
+        announcementRepository.save(announcement);
 
         return Map.of("massage", "The dates has been updated!");
     }
@@ -274,14 +278,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<BookedResponse> getAnnouncementsBookings(Long announcementId) {
 
-        User user = getAuthenticatedUser();
-        Announcement announcement = announcementRepository.findById(announcementId).get();
+        User user = getAuthenticatedRoleUser();
+        Announcement announcement = announcementRepository.findById(announcementId).orElseThrow(BadRequestException::new);
 
         if (!user.getId().equals(announcement.getOwner().getId())) {
             throw new ForbiddenException("This ann not belongs to this user");
         }
 
-        List<Booking> bookings = bookingRepository.findByAnnouncementId(announcementId);
+        List<Booking> bookings = bookingRepository.findAcceptedByAnnouncementId(announcementId);
 
         return bookingViewMapper.viewBooked(bookings);
     }
@@ -289,33 +293,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, String> changeBookingsStatus(ChangeBookingsStatusRequest request) {
 
-        User user = getAuthenticatedUser();
-        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).get();
-        Booking booking = bookingRepository.findById(request.getBookingId()).get();
+        User owner = getAuthenticatedRoleUser();
+        Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).orElseThrow(BadRequestException::new);
+        Booking booking = bookingRepository.findById(request.getBookingId()).orElseThrow(BadRequestException::new);
 
         if (!booking.getAnnouncement().equals(announcement) ||
-        !announcement.getOwner().equals(user)) {
+        !announcement.getOwner().equals(owner)) {
             throw new ForbiddenException();
         }
+
+        findTakenDates(booking.getCheckin(), booking.getCheckout(), announcement.getBlockedDates(), announcement.getBlockedDatesByUser());
+
         if (request.getStatus().equals(Status.ACCEPTED)) {
             booking.setStatus(Status.ACCEPTED);
-            announcement.addBlockedDate(findIntervalDates(booking.getCheckin(), booking.getCheckout()));
+            announcement.addBlockedDate(booking.getCheckin(), booking.getCheckout());
             bookingRepository.save(booking);
             announcementRepository.save(announcement);
         } else if (request.getStatus().equals(Status.REJECTED)){
             if (booking.getStatus().equals(Status.ACCEPTED)) {
-                for (LocalDate l: findIntervalDates(booking.getCheckin(), booking.getCheckout())) {
-                    announcement.removeIfExistDate(l);
-                }
+                announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
             }
             booking.setStatus(Status.REJECTED);
             bookingRepository.save(booking);
             announcementRepository.save(announcement);
         } else if (request.getStatus().equals(Status.NEW)){
             if (booking.getStatus().equals(Status.ACCEPTED)) {
-                for (LocalDate l: findIntervalDates(booking.getCheckin(), booking.getCheckout())) {
-                    announcement.removeIfExistDate(l);
-                }
+                announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
             }
             booking.setStatus(Status.NEW);
             bookingRepository.save(booking);
@@ -324,17 +327,12 @@ public class UserServiceImpl implements UserService {
             return Map.of("massage", "Nothing changed!");
         }
 
-        return Map.of("massage", "booking updated!");
+        return Map.of("massage", "booking status updated!");
     }
 
     @Override
     public ClosedDatesResponse getClosedDates(Long announcementId) {
-        Announcement announcement = announcementRepository.findById(announcementId).get();
-        User user = getAuthenticatedUser();
-
-        if (!announcement.getOwner().getId().equals(user.getId())) {
-            throw new ForbiddenException("this announcement not yours");
-        }
+        Announcement announcement = announcementRepository.findById(announcementId).orElseThrow(BadRequestException::new);
 
         ClosedDatesResponse response = new ClosedDatesResponse();
         response.setTakenDates(announcement.getBlockedDates());
@@ -343,14 +341,18 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
-    private List<LocalDate> findIntervalDates(LocalDate checkIn, LocalDate checkOut) {
-        List<LocalDate> datesForBook = new ArrayList<>();
+    private void findTakenDates(LocalDate checkIn, LocalDate checkOut,
+                                           List<LocalDate> takenDates, List<LocalDate> takenDatesByUser) {
+        takenDates.addAll(takenDatesByUser);
         while (checkIn.isBefore(checkOut)) {
-            datesForBook.add(checkIn);
+            if  (takenDates.contains(checkIn)) {
+                throw new BadRequestException("промежуточные даты вышего бронирования заняты!");
+            }
             checkIn = checkIn.plusDays(1L);
         }
-        datesForBook.add(checkOut);
-        return datesForBook;
+        if  (takenDates.contains(checkOut)) {
+            throw new BadRequestException("промежуточные даты вышего бронирования заняты!");
+        }
     }
 }
 
