@@ -11,6 +11,7 @@ import java.util.List;
 @Component
 public class AnnouncementViewMapper {
 
+
     public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement) {
         if (announcement == null) {
             return null;
@@ -57,13 +58,10 @@ public class AnnouncementViewMapper {
         response.setColorOfLike(announcement.getColorOfLike());
         response.setColorOfBookmark(announcement.getColorOfBookmark());
         response.setRegionId(announcement.getLocation().getRegion().getId());
-        response.setTownProvince(announcement.getLocation().getCity());
         response.setRegionName(announcement.getLocation().getRegion().getRegionName());
-
+        response.setTownProvince(announcement.getLocation().getCity());
         return response;
     }
-
-
 
     public List<AdminPageAnnouncementResponse> viewAllAdminPageAnnouncementResponses(List<Announcement> announcements) {
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = new ArrayList<>();

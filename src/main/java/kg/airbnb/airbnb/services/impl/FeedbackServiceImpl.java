@@ -13,7 +13,7 @@ import kg.airbnb.airbnb.repositories.FeedbackRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.FeedbackService;
 import kg.airbnb.airbnb.services.UserService;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,8 +111,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     public List<FeedbackResponse> findAll(Long announcementId, Integer page, Integer size) {
         Announcement announcement = getFindByAnnouncementId(announcementId);
         PageRequest pr = PageRequest.of(page - 1,size);
-        List<Feedback> feedbacks = announcement.getFeedbacks();
-        return feedbacks.stream().map(this::getFeedbackResponse).collect(Collectors.toList());
+        List<Feedback> announcementFeedback = feedbackRepository.findAnnouncementFeedback(announcement.getId(), pr);
+        System.out.println("announcementFeedback = " + announcementFeedback);
+        return announcementFeedback.stream().map(this::getFeedbackResponseForGetAll).collect(Collectors.toList());
     }
 
     @Override
@@ -213,10 +215,34 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackResponse;
     }
 
+    private FeedbackResponse getFeedbackResponseForGetAll(Feedback feedback){
+        FeedbackResponse feedbackResponse = new FeedbackResponse();
+        feedbackResponse.setId(feedback.getId());
+
+        if (Objects.isNull(feedback.getOwner())) {
+            feedbackResponse.setFeedbackOwnerImage(null);
+            feedbackResponse.setFeedbackOwnerFullName(null);
+        } else {
+            feedbackResponse.setFeedbackOwnerImage(feedback.getOwner().getImage());
+            feedbackResponse.setFeedbackOwnerFullName(feedback.getOwner().getFullName());
+        }
+
+        feedbackResponse.setRating(feedback.getRating());
+        feedbackResponse.setImages(feedback.getImages());
+        feedbackResponse.setDescription(feedback.getDescription());
+        feedbackResponse.setCreatedAt(feedback.getCreatedAt());
+        feedbackResponse.setLikeCount(feedback.getLike());
+        feedbackResponse.setDisLikeCount(feedback.getDislike());
+        feedbackResponse.setColorOfLike(feedback.getColorOfLike());
+        feedbackResponse.setColorOfDisLike(feedback.getColorOfDisLike());
+        return feedbackResponse;
+    }
+
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
         return userRepository.findByEmail(login).orElseThrow(() ->
                 new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
     }
+
 }
