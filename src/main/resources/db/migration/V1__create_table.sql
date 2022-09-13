@@ -97,6 +97,7 @@ CREATE TABLE users (
     id BIGSERIAL NOT NULL,
     email VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
+    phone_number VARCHAR (16),
     image VARCHAR(255),
     password VARCHAR(255) NOT NULL ,
     role VARCHAR(255),

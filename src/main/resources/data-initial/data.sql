@@ -1,13 +1,13 @@
-INSERT INTO users (id, full_name, email, password, image, role)
-VALUES (1, 'Admin', 'admin@gmail.co', '$2a$10$UG2qe9cH4iB00B9dZvLp0exUt5WyQrN/eMOboNE3.tHV4hFXD9lr2',
+INSERT INTO users (id, full_name, email, phone_number, password, image, role)
+VALUES (1, 'Admin', 'admin@gmail.co', '+996 997 997 997', '$2a$10$UG2qe9cH4iB00B9dZvLp0exUt5WyQrN/eMOboNE3.tHV4hFXD9lr2',
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'ADMIN'),
-       (2, 'Default Vendor', 'vendor@gmail.com', '$2a$10$ifGBxnBxLfkBzgpZR/bBA.ocjTs2SOilwpZMJ47KLRnuU8sousuY6',
+       (2, 'Default Vendor', 'vendor@gmail.com', '+996 707 707 707', '$2a$10$ifGBxnBxLfkBzgpZR/bBA.ocjTs2SOilwpZMJ47KLRnuU8sousuY6',
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'USER'),
-       (3, 'Default User', 'user@gmail.com', '$2a$10$RRAYDWDs/igIi02Zmhsfs.WrEq/rgAll8MZA0LsQ5cw15FIxHu9hK',
+       (3, 'Default User', 'user@gmail.com', '+996 555 555 555', '$2a$10$RRAYDWDs/igIi02Zmhsfs.WrEq/rgAll8MZA0LsQ5cw15FIxHu9hK',
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'USER'),
-       (4, 'Bill Gates', 'billgates@gmail.com', '$2a$10$.YQm2c3IhgaqYVzeh3REFeMpCswkZ99bFznWwNLG7l0TRmji/YvRi',
+       (4, 'Bill Gates', 'billgates@gmail.com', '+996 222 222 222', '$2a$10$.YQm2c3IhgaqYVzeh3REFeMpCswkZ99bFznWwNLG7l0TRmji/YvRi',
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'USER'),
-       (5, 'Steve Jobs,', 'steve@gmail.com', '$2a$10$.YQm2c3IhgaqYVzeh3REFeMpCswkZ99bFznWwNLG7l0TRmji/YvRi',
+       (5, 'Steve Jobs,', 'steve@gmail.com', '+996 770 077 077', '$2a$10$.YQm2c3IhgaqYVzeh3REFeMpCswkZ99bFznWwNLG7l0TRmji/YvRi',
         'https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg', 'USER');
 
 INSERT INTO regions(id, region_name)

@@ -70,7 +70,8 @@ public class LoginService {
         );
     }
 
-    public JwtResponse authenticateWithGoogle(String token) throws FirebaseAuthException {
+    public JwtResponse authenticateWithGoogle(String token, String phoneNumber) throws FirebaseAuthException {
+
 
         log.info("User started logging in with google");
 
@@ -82,6 +83,7 @@ public class LoginService {
             User newUser = new User(
                     firebaseToken.getName(),
                     firebaseToken.getEmail(),
+                    "+996 "+phoneNumber,
                     passwordEncoder.encode(firebaseToken.getEmail()),
                     Role.USER
             );

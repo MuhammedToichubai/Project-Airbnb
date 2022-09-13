@@ -34,7 +34,8 @@ public class AuthApi {
 
     @Operation(summary = "Sign in with Google", description = "Any user can login with google account.")
     @PostMapping("/login/google")
-    public JwtResponse loginWithGoogle(@RequestParam String token) throws FirebaseAuthException {
-        return loginService.authenticateWithGoogle(token);
+    public JwtResponse loginWithGoogle(@RequestParam String token,
+                                       @RequestParam String phoneNumber) throws FirebaseAuthException {
+        return loginService.authenticateWithGoogle(token, phoneNumber);
     }
 }
