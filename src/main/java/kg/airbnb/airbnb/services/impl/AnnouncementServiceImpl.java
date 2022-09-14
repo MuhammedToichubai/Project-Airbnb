@@ -187,20 +187,24 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Announcement> allAnnouncementsPage = announcementRepository.findAllNewAndAccepted(pageable);
+        Page<Announcement> allAnnouncementsPage = announcementRepository.findAllNewAndSeen(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = viewMapper.viewAllAdminPageAnnouncementResponses(allAnnouncementsPageToListConversion);
         AdminPageApplicationsResponse response = new AdminPageApplicationsResponse();
-        response.setAllAnnouncementsSize(announcementRepository.findAllNewAndAccepted().size());
+        response.setAllAnnouncementsSize(announcementRepository.findAllNewAndSeen().size());
         response.setPageAnnouncementResponseList(adminPageAnnouncementResponses);
         return response;
     }
 
     @Override
+    @Transactional
     public AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id) {
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
+            if(announcement.getStatus().equals(Status.NEW)){
+                announcement.setStatus(Status.SEEN);
+            }
             return viewMapper.entityToDtoConver(announcement);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
