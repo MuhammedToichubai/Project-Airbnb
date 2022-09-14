@@ -62,9 +62,9 @@ public class AdminApi {
 
     @Operation(summary = "UnBlock announcement")
     @PutMapping("/announcement/unblock/{announcementId}")
-    public SimpleResponse UnBlockAnnouncement(@PathVariable Long announcementId,
+    public SimpleResponse unBlockAnnouncement(@PathVariable Long announcementId,
                                             @RequestBody AdminMessageRequest messageRequest){
-        return announcementService.UnBlockAnnouncement(announcementId, messageRequest);
+        return announcementService.unBlockAnnouncement(announcementId, messageRequest);
     }
 
     @Operation(summary = "Block all announcements")
