@@ -51,7 +51,8 @@ public class Announcement implements Comparable<Announcement> {
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     private User owner;
 
-    private String messagesFromAdmin;
+    @ElementCollection
+    private List<String> messagesFromAdmin;
 
     @OneToOne(cascade = ALL)
     private Address location;

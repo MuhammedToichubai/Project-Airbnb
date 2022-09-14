@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.ElementCollection;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,6 +30,6 @@ public class UserAnnouncementResponse {
     private Status status;
     private Integer likeCountAnnouncement;
     private Integer bookmarkCountAnnouncement;
-    private String messagesFromAdmin;
+    private List<String> messagesFromAdmin;
 
 }

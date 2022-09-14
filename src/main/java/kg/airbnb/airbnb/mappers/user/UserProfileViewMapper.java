@@ -3,7 +3,6 @@ package kg.airbnb.airbnb.mappers.user;
 
 import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
@@ -42,7 +41,6 @@ public class UserProfileViewMapper {
         announcementsResponse.setStatus(announcement.getStatus());
         announcementsResponse.setLikeCountAnnouncement(announcement.getLike());
         announcementsResponse.setBookmarkCountAnnouncement(announcement.getBookmark());
-        announcementsResponse.setMessagesFromAdmin(announcement.getMessagesFromAdmin());
         return announcementsResponse;
     }
 
@@ -54,11 +52,11 @@ public class UserProfileViewMapper {
         return responses;
     }
 
-    public UserProfileResponse entityToDto(User user) {
+    public UserResponse.UserProfileResponse entityToDto(User user) {
         if (user == null) {
             return null;
         }
-        UserProfileResponse response = new UserProfileResponse();
+        UserResponse.UserProfileResponse response = new UserResponse.UserProfileResponse();
         response.setImage(user.getImage());
         response.setName(user.getFullName());
         response.setContact(user.getEmail());

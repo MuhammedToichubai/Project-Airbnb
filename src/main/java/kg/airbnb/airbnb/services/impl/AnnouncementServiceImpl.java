@@ -232,14 +232,19 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
+
             SimpleResponse simpleResponse = new SimpleResponse();
-            Announcement announcement = getAnnouncementById(id);
-            announcement.setStatus(Status.REJECTED);
-            announcementRepository.save(announcement);
             simpleResponse.setStatus("REJECTED");
             simpleResponse.setMessage(announcementRejectRequest.getMessage());
 
-            announcement.setMessagesFromAdmin("REJECTED: "+announcementRejectRequest.getMessage());
+            Announcement announcement = getAnnouncementById(id);
+            announcement.setStatus(Status.REJECTED);
+//            announcementRepository.save(announcement);
+
+            announcement.setMessagesFromAdmin(Arrays.asList("REJECTED: "+announcementRejectRequest.getMessage()));
+
+            UserResponse.UserProfileResponse response = new UserResponse.UserProfileResponse();
+            response.setMessagesFromAdmin(announcement.getMessagesFromAdmin());
 
             return simpleResponse;
         } else {
@@ -271,9 +276,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             changeAnnouncementStatus(announcement);
         }
 
-        UserProfileResponse profileResponse = new UserProfileResponse();
-        profileResponse.setMessagesFromAdmin("BLOCK: "+messageRequest.getMessage());
-
         return new SimpleResponse(
                 "BLOCK",
                 "All announcements are block. "+ messageRequest.getMessage()
@@ -295,7 +297,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
 
     @Override
-    public SimpleResponse deleteAnnouncement(Long announcementId, AdminMessageRequest announcementRejectRequest) {
+    @Transactional
+    public SimpleResponse deleteAnnouncement(Long announcementId, AdminMessageRequest adminMessageRequest) {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
@@ -316,10 +319,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcementRepository.customDeleteById(announcement.getId());
 
             simpleResponse.setStatus("DELETED");
-            simpleResponse.setMessage(announcementRejectRequest.getMessage());
+            simpleResponse.setMessage(adminMessageRequest.getMessage());
 
-            UserProfileResponse profileResponse = new UserProfileResponse();
-            profileResponse.setMessagesFromAdmin("DELETE: "+announcementRejectRequest.getMessage());
+            List<String> messagesFromAdmin = announcement.getOwner().getMessagesFromAdmin();
+            messagesFromAdmin.add("DELETE: "+ adminMessageRequest );
 
             return simpleResponse;
         } else {

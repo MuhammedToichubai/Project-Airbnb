@@ -39,6 +39,11 @@ CREATE TABLE announcement_images (
     images VARCHAR(255)
 );
 
+CREATE TABLE announcement_messages_from_admin (
+    announcement_id BIGINT NOT NULL ,
+    messages_form_admin VARCHAR (500)
+);
+
 CREATE TABLE announcements_guests (
     announcement_id BIGINT NOT NULL,
     guests_id BIGINT NOT NULL
@@ -106,11 +111,19 @@ CREATE TABLE users (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE user_messages_from_admin (
+     user_id BIGINT NOT NULL ,
+     messages_form_admin VARCHAR (500)
+);
+
 ALTER TABLE IF EXISTS addresses
     ADD CONSTRAINT address_region_fk FOREIGN KEY (region_id) REFERENCES regions;
 
 ALTER TABLE IF EXISTS announcement_images
     ADD CONSTRAINT announcement_images_announcement_fk FOREIGN KEY (announcement_id) REFERENCES announcements;
+
+-- ALTER TABLE IF EXISTS announcement_messages_from_admin
+--     ADD CONSTRAINT annoucement_messages_from_admin_announcement_fk FOREIGN KEY (announcemet_id) REFERENCES announcements;
 
 ALTER TABLE IF EXISTS announcements
     ADD CONSTRAINT announcement_address_fk FOREIGN KEY (location_id) REFERENCES addresses;
@@ -138,6 +151,9 @@ ALTER TABLE IF EXISTS feedbacks
 
 ALTER TABLE IF EXISTS feedbacks
     ADD CONSTRAINT feedback_user_fk FOREIGN KEY (owner_id) REFERENCES users;
+
+-- ALTER TABLE IF EXISTS user_messages_from_admin
+--     ADD CONSTRAINT user_messages_from_admin_user_fk FOREIGN KEY (user_id) REFERENCES users;
 
 ALTER TABLE IF EXISTS user_bookmark_announcements
     ADD CONSTRAINT user_bookmark_announcements_user_fk FOREIGN KEY (user_id) REFERENCES users;

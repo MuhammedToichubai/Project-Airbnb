@@ -42,7 +42,8 @@ public class  User {
 
     private String image;
 
-    private String messagesFromAdmin;
+    @ElementCollection
+    private List<String> messagesFromAdmin;
 
     @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER)
     private List<Announcement> announcements = new ArrayList<>();
