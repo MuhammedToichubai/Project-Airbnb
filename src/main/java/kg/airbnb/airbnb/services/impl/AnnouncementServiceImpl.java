@@ -314,7 +314,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
 
-        announcement.setStatus(Status.BLOCKED);
+        announcement.setStatus(Status.BLOCK);
 
     }
 
