@@ -46,5 +46,11 @@ public interface AnnouncementService {
 
     SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
 
-    SimpleResponse blockAllAnnouncement(AdminMessageRequest messageRequest, Long userId);
+    SimpleResponse blockAllAnnouncements(AdminMessageRequest messageRequest, Long userId);
+
+    SimpleResponse unBlockAllAnnouncements(AdminMessageRequest messageRequest, Long userId);
+
+    SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
 }
+
+
