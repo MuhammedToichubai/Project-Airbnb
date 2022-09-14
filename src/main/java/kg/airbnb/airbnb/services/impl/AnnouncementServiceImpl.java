@@ -10,15 +10,9 @@ import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementEditMapper;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
-import kg.airbnb.airbnb.models.Address;
-import kg.airbnb.airbnb.models.Announcement;
-import kg.airbnb.airbnb.models.Booking;
-import kg.airbnb.airbnb.models.Region;
+import kg.airbnb.airbnb.models.*;
 import kg.airbnb.airbnb.models.auth.User;
-import kg.airbnb.airbnb.repositories.AddressRepository;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
-import kg.airbnb.airbnb.repositories.RegionRepository;
-import kg.airbnb.airbnb.repositories.UserRepository;
+import kg.airbnb.airbnb.repositories.*;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
@@ -49,6 +43,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final UserService userService;
     private final GoogleMapService googleMapService;
     private final UserProfileViewMapper userProfileViewMapper;
+    private final FeedbackRepository feedbackRepository;
 
     @Override
     public AnnouncementSaveResponse announcementSave(AnnouncementRequest request) {
@@ -140,13 +135,19 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 throw new ForbiddenException("You cannot delete the listing because the listing has a booking!");
             }
 
+
+
+
             announcementRepository.clearImages(announcementId);
 
-//            announcementRepository.clearFeedback(announcementId);
-//
+            List<Feedback> feedbacks = announcement.getFeedbacks();
+            for (Feedback feedback : feedbacks) {
+                feedbackRepository.clearImages(feedback.getId());
+            }
+
+            announcementRepository.clearFeedback(announcementId);
+
 //            announcementRepository.clearBooking(announcementId);
-//
-//            announcementRepository.clearAddress(announcementId);
 
             announcementRepository.customDeleteById(announcementId);
 
@@ -302,6 +303,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             Announcement announcement = getAnnouncementById(announcementId);
 
             announcementRepository.clearImages(announcement.getId());
+
+            List<Feedback> feedbacks = announcement.getFeedbacks();
+            for (Feedback feedback : feedbacks) {
+                feedbackRepository.clearImages(feedback.getId());
+            }
+
+            announcementRepository.clearFeedback(announcementId);
+
+//            announcementRepository.clearBooking(announcementId);
 
             announcementRepository.customDeleteById(announcement.getId());
 
