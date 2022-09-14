@@ -6,4 +6,5 @@ public enum Status {
     REJECTED,
     BLOCK,
     SEEN
+    BLOCKED
 }

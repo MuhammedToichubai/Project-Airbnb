@@ -251,7 +251,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
 
         Announcement announcement = getAnnouncementById(announcementId);
-        changeAnnouncementStatus(announcement);
+        changeAnnouncementStatusToBlocked(announcement);
 
         return new SimpleResponse(
                 "BLOCK",
@@ -261,30 +261,72 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     @Transactional
-    public SimpleResponse blockAllAnnouncement(AdminMessageRequest messageRequest, Long userId) {
+    public SimpleResponse blockAllAnnouncements(AdminMessageRequest messageRequest, Long userId) {
 
         List<Announcement> announcements = announcementRepository.findUserAllAnnouncement(userId);
 
         for (Announcement announcement : announcements) {
-            changeAnnouncementStatus(announcement);
+            changeAnnouncementStatusToBlocked(announcement);
         }
 
         return new SimpleResponse(
-                "BLOCK",
+                "BLOCKED",
+                "All announcements are block. "+ messageRequest.getMessage()
+
+        );
+    }
+
+    @Override
+    @Transactional
+    public SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
+
+        Announcement announcement = getAnnouncementById(announcementId);
+        changeAnnouncementStatusToUnBlocked(announcement);
+
+        return new SimpleResponse(
+                "ACCEPTED",
+                "Announcement with "+announcementId+" blocked. "+messageRequest.getMessage()
+        );
+    }
+
+    @Override
+    @Transactional
+    public SimpleResponse unBlockAllAnnouncements(AdminMessageRequest messageRequest, Long userId) {
+
+        List<Announcement> announcements = announcementRepository.findUserAllAnnouncement(userId);
+
+        for (Announcement announcement : announcements) {
+            changeAnnouncementStatusToUnBlocked(announcement);
+        }
+
+        return new SimpleResponse(
+                "ACCEPTED",
                 "All announcements are block. "+ messageRequest.getMessage()
 
         );
     }
 
     @Transactional
-    public void changeAnnouncementStatus(Announcement announcement){
+    public void changeAnnouncementStatusToBlocked(Announcement announcement){
         User currentUser = getAuthenticatedUser();
 
         if (!currentUser.getRole().equals(Role.ADMIN)){
             throw new ForbiddenException("Only admin can access this page!");
         }
 
-        announcement.setStatus(Status.BLOCK);
+        announcement.setStatus(Status.BLOCKED);
+
+    }
+
+    @Transactional
+    public void changeAnnouncementStatusToUnBlocked(Announcement announcement){
+        User currentUser = getAuthenticatedUser();
+
+        if (!currentUser.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+
+        announcement.setStatus(Status.ACCEPTED);
 
     }
 
