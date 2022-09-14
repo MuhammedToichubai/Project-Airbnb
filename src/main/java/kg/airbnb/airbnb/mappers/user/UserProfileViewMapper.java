@@ -32,9 +32,11 @@ public class UserProfileViewMapper {
         UserAnnouncementResponse announcementsResponse = new UserAnnouncementResponse();
         announcementsResponse.setId(announcement.getId());
         announcementsResponse.setImage(announcement.getImages().get(0));
+        announcementsResponse.setHouseType(announcement.getHouseType());
         announcementsResponse.setPrice(announcement.getPrice());
         announcementsResponse.setRating(announcementViewMapper.calculateRating(announcement));
         announcementsResponse.setTitle(announcement.getTitle());
+        announcementsResponse.setDescription(announcement.getDescription());
         announcementsResponse.setLocation(announcement.getLocation().getAddress());
         announcementsResponse.setMaxGuests(announcement.getMaxGuests());
         announcementsResponse.setStatus(announcement.getStatus());
@@ -59,6 +61,7 @@ public class UserProfileViewMapper {
         response.setImage(user.getImage());
         response.setName(user.getFullName());
         response.setContact(user.getEmail());
+        response.setPhoneNumber(user.getPhoneNumber());
         response.setBookings(listUserBookings(user.getBookings()));
         response.setAnnouncements(listUserAnnouncements(user.getAnnouncements()));
         return response;

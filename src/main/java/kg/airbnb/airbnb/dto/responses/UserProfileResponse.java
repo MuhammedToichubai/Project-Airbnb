@@ -11,6 +11,7 @@ public class UserProfileResponse {
     private String image;
     private String name;
     private String contact;
+    private String phoneNumber;
     private List<UserBookingsResponse> bookings;
     private List<UserAnnouncementResponse> announcements;
 }

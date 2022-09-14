@@ -25,6 +25,7 @@ public class AnnouncementInnerPageResponse {
     private String ownerImage;
     private String ownerFullName;
     private String ownerEmail;
+    private String ownerPhoneNumber;
     private Integer likeCount;
     private Integer bookmarkCount;
     private Integer viewAnnouncementCount;
