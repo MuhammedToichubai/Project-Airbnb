@@ -25,6 +25,7 @@ public class AdminConfig {
             User user = new User(
                     "Peaksoft Admin",
                     "admin@test.com",
+                    "+996 700 000 000",
                     passwordEncoder.encode(password),
                     Role.ADMIN
             );
