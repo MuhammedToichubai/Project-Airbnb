@@ -274,7 +274,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     @Transactional
-    public SimpleResponse UnBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
+    public SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
 
         Announcement announcement = getAnnouncementById(announcementId);
         changeAnnouncementStatusToUnBlocked(announcement);
