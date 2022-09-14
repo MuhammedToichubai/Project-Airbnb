@@ -25,17 +25,4 @@ public class UserResponse {
         this.booking = user.getBookings().size();
         this.announcement = user.getAnnouncements().size();
     }
-
-    @Getter
-    @Setter
-    public static class UserProfileResponse {
-
-        private String image;
-        private String name;
-        private String contact;
-        private String phoneNumber;
-        private List<String> messagesFromAdmin;
-        private List<UserBookingsResponse> bookings;
-        private List<UserAnnouncementResponse> announcements;
-    }
 }

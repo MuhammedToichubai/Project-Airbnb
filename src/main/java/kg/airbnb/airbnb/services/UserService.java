@@ -2,6 +2,7 @@ package kg.airbnb.airbnb.services;
 
 import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
 import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,9 @@ public interface UserService {
 
     void addToDisLikedFeedbacks(Long feedbackId);
 
-    UserResponse.UserProfileResponse getUserProfile();
+   UserProfileResponse getUserProfile();
 
-    UserResponse.UserProfileResponse getUserProfile(Long userId);
+   UserProfileResponse getUserProfile(Long userId);
 
     List<FavoriteAnnouncementResponse> userFavoriteAnnouncements();
 

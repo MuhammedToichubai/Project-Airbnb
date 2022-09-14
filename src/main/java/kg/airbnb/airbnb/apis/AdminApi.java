@@ -87,7 +87,7 @@ public class AdminApi {
 
     @Operation(summary = "User profile for admin page")
     @GetMapping("user/profile/{userId}")
-    public UserResponse.UserProfileResponse getUserProfile(@PathVariable Long userId) {
+    public UserProfileResponse getUserProfile(@PathVariable Long userId) {
         return service.getUserProfile(userId);
     }
 

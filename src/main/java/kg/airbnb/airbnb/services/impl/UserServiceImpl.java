@@ -106,15 +106,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse.UserProfileResponse getUserProfile() {
+    public UserProfileResponse getUserProfile() {
         User user = getAuthenticatedUser();
         return userProfileViewMapper.entityToDto(user);
     }
 
     @Override
-    public UserResponse.UserProfileResponse getUserProfile(Long userId) {
+    public UserProfileResponse getUserProfile(Long userId) {
         User currentUser = getAuthenticatedUser();
-        UserResponse.UserProfileResponse userProfileResponse;
+        UserProfileResponse userProfileResponse;
         if (currentUser.getRole().equals(Role.ADMIN)){
             User user = userRepository.findById(userId).orElseThrow(() ->
                     new NotFoundException("User with " + userId + " not found !"));

@@ -227,24 +227,25 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    @Transactional
-    public SimpleResponse rejectAnnouncement(Long id, AdminMessageRequest announcementRejectRequest) {
+
+    public SimpleResponse rejectAnnouncement(Long id, AdminMessageRequest adminMessageRequest) {
 
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
 
             SimpleResponse simpleResponse = new SimpleResponse();
             simpleResponse.setStatus("REJECTED");
-            simpleResponse.setMessage(announcementRejectRequest.getMessage());
+            simpleResponse.setMessage(adminMessageRequest.getMessage());
 
             Announcement announcement = getAnnouncementById(id);
             announcement.setStatus(Status.REJECTED);
-//            announcementRepository.save(announcement);
 
-            announcement.setMessagesFromAdmin(Arrays.asList("REJECTED: "+announcementRejectRequest.getMessage()));
+            announcement.setMessagesFromAdmin(Arrays.asList(adminMessageRequest.getMessage()));
+            announcementRepository.save(announcement);
+            System.err.println("Muhammed"+announcement.getMessagesFromAdmin());
 
-            UserResponse.UserProfileResponse response = new UserResponse.UserProfileResponse();
-            response.setMessagesFromAdmin(announcement.getMessagesFromAdmin());
+//            UserProfileResponse response = new UserProfileResponse();
+//            response.setMessagesFromAdmin(announcement.getMessagesFromAdmin());
 
             return simpleResponse;
         } else {
