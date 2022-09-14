@@ -28,5 +28,6 @@ public class UserAnnouncementResponse {
     private Status status;
     private Integer likeCountAnnouncement;
     private Integer bookmarkCountAnnouncement;
+    private String messagesFromAdmin;
 
 }

@@ -42,6 +42,7 @@ public class UserProfileViewMapper {
         announcementsResponse.setStatus(announcement.getStatus());
         announcementsResponse.setLikeCountAnnouncement(announcement.getLike());
         announcementsResponse.setBookmarkCountAnnouncement(announcement.getBookmark());
+        announcementsResponse.setMessagesFromAdmin(announcement.getMessagesFromAdmin());
         return announcementsResponse;
     }
 

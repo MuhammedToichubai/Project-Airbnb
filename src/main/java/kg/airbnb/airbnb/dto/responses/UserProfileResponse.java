@@ -12,6 +12,7 @@ public class UserProfileResponse {
     private String name;
     private String contact;
     private String phoneNumber;
+    private String messagesFromAdmin;
     private List<UserBookingsResponse> bookings;
     private List<UserAnnouncementResponse> announcements;
 }

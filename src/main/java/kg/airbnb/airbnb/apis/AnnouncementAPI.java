@@ -55,7 +55,7 @@ public class AnnouncementAPI {
         return announcementService.announcementUpdate(announcementId, announcementRequest);
     }
 
-    @Operation(summary = "Delete announcement", description = "Any registered user can delete his own announcement or administrator can delete any announcement.")
+    @Operation(summary = "Delete announcement", description = "Any registered user can delete his own announcement ")
     @DeleteMapping("/delete/{announcementId}")
     public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId) {
         return announcementService.announcementDelete(announcementId);

@@ -84,6 +84,35 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     )
     void clearImages(Long announcementId);
 
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delete from announcement_feedbacks f where f.announcement_id = ?1"
+
+    )
+    void clearFeedback(Long announcementId);
+
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delete from announcement_bookings b where b.booking_id = ?1"
+
+    )
+    void clearBooking(Long announcementId);
+
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delte from announcement_address a where a.announcement_id = ?1"
+
+    )
+    void clearAddress(Long announcementId);
+
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=1 order by a.createdAt desc")
     Page<Announcement> findAllNewAndAccepted(Pageable pageable);
 
@@ -98,4 +127,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
     List<Announcement> findUserAllAnnouncement(Long userId);
+
+
+
 }

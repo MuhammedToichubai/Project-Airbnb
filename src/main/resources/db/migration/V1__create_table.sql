@@ -27,6 +27,7 @@ CREATE TABLE announcements (
     price NUMERIC (19, 2),
     status INTEGER,
     title VARCHAR (255),
+    messages_from_admin VARCHAR (500),
     view_announcements INTEGER,
     location_id BIGINT,
     owner_id BIGINT,
@@ -96,11 +97,12 @@ CREATE TABLE user_liked_feedbacks (
 CREATE TABLE users (
     id BIGSERIAL NOT NULL,
     email VARCHAR(255) NOT NULL,
-    full_name VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) ,
     phone_number VARCHAR (16),
     image VARCHAR(255),
     password VARCHAR(255) NOT NULL ,
     role VARCHAR(255),
+    messages_from_admin VARCHAR (500),
     PRIMARY KEY (id)
 );
 

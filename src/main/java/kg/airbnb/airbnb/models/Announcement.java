@@ -40,7 +40,7 @@ public class Announcement implements Comparable<Announcement> {
 
     private BigDecimal price;
 
-    @OneToMany(cascade = ALL, mappedBy = "announcement")
+    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "announcement")
     private List<Feedback> feedbacks;
 
     private Integer maxGuests;
@@ -51,12 +51,13 @@ public class Announcement implements Comparable<Announcement> {
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     private User owner;
 
+    private String messagesFromAdmin;
+
     @OneToOne(cascade = ALL)
     private Address location;
 
     @ManyToMany(cascade = ALL)
     private List<User> guests;
-
 
     @OneToMany(cascade = ALL, mappedBy = "announcement")
     private List<Booking> bookings;
