@@ -124,5 +124,9 @@ public class  User {
         disLikedFeedbacks.add(feedbackId);
     }
 
+    public void setMessagesFromAdmin(String str) {
+
+        messagesFromAdmin.add(str);
+    }
 }
 

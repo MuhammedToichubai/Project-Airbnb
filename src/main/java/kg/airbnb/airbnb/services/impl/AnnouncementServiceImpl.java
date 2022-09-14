@@ -135,9 +135,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 throw new ForbiddenException("You cannot delete the listing because the listing has a booking!");
             }
 
-
-
-
             announcementRepository.clearImages(announcementId);
 
             List<Feedback> feedbacks = announcement.getFeedbacks();
@@ -227,28 +224,34 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-
     public SimpleResponse rejectAnnouncement(Long id, AdminMessageRequest adminMessageRequest) {
 
         User user = getAuthenticatedUser();
+
         if (user.getRole().equals(Role.ADMIN)) {
 
             SimpleResponse simpleResponse = new SimpleResponse();
+
             simpleResponse.setStatus("REJECTED");
+
             simpleResponse.setMessage(adminMessageRequest.getMessage());
 
             Announcement announcement = getAnnouncementById(id);
+
+            if (!announcement.getStatus().equals(Status.NEW)){
+
+                throw new BadRequestException("Can be rejected once!");
+            }
             announcement.setStatus(Status.REJECTED);
 
-            announcement.setMessagesFromAdmin(Arrays.asList(adminMessageRequest.getMessage()));
-            announcementRepository.save(announcement);
-            System.err.println("Muhammed"+announcement.getMessagesFromAdmin());
+            announcement.setMessageFromAdmin(adminMessageRequest.getMessage());
 
-//            UserProfileResponse response = new UserProfileResponse();
-//            response.setMessagesFromAdmin(announcement.getMessagesFromAdmin());
+            announcementRepository.save(announcement);
 
             return simpleResponse;
+
         } else {
+
             throw new ForbiddenException("Only admin can access this page!");
         }
 
@@ -298,18 +301,31 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
 
     @Override
-    @Transactional
     public SimpleResponse deleteAnnouncement(Long announcementId, AdminMessageRequest adminMessageRequest) {
 
         User user = getAuthenticatedUser();
+
         if (user.getRole().equals(Role.ADMIN)) {
+
             SimpleResponse simpleResponse = new SimpleResponse();
+
             Announcement announcement = getAnnouncementById(announcementId);
+
+            User owner = announcement.getOwner();
+
+            owner.setMessagesFromAdmin("DELETE: "+
+                    announcement.getTitle()+", "
+                    +announcement.getHouseType()+"- "
+                    +adminMessageRequest.getMessage());
+
+            userRepository.save(owner);
 
             announcementRepository.clearImages(announcement.getId());
 
             List<Feedback> feedbacks = announcement.getFeedbacks();
+
             for (Feedback feedback : feedbacks) {
+
                 feedbackRepository.clearImages(feedback.getId());
             }
 
@@ -320,13 +336,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcementRepository.customDeleteById(announcement.getId());
 
             simpleResponse.setStatus("DELETED");
+
             simpleResponse.setMessage(adminMessageRequest.getMessage());
 
-            List<String> messagesFromAdmin = announcement.getOwner().getMessagesFromAdmin();
-            messagesFromAdmin.add("DELETE: "+ adminMessageRequest );
-
             return simpleResponse;
+
         } else {
+
             throw new ForbiddenException("Only admin can access this page!");
         }
     }

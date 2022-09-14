@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -42,6 +43,8 @@ public class UserProfileViewMapper {
         announcementsResponse.setStatus(announcement.getStatus());
         announcementsResponse.setLikeCountAnnouncement(announcement.getLike());
         announcementsResponse.setBookmarkCountAnnouncement(announcement.getBookmark());
+        announcementsResponse.setMessagesFromAdmin(announcement.getMessageFromAdmin());
+
         return announcementsResponse;
     }
 
@@ -62,8 +65,11 @@ public class UserProfileViewMapper {
         response.setName(user.getFullName());
         response.setContact(user.getEmail());
         response.setPhoneNumber(user.getPhoneNumber());
+        response.setMessageFromAdmin(user.getMessagesFromAdmin());
         response.setBookings(listUserBookings(user.getBookings()));
         response.setAnnouncements(listUserAnnouncements(user.getAnnouncements()));
+
+
         return response;
     }
 

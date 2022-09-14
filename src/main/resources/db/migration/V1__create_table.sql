@@ -27,7 +27,7 @@ CREATE TABLE announcements (
     price NUMERIC (19, 2),
     status INTEGER,
     title VARCHAR (255),
---     messages_from_admin VARCHAR (500),
+    message_from_admin VARCHAR (500),
     view_announcements INTEGER,
     location_id BIGINT,
     owner_id BIGINT,
@@ -37,11 +37,6 @@ CREATE TABLE announcements (
 CREATE TABLE announcement_images (
     announcement_id BIGINT NOT NULL,
     images VARCHAR(255)
-);
-
-CREATE TABLE announcement_messages_from_admin (
-    announcement_id BIGINT NOT NULL ,
-    messages_from_admin VARCHAR (500)
 );
 
 CREATE TABLE announcements_guests (
@@ -107,7 +102,6 @@ CREATE TABLE users (
     image VARCHAR(255),
     password VARCHAR(255) NOT NULL ,
     role VARCHAR(255),
---     messages_from_admin VARCHAR (500),
     PRIMARY KEY (id)
 );
 

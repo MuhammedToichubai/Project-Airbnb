@@ -13,7 +13,7 @@ public  class UserProfileResponse {
     private String name;
     private String contact;
     private String phoneNumber;
-    private List<String> messagesFromAdmin;
+    private List<String> messageFromAdmin;
     private List<UserBookingsResponse> bookings;
     private List<UserAnnouncementResponse> announcements;
 }

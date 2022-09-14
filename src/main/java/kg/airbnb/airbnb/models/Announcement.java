@@ -3,10 +3,10 @@ package kg.airbnb.airbnb.models;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.auth.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -20,7 +20,7 @@ import static javax.persistence.CascadeType.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
 public class Announcement implements Comparable<Announcement> {
 
     @Id
@@ -51,8 +51,7 @@ public class Announcement implements Comparable<Announcement> {
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     private User owner;
 
-    @ElementCollection
-    private List<String> messagesFromAdmin;
+    private String messageFromAdmin;
 
     @OneToOne(cascade = ALL)
     private Address location;

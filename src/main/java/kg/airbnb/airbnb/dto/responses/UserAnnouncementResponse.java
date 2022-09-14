@@ -30,6 +30,6 @@ public class UserAnnouncementResponse {
     private Status status;
     private Integer likeCountAnnouncement;
     private Integer bookmarkCountAnnouncement;
-    private List<String> messagesFromAdmin;
+    private String messagesFromAdmin;
 
 }
