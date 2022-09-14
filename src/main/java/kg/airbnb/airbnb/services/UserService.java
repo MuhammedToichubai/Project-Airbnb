@@ -1,9 +1,6 @@
 package kg.airbnb.airbnb.services;
 
-import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
-import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
-import kg.airbnb.airbnb.dto.responses.UserResponse;
+import kg.airbnb.airbnb.dto.responses.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +40,6 @@ public interface UserService {
 
     FavoritesResponse getUserFavoriteAnnouncements();
 
+    SimpleResponse deleteMessagesFromAdmin();
 }
 
