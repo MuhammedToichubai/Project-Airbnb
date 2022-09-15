@@ -95,7 +95,7 @@ public class UserProfileViewMapper {
         bookingsResponse.setMaxGuests(booking.getAnnouncement().getMaxGuests());
         bookingsResponse.setCheckIn(booking.getCheckin().format(DateTimeFormatter.ISO_LOCAL_DATE));
         bookingsResponse.setCheckOut(booking.getCheckout().format(DateTimeFormatter.ISO_LOCAL_DATE));
-        bookingsResponse.setStatus(Status.NEW);
+        bookingsResponse.setStatus(booking.getStatus());
         return bookingsResponse;
 
     }
