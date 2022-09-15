@@ -19,4 +19,5 @@ public class BookedResponse {
     private String userName;
     private String userEmail;
     private String userImage;
+    private String userPhoneNumber;
 }

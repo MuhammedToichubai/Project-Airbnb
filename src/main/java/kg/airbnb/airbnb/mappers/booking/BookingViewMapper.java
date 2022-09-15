@@ -65,6 +65,7 @@ public class BookingViewMapper {
         response.setUserName(request.getUser().getFullName());
         response.setUserEmail(request.getUser().getEmail());
         response.setUserImage(request.getUser().getImage());
+        response.setUserPhoneNumber(request.getUser().getPhoneNumber());
         return response;
     }
 
