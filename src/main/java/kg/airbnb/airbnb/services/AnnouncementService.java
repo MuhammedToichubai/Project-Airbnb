@@ -50,7 +50,7 @@ public interface AnnouncementService {
 
     SimpleResponse unBlockAllAnnouncements(AdminMessageRequest messageRequest, Long userId);
 
-    SimpleResponse UnBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
+    SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
 }
 
 

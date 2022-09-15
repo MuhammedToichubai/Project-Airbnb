@@ -4,7 +4,7 @@ public enum Status {
     NEW,
     ACCEPTED,
     REJECTED,
-    BLOCK,
-    SEEN
-    BLOCKED
+    SEEN,
+    BLOCKED,
+    ;
 }

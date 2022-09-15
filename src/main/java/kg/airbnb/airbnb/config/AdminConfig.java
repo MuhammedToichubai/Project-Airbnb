@@ -21,10 +21,10 @@ public class AdminConfig {
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository) {
         return args -> {
-            String password = "password";
+            String password = "admin";
             User user = new User(
-                    "Peaksoft Admin",
-                    "admin@test.com",
+                    "Airbnb Admin",
+                    "admin@gmail.com",
                     "+996 700 000 000",
                     passwordEncoder.encode(password),
                     Role.ADMIN

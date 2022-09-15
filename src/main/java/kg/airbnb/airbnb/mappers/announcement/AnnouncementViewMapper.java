@@ -52,6 +52,7 @@ public class AnnouncementViewMapper {
         response.setOwnerImage(announcement.getOwner().getImage());
         response.setOwnerFullName(announcement.getOwner().getFullName());
         response.setOwnerEmail(announcement.getOwner().getEmail());
+        response.setOwnerPhoneNumber(announcement.getOwner().getPhoneNumber());
         response.setLikeCount(announcement.getLike());
         response.setBookmarkCount(announcement.getBookmark());
         response.setViewAnnouncementCount(announcement.getViewAnnouncementHistoryCount());
@@ -86,6 +87,7 @@ public class AnnouncementViewMapper {
         response.setOwnerImage(announcement.getOwner().getImage());
         response.setOwnerFullName(announcement.getOwner().getFullName());
         response.setOwnerEmail(announcement.getOwner().getEmail());
+        response.setOwnerPhoneNumber(announcement.getOwner().getPhoneNumber());
         response.setStatus(announcement.getStatus());
 
         return response;

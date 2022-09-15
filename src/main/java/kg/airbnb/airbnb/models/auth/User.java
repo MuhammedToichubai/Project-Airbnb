@@ -42,6 +42,9 @@ public class  User {
 
     private String image;
 
+    @ElementCollection
+    private List<String> messagesFromAdmin;
+
     @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER)
     private List<Announcement> announcements = new ArrayList<>();
 
@@ -121,5 +124,9 @@ public class  User {
         disLikedFeedbacks.add(feedbackId);
     }
 
+    public void setMessagesFromAdmin(String str) {
+
+        messagesFromAdmin.add(str);
+    }
 }
 
