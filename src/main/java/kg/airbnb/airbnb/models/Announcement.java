@@ -60,7 +60,7 @@ public class Announcement implements Comparable<Announcement> {
     @ManyToMany(cascade = ALL)
     private List<User> guests;
 
-    @OneToMany(cascade = ALL, mappedBy = "announcement")
+    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "announcement")
     private List<Booking> bookings;
 
     private LocalDate createdAt;

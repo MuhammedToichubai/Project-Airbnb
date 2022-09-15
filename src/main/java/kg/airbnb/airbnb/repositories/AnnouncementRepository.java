@@ -75,7 +75,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     )
     void customDeleteById(Long announcementId);
 
-
     @Modifying
     @Transactional
     @Query(
@@ -99,7 +98,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from bookings b where b.booking_id = ?1"
+            value = "delete from bookings b where b.announcement_id = :announcementId"
 
     )
     void clearBooking(Long announcementId);
@@ -119,7 +118,5 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
     List<Announcement> findUserAllAnnouncement(Long userId);
-
-
 
 }

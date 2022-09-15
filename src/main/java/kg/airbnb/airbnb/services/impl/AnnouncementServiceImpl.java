@@ -144,7 +144,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
             announcementRepository.clearFeedback(announcementId);
 
-//            announcementRepository.clearBooking(announcementId);
+            announcementRepository.clearBooking(announcementId);
 
             announcementRepository.customDeleteById(announcementId);
 
@@ -377,7 +377,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
             announcementRepository.clearFeedback(announcementId);
 
-//            announcementRepository.clearBooking(announcementId);
+            announcementRepository.clearBooking(announcementId);
 
             announcementRepository.customDeleteById(announcement.getId());
 

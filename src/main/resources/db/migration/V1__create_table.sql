@@ -51,6 +51,7 @@ CREATE TABLE bookings (
     status INTEGER,
     announcement_id BIGINT,
     user_id BIGINT,
+    created_at DATE,
     PRIMARY KEY (id)
 );
 
