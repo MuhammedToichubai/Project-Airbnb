@@ -206,4 +206,22 @@ public class AnnouncementViewMapper {
         }
         return responses;
     }
+
+
+    public AdminPageHousingResponse announcementToHousing(Announcement announcement) {
+        if (announcement == null) {
+            return null;
+        }
+        AdminPageHousingResponse response = new AdminPageHousingResponse();
+        response.setAnnouncementId(announcement.getId());
+        response.setTitle(announcement.getTitle());
+        response.setImages(announcement.getImages());
+        response.setHouseType(announcement.getHouseType());
+        response.setMaxGuests(announcement.getMaxGuests());
+        response.setLocation(announcement.getLocation().getFullAddress());
+        response.setDescription(announcement.getDescription());
+        response.setStatus(announcement.getStatus());
+
+        return response;
+    }
 }

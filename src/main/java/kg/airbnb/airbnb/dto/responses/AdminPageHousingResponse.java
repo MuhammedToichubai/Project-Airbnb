@@ -1,4 +1,5 @@
 package kg.airbnb.airbnb.dto.responses;
+
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class AdminPageApplicationsAnnouncementResponse {
+public class AdminPageHousingResponse {
 
     private Long announcementId;
 
@@ -22,12 +23,6 @@ public class AdminPageApplicationsAnnouncementResponse {
     private String location;
 
     private String description;
-
-    private String ownerImage;
-
-    private String ownerFullName;
-
-    private String ownerEmail;
 
     private Status status;
 

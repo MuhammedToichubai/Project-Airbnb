@@ -290,6 +290,32 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
+    public AdminPageAllHousingResponses defaultGetAll() {
+        return adminPageAllHousingResponses(announcementRepository.defaultGetAll());
+    }
+
+    @Override
+    public AdminPageAllHousingResponses getAllHousing(Type housingType) {
+        return adminPageAllHousingResponses(announcementRepository.getAllHousing(housingType));
+    }
+
+    AdminPageAllHousingResponses adminPageAllHousingResponses(List<Announcement> announcements){
+
+        List<AdminPageHousingResponse> responses = new ArrayList<>();
+
+        for (Announcement announcement:announcements) {
+            responses.add(viewMapper.announcementToHousing(announcement));
+        }
+
+        AdminPageAllHousingResponses housingResponses = new AdminPageAllHousingResponses();
+        housingResponses.setAdminPageAllHousingResponseListSize(responses.size());
+        housingResponses.setAdminPageHousingResponseList(responses);
+
+        return housingResponses;
+    }
+
+
+    @Override
     @Transactional
     public SimpleResponse unBlockAllAnnouncements(AdminMessageRequest messageRequest, Long userId) {
 
@@ -347,6 +373,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
     }
+
+
 
     @Override
     public FilterResponse getAnnouncementsByFilter(Long regionId, Kind kind,

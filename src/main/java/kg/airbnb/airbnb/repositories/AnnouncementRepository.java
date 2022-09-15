@@ -1,5 +1,4 @@
 package kg.airbnb.airbnb.repositories;
-import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;
@@ -98,4 +97,18 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
     List<Announcement> findUserAllAnnouncement(Long userId);
+
+    @Query("SELECT a FROM Announcement a WHERE a.houseType =?1")
+    List<Announcement>getAllHousing(Type housingType);
+
+    @Query("select a from Announcement a")
+    List<Announcement> defaultGetAll();
+
+
+//    @Query("select g from Gift g where (upper(g.name) like upper(concat('%',:name,'%')) " +
+//            "or :name = 'all') and (g.status = :status or :status is null ) " +
+//            "and (:categoryId is null or :categoryId = g.category.id) " +
+//            "and (:subCategoryId is null or :subCategoryId = g.subCategory.id)")
+//    List<Gift> filterGift(String name,Status status,Long categoryId,Long subCategoryId);
+
 }
