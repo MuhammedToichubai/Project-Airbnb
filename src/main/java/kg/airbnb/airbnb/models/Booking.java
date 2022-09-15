@@ -12,7 +12,6 @@ import java.time.LocalDate;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "bookings")
