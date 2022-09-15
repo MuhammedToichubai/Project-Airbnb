@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Setter
 public class BookedResponse {
 
+    private Long bookingId;
     private BigDecimal price;
     @JsonFormat(pattern="dd.MM.yy")
     private LocalDate checkIn;
