@@ -59,6 +59,7 @@ public class BookingViewMapper {
         }
 
         BookedResponse response = new BookedResponse();
+        response.setBookingId(request.getId());
         response.setPrice(request.getPricePerDay());
         response.setCheckIn(request.getCheckin());
         response.setCheckOut(request.getCheckout());
