@@ -36,9 +36,14 @@ public class  User {
 
     private String email;
 
+    private String phoneNumber;
+
     private String password;
 
     private String image;
+
+    @ElementCollection
+    private List<String> messagesFromAdmin;
 
     @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER)
     private List<Announcement> announcements = new ArrayList<>();
@@ -72,15 +77,17 @@ public class  User {
         this.email = email;
     }
 
-    public User(String fullName, String email, String password) {
+    public User(String fullName, String email, String phoneNumber, String password) {
         this.fullName = fullName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
-    public User(String fullName, String email, String password, Role role ) {
+    public User(String fullName, String email, String phoneNumber, String password, Role role ) {
         this.fullName = fullName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.password = password;
         this.role=role;
     }
@@ -117,5 +124,9 @@ public class  User {
         disLikedFeedbacks.add(feedbackId);
     }
 
+    public void setMessagesFromAdmin(String str) {
+
+        messagesFromAdmin.add(str);
+    }
 }
 

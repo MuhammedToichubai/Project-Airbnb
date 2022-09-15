@@ -10,15 +10,9 @@ import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementEditMapper;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
-import kg.airbnb.airbnb.models.Address;
-import kg.airbnb.airbnb.models.Announcement;
-import kg.airbnb.airbnb.models.Booking;
-import kg.airbnb.airbnb.models.Region;
+import kg.airbnb.airbnb.models.*;
 import kg.airbnb.airbnb.models.auth.User;
-import kg.airbnb.airbnb.repositories.AddressRepository;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
-import kg.airbnb.airbnb.repositories.RegionRepository;
-import kg.airbnb.airbnb.repositories.UserRepository;
+import kg.airbnb.airbnb.repositories.*;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
@@ -49,6 +43,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final UserService userService;
     private final GoogleMapService googleMapService;
     private final UserProfileViewMapper userProfileViewMapper;
+    private final FeedbackRepository feedbackRepository;
 
     @Override
     public AnnouncementSaveResponse announcementSave(AnnouncementRequest request) {
@@ -142,11 +137,14 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
             announcementRepository.clearImages(announcementId);
 
-            announcementRepository.customDeleteById(announcementId);
+            List<Feedback> feedbacks = announcement.getFeedbacks();
+            for (Feedback feedback : feedbacks) {
+                feedbackRepository.clearImages(feedback.getId());
+            }
 
-        } else if (user.getRole() == Role.ADMIN) {
+            announcementRepository.clearFeedback(announcementId);
 
-            announcementRepository.clearImages(announcementId);
+//            announcementRepository.clearBooking(announcementId);
 
             announcementRepository.customDeleteById(announcementId);
 
@@ -187,20 +185,24 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new ForbiddenException("Only admin can access this page!");
         }
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Announcement> allAnnouncementsPage = announcementRepository.findAllNewAndAccepted(pageable);
+        Page<Announcement> allAnnouncementsPage = announcementRepository.findAllNewAndSeen(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         List<AdminPageAnnouncementResponse> adminPageAnnouncementResponses = viewMapper.viewAllAdminPageAnnouncementResponses(allAnnouncementsPageToListConversion);
         AdminPageApplicationsResponse response = new AdminPageApplicationsResponse();
-        response.setAllAnnouncementsSize(announcementRepository.findAllNewAndAccepted().size());
+        response.setAllAnnouncementsSize(announcementRepository.findAllNewAndSeen().size());
         response.setPageAnnouncementResponseList(adminPageAnnouncementResponses);
         return response;
     }
 
     @Override
+    @Transactional
     public AdminPageApplicationsAnnouncementResponse findAnnouncementById(Long id) {
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             Announcement announcement = getAnnouncementById(id);
+            if(announcement.getStatus().equals(Status.NEW)){
+                announcement.setStatus(Status.SEEN);
+            }
             return viewMapper.entityToDtoConver(announcement);
         } else {
             throw new ForbiddenException("Only admin can access this page!");
@@ -218,6 +220,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcementRepository.save(announcement);
             simpleResponse.setStatus("ACCEPTED");
             simpleResponse.setMessage("Successfully saved");
+
             return simpleResponse;
         } else {
             throw new ForbiddenException("Only admin can access this page!");
@@ -225,21 +228,37 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public SimpleResponse rejectAnnouncement(Long id, AdminMessageRequest announcementRejectRequest) {
+    public SimpleResponse rejectAnnouncement(Long id, AdminMessageRequest adminMessageRequest) {
 
         User user = getAuthenticatedUser();
+
         if (user.getRole().equals(Role.ADMIN)) {
+
             SimpleResponse simpleResponse = new SimpleResponse();
-            Announcement announcement = getAnnouncementById(id);
-            announcement.setStatus(Status.REJECTED);
-            announcementRepository.save(announcement);
+
             simpleResponse.setStatus("REJECTED");
-            simpleResponse.setMessage(announcementRejectRequest.getMessage());
-            announcementRejectRequest.setMessage("");
+
+            simpleResponse.setMessage(adminMessageRequest.getMessage());
+
+            Announcement announcement = getAnnouncementById(id);
+
+            if (!announcement.getStatus().equals(Status.NEW)){
+
+                throw new BadRequestException("Can be rejected once!");
+            }
+            announcement.setStatus(Status.REJECTED);
+
+            announcement.setMessageFromAdmin(adminMessageRequest.getMessage());
+
+            announcementRepository.save(announcement);
+
             return simpleResponse;
+
         } else {
+
             throw new ForbiddenException("Only admin can access this page!");
         }
+
     }
 
     @Override
@@ -247,7 +266,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
 
         Announcement announcement = getAnnouncementById(announcementId);
-        changeAnnouncementStatus(announcement);
+        changeAnnouncementStatusToBlocked(announcement);
 
         return new SimpleResponse(
                 "BLOCK",
@@ -257,47 +276,119 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     @Transactional
-    public SimpleResponse blockAllAnnouncement(AdminMessageRequest messageRequest, Long userId) {
+    public SimpleResponse blockAllAnnouncements(AdminMessageRequest messageRequest, Long userId) {
 
         List<Announcement> announcements = announcementRepository.findUserAllAnnouncement(userId);
 
         for (Announcement announcement : announcements) {
-            changeAnnouncementStatus(announcement);
+            changeAnnouncementStatusToBlocked(announcement);
         }
 
         return new SimpleResponse(
-                "BLOCK",
+                "BLOCKED",
+                "All announcements are block. "+ messageRequest.getMessage()
+
+        );
+    }
+
+    @Override
+    @Transactional
+    public SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
+
+        Announcement announcement = getAnnouncementById(announcementId);
+        changeAnnouncementStatusToUnBlocked(announcement);
+
+        return new SimpleResponse(
+                "ACCEPTED",
+                "Announcement with "+announcementId+" blocked. "+messageRequest.getMessage()
+        );
+    }
+
+    @Override
+    @Transactional
+    public SimpleResponse unBlockAllAnnouncements(AdminMessageRequest messageRequest, Long userId) {
+
+        List<Announcement> announcements = announcementRepository.findUserAllAnnouncement(userId);
+
+        for (Announcement announcement : announcements) {
+            changeAnnouncementStatusToUnBlocked(announcement);
+        }
+
+        return new SimpleResponse(
+                "ACCEPTED",
                 "All announcements are block. "+ messageRequest.getMessage()
 
         );
     }
 
     @Transactional
-    public void changeAnnouncementStatus(Announcement announcement){
+    public void changeAnnouncementStatusToBlocked(Announcement announcement){
         User currentUser = getAuthenticatedUser();
 
         if (!currentUser.getRole().equals(Role.ADMIN)){
             throw new ForbiddenException("Only admin can access this page!");
         }
 
-        announcement.setStatus(Status.BLOCK);
+        announcement.setStatus(Status.BLOCKED);
+
+    }
+
+    @Transactional
+    public void changeAnnouncementStatusToUnBlocked(Announcement announcement){
+        User currentUser = getAuthenticatedUser();
+
+        if (!currentUser.getRole().equals(Role.ADMIN)){
+            throw new ForbiddenException("Only admin can access this page!");
+        }
+
+        announcement.setStatus(Status.ACCEPTED);
 
     }
 
 
     @Override
-    public SimpleResponse deleteAnnouncement(Long id, AdminMessageRequest announcementRejectRequest) {
+    public SimpleResponse deleteAnnouncement(Long announcementId, AdminMessageRequest adminMessageRequest) {
 
         User user = getAuthenticatedUser();
+
         if (user.getRole().equals(Role.ADMIN)) {
+
             SimpleResponse simpleResponse = new SimpleResponse();
-            Announcement announcement = getAnnouncementById(id);
+
+            Announcement announcement = getAnnouncementById(announcementId);
+
+            User owner = announcement.getOwner();
+
+            owner.setMessagesFromAdmin("DELETE: "+
+                    announcement.getTitle()+", "
+                    +announcement.getHouseType()+"- "
+                    +adminMessageRequest.getMessage());
+
+            userRepository.save(owner);
+
             announcementRepository.clearImages(announcement.getId());
+
+            List<Feedback> feedbacks = announcement.getFeedbacks();
+
+            for (Feedback feedback : feedbacks) {
+
+                feedbackRepository.clearImages(feedback.getId());
+            }
+
+            announcementRepository.clearFeedback(announcementId);
+
+//            announcementRepository.clearBooking(announcementId);
+
             announcementRepository.customDeleteById(announcement.getId());
+
             simpleResponse.setStatus("DELETED");
-            simpleResponse.setMessage(announcementRejectRequest.getMessage());
+
+            simpleResponse.setMessage(adminMessageRequest.getMessage());
+
             return simpleResponse;
+
         } else {
+
             throw new ForbiddenException("Only admin can access this page!");
         }
     }

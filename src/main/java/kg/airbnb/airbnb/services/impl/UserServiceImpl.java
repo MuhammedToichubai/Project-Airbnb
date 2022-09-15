@@ -193,6 +193,20 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    @Override
+    public SimpleResponse deleteMessagesFromAdmin() {
+
+        User currentUser = getAuthenticatedUser();
+
+        userRepository.clearMessages(currentUser.getId());
+
+        return new SimpleResponse(
+                "DELETE",
+                "Successfully deleted all messages!"
+
+        );
+    }
+
     private Announcement getAnnouncementFindId(Long announcementId){
         return announcementRepository.findById(announcementId).orElseThrow(() ->
                 new NotFoundException("Announcement with "+ announcementId+ " not found!")
@@ -200,8 +214,11 @@ public class UserServiceImpl implements UserService {
     }
 
     private User getAuthenticatedUser() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         String login = authentication.getName();
+
         return userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
     }
     private User getAuthenticatedRoleUser() {
