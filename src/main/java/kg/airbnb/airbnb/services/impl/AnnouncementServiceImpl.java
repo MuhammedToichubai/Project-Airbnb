@@ -9,6 +9,7 @@ import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementEditMapper;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
+import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.*;
 import kg.airbnb.airbnb.models.auth.User;
@@ -44,6 +45,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final GoogleMapService googleMapService;
     private final UserProfileViewMapper userProfileViewMapper;
     private final FeedbackRepository feedbackRepository;
+    private final BookingViewMapper bookingViewMapper;
 
     @Override
     public AnnouncementSaveResponse announcementSave(AnnouncementRequest request) {
@@ -545,7 +547,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     private AnnouncementInnerPageResponse getAnnouncementInnerPageResponse(Announcement announcement) {
         AnnouncementInnerPageResponse response = viewMapper.entityToDtoConverting(announcement);
-        response.setAnnouncementBookings(userProfileViewMapper.listUserBookings(announcement.getBookings()));
+        response.setAnnouncementBookings(bookingViewMapper.viewBooked(announcement.getBookings()));
         return response;
     }
 
