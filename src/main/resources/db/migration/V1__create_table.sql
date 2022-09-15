@@ -49,6 +49,7 @@ CREATE TABLE bookings (
     checkin DATE,
     checkout DATE,
     status INTEGER,
+    price_per_day NUMERIC (19, 2),
     announcement_id BIGINT,
     user_id BIGINT,
     created_at DATE,
