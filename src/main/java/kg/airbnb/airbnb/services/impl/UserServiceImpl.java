@@ -243,6 +243,7 @@ public class UserServiceImpl implements UserService {
                 throw new ForbiddenException("Admin cannot be deleted!");
             }
 
+
             userRepository.delete(user);
         }
         else {
