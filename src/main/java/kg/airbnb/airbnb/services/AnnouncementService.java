@@ -52,12 +52,7 @@ public interface AnnouncementService {
 
     SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
 
-    AdminPageAllHousingResponses defaultGetAll();
-
-    AdminPageAllHousingResponses getAllHousing(Type housingType);
-
-
-
+    AdminPageAllHousingResponses getAllHousing(BookedType bookedType, Type housingType, Kind kind, PriceType price, int page, int size);
 }
 
 

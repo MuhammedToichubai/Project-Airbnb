@@ -1,4 +1,5 @@
 package kg.airbnb.airbnb.repositories;
+import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;
@@ -102,7 +103,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     List<Announcement>getAllHousing(Type housingType);
 
     @Query("select a from Announcement a")
-    List<Announcement> defaultGetAll();
+    List<Announcement> defaultGetAll(Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.bookings is not empty ")
+    List<Announcement> condition2(BookedType bookedType, Pageable pageable);
 
 
 //    @Query("select g from Gift g where (upper(g.name) like upper(concat('%',:name,'%')) " +

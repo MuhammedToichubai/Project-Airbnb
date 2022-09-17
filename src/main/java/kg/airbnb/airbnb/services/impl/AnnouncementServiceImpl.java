@@ -289,14 +289,27 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         );
     }
 
-    @Override
-    public AdminPageAllHousingResponses defaultGetAll() {
-        return adminPageAllHousingResponses(announcementRepository.defaultGetAll());
-    }
+//    @Override
+//    public AdminPageAllHousingResponses defaultGetAll() {
+//        return adminPageAllHousingResponses(announcementRepository.defaultGetAll());
+//    }
+
+//    @Override
+//    public AdminPageAllHousingResponses getAllHousing(Type housingType) {
+//        return adminPageAllHousingResponses(announcementRepository.getAllHousing(housingType));
+//    }
 
     @Override
-    public AdminPageAllHousingResponses getAllHousing(Type housingType) {
-        return adminPageAllHousingResponses(announcementRepository.getAllHousing(housingType));
+    public AdminPageAllHousingResponses getAllHousing(BookedType bookedType, Type housingType, Kind kind, PriceType price, int page, int size) {
+
+        Pageable pageable = PageRequest.of( page-1, size);
+
+        if(bookedType.equals(null) && housingType.equals(null) && kind.equals(null) && price.equals(null)){
+            return adminPageAllHousingResponses(announcementRepository.defaultGetAll(pageable));
+        } else if (bookedType.equals(BookedType.BOOKED) && housingType.equals(null) && kind.equals(null) && price.equals(null)) {
+            return adminPageAllHousingResponses(announcementRepository.condition2(bookedType,pageable));
+        }
+        return null;
     }
 
     AdminPageAllHousingResponses adminPageAllHousingResponses(List<Announcement> announcements){
