@@ -240,8 +240,9 @@ public class UserServiceImpl implements UserService {
                     new NotFoundException("User with " + userId + "not found !"));
 
             if (user.getRole().equals(Role.ADMIN)) {
-                throw new ForbiddenException("Admin cannot be deleted!");
+                throw new ForbiddenException("User with id not found !");
             }
+
 
             userRepository.delete(user);
         }

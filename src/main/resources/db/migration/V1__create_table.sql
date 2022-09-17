@@ -39,6 +39,16 @@ CREATE TABLE announcement_images (
     images VARCHAR(255)
 );
 
+CREATE TABLE announcement_blocked_dates(
+           announcement_id BIGINT NOT NULL ,
+           blocked_dates DATE
+);
+
+CREATE TABLE announcement_blocked_dates_by_user(
+                                                   announcement_id BIGINT NOT NULL ,
+                                                   blocked_dates_by_user DATE
+);
+
 CREATE TABLE announcements_guests (
     announcement_id BIGINT NOT NULL,
     guests_id BIGINT NOT NULL
