@@ -36,8 +36,6 @@ public interface AnnouncementService {
 
     AnnouncementInnerPageResponse getAnnouncementDetails(Long announcementId);
 
-    List<AnnouncementCardResponse> findAll(int page, int size);
-
     FilterResponse getAnnouncementsByFilter(Long region, Kind kind, Type type, PriceType price, int page, int size);
 
     List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address, String latitude, String longitude);
@@ -51,6 +49,8 @@ public interface AnnouncementService {
     SimpleResponse unBlockAllAnnouncements(AdminMessageRequest messageRequest, Long userId);
 
     SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
+
+    AnnouncementsResponse findAllAnnouncements(int page, int size);
 }
 
 
