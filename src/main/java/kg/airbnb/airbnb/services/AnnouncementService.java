@@ -42,8 +42,6 @@ public interface AnnouncementService {
 
     List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address, String latitude, String longitude);
 
-    FilterResponse getAnnouncementsByFilter(BookedType bookedType, int page, int size);
-
     SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
 
     SimpleResponse blockAllAnnouncements(AdminMessageRequest messageRequest, Long userId);

@@ -90,29 +90,31 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=4 order by a.createdAt desc")
     List<Announcement> findAllNewAndSeen();
 
-    @Query("select a from Announcement a where a.bookings is not empty and a.status = 0")
-    List<Announcement> findAllBookedAnnouncement( Pageable pageable);
-
-    @Query("select a from Announcement a where a.bookings is empty and a.status = 1")
-    List<Announcement> findAllNotBookedAnnouncement(Pageable page);
-
     @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
     List<Announcement> findUserAllAnnouncement(Long userId);
 
-    @Query("SELECT a FROM Announcement a WHERE a.houseType =?1")
-    List<Announcement>getAllHousing(Type housingType);
-
     @Query("select a from Announcement a")
-    List<Announcement> defaultGetAll(Pageable pageable);
+    List<Announcement> defaultGetAllHousing(Pageable pageable);
 
-    @Query("select a from Announcement a WHERE a.bookings is not empty ")
+    @Query("select a from Announcement a WHERE a.bookings is not empty")
     List<Announcement> condition2(BookedType bookedType, Pageable pageable);
 
+    @Query("select a from Announcement a WHERE a.bookings is empty")
+    List<Announcement> condition3(BookedType bookedType, Pageable pageable);
 
-//    @Query("select g from Gift g where (upper(g.name) like upper(concat('%',:name,'%')) " +
-//            "or :name = 'all') and (g.status = :status or :status is null ) " +
-//            "and (:categoryId is null or :categoryId = g.category.id) " +
-//            "and (:subCategoryId is null or :subCategoryId = g.subCategory.id)")
-//    List<Gift> filterGift(String name,Status status,Long categoryId,Long subCategoryId);
+    @Query("select a from Announcement a WHERE a.bookings is not empty and a.houseType = 'APARTMENT'")
+    List<Announcement> condition4(BookedType bookedType, Type housingType, Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.bookings is not empty and a.houseType = 'HOUSE'")
+    List<Announcement> condition5(BookedType bookedType, Type housingType, Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.bookings is empty and a.houseType = 'APARTMENT'")
+    List<Announcement> condition6(BookedType bookedType, Type housingType, Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.bookings is empty and a.houseType = 'HOUSE'")
+    List<Announcement> condition7(BookedType bookedType, Type housingType, Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty and a.houseType = 'HOUSE'")
+    List<Announcement> condition8(BookedType bookedType, Type housingType, Pageable pageable);
 
 }

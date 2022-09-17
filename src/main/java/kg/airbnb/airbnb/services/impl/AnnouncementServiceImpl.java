@@ -289,26 +289,35 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         );
     }
 
-//    @Override
-//    public AdminPageAllHousingResponses defaultGetAll() {
-//        return adminPageAllHousingResponses(announcementRepository.defaultGetAll());
-//    }
-
-//    @Override
-//    public AdminPageAllHousingResponses getAllHousing(Type housingType) {
-//        return adminPageAllHousingResponses(announcementRepository.getAllHousing(housingType));
-//    }
-
     @Override
     public AdminPageAllHousingResponses getAllHousing(BookedType bookedType, Type housingType, Kind kind, PriceType price, int page, int size) {
 
         Pageable pageable = PageRequest.of( page-1, size);
 
-        if(bookedType.equals(null) && housingType.equals(null) && kind.equals(null) && price.equals(null)){
-            return adminPageAllHousingResponses(announcementRepository.defaultGetAll(pageable));
-        } else if (bookedType.equals(BookedType.BOOKED) && housingType.equals(null) && kind.equals(null) && price.equals(null)) {
+        if(bookedType == null && housingType == null && kind == null && price == null){
+            return adminPageAllHousingResponses(announcementRepository.defaultGetAllHousing(pageable));
+        } else if (bookedType == BookedType.BOOKED && housingType == null && kind ==null && price == null) {
             return adminPageAllHousingResponses(announcementRepository.condition2(bookedType,pageable));
+        }else if (bookedType == BookedType.NOT_BOOKED && housingType == null && kind == null && price == null){
+            return adminPageAllHousingResponses(announcementRepository.condition3(bookedType,pageable));
+        }else if (bookedType == BookedType.BOOKED && housingType == Type.APARTMENT && kind == null && price == null){
+            return adminPageAllHousingResponses(announcementRepository.condition4(bookedType,housingType,pageable));
+        }else if (bookedType == BookedType.BOOKED && housingType == Type.HOUSE && kind == null && price == null){
+            return adminPageAllHousingResponses(announcementRepository.condition5(bookedType,housingType,pageable));
+        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.APARTMENT && kind == null && price == null){
+            return adminPageAllHousingResponses(announcementRepository.condition6(bookedType,housingType,pageable));
+        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == null && price == null){
+            return adminPageAllHousingResponses(announcementRepository.condition7(bookedType,housingType,pageable));
+        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == Kind.POPULAR && price == null){
+            List<Announcement> announcements = announcementRepository.condition8(bookedType,housingType,pageable);
+            Collections.sort(announcements);
+            return adminPageAllHousingResponses(announcements);
         }
+
+//        else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == Kind.THE_LASTEST && price == null){
+//            return adminPageAllHousingResponses(announcementRepository.condition9(bookedType,housingType,pageable));
+//        }
+
         return null;
     }
 
@@ -465,32 +474,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
 
         return announcements;
-    }
-
-    @Override
-    public FilterResponse getAnnouncementsByFilter(BookedType bookedType, int page, int size) {
-        User currentUser = getAuthenticatedUser();
-
-        Pageable pageable = PageRequest.of(page -1, size);
-
-        FilterResponse response = new FilterResponse();
-
-        if (!currentUser.getRole().equals(Role.ADMIN)){
-            throw new ForbiddenException("Only admin can access this page!");
-        }
-        if (bookedType.equals(BookedType.BOOKED)){
-
-            List<Announcement> allBookedAnnouncement = announcementRepository.findAllBookedAnnouncement( pageable);
-
-            response.setCountOfResult((long) allBookedAnnouncement.size());
-            response.setResponses(viewMapper.viewCard(allBookedAnnouncement));
-            return response;
-        }
-        List<Announcement> allNotBookedAnnouncement = announcementRepository.findAllNotBookedAnnouncement(pageable);
-        response.setCountOfResult((long) allNotBookedAnnouncement.size());
-        response.setResponses(viewMapper.viewCard(allNotBookedAnnouncement));
-
-        return response;
     }
 
     @Override

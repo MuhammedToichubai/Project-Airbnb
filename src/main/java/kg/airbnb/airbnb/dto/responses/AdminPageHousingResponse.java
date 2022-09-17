@@ -18,6 +18,8 @@ public class AdminPageHousingResponse {
 
     private Type houseType;
 
+    private Double rating;
+
     private Integer maxGuests;
 
     private String location;

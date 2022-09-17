@@ -108,15 +108,6 @@ public class AdminApi {
         return service.getUserProfile(userId);
     }
 
-//    @Operation(summary = "Filter  announcements by Booked and Not Booked",
-//               description = "Only admin can filter announcements.")
-//    @GetMapping("/filter")
-//    public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) BookedType bookedType,
-//                                                   @RequestParam(defaultValue = "1") int page,
-//                                                   @RequestParam(defaultValue = "16") int size) {
-//        return announcementService.getAnnouncementsByFilter(bookedType, page, size);
-//    }
-
     @Operation(summary = "Get All Housing",
             description = "Only admin can see all housing")
     @GetMapping("/allHousing")
