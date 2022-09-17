@@ -551,13 +551,22 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return response;
     }
 
-    public List<AnnouncementCardResponse> findAll(int page, int size) {
+    @Override
+    public AnnouncementsResponse findAllAnnouncements(int page, int size) {
+
         Pageable pageable = PageRequest.of(page - 1, size);
-        List<Announcement> announcementList = announcementRepository.findAllAccepted(pageable).getContent();
-        if (announcementList.isEmpty()){
+        List<Announcement> announcements = announcementRepository.findAll(pageable).getContent();
+
+        if (announcements.isEmpty()){
             log.warn("The database is empty, there is no announcement or the admin has not yet accepted !");
         }
-        return viewMapper.viewCard(announcementList);
+        List<AnnouncementCardResponse> announcementsResponses = viewMapper.viewCard(announcements);
+
+        AnnouncementsResponse response = new AnnouncementsResponse();
+        response.setCountOfResult((long) announcementRepository.findAll().size());
+        response.setAnnouncements(announcementsResponses);
+
+        return response;
     }
 
     @Override

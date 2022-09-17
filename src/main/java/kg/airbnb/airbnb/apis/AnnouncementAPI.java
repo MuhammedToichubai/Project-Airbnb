@@ -63,8 +63,9 @@ public class AnnouncementAPI {
 
     @Operation(summary = "Get all announcements", description = "Any user can view all announcements accepted by the administrator")
     @GetMapping
-    public List<AnnouncementCardResponse> findAll(@RequestParam int page, @RequestParam int size) {
-        return announcementService.findAll(page, size);
+    public AnnouncementsResponse findAll(@RequestParam (defaultValue = "1") int page,
+                                         @RequestParam (defaultValue = "16") int size) {
+        return announcementService.findAllAnnouncements(page, size);
     }
 
     @Operation(summary = "Filter accepted announcements by Region, Popular, Latest, House Type, and Price Low to High and High to Low",
