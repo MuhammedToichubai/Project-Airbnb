@@ -309,14 +309,23 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == null && price == null){
             return adminPageAllHousingResponses(announcementRepository.condition7(bookedType,housingType,pageable));
         }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == Kind.POPULAR && price == null){
-            List<Announcement> announcements = announcementRepository.condition8(bookedType,housingType,pageable);
+            List<Announcement> announcements = announcementRepository.condition8_9(bookedType,housingType,pageable);
             Collections.sort(announcements);
+            return adminPageAllHousingResponses(announcements);        }
+        else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == Kind.THE_LASTEST && price == null){
+            List<Announcement> announcements = announcementRepository.condition8_9(bookedType,housingType,pageable);
+            announcements.sort(Comparator.comparing(Announcement::getCreatedAt).reversed());
+            return adminPageAllHousingResponses(announcements);
+        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.APARTMENT && kind == Kind.POPULAR && price == null){
+            List<Announcement> announcements = announcementRepository.condition10_11(bookedType,housingType,pageable);
+            Collections.sort(announcements);
+            return adminPageAllHousingResponses(announcements);        }
+        else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.APARTMENT && kind == Kind.THE_LASTEST && price == null) {
+            List<Announcement> announcements = announcementRepository.condition10_11(bookedType, housingType, pageable);
+            announcements.sort(Comparator.comparing(Announcement::getCreatedAt).reversed());
             return adminPageAllHousingResponses(announcements);
         }
-
-//        else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == Kind.THE_LASTEST && price == null){
-//            return adminPageAllHousingResponses(announcementRepository.condition9(bookedType,housingType,pageable));
-//        }
+//
 
         return null;
     }

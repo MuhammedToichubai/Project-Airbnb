@@ -4,6 +4,8 @@ import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -27,5 +29,7 @@ public class AdminPageHousingResponse {
     private String description;
 
     private Status status;
+
+    private LocalDate createdAt;
 
 }

@@ -214,6 +214,7 @@ public class AnnouncementViewMapper {
         }
         AdminPageHousingResponse response = new AdminPageHousingResponse();
         response.setAnnouncementId(announcement.getId());
+        response.setCreatedAt(announcement.getCreatedAt());
         response.setTitle(announcement.getTitle());
         response.setImages(announcement.getImages());
         response.setHouseType(announcement.getHouseType());
