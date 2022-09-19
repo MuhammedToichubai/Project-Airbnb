@@ -6,6 +6,8 @@ import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
+import kg.airbnb.airbnb.exceptions.NotFoundException;
+import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
@@ -13,26 +15,16 @@ import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.BookingRepository;
-import kg.airbnb.airbnb.exceptions.NotFoundException;
-import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
-import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
-import kg.airbnb.airbnb.models.Announcement;
-import kg.airbnb.airbnb.models.auth.User;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -203,6 +195,19 @@ public class UserServiceImpl implements UserService {
         return new SimpleResponse(
                 "DELETE",
                 "Successfully deleted all messages!"
+
+        );
+    }
+
+    @Override
+    @Transactional
+    public SimpleResponse updatePhoneNumber(PhoneNumberRequest request) {
+
+        User currentUser = getAuthenticatedUser();
+        currentUser.setPhoneNumber("+996 "+request.getPhoneNumber());
+        return new SimpleResponse(
+                "UPDATE",
+                "Phone number updated!"
 
         );
     }

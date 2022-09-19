@@ -28,8 +28,9 @@ public class AuthApi {
 
     @Operation(summary = "Sign in", description = "Any registered user can login.")
     @PostMapping("/login")
-    public JwtResponse performLogin(@RequestBody LoginRequest loginResponse) {
-        return loginService.authenticate(loginResponse);
+    public JwtResponse performLogin(@RequestBody LoginRequest loginResponse,
+                                    @RequestParam String phoneNumber) {
+        return loginService.authenticate(loginResponse, phoneNumber);
     }
 
     @Operation(summary = "Sign in with Google", description = "Any user can login with google account.")

@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import kg.airbnb.airbnb.enums.Role;
+import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.exceptions.WrongPasswordException;
 import kg.airbnb.airbnb.models.auth.User;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -46,19 +48,22 @@ public class LoginService {
         FirebaseApp firebaseApp = FirebaseApp.initializeApp(firebaseOptions);
     }
 
-    public JwtResponse authenticate(LoginRequest loginRequest) {
+    public JwtResponse authenticate(LoginRequest loginRequest, String phoneNumber) {
 
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new NotFoundException(
                         "user with email: " + loginRequest.getEmail() + " not found!"
                 ));
 
+        if (!Objects.equals(phoneNumber, user.getPhoneNumber()))
+            throw new BadRequestException("Wrong phone number !");
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new WrongPasswordException(
-                    "invalid password"
-            );
-        }
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                throw new WrongPasswordException(
+                        "invalid password"
+                );
+            }
+
 
         String token = jwtUtils.generateToken(user.getEmail());
 
@@ -70,7 +75,8 @@ public class LoginService {
         );
     }
 
-    public JwtResponse authenticateWithGoogle(String token, String phoneNumber) throws FirebaseAuthException {
+    public JwtResponse authenticateWithGoogle(String token, String
+            phoneNumber) throws FirebaseAuthException {
 
 
         log.info("User started logging in with google");
