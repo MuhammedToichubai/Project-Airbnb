@@ -1,5 +1,6 @@
 package kg.airbnb.airbnb.dto.responses;
 
+import kg.airbnb.airbnb.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,6 @@ public class AnnouncementCardResponse {
     private String location;
     private double rating;
     private String type;
+    private Status status;
 
 }
