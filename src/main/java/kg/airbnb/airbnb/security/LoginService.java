@@ -115,22 +115,6 @@ public class LoginService {
         );
     }
 
-//    public SimpleResponse addPhoneNumber(PhoneNumberRequest request) {
-//
-//        User currentUser = getAuthenticatedUser();
-//
-//        if ( request.getPhoneNumber().length() == 9 ) {
-//            currentUser.setPhoneNumber("+996 " + request.getPhoneNumber());
-//            userRepository.save(currentUser);
-//        }else {
-//            throw new BadRequestException("Invalid phone number, too long!");
-//        }
-//        return new SimpleResponse(
-//                "SAVE",
-//                "Phone number added!"
-//        ) ;
-//    }
-
     @Transactional
     public SimpleResponse addPhoneNumber(PhoneNumberRequest phoneNumberRequest) {
 
