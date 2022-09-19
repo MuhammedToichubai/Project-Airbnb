@@ -60,7 +60,5 @@ public interface UserService {
     
     SimpleResponse deleteMessagesFromAdmin();
 
-    SimpleResponse updatePhoneNumber(PhoneNumberRequest request);
-
 }
 

@@ -199,23 +199,6 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    @Override
-    @Transactional
-    public SimpleResponse updatePhoneNumber(PhoneNumberRequest request) {
-
-        User currentUser = getAuthenticatedUser();
-        if ( request.getPhoneNumber().length() == 9 ) {
-            currentUser.setPhoneNumber("+996 " + request.getPhoneNumber());
-        }else {
-        throw new BadRequestException("Invalid phone number, too long!");
-            }
-        return new SimpleResponse(
-                "UPDATE",
-                "Phone number updated!"
-
-        );
-    }
-
     private Announcement getAnnouncementFindId(Long announcementId){
         return announcementRepository.findById(announcementId).orElseThrow(() ->
                 new NotFoundException("Announcement with "+ announcementId+ " not found!")

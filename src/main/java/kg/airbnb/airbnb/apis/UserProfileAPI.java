@@ -48,8 +48,4 @@ public class UserProfileAPI {
       return   userService.deleteMessagesFromAdmin();
     }
 
-    @PostMapping("/update/phoneNumber")
-    public SimpleResponse updatePhoneNumber(@RequestBody PhoneNumberRequest request){
-        return userService.updatePhoneNumber(request);
-    }
 }

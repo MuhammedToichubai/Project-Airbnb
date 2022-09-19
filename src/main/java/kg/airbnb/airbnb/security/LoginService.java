@@ -11,6 +11,7 @@ import kg.airbnb.airbnb.dto.requests.PhoneNumberRequest;
 import kg.airbnb.airbnb.dto.responses.JwtResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
+import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.exceptions.WrongPasswordException;
@@ -27,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -112,15 +115,37 @@ public class LoginService {
         );
     }
 
-    @Transactional
-    public SimpleResponse addPhoneNumber(PhoneNumberRequest phoneNumber) {
-        User currentUser = getAuthenticatedUser();
-        currentUser.setPhoneNumber("+996 "+phoneNumber.getPhoneNumber());
+//    public SimpleResponse addPhoneNumber(PhoneNumberRequest request) {
+//
+//        User currentUser = getAuthenticatedUser();
+//
+//        if ( request.getPhoneNumber().length() == 9 ) {
+//            currentUser.setPhoneNumber("+996 " + request.getPhoneNumber());
+//            userRepository.save(currentUser);
+//        }else {
+//            throw new BadRequestException("Invalid phone number, too long!");
+//        }
+//        return new SimpleResponse(
+//                "SAVE",
+//                "Phone number added!"
+//        ) ;
+//    }
 
+    @Transactional
+    public SimpleResponse addPhoneNumber(PhoneNumberRequest phoneNumberRequest) {
+
+        User currentUser = getAuthenticatedUser();
+
+        if ( phoneNumberRequest.getPhoneNumber().length() == 9 ) {
+                    currentUser.setPhoneNumber("+996 " + phoneNumberRequest.getPhoneNumber());
+        } else {
+            throw new BadRequestException("Invalid phone number, too long!");
+        }
         return new SimpleResponse(
-                "SAVE",
+                "UPDATE",
                 "Phone number added!"
-        ) ;
+
+        );
     }
 
     private User getAuthenticatedUser() {

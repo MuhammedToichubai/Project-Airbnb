@@ -42,7 +42,7 @@ public class AuthApi {
 
     @Operation(summary = "Add phone number", description = "Registered user must add phone number" )
     @PostMapping("/user/add/phone/number")
-    public SimpleResponse addPhoneNumber(@RequestParam PhoneNumberRequest phoneNumber){
-       return loginService.addPhoneNumber(phoneNumber);
+    public SimpleResponse addPhoneNumber(@RequestBody PhoneNumberRequest phoneNumberRequest){
+       return loginService.addPhoneNumber(phoneNumberRequest);
     }
 }
