@@ -45,7 +45,8 @@ public class AuthService {
                 savedUser.getId(),
                 savedUser.getEmail(),
                 token,
-                savedUser.getRole()
+                savedUser.getRole(),
+                savedUser.getPhoneNumber()
         );
     }
 }

@@ -22,13 +22,12 @@ public class AdminConfig {
     CommandLineRunner commandLineRunner(UserRepository userRepository) {
         return args -> {
             String password = "admin";
-            User user = new User(
-                    "Airbnb Admin",
-                    "admin@gmail.com",
-                    "+996 700 000 000",
-                    passwordEncoder.encode(password),
-                    Role.ADMIN
-            );
+            User user = new User();
+                  user.setFullName("Airbnb Admin");
+                  user.setEmail("admin@gmail.com");
+                  user.setPhoneNumber("+996 700 000 000");
+                  user.setPassword(passwordEncoder.encode(password));
+                  user.setRole(Role.ADMIN);
 
             userRepository.save(user);
         };
