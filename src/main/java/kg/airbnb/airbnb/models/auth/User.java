@@ -77,17 +77,15 @@ public class  User {
         this.email = email;
     }
 
-    public User(String fullName, String email, String phoneNumber, String password) {
+    public User(String fullName, String email, String password) {
         this.fullName = fullName;
         this.email = email;
-        this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
-    public User(String fullName, String email, String phoneNumber, String password, Role role ) {
+    public User(String fullName, String email, String password, Role role ) {
         this.fullName = fullName;
         this.email = email;
-        this.phoneNumber = phoneNumber;
         this.password = password;
         this.role=role;
     }

@@ -59,5 +59,6 @@ public interface UserService {
     ClosedDatesResponse getClosedDates(Long announcementId);
     
     SimpleResponse deleteMessagesFromAdmin();
+
 }
 
