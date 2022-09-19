@@ -204,7 +204,11 @@ public class UserServiceImpl implements UserService {
     public SimpleResponse updatePhoneNumber(PhoneNumberRequest request) {
 
         User currentUser = getAuthenticatedUser();
-        currentUser.setPhoneNumber("+996 "+request.getPhoneNumber());
+        if ( request.getPhoneNumber().length() == 9 ) {
+            currentUser.setPhoneNumber("+996 " + request.getPhoneNumber());
+        }else {
+        throw new BadRequestException("Invalid phone number, too long!");
+            }
         return new SimpleResponse(
                 "UPDATE",
                 "Phone number updated!"
