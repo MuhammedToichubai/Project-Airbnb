@@ -89,6 +89,7 @@ public class UserProfileViewMapper {
         }
         UserBookingsResponse bookingsResponse = new UserBookingsResponse();
         bookingsResponse.setAnnouncementId(booking.getAnnouncement().getId());
+        bookingsResponse.setImage(booking.getAnnouncement().getImages().get(0));
         bookingsResponse.setPrice(booking.getAnnouncement().getPrice());
         bookingsResponse.setRating(announcementViewMapper.calculateRating(booking.getAnnouncement()));
         bookingsResponse.setTitle(booking.getAnnouncement().getTitle());
