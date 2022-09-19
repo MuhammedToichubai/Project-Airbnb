@@ -126,7 +126,7 @@ public class LoginService {
             throw new BadRequestException("Invalid phone number, too long!");
         }
         return new SimpleResponse(
-                "UPDATE",
+                "SAVE",
                 "Phone number added!"
 
         );
