@@ -110,7 +110,7 @@ CREATE TABLE users (
     id BIGSERIAL NOT NULL,
     email VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) ,
-    phone_number VARCHAR (16),
+    phone_number VARCHAR (14) UNIQUE ,
     image VARCHAR(255),
     password VARCHAR(255) NOT NULL ,
     role VARCHAR(255),

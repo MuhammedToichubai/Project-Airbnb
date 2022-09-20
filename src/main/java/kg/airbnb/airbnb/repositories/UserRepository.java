@@ -26,4 +26,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     )
     void clearMessages(Long userId);
+
 }

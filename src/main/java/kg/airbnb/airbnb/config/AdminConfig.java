@@ -25,7 +25,6 @@ public class AdminConfig {
             User user = new User(
                     "Airbnb Admin",
                     "admin@gmail.com",
-                    "+996 700 000 000",
                     passwordEncoder.encode(password),
                     Role.ADMIN
             );
