@@ -294,41 +294,108 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
         Pageable pageable = PageRequest.of( page-1, size);
 
-        if(bookedType == null && housingType == null && kind == null && price == null){
-            return adminPageAllHousingResponses(announcementRepository.defaultGetAllHousing(pageable));
-        } else if (bookedType == BookedType.BOOKED && housingType == null && kind ==null && price == null) {
-            return adminPageAllHousingResponses(announcementRepository.condition2(bookedType,pageable));
-        }else if (bookedType == BookedType.NOT_BOOKED && housingType == null && kind == null && price == null){
-            return adminPageAllHousingResponses(announcementRepository.condition3(bookedType,pageable));
-        }else if (bookedType == BookedType.BOOKED && housingType == Type.APARTMENT && kind == null && price == null){
-            return adminPageAllHousingResponses(announcementRepository.condition4(bookedType,housingType,pageable));
-        }else if (bookedType == BookedType.BOOKED && housingType == Type.HOUSE && kind == null && price == null){
-            return adminPageAllHousingResponses(announcementRepository.condition5(bookedType,housingType,pageable));
-        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.APARTMENT && kind == null && price == null){
-            return adminPageAllHousingResponses(announcementRepository.condition6(bookedType,housingType,pageable));
-        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == null && price == null){
-            return adminPageAllHousingResponses(announcementRepository.condition7(bookedType,housingType,pageable));
-        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == Kind.POPULAR && price == null){
-            List<Announcement> announcements = announcementRepository.condition8_9(bookedType,housingType,pageable);
-            Collections.sort(announcements);
-            return adminPageAllHousingResponses(announcements);        }
-        else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.HOUSE && kind == Kind.THE_LASTEST && price == null){
-            List<Announcement> announcements = announcementRepository.condition8_9(bookedType,housingType,pageable);
-            announcements.sort(Comparator.comparing(Announcement::getCreatedAt).reversed());
-            return adminPageAllHousingResponses(announcements);
-        }else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.APARTMENT && kind == Kind.POPULAR && price == null){
-            List<Announcement> announcements = announcementRepository.condition10_11(bookedType,housingType,pageable);
-            Collections.sort(announcements);
-            return adminPageAllHousingResponses(announcements);        }
-        else if (bookedType == BookedType.NOT_BOOKED && housingType == Type.APARTMENT && kind == Kind.THE_LASTEST && price == null) {
-            List<Announcement> announcements = announcementRepository.condition10_11(bookedType, housingType, pageable);
-            announcements.sort(Comparator.comparing(Announcement::getCreatedAt).reversed());
-            return adminPageAllHousingResponses(announcements);
-        }
-//
+            if(bookedType == null && housingType == null && kind == null && price == null){
+                return adminPageAllHousingResponses(announcementRepository.defaultGetAllHousing(pageable));
 
-        return null;
+            }else if(bookedType == BookedType.BOOKED && kind == null && price == null ){
+                return adminPageAllHousingResponses(announcementRepository.bookedOnly(pageable));
+
+            }else if(bookedType == BookedType.NOT_BOOKED && kind == null && price == null ){
+                return adminPageAllHousingResponses(announcementRepository.notBookedOnly(pageable));
+
+            }else if(bookedType == BookedType.BOOKED && kind == null && price == PriceType.LOW_TO_HIGH ){
+                List<Announcement> announcements = announcementRepository.bookedOnly(pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice));
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.NOT_BOOKED && kind == null && price == PriceType.HIGH_TO_LOW ){
+                List<Announcement> announcements = announcementRepository.notBookedOnly(pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == null && kind == Kind.THE_LASTEST && price == PriceType.LOW_TO_HIGH ){
+                List<Announcement> announcements = announcementRepository.nullBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice));
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == null && kind == Kind.POPULAR && price == PriceType.LOW_TO_HIGH ){
+                List<Announcement> announcements = announcementRepository.nullBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice));
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == null && kind == Kind.THE_LASTEST && price == PriceType.HIGH_TO_LOW ){
+                List<Announcement> announcements = announcementRepository.nullBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == null && kind == Kind.POPULAR && price == PriceType.HIGH_TO_LOW ){
+                List<Announcement> announcements = announcementRepository.nullBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.BOOKED && kind == Kind.THE_LASTEST && price == PriceType.LOW_TO_HIGH ){
+                List<Announcement> announcements = announcementRepository.bookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice));
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.BOOKED && kind == Kind.POPULAR && price == PriceType.LOW_TO_HIGH ){
+                List<Announcement> announcements = announcementRepository.bookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice));
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.BOOKED && kind == Kind.THE_LASTEST && price == PriceType.HIGH_TO_LOW ){
+                List<Announcement> announcements = announcementRepository.bookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.BOOKED && kind == Kind.POPULAR && price == PriceType.HIGH_TO_LOW ){
+                List<Announcement> announcements = announcementRepository.bookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.NOT_BOOKED && kind == Kind.THE_LASTEST && price == PriceType.LOW_TO_HIGH ){
+                List<Announcement> announcements = announcementRepository.notBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice));
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.NOT_BOOKED && kind == Kind.POPULAR && price == PriceType.LOW_TO_HIGH ){
+                List<Announcement> announcements = announcementRepository.notBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice));
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.NOT_BOOKED && kind == Kind.THE_LASTEST && price == PriceType.HIGH_TO_LOW ){
+                List<Announcement> announcements = announcementRepository.notBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == BookedType.NOT_BOOKED && kind == Kind.POPULAR && price == PriceType.HIGH_TO_LOW ){
+                List<Announcement> announcements = announcementRepository.notBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == null && kind == Kind.POPULAR && price == null){
+                List<Announcement> announcements = announcementRepository.defaultGetAllHousing(pageable);
+                Collections.sort(announcements);
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == null && kind == Kind.THE_LASTEST && price == null){
+                List<Announcement> announcements = announcementRepository.defaultGetAllHousing(pageable);
+                announcements.sort(Comparator.comparing(Announcement::getCreatedAt).reversed());
+                return adminPageAllHousingResponses(announcements);
+
+            }else if(bookedType == null && kind == null && price == PriceType.HIGH_TO_LOW){
+                List<Announcement> announcements = announcementRepository.nullBookedByPrice(housingType,pageable);
+                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                return adminPageAllHousingResponses(announcements);
+            }else {
+            List<Announcement> announcements = announcementRepository.nullBookedByPrice(housingType,pageable);
+            announcements.sort(Comparator.comparing(Announcement::getPrice));
+            return adminPageAllHousingResponses(announcements);
+            }
+
     }
+
+
 
     AdminPageAllHousingResponses adminPageAllHousingResponses(List<Announcement> announcements){
 

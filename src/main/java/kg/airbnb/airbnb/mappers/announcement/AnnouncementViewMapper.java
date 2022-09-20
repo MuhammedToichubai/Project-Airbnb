@@ -219,6 +219,7 @@ public class AnnouncementViewMapper {
         response.setImages(announcement.getImages());
         response.setHouseType(announcement.getHouseType());
         response.setMaxGuests(announcement.getMaxGuests());
+        response.setPrice(announcement.getPrice());
         response.setRating(calculateRating(announcement));
         response.setLocation(announcement.getLocation().getFullAddress());
         response.setDescription(announcement.getDescription());

@@ -5,6 +5,7 @@ import kg.airbnb.airbnb.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class AdminPageHousingResponse {
     private Type houseType;
 
     private Double rating;
+
+    private BigDecimal price;
 
     private Integer maxGuests;
 

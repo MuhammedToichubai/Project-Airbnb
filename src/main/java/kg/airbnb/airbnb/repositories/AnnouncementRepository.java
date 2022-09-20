@@ -1,5 +1,8 @@
 package kg.airbnb.airbnb.repositories;
+import kg.airbnb.airbnb.dto.responses.AdminPageAllHousingResponses;
 import kg.airbnb.airbnb.enums.BookedType;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;
@@ -96,28 +99,18 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 ")
     List<Announcement> defaultGetAllHousing(Pageable pageable);
 
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is not empty")
-    List<Announcement> condition2(BookedType bookedType, Pageable pageable);
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.houseType = :housingType or :housingType is null")
+    List<Announcement> nullBookedByPrice(Type housingType, Pageable pageable);
 
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty")
-    List<Announcement> condition3(BookedType bookedType, Pageable pageable);
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty and a.houseType = :housingType or :housingType is null")
+    List<Announcement> notBookedByPrice(Type housingType, Pageable pageable);
 
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is not empty and a.houseType = 'APARTMENT'")
-    List<Announcement> condition4(BookedType bookedType, Type housingType, Pageable pageable);
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is not empty and a.houseType = :housingType or :housingType is null")
+    List<Announcement> bookedByPrice(Type housingType, Pageable pageable);
 
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is not empty and a.houseType = 'HOUSE'")
-    List<Announcement> condition5(BookedType bookedType, Type housingType, Pageable pageable);
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is not empty ")
+    List<Announcement> bookedOnly(Pageable pageable);
 
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty and a.houseType = 'APARTMENT'")
-    List<Announcement> condition6(BookedType bookedType, Type housingType, Pageable pageable);
-
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty and a.houseType = 'HOUSE'")
-    List<Announcement> condition7(BookedType bookedType, Type housingType, Pageable pageable);
-
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty and a.houseType = 'HOUSE'")
-    List<Announcement> condition8_9(BookedType bookedType, Type housingType, Pageable pageable);
-
-    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty and a.houseType = 'APARTMENT'")
-    List<Announcement> condition10_11(BookedType bookedType, Type housingType, Pageable pageable);
-
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty ")
+    List<Announcement> notBookedOnly(Pageable pageable);
 }
