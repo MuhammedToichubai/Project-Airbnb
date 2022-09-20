@@ -171,8 +171,10 @@ public class AnnouncementViewMapper {
         double a = 0;
         double b = 0;
         for (Feedback f : announcement.getFeedbacks()) {
-            a = a + f.getRating();
-            b++;
+            if  (f.getRating() != null) {
+                a = a + f.getRating();
+                b++;
+            }
         }
         double rating = a / b;
         response.setRating(rating);

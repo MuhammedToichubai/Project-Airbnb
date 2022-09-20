@@ -2,11 +2,15 @@ package kg.airbnb.airbnb.mappers.booking;
 
 import kg.airbnb.airbnb.dto.responses.BookedResponse;
 import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
+import kg.airbnb.airbnb.dto.responses.MyAnnouncementsBookingRequestsResponse;
+import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Feedback;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -63,6 +67,7 @@ public class BookingViewMapper {
         response.setPrice(request.getPricePerDay());
         response.setCheckIn(request.getCheckin());
         response.setCheckOut(request.getCheckout());
+        response.setStatus(request.getStatus().name());
         response.setUserName(request.getUser().getFullName());
         response.setUserEmail(request.getUser().getEmail());
         response.setUserImage(request.getUser().getImage());
@@ -78,4 +83,34 @@ public class BookingViewMapper {
         return responses;
     }
 
+    public MyAnnouncementsBookingRequestsResponse viewUsersRequests(Announcement a, List<Booking> bookings) {
+
+        if (a == null) {
+            return null;
+        }
+
+        MyAnnouncementsBookingRequestsResponse response = new MyAnnouncementsBookingRequestsResponse();
+        response.setAnnouncementId(a.getId());
+        response.setTitle(a.getTitle());
+        response.setDescription(a.getDescription());
+        response.setImages(a.getImages());
+        response.setPrice(a.getPrice());
+        response.setMaxGuests(a.getMaxGuests());
+        response.setLocation(a.getLocation().getAddress() + ", " +
+                a.getLocation().getCity() + ", " +
+                a.getLocation().getRegion().getRegionName());
+        double b = 0;
+        double c = 0;
+        for (Feedback f : a.getFeedbacks()) {
+            if  (f.getRating() != null) {
+                b = b + f.getRating();
+                c++;
+            }
+        }
+        double rating = b / c;
+        response.setRating(rating);
+        response.setType(a.getHouseType().name());
+        response.setBookedResponses(viewBooked(bookings));
+        return response;
+    }
 }
