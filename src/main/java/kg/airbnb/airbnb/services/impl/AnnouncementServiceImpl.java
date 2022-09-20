@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -396,81 +397,143 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public FilterResponse getAnnouncementsByFilter(Long regionId, Kind kind,
+    public FilterResponse getAnnouncementsByFilter(Long regionId, String city, Kind kind,
                                                    Type type, PriceType price,
                                                    int page, int size) {
 
-        List<Announcement> announcements = new ArrayList<>(findByFilter
-                (regionId, type, price, page, size).getContent());
 
-        if (kind != null && kind.equals(Kind.POPULAR)) {
-            Collections.sort(announcements);
-        } else if (kind != null && kind.equals(Kind.THE_LASTEST)) {
-            announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
-        }
-
-        FilterResponse filterResponse = new FilterResponse();
-        filterResponse.setResponses(viewMapper.viewCard(announcements));
-        filterResponse.setCountOfResult(findByFilter
-                (regionId, type, price, page, size).getTotalElements());
-        return filterResponse;
-    }
-
-    private Page<Announcement> findByFilter(Long regionId,
-                                            Type type, PriceType price,
-                                            int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<Announcement> announcements = null;
 
-        if  (regionId != null) {
-            try {
-                regionRepository.findById(regionId).get();
-            } catch (NoSuchElementException e) {
-                throw new BadRequestException("There is no region with id = " + regionId);
-            }
-        }
-
-
-        if (!Objects.equals(regionId, null) && Objects.equals(type, null) && Objects.equals(price, null)) {
+        if (regionId != null && city != null && type != null) {
+            announcements = announcementRepository.findByAddress(regionId, city, type, pageable);
+        } else if (regionId != null && city != null && type == null)  {
+            announcements = announcementRepository.findByAddress(regionId, city, pageable);
+        } else if (regionId != null && city == null && type == null)  {
             announcements = announcementRepository.findByRegion(regionId, pageable);
-        } else if (!Objects.equals(regionId, null) && !Objects.equals(type, null) && Objects.equals(price, null)) {
-            announcements = announcementRepository.findByRegionAndType(regionId, type, pageable);
-        } else if (!Objects.equals(regionId, null) && !Objects.equals(type, null) && !Objects.equals(price, null)) {
-            if (price.equals(PriceType.LOW_TO_HIGH)) {
-                announcements = announcementRepository.findByRegionAndTypeAndPriceLow(regionId, type, pageable);
-            } else if (price.equals(PriceType.HIGH_TO_LOW)) {
-                announcements = announcementRepository.findByRegionAndTypeAndPriceHigh(regionId, type, pageable);
-            }
-        } else if (Objects.equals(regionId, null) && !Objects.equals(type, null) && Objects.equals(price, null)) {
+        } else if (regionId == null && city != null && type != null)  {
+            announcements = announcementRepository.findByAddress(city, type, pageable);
+        } else if (regionId == null && city == null && type != null)  {
             announcements = announcementRepository.findByType(type, pageable);
-        } else if (Objects.equals(regionId, null) && Objects.equals(type, null) && !Objects.equals(price, null)) {
-            if (price.equals(PriceType.LOW_TO_HIGH)) {
-                announcements = announcementRepository.findByPriceLow(pageable);
-            } else if (price.equals(PriceType.HIGH_TO_LOW)) {
-                announcements = announcementRepository.findByPriceHigh(pageable);
+        } else if (regionId == null && city == null && type == null)  {
+            announcements = announcementRepository.findAllAccepted(pageable);
+        }
+
+        if (announcements == null) {
+            throw new NotFoundException("there is no result!");
+        }
+        List<Announcement> announcements1 = new ArrayList<>(announcements.getContent());
+        List<Announcement> announcements2 = new ArrayList<>();
+
+
+        if (price != null && kind == null) {
+            if  (price.equals(PriceType.HIGH_TO_LOW)) {
+                announcements1.sort(Comparator.comparing(Announcement::getPrice).reversed());
+            } else if (price.equals(PriceType.LOW_TO_HIGH)) {
+                announcements1.sort(Comparator.comparing(Announcement::getPrice));
             }
-        } else if (Objects.equals(regionId, null) && !Objects.equals(type, null) && !Objects.equals(price, null)) {
-            if (price.equals(PriceType.LOW_TO_HIGH)) {
-                announcements = announcementRepository.findByTypeAndPriceLow(type, pageable);
-            } else if (price.equals(PriceType.HIGH_TO_LOW)) {
-                announcements = announcementRepository.findByTypeAndPriceHigh(type, pageable);
+        } else if (price == null && kind != null) {
+            if (kind.equals(Kind.POPULAR)) {
+                Collections.sort(announcements1);
+            } else if (kind.equals(Kind.THE_LASTEST)) {
+                announcements1.sort(Comparator.comparing(Announcement::getCreatedAt));
             }
-        } else if (!Objects.equals(regionId, null) && Objects.equals(type, null) && !Objects.equals(price, null)) {
-            if (price.equals(PriceType.LOW_TO_HIGH)) {
-                announcements = announcementRepository.findByRegionAndPriceLow(regionId, pageable);
-            } else if (price.equals(PriceType.HIGH_TO_LOW)) {
-                announcements = announcementRepository.findByRegionAndPriceHigh(regionId, pageable);
+        }
+
+
+        if (price != null && kind != null) {
+            if  (kind.equals(Kind.POPULAR)) {
+                if (price.equals(PriceType.HIGH_TO_LOW)) {
+                    for (int i = 5; i > 0; i--) {
+                        List<Announcement> announcementList = new ArrayList<>();
+                        for (int c = 0; i < announcements1.size(); i++) {
+                            if (getRating(announcements1.get(c)) >= i && getRating(announcements1.get(c)) < i + 1) {
+                                announcementList.add(announcements1.get(c));
+                            }
+                        }
+                        Collections.sort(announcementList);
+                        announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                        announcements2.addAll(announcementList);
+                    }
+                } else if (price.equals(PriceType.LOW_TO_HIGH)) {
+                    for (int i = 5; i > 0; i--) {
+                        List<Announcement> announcementList = new ArrayList<>();
+                        for (int c = 0; i < announcements1.size(); i++) {
+                            if (getRating(announcements1.get(c)) >= i && getRating(announcements1.get(c)) < i + 1) {
+                                announcementList.add(announcements1.get(c));
+                            }
+                        }
+                        Collections.sort(announcementList);
+                        announcementList.sort(Comparator.comparing(Announcement::getPrice));
+                        announcements2.addAll(announcementList);
+                    }
+                }
+            } else if (kind.equals(Kind.THE_LASTEST)) {
+                if (price.equals(PriceType.HIGH_TO_LOW)) {
+                    Set<LocalDate> dates = new TreeSet<>();
+
+                    for (Announcement a : announcements1) {
+                        dates.add(a.getCreatedAt());
+                    }
+
+                    for (LocalDate date: dates) {
+                        List<Announcement> announcementList = new ArrayList<>();
+                        for (Announcement a: announcements1) {
+                            if  (a.getCreatedAt().equals(date)) {
+                                announcementList.add(a);
+                            }
+                        }
+                        announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
+                        announcements2.addAll(announcementList);
+                    }
+                } else if (price.equals(PriceType.LOW_TO_HIGH)) {
+                    Set<LocalDate> dates = new TreeSet<>();
+
+                    for (Announcement a : announcements1) {
+                        dates.add(a.getCreatedAt());
+                    }
+
+                    for (LocalDate date: dates) {
+                        List<Announcement> announcementList = new ArrayList<>();
+                        for (Announcement a: announcements1) {
+                            if  (a.getCreatedAt().equals(date)) {
+                                announcementList.add(a);
+                            }
+                        }
+                        announcementList.sort(Comparator.comparing(Announcement::getPrice));
+                        announcements2.addAll(announcementList);
+                    }
+                }
             }
+        }
+        FilterResponse response = new FilterResponse();
+
+        if  (announcements2.size() == 0) {
+            response.setResponses(viewMapper.viewCard(announcements1));
         } else {
-            announcements = announcementRepository.findAll(pageable);
+            response.setResponses(viewMapper.viewCard(announcements2));
+        }
+        response.setCountOfResult(announcements.getTotalElements());
+        return response;
+    }
+
+    private double getRating(Announcement announcement) {
+        double all = 0;
+        double count = 0;
+
+        for (Feedback f: announcement.getFeedbacks()) {
+            if (f.getRating() != null) {
+                all = all + f.getRating();
+                count++;
+            }
+        }
+        
+        if  (count == 0) {
+            count = 1;
         }
 
-        if (announcements.isEmpty()) {
-            throw new NotFoundException("There is no result");
-        }
-
-        return announcements;
+        return all / count;
     }
 
     @Override

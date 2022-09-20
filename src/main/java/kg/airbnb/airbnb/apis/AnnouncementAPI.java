@@ -72,12 +72,13 @@ public class AnnouncementAPI {
                description = "Any user can filter announcements.")
     @GetMapping("/filter")
     public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
+                                                   @RequestParam(value = "city", required = false) String city,
                                                    @RequestParam(required = false) Kind kind,
                                                    @RequestParam(required = false) Type type,
                                                    @RequestParam(required = false) PriceType price,
                                                    @RequestParam(defaultValue = "1") int page,
                                                    @RequestParam(defaultValue = "16") int size) {
-        return announcementService.getAnnouncementsByFilter(regionId, kind, type, price, page, size);
+        return announcementService.getAnnouncementsByFilter(regionId, city, kind, type, price, page, size);
     }
 
     @Operation(summary = "Search accepted announcements by region & city & location & house type & latitude and longitude",

@@ -36,7 +36,7 @@ public interface AnnouncementService {
 
     AnnouncementInnerPageResponse getAnnouncementDetails(Long announcementId);
 
-    FilterResponse getAnnouncementsByFilter(Long region, Kind kind, Type type, PriceType price, int page, int size);
+    FilterResponse getAnnouncementsByFilter(Long region, String city, Kind kind, Type type, PriceType price, int page, int size);
 
     List<AnnouncementSearchResponse> getSearchAnnouncements(Integer page, Integer pageSize, String region, String city, String address, String latitude, String longitude);
 

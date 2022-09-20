@@ -2,11 +2,15 @@ package kg.airbnb.airbnb.apis;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import kg.airbnb.airbnb.dto.responses.*;
+
 import kg.airbnb.airbnb.dto.requests.PhoneNumberRequest;
 import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
 import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
+
 import kg.airbnb.airbnb.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +44,11 @@ public class UserProfileAPI {
     @GetMapping("/myBookings")
     public List<BookingCardResponse> getMyBookings() {
         return userService.findUsersBookings();
+    }
+
+    @GetMapping("/myBookingRequests")
+    public List<MyAnnouncementsBookingRequestsResponse> getMyBookingRequests() {
+        return userService.findUsersRequests();
     }
     
     @Operation(summary = "Delete message from admin")
