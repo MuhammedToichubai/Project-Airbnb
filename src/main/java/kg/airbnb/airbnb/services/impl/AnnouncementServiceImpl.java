@@ -110,13 +110,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Region newRegion = regionRepository.findById(request.getRegionId())
                 .orElseThrow(() -> new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
         Address address = announcement.getLocation();
-        if (address.getAddress().equals(request.getAddress()) && address.getRegion().equals(newRegion) && address.getCity().equals(request.getTownProvince())) {
+        if (address.getAddress().equals(request.getAddress()) &&
+                address.getRegion().equals(newRegion) &&
+                address.getCity().equals(request.getTownProvince())) {
             address.setRegion(newRegion);
             address.setAddress(request.getAddress());
             address.setCity(request.getTownProvince());
+        }else {
+            savedAddress(request, announcement);
         }
-        savedAddress(request, announcement);
-
         return new SimpleResponse(
                 "UPDATE",
                 "Announcement with id " + announcementId + ", successfully updated."
