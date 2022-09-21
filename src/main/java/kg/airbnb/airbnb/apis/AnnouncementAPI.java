@@ -55,7 +55,7 @@ public class AnnouncementAPI {
         return announcementService.announcementUpdate(announcementId, announcementRequest);
     }
 
-    @Operation(summary = "Delete announcement", description = "Any registered user can delete his own announcement or administrator can delete any announcement.")
+    @Operation(summary = "Delete announcement", description = "Any registered user can delete his own announcement ")
     @DeleteMapping("/delete/{announcementId}")
     public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId) {
         return announcementService.announcementDelete(announcementId);
@@ -63,8 +63,9 @@ public class AnnouncementAPI {
 
     @Operation(summary = "Get all announcements", description = "Any user can view all announcements accepted by the administrator")
     @GetMapping
-    public List<AnnouncementCardResponse> findAll(@RequestParam int page, @RequestParam int size) {
-        return announcementService.findAll(page, size);
+    public AnnouncementsResponse findAll(@RequestParam (defaultValue = "1") int page,
+                                         @RequestParam (defaultValue = "16") int size) {
+        return announcementService.findAllAnnouncements(page, size);
     }
 
     @Operation(summary = "Filter accepted announcements by Region, Popular, Latest, House Type, and Price Low to High and High to Low",

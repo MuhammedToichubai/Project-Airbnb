@@ -18,10 +18,12 @@ public class JwtResponse {
     private String email;
     private String jwt;
     private Role role;
+    private String phoneNumber;
 
-    public JwtResponse(Long id, String jwt, Role role) {
+    public JwtResponse(Long id, String jwt, Role role, String phoneNumber) {
         this.userId = id;
         this.jwt = jwt;
         this.role = role;
+        this.phoneNumber = phoneNumber;
     }
 }

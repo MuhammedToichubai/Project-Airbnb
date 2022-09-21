@@ -1,8 +1,4 @@
 package kg.airbnb.airbnb.repositories;
-import kg.airbnb.airbnb.dto.responses.AdminPageAllHousingResponses;
-import kg.airbnb.airbnb.enums.BookedType;
-import kg.airbnb.airbnb.enums.Kind;
-import kg.airbnb.airbnb.enums.PriceType;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;
@@ -78,7 +74,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     )
     void customDeleteById(Long announcementId);
 
-
     @Modifying
     @Transactional
     @Query(
@@ -87,8 +82,29 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     )
     void clearImages(Long announcementId);
 
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delete from feedbacks f where f.announcement_id = ?1"
+
+    )
+    void clearFeedback(Long announcementId);
+
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delete from bookings b where b.announcement_id = :announcementId"
+
+    )
+    void clearBooking(Long announcementId);
+
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=4 order by a.createdAt desc")
     Page<Announcement> findAllNewAndSeen(Pageable pageable);
+
 
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=4 order by a.createdAt desc")
     List<Announcement> findAllNewAndSeen();
@@ -113,4 +129,5 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty ")
     List<Announcement> notBookedOnly(Pageable pageable);
+
 }

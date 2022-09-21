@@ -1,13 +1,18 @@
 package kg.airbnb.airbnb.security;
-import kg.airbnb.airbnb.dto.responses.JwtResponse;
-import kg.airbnb.airbnb.dto.requests.LoginRequest;
+
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import kg.airbnb.airbnb.dto.requests.LoginRequest;
+import kg.airbnb.airbnb.dto.requests.PhoneNumberRequest;
+import kg.airbnb.airbnb.dto.responses.JwtResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
+import kg.airbnb.airbnb.exceptions.BadRequestException;
+import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.exceptions.WrongPasswordException;
 import kg.airbnb.airbnb.models.auth.User;
@@ -15,13 +20,16 @@ import kg.airbnb.airbnb.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -53,12 +61,11 @@ public class LoginService {
                         "user with email: " + loginRequest.getEmail() + " not found!"
                 ));
 
-
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new WrongPasswordException(
-                    "invalid password"
-            );
-        }
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                throw new WrongPasswordException(
+                        "invalid password"
+                );
+            }
 
         String token = jwtUtils.generateToken(user.getEmail());
 
@@ -66,12 +73,12 @@ public class LoginService {
                 user.getId(),
                 user.getEmail(),
                 token,
-                user.getRole()
+                user.getRole(),
+                user.getPhoneNumber()
         );
     }
 
-    public JwtResponse authenticateWithGoogle(String token, String phoneNumber) throws FirebaseAuthException {
-
+    public JwtResponse authenticateWithGoogle(String token) throws FirebaseAuthException {
 
         log.info("User started logging in with google");
 
@@ -83,7 +90,6 @@ public class LoginService {
             User newUser = new User(
                     firebaseToken.getName(),
                     firebaseToken.getEmail(),
-                    "+996 "+phoneNumber,
                     passwordEncoder.encode(firebaseToken.getEmail()),
                     Role.USER
             );
@@ -104,7 +110,32 @@ public class LoginService {
                 user.getId(),
                 user.getEmail(),
                 jwtUtils.generateToken(user.getEmail()),
-                user.getRole()
+                user.getRole(),
+                user.getPhoneNumber()
         );
+    }
+
+    @Transactional
+    public SimpleResponse addPhoneNumber(PhoneNumberRequest phoneNumberRequest) {
+
+        User currentUser = getAuthenticatedUser();
+
+        if ( phoneNumberRequest.getPhoneNumber().length() == 9 ) {
+                    currentUser.setPhoneNumber("+996 " + phoneNumberRequest.getPhoneNumber());
+        } else {
+            throw new BadRequestException("Invalid phone number, too long!");
+        }
+        return new SimpleResponse(
+                "SAVE",
+                "Phone number added!"
+
+        );
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        return userRepository.findByEmail(login).orElseThrow(() ->
+                new ForbiddenException("An unregistered user cannot post an ad !"));
     }
 }

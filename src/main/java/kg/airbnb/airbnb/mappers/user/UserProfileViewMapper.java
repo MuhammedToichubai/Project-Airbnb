@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -32,14 +33,19 @@ public class UserProfileViewMapper {
         UserAnnouncementResponse announcementsResponse = new UserAnnouncementResponse();
         announcementsResponse.setId(announcement.getId());
         announcementsResponse.setImage(announcement.getImages().get(0));
+        announcementsResponse.setHouseType(announcement.getHouseType());
         announcementsResponse.setPrice(announcement.getPrice());
         announcementsResponse.setRating(announcementViewMapper.calculateRating(announcement));
         announcementsResponse.setTitle(announcement.getTitle());
+        announcementsResponse.setDescription(announcement.getDescription());
         announcementsResponse.setLocation(announcement.getLocation().getAddress());
         announcementsResponse.setMaxGuests(announcement.getMaxGuests());
         announcementsResponse.setStatus(announcement.getStatus());
         announcementsResponse.setLikeCountAnnouncement(announcement.getLike());
         announcementsResponse.setBookmarkCountAnnouncement(announcement.getBookmark());
+        announcementsResponse.setMessagesFromAdmin(announcement.getMessageFromAdmin());
+        announcementsResponse.setBookingsCountAnnouncement(announcement.getBookings().size());
+
         return announcementsResponse;
     }
 
@@ -59,8 +65,12 @@ public class UserProfileViewMapper {
         response.setImage(user.getImage());
         response.setName(user.getFullName());
         response.setContact(user.getEmail());
+        response.setPhoneNumber(user.getPhoneNumber());
+        response.setMessageFromAdmin(user.getMessagesFromAdmin());
         response.setBookings(listUserBookings(user.getBookings()));
         response.setAnnouncements(listUserAnnouncements(user.getAnnouncements()));
+
+
         return response;
     }
 
@@ -79,6 +89,7 @@ public class UserProfileViewMapper {
         }
         UserBookingsResponse bookingsResponse = new UserBookingsResponse();
         bookingsResponse.setAnnouncementId(booking.getAnnouncement().getId());
+        bookingsResponse.setImage(booking.getAnnouncement().getImages().get(0));
         bookingsResponse.setPrice(booking.getAnnouncement().getPrice());
         bookingsResponse.setRating(announcementViewMapper.calculateRating(booking.getAnnouncement()));
         bookingsResponse.setTitle(booking.getAnnouncement().getTitle());
@@ -86,7 +97,7 @@ public class UserProfileViewMapper {
         bookingsResponse.setMaxGuests(booking.getAnnouncement().getMaxGuests());
         bookingsResponse.setCheckIn(booking.getCheckin().format(DateTimeFormatter.ISO_LOCAL_DATE));
         bookingsResponse.setCheckOut(booking.getCheckout().format(DateTimeFormatter.ISO_LOCAL_DATE));
-        bookingsResponse.setStatus(Status.NEW);
+        bookingsResponse.setStatus(booking.getStatus());
         return bookingsResponse;
 
     }

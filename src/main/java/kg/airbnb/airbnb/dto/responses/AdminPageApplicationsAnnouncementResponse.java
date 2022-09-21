@@ -29,6 +29,8 @@ public class AdminPageApplicationsAnnouncementResponse {
 
     private String ownerEmail;
 
+    private String ownerPhoneNumber;
+
     private Status status;
 
 }

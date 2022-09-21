@@ -1,11 +1,11 @@
 package kg.airbnb.airbnb.services;
 
-import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
-import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
-import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
+import kg.airbnb.airbnb.dto.requests.*;
+import kg.airbnb.airbnb.dto.responses.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserService {
@@ -41,6 +41,24 @@ public interface UserService {
     List<FavoriteAnnouncementResponse> userFavoriteAnnouncements();
 
     FavoritesResponse getUserFavoriteAnnouncements();
+
+    Map<String, String> requestToBook(BookRequest request);
+
+    Map<String, String> blockDateByUser(BlockBookDateRequest dateToBlock);
+
+    List<BookingCardResponse> findUsersBookings();
+
+    Map<String, String> deleteRequestToBook(Long bookingId);
+
+    Map<String, String> updateRequestToBook(UpdateBookRequest request);
+
+    List<BookedResponse> getAnnouncementsBookings(Long announcementId);
+
+    Map<String, String> changeBookingsStatus(ChangeBookingsStatusRequest request);
+
+    ClosedDatesResponse getClosedDates(Long announcementId);
+    
+    SimpleResponse deleteMessagesFromAdmin();
 
 }
 

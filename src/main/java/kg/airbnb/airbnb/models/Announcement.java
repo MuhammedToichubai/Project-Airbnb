@@ -2,11 +2,12 @@ package kg.airbnb.airbnb.models;
 
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
+import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.models.auth.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ import static javax.persistence.CascadeType.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
 public class Announcement implements Comparable<Announcement> {
 
     @Id
@@ -40,7 +41,7 @@ public class Announcement implements Comparable<Announcement> {
 
     private BigDecimal price;
 
-    @OneToMany(cascade = ALL, mappedBy = "announcement")
+    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "announcement")
     private List<Feedback> feedbacks;
 
     private Integer maxGuests;
@@ -51,17 +52,24 @@ public class Announcement implements Comparable<Announcement> {
     @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH})
     private User owner;
 
+    private String messageFromAdmin;
+
     @OneToOne(cascade = ALL)
     private Address location;
 
     @ManyToMany(cascade = ALL)
     private List<User> guests;
 
-
-    @OneToMany(cascade = ALL, mappedBy = "announcement")
+    @OneToMany(cascade = ALL, orphanRemoval = true, mappedBy = "announcement")
     private List<Booking> bookings;
 
     private LocalDate createdAt;
+
+    @ElementCollection
+    private List<LocalDate> blockedDates;
+
+    @ElementCollection
+    private List<LocalDate> blockedDatesByUser;
 
     @Column(name = "likes")
     private volatile int like = 0;
@@ -84,6 +92,18 @@ public class Announcement implements Comparable<Announcement> {
     public void addFeedback(Feedback feedback) {
         this.feedbacks.add(feedback);
     }
+    public void addBlockedDateByUser(LocalDate date) {
+        this.blockedDatesByUser.add(date);
+    }
+    public void addBlockedDate(LocalDate date) {
+        this.blockedDates.add(date);
+    }
+    public void removeBlockedDateByUser(LocalDate date) {
+        this.blockedDatesByUser.remove(date);
+    }
+    public void removeIfExistDate(LocalDate date) {
+        this.blockedDates.remove(date);
+    }
 
     @Override
     public int compareTo(Announcement o) {
@@ -99,5 +119,21 @@ public class Announcement implements Comparable<Announcement> {
         }
 
         return b - a;
+    }
+
+    public void releaseTakenDates(LocalDate checkin, LocalDate checkout) {
+        while (checkin.isBefore(checkout)) {
+            this.blockedDates.remove(checkin);
+            checkin = checkin.plusDays(1L);
+        }
+        this.blockedDates.remove(checkout);
+    }
+
+    public void addBlockedDate(LocalDate checkin, LocalDate checkout) {
+        while (checkin.isBefore(checkout)) {
+            this.blockedDates.add(checkin);
+            checkin = checkin.plusDays(1L);
+        }
+        this.blockedDates.add(checkout);
     }
 }

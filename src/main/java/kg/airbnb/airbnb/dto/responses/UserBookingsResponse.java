@@ -29,7 +29,7 @@ public class UserBookingsResponse {
     public UserBookingsResponse(Booking booking, Double rating) {
         this.announcementId = booking.getAnnouncement().getId();
         this.image = booking.getAnnouncement().getImages().get(0);
-        this.price = booking.getAnnouncement().getPrice();
+        this.price = booking.getPricePerDay();
         this.rating = rating;
         this.title = booking.getAnnouncement().getTitle();
         this.location = booking.getAnnouncement().getLocation().getAddress();

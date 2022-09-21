@@ -1,10 +1,12 @@
 package kg.airbnb.airbnb.apis;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kg.airbnb.airbnb.dto.requests.PhoneNumberRequest;
 import kg.airbnb.airbnb.dto.responses.JwtResponse;
 import com.google.firebase.auth.FirebaseAuthException;
 import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.security.LoginService;
 import kg.airbnb.airbnb.services.impl.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +36,13 @@ public class AuthApi {
 
     @Operation(summary = "Sign in with Google", description = "Any user can login with google account.")
     @PostMapping("/login/google")
-    public JwtResponse loginWithGoogle(@RequestParam String token,
-                                       @RequestParam String phoneNumber) throws FirebaseAuthException {
-        return loginService.authenticateWithGoogle(token, phoneNumber);
+    public JwtResponse loginWithGoogle(@RequestParam String token) throws FirebaseAuthException {
+        return loginService.authenticateWithGoogle(token);
+    }
+
+    @Operation(summary = "Add phone number", description = "Registered user must add phone number" )
+    @PostMapping("/user/add/phone/number")
+    public SimpleResponse addPhoneNumber(@RequestBody PhoneNumberRequest phoneNumberRequest){
+       return loginService.addPhoneNumber(phoneNumberRequest);
     }
 }
