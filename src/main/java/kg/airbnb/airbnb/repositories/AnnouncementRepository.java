@@ -16,8 +16,14 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Query("select a from Announcement a where a.location.region.id = :regionId and a.status = 1")
     Page<Announcement> findByRegion(@Param("regionId") Long regionId, Pageable pageable);
 
+    @Query("select a from Announcement a where a.location.region.id = :regionId and a.status = 1")
+    List<Announcement> findByRegion(@Param("regionId") Long regionId);
+
     @Query("select a from Announcement a where a.location.region.id = :regionId and upper(a.houseType) = :type and a.status = 1")
     Page<Announcement> findByRegionAndType(@Param("regionId") Long regionId, @Param("type") Type type, Pageable pageable);
+
+    @Query("select a from Announcement a where a.location.region.id = :regionId and upper(a.houseType) = :type and a.status = 1")
+    List<Announcement> findByRegionAndType(@Param("regionId") Long regionId, @Param("type") Type type);
 
     @Query("select a from Announcement a where a.status = 1 AND a.location.region.id = :regionId and upper(a.houseType) = :type order by a.price asc")
     Page<Announcement> findByRegionAndTypeAndPriceLow(@Param("regionId") Long regionId, @Param("type") Type type, Pageable pageable);
@@ -27,6 +33,9 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("select a from Announcement a where upper(a.houseType) = :type and a.status = 1")
     Page<Announcement> findByType(@Param("type") Type type, Pageable pageable);
+
+    @Query("select a from Announcement a where upper(a.houseType) = :type and a.status = 1")
+    List<Announcement> findByType(@Param("type") Type type);
 
     @Query("select a from Announcement a WHERE a.status = 1 order by a.price asc")
     Page<Announcement> findByPriceLow(Pageable pageable);
@@ -131,12 +140,17 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     List<Announcement> notBookedOnly(Pageable pageable);
 
     @Query("select a from Announcement a where a.status = 1 and a.location.region.id = :regionId or a.location.city = :city or a.houseType = :type ")
-    Page<Announcement> findByAddress(@Param("regionId") Long regionId, @Param("city") String city, @Param("type") Type type, Pageable pageable);
+    List<Announcement> findByAddress(@Param("regionId") Long regionId, @Param("city") String city, @Param("type") Type type);
 
     @Query("select a from Announcement a where a.status = 1 and a.location.region.id = :regionId and a.location.city = :city")
-    Page<Announcement> findByAddress(Long regionId, String city, Pageable pageable);
+    List<Announcement> findByAddress(Long regionId, String city);
 
     @Query("select a from Announcement a where a.status = 1 and a.location.city = :city and a.houseType = :type")
-    Page<Announcement> findByAddress(String city, Type type, Pageable pageable);
+    List<Announcement> findByAddress(String city, Type type);
 
+    @Query("SELECT a FROM Announcement a WHERE a.status = 1")
+    List<Announcement> findAllAccepted();
+
+    @Query("SELECT a FROM Announcement a WHERE a.status = 1 and upper(a.location.city) like :city%")
+    List<Announcement> findByCity(@Param("city") String city);
 }

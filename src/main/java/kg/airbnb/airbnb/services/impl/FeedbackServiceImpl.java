@@ -42,6 +42,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public FeedbackResponse saveFeedback(Long announcementId, FeedbackRequest request) {
        Announcement announcement = getFindByAnnouncementId(announcementId);
+       if   (request.getRating()!= null) {
+           announcement.setRating(request.getRating());
+       }
        Feedback newFeedback = new Feedback();
        newFeedback.setImages(request.getImages());
        newFeedback.setRating(request.getRating());
@@ -50,6 +53,7 @@ public class FeedbackServiceImpl implements FeedbackService {
        newFeedback.setAnnouncement(announcement);
        newFeedback.setCreatedAt(LocalDate.now());
        newFeedback.setOwner(getCurrentUser());
+//       announcementRepository.save(a)
        feedbackRepository.save(newFeedback);
        return getFeedbackResponse(newFeedback);
     }
