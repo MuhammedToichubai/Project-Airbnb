@@ -31,6 +31,7 @@ CREATE TABLE announcements (
     view_announcements INTEGER,
     location_id BIGINT,
     owner_id BIGINT,
+    rating real,
     PRIMARY KEY (id)
 );
 

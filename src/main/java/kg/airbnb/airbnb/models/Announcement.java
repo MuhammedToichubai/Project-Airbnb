@@ -65,6 +65,8 @@ public class Announcement implements Comparable<Announcement> {
 
     private LocalDate createdAt;
 
+    private double rating;
+
     @ElementCollection
     private List<LocalDate> blockedDates;
 
@@ -120,6 +122,20 @@ public class Announcement implements Comparable<Announcement> {
         }
 
         return b - a;
+    }
+
+    public void setRating(double rating) {
+        double a = 0;
+        double b = 0;
+
+        for (Feedback f: this.feedbacks) {
+            a = a + f.getRating();
+            b++;
+        }
+
+        a = a + rating;
+        b++;
+        this.rating = a / b;
     }
 
     public void releaseTakenDates(LocalDate checkin, LocalDate checkout) {
