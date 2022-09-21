@@ -60,5 +60,6 @@ public interface UserService {
     
     SimpleResponse deleteMessagesFromAdmin();
 
+    List<MyAnnouncementsBookingRequestsResponse> findUsersRequests();
 }
 

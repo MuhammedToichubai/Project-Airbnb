@@ -108,17 +108,31 @@ public class Announcement implements Comparable<Announcement> {
     @Override
     public int compareTo(Announcement o) {
 
-        int a = 0;
-        int b = 0;
+        double a = 0;
+        double b = 0;
 
-        for (Feedback c : this.feedbacks) {
-            a = a + c.getRating();
-        }
-        for (Feedback d : o.getFeedbacks()) {
-            b = b + d.getRating();
+        double c = 0;
+        double d = 0;
+
+        for (Feedback e : this.feedbacks) {
+            a = a + e.getRating();
+            b++;
         }
 
-        return b - a;
+        for (Feedback f : o.getFeedbacks()) {
+            c = c + f.getRating();
+            d++;
+        }
+
+        if (b == 0) {
+            b = 1;
+        }
+
+        if (d == 0) {
+            d = 1;
+        }
+
+        return (int) ((a / b) - (c / d));
     }
 
     public void releaseTakenDates(LocalDate checkin, LocalDate checkout) {

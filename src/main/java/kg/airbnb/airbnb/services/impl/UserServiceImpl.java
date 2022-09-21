@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -197,6 +199,22 @@ public class UserServiceImpl implements UserService {
                 "Successfully deleted all messages!"
 
         );
+    }
+
+    @Override
+    public List<MyAnnouncementsBookingRequestsResponse> findUsersRequests() {
+
+        User user = getAuthenticatedRoleUser();
+        List<Announcement> announcements = user.getAnnouncements();
+        List<MyAnnouncementsBookingRequestsResponse> responses = new ArrayList<>();
+
+        for (Announcement a: announcements) {
+            List<Booking> bookings = bookingRepository.findAllByAnnouncementId(a.getId());
+            bookings.sort(Comparator.comparing(Booking::getStatus));
+            responses.add(bookingViewMapper.viewUsersRequests(a, bookings));
+        }
+
+        return responses;
     }
 
     private Announcement getAnnouncementFindId(Long announcementId){
@@ -406,7 +424,9 @@ public class UserServiceImpl implements UserService {
             throw new ForbiddenException();
         }
 
-        findTakenDates(booking.getCheckin(), booking.getCheckout(), announcement.getBlockedDates(), announcement.getBlockedDatesByUser());
+        if  (!request.getStatus().equals(Status.REJECTED)) {
+            findTakenDates(booking.getCheckin(), booking.getCheckout(), announcement.getBlockedDates(), announcement.getBlockedDatesByUser());
+        }
 
         if (request.getStatus().equals(Status.ACCEPTED)) {
             booking.setStatus(Status.ACCEPTED);

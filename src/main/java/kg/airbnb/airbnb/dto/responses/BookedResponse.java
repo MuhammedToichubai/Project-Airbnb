@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,4 +22,5 @@ public class BookedResponse {
     private String userEmail;
     private String userImage;
     private String userPhoneNumber;
+    private String status;
 }
