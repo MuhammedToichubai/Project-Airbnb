@@ -1,5 +1,4 @@
 package kg.airbnb.airbnb.repositories;
-
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;
@@ -110,14 +109,26 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=4 order by a.createdAt desc")
     List<Announcement> findAllNewAndSeen();
 
-    @Query("select a from Announcement a where a.bookings is not empty and a.status = 0")
-    List<Announcement> findAllBookedAnnouncement( Pageable pageable);
-
-    @Query("select a from Announcement a where a.bookings is empty and a.status = 1")
-    List<Announcement> findAllNotBookedAnnouncement(Pageable page);
-
     @Query("SELECT a FROM Announcement a WHERE a.owner.id = ?1")
     List<Announcement> findUserAllAnnouncement(Long userId);
+
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 ")
+    List<Announcement> defaultGetAllHousing(Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.houseType = :housingType or :housingType is null")
+    List<Announcement> nullBookedByPrice(Type housingType, Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty and a.houseType = :housingType or :housingType is null")
+    List<Announcement> notBookedByPrice(Type housingType, Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is not empty and a.houseType = :housingType or :housingType is null")
+    List<Announcement> bookedByPrice(Type housingType, Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is not empty ")
+    List<Announcement> bookedOnly(Pageable pageable);
+
+    @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty ")
+    List<Announcement> notBookedOnly(Pageable pageable);
 
     @Query("select a from Announcement a where a.status = 1 and a.location.region.id = :regionId or a.location.city = :city or a.houseType = :type ")
     Page<Announcement> findByAddress(@Param("regionId") Long regionId, @Param("city") String city, @Param("type") Type type, Pageable pageable);
@@ -127,4 +138,5 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("select a from Announcement a where a.status = 1 and a.location.city = :city and a.houseType = :type")
     Page<Announcement> findByAddress(String city, Type type, Pageable pageable);
+
 }

@@ -5,6 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.responses.*;
 import kg.airbnb.airbnb.enums.BookedType;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
@@ -18,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin
 @RequestMapping("api/admin")
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 @Tag(name = "API  for managing Admin")
 public class AdminApi {
 
@@ -28,7 +31,7 @@ public class AdminApi {
 
     private final UserService service;
 
-    @Operation(summary = "Get all announcements", description = "Only admin can view all announcements")
+    @Operation(summary = "Get all announcements on moderation", description = "Only admin can view all announcements")
     @GetMapping("/applications")
     public AdminPageApplicationsResponse getAllAnnouncements(@RequestParam(defaultValue = "1") int page,
                                                              @RequestParam(defaultValue = "15") int size) {
@@ -105,12 +108,16 @@ public class AdminApi {
         return service.getUserProfile(userId);
     }
 
-    @Operation(summary = "Filter  announcements by Booked and Not Booked",
-               description = "Only admin can filter announcements.")
-    @GetMapping("/filter")
-    public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) BookedType bookedType,
-                                                   @RequestParam(defaultValue = "1") int page,
-                                                   @RequestParam(defaultValue = "16") int size) {
-        return announcementService.getAnnouncementsByFilter(bookedType, page, size);
+    @Operation(summary = "Get All Housing",
+            description = "Only admin can see all housing")
+    @GetMapping("/allHousing")
+    public AdminPageAllHousingResponses getAllHousing(@RequestParam(required = false) BookedType bookedType,
+                                                      @RequestParam(required = false) Type housingType,
+                                                      @RequestParam(required = false) Kind kind,
+                                                      @RequestParam(required = false) PriceType price,
+                                                      @RequestParam(defaultValue = "1") int page,
+                                                      @RequestParam(defaultValue = "16") int size) {
+
+        return announcementService.getAllHousing(bookedType,housingType,kind,price,page,size);
     }
 }
