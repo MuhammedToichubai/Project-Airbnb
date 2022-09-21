@@ -16,7 +16,8 @@ import java.util.List;
 @RequestMapping("/api/announcements")
 @CrossOrigin
 @Tag(name = "This API is for Announcement")
-public class AnnouncementAPI {
+public class
+AnnouncementAPI {
 
     private final AnnouncementService announcementService;
 
