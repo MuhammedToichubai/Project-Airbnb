@@ -1,5 +1,5 @@
 ### Airbnb Database Schema
-![img_1.png](img_1.png)
+![img.png](img.png)
 
 #### Backend Swagger Link
 <a href="http://airbnb-env.eba-bxmudt83.eu-central-1.elasticbeanstalk.com/swagger-ui/index.html">
