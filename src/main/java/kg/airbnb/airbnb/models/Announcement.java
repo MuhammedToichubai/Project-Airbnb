@@ -65,7 +65,7 @@ public class Announcement implements Comparable<Announcement> {
 
     private LocalDate createdAt;
 
-    private Double rating = null;
+    private double rating;
 
     @ElementCollection
     private List<LocalDate> blockedDates;
