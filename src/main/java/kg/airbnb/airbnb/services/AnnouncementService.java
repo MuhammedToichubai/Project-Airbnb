@@ -52,6 +52,7 @@ public interface AnnouncementService {
 
     AnnouncementsResponse findAllAnnouncements(int page, int size);
 
+    AdminPageAllHousingResponses getAllHousingJ(BookedType bookedType, Type housingType, Kind kind, PriceType price, int page, int size);
 }
 
 
