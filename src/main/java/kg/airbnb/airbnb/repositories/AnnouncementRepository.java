@@ -1,4 +1,5 @@
 package kg.airbnb.airbnb.repositories;
+import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,9 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("select a from Announcement a where upper(a.houseType) = :type and a.status = 1")
     List<Announcement> findByType(@Param("type") Type type);
+
+    @Query("select a from Announcement a where upper(a.houseType) = :type")
+    List<Announcement> findByTypeAll(@Param("type") Type type);
 
     @Query("select a from Announcement a WHERE a.status = 1 order by a.price asc")
     Page<Announcement> findByPriceLow(Pageable pageable);
