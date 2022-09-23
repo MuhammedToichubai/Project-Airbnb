@@ -232,4 +232,12 @@ public class AnnouncementViewMapper {
 
         return response;
     }
+
+    public List<AdminPageHousingResponse> adminPageHousingResponseList(List<Announcement> announcements) {
+        List<AdminPageHousingResponse> responses = new ArrayList<>();
+        for (Announcement announcement : announcements) {
+            responses.add(announcementToHousing(announcement));
+        }
+        return responses;
+    }
 }

@@ -143,13 +143,13 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     @Query("select a from Announcement a WHERE a.status <> 0 and a.status <> 4 and a.bookings is empty ")
     List<Announcement> notBookedOnly(Pageable pageable);
 
-    @Query("select a from Announcement a where a.status = 1 and a.location.region.id = :regionId or a.location.city = :city or a.houseType = :type ")
+    @Query("select a from Announcement a where a.status = 1 and a.location.region.id = :regionId and upper(a.location.city) like :city% and a.houseType = :type ")
     List<Announcement> findByAddress(@Param("regionId") Long regionId, @Param("city") String city, @Param("type") Type type);
 
-    @Query("select a from Announcement a where a.status = 1 and a.location.region.id = :regionId and a.location.city = :city")
+    @Query("select a from Announcement a where a.status = 1 and a.location.region.id = :regionId and upper(a.location.city) like :city%")
     List<Announcement> findByAddress(Long regionId, String city);
 
-    @Query("select a from Announcement a where a.status = 1 and a.location.city = :city and a.houseType = :type")
+    @Query("select a from Announcement a where a.status = 1 and upper(a.location.city) like :city% and a.houseType = :type")
     List<Announcement> findByAddress(String city, Type type);
 
     @Query("SELECT a FROM Announcement a WHERE a.status = 1")

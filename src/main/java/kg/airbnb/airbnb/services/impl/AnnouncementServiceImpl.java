@@ -416,11 +416,17 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public AdminPageAllHousingResponses getAllHousingJ(
-            BookedType bookedType, Type housingType, Kind kind, PriceType price, int page, int size) {
-        List<Announcement> announcements = null;
-        List<Announcement> announcements2 = new ArrayList<>();
-        if  (housingType != null) {
-            announcements = announcementRepository.findByTypeAll(housingType);
+            BookedType bookedType, Type type, Kind kind, PriceType price, int page, int size) {
+
+        User user = getAuthenticatedUser();
+        if (!user.getRole().equals(Role.ADMIN)) {
+            throw new ForbiddenException("Only admin can see all housing");
+        }
+
+        List<Announcement> announcements;
+
+        if  (type != null) {
+            announcements = announcementRepository.findByTypeAll(type);
         } else {
             announcements = announcementRepository.findAll();
         }
@@ -429,119 +435,22 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             throw new NotFoundException("there is no result!");
         }
 
-        if (price == null && kind != null) {
-            if (kind.equals(Kind.POPULAR)) {
-                announcements.sort(Comparator.comparing(Announcement::getRating).reversed());
-            } else if (kind.equals(Kind.THE_LASTEST)) {
-                announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
-            }
-        }
-
         if  (bookedType != null && bookedType.equals(BookedType.NOT_BOOKED)) {
             announcements.removeIf(a -> a.getBookings().size() > 0);
         } else  if (bookedType != null && bookedType.equals(BookedType.BOOKED)){
             announcements.removeIf(a -> a.getBookings().size() == 0);
         }
 
-        if (price != null && kind == null) {
-            if (price.equals(PriceType.LOW_TO_HIGH)) {
-                announcements.sort(Comparator.comparing(Announcement::getPrice));
-            } else if (price.equals(PriceType.HIGH_TO_LOW)) {
-                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
-            }
-        }
+        List<Announcement> announcements2 = sortByKindAndPrice(announcements, kind, price);
 
-        if (price != null && kind != null) {
-            if  (kind.equals(Kind.POPULAR)) {
-                if (price.equals(PriceType.HIGH_TO_LOW)) {
-                    for (int i = 5; i > 0; i--) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (int c = 0; c < announcements.size(); c++) {
-                            if (getRating(announcements.get(c)) >= i && getRating(announcements.get(c)) < (i + 1)) {
-                                announcementList.add(announcements.get(c));
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getRating).reversed());
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
-                        announcements2.addAll(announcementList);
-                    }
-                } else if (price.equals(PriceType.LOW_TO_HIGH)) {
-                    for (int i = 5; i > 0; i--) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (int c = 0; c < announcements.size(); c++) {
-                            if (getRating(announcements.get(c)) >= i && getRating(announcements.get(c)) < (i + 1)) {
-                                announcementList.add(announcements.get(c));
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getRating).reversed());
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice));
-                        announcements2.addAll(announcementList);
-                    }
-                }
-            } else if (kind.equals(Kind.THE_LASTEST)) {
-                if (price.equals(PriceType.HIGH_TO_LOW)) {
-                    Set<LocalDate> dates = new TreeSet<>();
-                    for (Announcement a : announcements) {
-                        dates.add(a.getCreatedAt());
-                    }
-                    for (LocalDate date: dates) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (Announcement a: announcements) {
-                            if  (a.getCreatedAt().equals(date)) {
-                                announcementList.add(a);
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
-                        announcements2.addAll(announcementList);
-                    }
-                } else if (price.equals(PriceType.LOW_TO_HIGH)) {
-                    Set<LocalDate> dates = new TreeSet<>();
+        AdminPageAllHousingResponses responses = new AdminPageAllHousingResponses();
+        List<Announcement> last = pagination(announcements2, page, size);
 
-                    for (Announcement a : announcements) {
-                        dates.add(a.getCreatedAt());
-                    }
+        responses.setAdminPageAllHousingResponseListSize(announcements2.size());
 
-                    for (LocalDate date: dates) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (Announcement a: announcements) {
-                            if  (a.getCreatedAt().equals(date)) {
-                                announcementList.add(a);
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice));
-                        announcements2.addAll(announcementList);
-                    }
-                }
-            }
-        }
+        responses.setAdminPageHousingResponseList(viewMapper.adminPageHousingResponseList(last));
 
-        List<Announcement> pagination = new ArrayList<>();
-        AdminPageAllHousingResponses response = new AdminPageAllHousingResponses();
-
-        int start = (page - 1) * size;
-        int end = size * page;
-
-        if (announcements2.size() != 0) {
-            if (end > announcements2.size()) {
-                end = announcements2.size();
-            }
-            for (int i = start; i < end; i++) {
-                pagination.add(announcements2.get(i));
-            }
-
-            return adminPageAllHousingResponses(pagination);
-
-        } else {
-            if (end > announcements.size()) {
-                end = announcements.size();
-            }
-            for (int i = start; i < end; i++) {
-                pagination.add(announcements.get(i));
-            }
-
-            return adminPageAllHousingResponses(pagination);
-
-        }
+        return responses;
     }
 
     AdminPageAllHousingResponses adminPageAllHousingResponses(List<Announcement> announcements){
@@ -649,15 +558,42 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }
     }
 
-
-
     @Override
     public FilterResponse getAnnouncementsByFilter(Long regionId, String city, Kind kind,
                                                    Type type, PriceType price,
                                                    int page, int size) {
 
-        List<Announcement> announcements = null;
-        List<Announcement> announcements2 = new ArrayList<>();
+        List<Announcement> announcements = findByTypes(regionId, city, type);
+        List<Announcement> announcements2 = sortByKindAndPrice(announcements, kind, price);
+
+        FilterResponse response = new FilterResponse();
+        List<Announcement> last;
+
+        last = pagination(announcements2, page, size);
+        response.setCountOfResult((long) announcements2.size());
+
+        response.setResponses(viewMapper.viewCard(last));
+        return response;
+    }
+
+    private List<Announcement> pagination(List<Announcement> announcements, int page, int size) {
+        List<Announcement> pagination = new ArrayList<>();
+
+        int start = (page - 1) * size;
+        int end = size * page;
+
+        if (end > announcements.size()) {
+            end = announcements.size();
+        }
+        for (int i = start; i < end; i++) {
+            pagination.add(announcements.get(i));
+        }
+
+        return pagination;
+    }
+
+    private List<Announcement> findByTypes(Long regionId, String city, Type type) {
+        List<Announcement> announcements;
 
         if  (regionId != null) {
             try {
@@ -681,123 +617,125 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcements = announcementRepository.findByRegionAndType(regionId, type);
         } else if (regionId == null && city != null && type == null)  {
             announcements = announcementRepository.findByCity(city.toUpperCase(Locale.ROOT));
-        } else if (regionId == null && city == null && type == null)  {
+        } else {
             announcements = announcementRepository.findAllAccepted();
         }
 
         if (announcements == null) {
             throw new NotFoundException("there is no result!");
         }
+        return announcements;
+    }
+
+    private List<Announcement> sortByKindAndPrice(
+            List<Announcement> announcements, Kind kind, PriceType price) {
+
+        List<Announcement> announcements2 = new ArrayList<>();
 
         if (price == null && kind != null) {
-            if (kind.equals(Kind.POPULAR)) {
-                announcements.sort(Comparator.comparing(Announcement::getRating).reversed());
-            } else if (kind.equals(Kind.THE_LASTEST)) {
-                announcements.sort(Comparator.comparing(Announcement::getCreatedAt));
-            }
-        }
-
-        if (price != null && kind == null) {
-            if (price.equals(PriceType.LOW_TO_HIGH)) {
-                announcements.sort(Comparator.comparing(Announcement::getPrice));
-            } else if (price.equals(PriceType.HIGH_TO_LOW)) {
-                announcements.sort(Comparator.comparing(Announcement::getPrice).reversed());
-            }
-        }
-
-        if (price != null && kind != null) {
+            announcements2 = sortByKind(announcements, kind);
+        } else if (price != null && kind == null) {
+            announcements2 = sortByPrice(announcements, price);
+        } else if (price != null && kind != null) {
             if  (kind.equals(Kind.POPULAR)) {
-                if (price.equals(PriceType.HIGH_TO_LOW)) {
-                    for (int i = 5; i > 0; i--) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (int c = 0; c < announcements.size(); c++) {
-                            if (getRating(announcements.get(c)) >= i && getRating(announcements.get(c)) < (i + 1)) {
-                                announcementList.add(announcements.get(c));
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getRating).reversed());
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
-                        announcements2.addAll(announcementList);
-                    }
-                } else if (price.equals(PriceType.LOW_TO_HIGH)) {
-                    for (int i = 5; i > 0; i--) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (int c = 0; c < announcements.size(); c++) {
-                            if (getRating(announcements.get(c)) >= i && getRating(announcements.get(c)) < (i + 1)) {
-                                announcementList.add(announcements.get(c));
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getRating).reversed());
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice));
-                        announcements2.addAll(announcementList);
-                    }
-                }
+                announcements2 = sortByPopularAndPrice(announcements, price);
             } else if (kind.equals(Kind.THE_LASTEST)) {
-                if (price.equals(PriceType.HIGH_TO_LOW)) {
-                    Set<LocalDate> dates = new TreeSet<>();
-                    for (Announcement a : announcements) {
-                        dates.add(a.getCreatedAt());
-                    }
-                    for (LocalDate date: dates) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (Announcement a: announcements) {
-                            if  (a.getCreatedAt().equals(date)) {
-                                announcementList.add(a);
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
-                        announcements2.addAll(announcementList);
-                    }
-                } else if (price.equals(PriceType.LOW_TO_HIGH)) {
-                    Set<LocalDate> dates = new TreeSet<>();
+                announcements2 = sortByLastestAndPrice(announcements, price);
+            }
+        } else {
+            announcements2 = announcements;
+        }
+        return announcements2;
+    }
 
-                    for (Announcement a : announcements) {
-                        dates.add(a.getCreatedAt());
-                    }
+    private List<Announcement> sortByPopularAndPrice(List<Announcement> announcements, PriceType price) {
 
-                    for (LocalDate date: dates) {
-                        List<Announcement> announcementList = new ArrayList<>();
-                        for (Announcement a: announcements) {
-                            if  (a.getCreatedAt().equals(date)) {
-                                announcementList.add(a);
-                            }
-                        }
-                        announcementList.sort(Comparator.comparing(Announcement::getPrice));
-                        announcements2.addAll(announcementList);
-                    }
+        List<Announcement> announcementList = new ArrayList<>();
+        List<Announcement> announcementFour = new ArrayList<>();
+        List<Announcement> announcementThree = new ArrayList<>();
+        List<Announcement> announcementTwo = new ArrayList<>();
+        List<Announcement> announcementOne = new ArrayList<>();
+        List<Announcement> announcementOther = new ArrayList<>();
+
+        for (Announcement announcement : announcements) {
+            if (getRating(announcement) == 5) {
+                announcementList.add(announcement);
+            } else if (getRating(announcement) >= 4 && getRating(announcement) < 5) {
+                announcementFour.add(announcement);
+            } else if (getRating(announcement) >= 3 && getRating(announcement) < 4) {
+                announcementThree.add(announcement);
+            } else if (getRating(announcement) >= 2 && getRating(announcement) < 3) {
+                announcementTwo.add(announcement);
+            } else if (getRating(announcement) >= 1 && getRating(announcement) < 2) {
+                announcementOne.add(announcement);
+            } else {
+                announcementOther.add(announcement);
+            }
+        }
+
+        announcementList.sort(Comparator.comparing(Announcement::getRating).reversed());
+        announcementFour.sort(Comparator.comparing(Announcement::getRating).reversed());
+        announcementThree.sort(Comparator.comparing(Announcement::getRating).reversed());
+        announcementTwo.sort(Comparator.comparing(Announcement::getRating).reversed());
+        announcementOne.sort(Comparator.comparing(Announcement::getRating).reversed());
+        announcementOther.sort(Comparator.comparing(Announcement::getRating).reversed());
+
+        announcementList = sortByPrice(announcementList, price);
+        announcementFour = sortByPrice(announcementFour, price);
+        announcementThree = sortByPrice(announcementThree, price);
+        announcementTwo = sortByPrice(announcementTwo, price);
+        announcementOne = sortByPrice(announcementOne, price);
+        announcementOther = sortByPrice(announcementOther, price);
+
+        announcementList.addAll(announcementFour);
+        announcementList.addAll(announcementThree);
+        announcementList.addAll(announcementTwo);
+        announcementList.addAll(announcementOne);
+        announcementList.addAll(announcementOther);
+        return announcementList;
+    }
+
+    private List<Announcement> sortByLastestAndPrice(List<Announcement> announcements, PriceType price) {
+        List<Announcement> announcements2 = new ArrayList<>();
+        Set<LocalDate> dates = new TreeSet<>();
+        for (Announcement a : announcements) {
+            dates.add(a.getCreatedAt());
+        }
+        for (LocalDate date : dates) {
+            List<Announcement> announcementList = new ArrayList<>();
+            for (Announcement a : announcements) {
+                if (a.getCreatedAt().equals(date)) {
+                    announcementList.add(a);
                 }
             }
+            if  (price.equals(PriceType.HIGH_TO_LOW)) {
+                announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
+            } else {
+                announcementList.sort(Comparator.comparing(Announcement::getPrice));
+            }
+            announcements2.addAll(announcementList);
         }
+        return announcements2;
+    }
 
-        List<Announcement> pagination = new ArrayList<>();
-        FilterResponse response = new FilterResponse();
-
-        int start = (page - 1) * size;
-        int end = size * page;
-
-        if (announcements2.size() != 0) {
-            if (end > announcements2.size()) {
-                end = announcements2.size();
-            }
-            for (int i = start; i < end; i++) {
-                pagination.add(announcements2.get(i));
-            }
-
-            response.setCountOfResult((long) announcements2.size());
-            response.setResponses(viewMapper.viewCard(pagination));
-            return response;
-        } else {
-            if (end > announcements.size()) {
-                end = announcements.size();
-            }
-            for (int i = start; i < end; i++) {
-                pagination.add(announcements.get(i));
-            }
-
-            response.setCountOfResult((long) announcements.size());
-            response.setResponses(viewMapper.viewCard(pagination));
-            return response;
+    private List<Announcement> sortByPrice(List<Announcement> announcements, PriceType price) {
+        List<Announcement> announcementList = new ArrayList<>(announcements);
+        if (price.equals(PriceType.LOW_TO_HIGH)) {
+            announcementList.sort(Comparator.comparing(Announcement::getPrice));
+        } else if (price.equals(PriceType.HIGH_TO_LOW)) {
+            announcementList.sort(Comparator.comparing(Announcement::getPrice).reversed());
         }
+        return announcementList;
+    }
+
+    private List<Announcement> sortByKind(List<Announcement> announcements, Kind kind) {
+        List<Announcement> announcementList = new ArrayList<>(announcements);
+        if (kind.equals(Kind.POPULAR)) {
+            announcementList.sort(Comparator.comparing(Announcement::getRating).reversed());
+        } else if (kind.equals(Kind.THE_LASTEST)) {
+            announcementList.sort(Comparator.comparing(Announcement::getCreatedAt).reversed());
+        }
+        return announcementList;
     }
 
     private double getRating(Announcement announcement) {
