@@ -697,9 +697,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     private List<Announcement> sortByLastestAndPrice(List<Announcement> announcements, PriceType price) {
         List<Announcement> announcements2 = new ArrayList<>();
-        Set<LocalDate> dates = new TreeSet<>();
+        List<LocalDate> dates = new ArrayList<>();
+        announcements.sort(Comparator.comparing(Announcement::getCreatedAt).reversed());
         for (Announcement a : announcements) {
-            dates.add(a.getCreatedAt());
+            if (!dates.contains(a.getCreatedAt())) {
+                dates.add(a.getCreatedAt());
+            }
         }
         for (LocalDate date : dates) {
             List<Announcement> announcementList = new ArrayList<>();
