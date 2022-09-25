@@ -43,9 +43,10 @@ public class  User {
     private String image;
 
     @ElementCollection
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<String> messagesFromAdmin;
 
-    @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER)
+    @OneToMany(cascade = ALL, mappedBy = "owner", fetch = EAGER, orphanRemoval = true)
     private List<Announcement> announcements = new ArrayList<>();
 
     @OneToMany(cascade = {DETACH, REFRESH, MERGE, PERSIST}, fetch = LAZY, mappedBy = "owner")
@@ -70,7 +71,7 @@ public class  User {
     private Set<Long> likedFeedbacks = ConcurrentHashMap.newKeySet();
 
     @ElementCollection
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private Set<Long> disLikedFeedbacks = ConcurrentHashMap.newKeySet();
 
     public User(String email) {

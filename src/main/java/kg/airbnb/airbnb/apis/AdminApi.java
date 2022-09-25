@@ -110,19 +110,6 @@ public class AdminApi {
 
     @Operation(summary = "Get All Housing",
             description = "Only admin can see all housing")
-    @GetMapping("/allHousing")
-    public AdminPageAllHousingResponses getAllHousing(@RequestParam(required = false) BookedType bookedType,
-                                                      @RequestParam(required = false) Type housingType,
-                                                      @RequestParam(required = false) Kind kind,
-                                                      @RequestParam(required = false) PriceType price,
-                                                      @RequestParam(defaultValue = "1") int page,
-                                                      @RequestParam(defaultValue = "16") int size) {
-
-        return announcementService.getAllHousing(bookedType,housingType,kind,price,page,size);
-    }
-
-    @Operation(summary = "Get All Housing",
-            description = "Only admin can see all housing")
     @GetMapping("/allHousingJ")
     public AdminPageAllHousingResponses getAllHousingJ(@RequestParam(required = false) BookedType bookedType,
                                                       @RequestParam(required = false) Type housingType,

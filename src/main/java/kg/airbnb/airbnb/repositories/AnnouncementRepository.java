@@ -1,5 +1,5 @@
 package kg.airbnb.airbnb.repositories;
-import kg.airbnb.airbnb.enums.BookedType;
+
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.data.domain.Page;

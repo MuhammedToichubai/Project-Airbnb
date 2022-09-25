@@ -12,9 +12,11 @@ import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
+import kg.airbnb.airbnb.models.Feedback;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.AnnouncementRepository;
 import kg.airbnb.airbnb.repositories.BookingRepository;
+import kg.airbnb.airbnb.repositories.FeedbackRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
     private final BookingViewMapper bookingViewMapper;
     private final UserProfileViewMapper userProfileViewMapper;
     private final AnnouncementViewMapper announcementViewMapper;
+    private final FeedbackRepository feedbackRepository;
 
     @Override
     public void removeFromLikedFeedbacks(Long feedbackId) {
@@ -251,10 +254,28 @@ public class UserServiceImpl implements UserService {
 
             if (user.getRole().equals(Role.ADMIN)) {
                 throw new ForbiddenException("User with id not found !");
+            }else {
+
+                userRepository.clearMessages(userId);
+                userRepository.clearBookings(userId);
+
+                for (Feedback feedback : user.getFeedbacks()) {
+                    feedbackRepository.clearImages(feedback.getId());
+                }
+                userRepository.clearFeedbacks(userId);
+
+                for (Announcement announcement : user.getAnnouncements()) {
+                    announcementRepository.clearImages(announcement.getId());
+                    for (Feedback feedback : announcement.getFeedbacks()) {
+                        feedbackRepository.clearImages(feedback.getId());
+                    }
+                    announcementRepository.clearFeedback(announcement.getId());
+                    announcementRepository.clearBooking(announcement.getId());
+                }
+                userRepository.clearAnnouncements(userId);
+
+                userRepository.customDeleteById(userId);
             }
-
-
-            userRepository.delete(user);
         }
         else {
             throw new ForbiddenException("Only admin can access this page!");

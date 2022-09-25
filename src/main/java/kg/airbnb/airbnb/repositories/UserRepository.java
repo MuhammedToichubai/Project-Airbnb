@@ -27,4 +27,36 @@ public interface UserRepository extends JpaRepository<User, Long> {
     )
     void clearMessages(Long userId);
 
+    @Modifying
+    @Transactional
+    @Query(
+            "delete from User u where u.id = ?1"
+    )
+    void customDeleteById(Long userId);
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delete from feedbacks f where f.owner_id = ?1"
+
+    )
+    void clearFeedbacks(Long userId);
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delete from bookings b where b.user_id = :userId"
+    )
+    void clearBookings(Long userId);
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = "delete from announcements a where a.owner_id = :userId "
+    )
+    void clearAnnouncements(Long userId);
+
 }
