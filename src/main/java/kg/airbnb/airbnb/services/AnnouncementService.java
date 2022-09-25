@@ -48,8 +48,6 @@ public interface AnnouncementService {
 
     SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest);
 
-    AdminPageAllHousingResponses getAllHousing(BookedType bookedType, Type housingType, Kind kind, PriceType price, int page, int size);
-
     AnnouncementsResponse findAllAnnouncements(int page, int size);
 
     AdminPageAllHousingResponses getAllHousingJ(BookedType bookedType, Type housingType, Kind kind, PriceType price, int page, int size);
