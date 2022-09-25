@@ -349,22 +349,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         return responses;
     }
 
-    AdminPageAllHousingResponses adminPageAllHousingResponses(List<Announcement> announcements){
-
-        List<AdminPageHousingResponse> responses = new ArrayList<>();
-
-        for (Announcement announcement:announcements) {
-            responses.add(viewMapper.announcementToHousing(announcement));
-        }
-
-        AdminPageAllHousingResponses housingResponses = new AdminPageAllHousingResponses();
-        housingResponses.setAdminPageAllHousingResponseListSize(announcements.size());
-        housingResponses.setAdminPageHousingResponseList(responses);
-
-        return housingResponses;
-    }
-
-
     @Override
     @Transactional
     public SimpleResponse unBlockAllAnnouncements(AdminMessageRequest messageRequest, Long userId) {
