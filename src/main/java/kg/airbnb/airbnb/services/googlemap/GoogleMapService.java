@@ -16,12 +16,11 @@ public class GoogleMapService {
     @Value("${google.api-key}")
     private String googleApikey;
 
-
     public GoogleMapService() {
         this.restTemplate = new RestTemplate();
     }
 
-    public String findPlace(String lat, String lng){
+    public String findPlace(String lat, String lng) {
         Object object = restTemplate.getForObject(
                 String.format("%s?latlng=%s, %s&key=%s",
                         "https://maps.googleapis.com/maps/api/geocode/json",
@@ -32,4 +31,5 @@ public class GoogleMapService {
         );
         return object.toString();
     }
+
 }
