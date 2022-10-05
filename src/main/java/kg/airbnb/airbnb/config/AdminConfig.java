@@ -3,20 +3,17 @@ package kg.airbnb.airbnb.config;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@RequiredArgsConstructor
 public class AdminConfig {
 
-
     private final PasswordEncoder passwordEncoder;
-
-    public AdminConfig(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository) {
@@ -28,7 +25,6 @@ public class AdminConfig {
                     passwordEncoder.encode(password),
                     Role.ADMIN
             );
-
             userRepository.save(user);
         };
     }
