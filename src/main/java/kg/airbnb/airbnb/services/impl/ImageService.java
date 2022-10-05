@@ -14,11 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Map;
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 public class ImageService {
 
     @Value("${application.bucket.name}")
@@ -28,7 +28,6 @@ public class ImageService {
     private String prefixForFileLink;
 
     private final AmazonS3 s3Client;
-
 
     public Map<String, String> uploadFile(MultipartFile file) {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
@@ -52,4 +51,5 @@ public class ImageService {
                 "message", fileName + " removed ..."
         );
     }
+
 }

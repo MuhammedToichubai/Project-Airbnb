@@ -13,6 +13,7 @@ import kg.airbnb.airbnb.repositories.FeedbackRepository;
 import kg.airbnb.airbnb.repositories.UserRepository;
 import kg.airbnb.airbnb.services.FeedbackService;
 import kg.airbnb.airbnb.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,19 +26,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FeedbackServiceImpl implements FeedbackService {
+
     private final AnnouncementRepository announcementRepository;
     private final FeedbackRepository feedbackRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-
-    public FeedbackServiceImpl(AnnouncementRepository announcementRepository, FeedbackRepository feedbackRepository, UserRepository userRepository, UserService userService) {
-        this.announcementRepository = announcementRepository;
-        this.feedbackRepository = feedbackRepository;
-        this.userRepository = userRepository;
-        this.userService = userService;
-    }
-
 
     @Override
     public FeedbackResponse saveFeedback(Long announcementId, FeedbackRequest request) {
@@ -53,7 +48,6 @@ public class FeedbackServiceImpl implements FeedbackService {
        newFeedback.setAnnouncement(announcement);
        newFeedback.setCreatedAt(LocalDate.now());
        newFeedback.setOwner(getCurrentUser());
-//       announcementRepository.save(a)
        feedbackRepository.save(newFeedback);
        return getFeedbackResponse(newFeedback);
     }
@@ -80,7 +74,6 @@ public class FeedbackServiceImpl implements FeedbackService {
             userService.addToLikedFeedbacks(feedbackId);
         }
         feedbackRepository.save(feedbackById);
-
         return getFeedbackResponse(feedbackById);
     }
 
@@ -105,9 +98,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedbackById.setColorOfDisLike("Yellow");
             userService.addToDisLikedFeedbacks(feedbackId);
         }
-
         feedbackRepository.save(feedbackById);
-
         return getFeedbackResponse(feedbackById);
     }
 
@@ -142,6 +133,7 @@ public class FeedbackServiceImpl implements FeedbackService {
                 ratings.add(feedback.getRating());
             }
         }
+
         FeedbackRatingResponse response = new FeedbackRatingResponse();
         if ( ratings.size() <= 0) {
             rating = 0.0;
@@ -158,6 +150,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             response.setPercentageOfTwo(percentageOfTwo);
             response.setPercentageOfOne(percentageOfOne);
             return response;
+
         }else {
             for (int i = 0; i < ratings.size(); i++) {
                 if (ratings.get(i) == 5){

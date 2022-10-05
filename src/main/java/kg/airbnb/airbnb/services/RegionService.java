@@ -9,5 +9,6 @@ import java.util.List;
 public interface RegionService {
 
     List<RegionResponse> getAllRegions();
+
 }
 

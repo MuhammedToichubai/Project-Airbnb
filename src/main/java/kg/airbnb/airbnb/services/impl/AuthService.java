@@ -24,17 +24,13 @@ public class AuthService {
     private final JwtUtils jwtUtils;
 
     public JwtResponse registerUser(UserRegisterRequest userRegisterRequest) {
-
         User user = new User(
                 userRegisterRequest.getEmail()
-
         );
-
         user.setRole(Role.USER);
-
         user.setPassword(passwordEncoder.encode(userRegisterRequest.getPassword()));
 
-        if(userRepository.existsByEmail(userRegisterRequest.getEmail()))
+        if (userRepository.existsByEmail(userRegisterRequest.getEmail()))
             throw new AlreadyExistException("The email " + userRegisterRequest.getEmail() + " is already in use!");
 
         User savedUser = userRepository.save(user);
@@ -49,4 +45,5 @@ public class AuthService {
                 savedUser.getPhoneNumber()
         );
     }
+
 }

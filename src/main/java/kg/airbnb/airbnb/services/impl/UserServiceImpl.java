@@ -129,16 +129,15 @@ public class UserServiceImpl implements UserService {
     public UserProfileResponse getUserProfile(Long userId) {
         User currentUser = getAuthenticatedUser();
         UserProfileResponse userProfileResponse;
-        if (currentUser.getRole().equals(Role.ADMIN)){
+        if (currentUser.getRole().equals(Role.ADMIN)) {
             User user = userRepository.findById(userId).orElseThrow(() ->
                     new NotFoundException("User with " + userId + " not found !"));
-            if (user.getRole().equals(Role.ADMIN)){
+            if (user.getRole().equals(Role.ADMIN)) {
                 throw new NotFoundException("User with " + userId + " not found !");
-            }
-            else {
+            } else {
                 userProfileResponse = userProfileViewMapper.entityToDto(user);
             }
-        }else {
+        } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
         return userProfileResponse;
@@ -147,36 +146,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<FavoriteAnnouncementResponse> userFavoriteAnnouncements() {
         User currentUser = getAuthenticatedUser();
-
         Set<Long> bookmarkAnnouncements = currentUser.getBookmarkAnnouncements();
-
         List<Announcement> favoriteAnnouncement = new ArrayList<>();
 
         for (Long aLong : bookmarkAnnouncements) {
-                Announcement announcement = getAnnouncementFindId(aLong);
-                favoriteAnnouncement.add(announcement);
-            }
+            Announcement announcement = getAnnouncementFindId(aLong);
+            favoriteAnnouncement.add(announcement);
+        }
 
-            List<FavoriteAnnouncementResponse> responseList = new ArrayList<>();
+        List<FavoriteAnnouncementResponse> responseList = new ArrayList<>();
 
         for (Announcement announcement : favoriteAnnouncement) {
-                FavoriteAnnouncementResponse response = new FavoriteAnnouncementResponse(
-                        announcement.getId(),
-                        announcement.getImages(),
-                        announcement.getPrice(),
-                        announcementViewMapper.calculateRating(announcement),
-                        announcement.getTitle(),
-                        announcement.getLocation().getAddress()+ ", "
-                                +announcement.getLocation().getCity()+", "
-                                +announcement.getLocation().getRegion().getRegionName(),
-                        announcement.getMaxGuests(),
-                        announcement.getLike(),
-                        announcement.getBookmark(),
-                        announcement.getStatus()
-                );
-                responseList.add(response);
-            }
-
+            FavoriteAnnouncementResponse response = new FavoriteAnnouncementResponse(
+                    announcement.getId(),
+                    announcement.getImages(),
+                    announcement.getPrice(),
+                    announcementViewMapper.calculateRating(announcement),
+                    announcement.getTitle(),
+                    announcement.getLocation().getAddress() + ", "
+                            + announcement.getLocation().getCity() + ", "
+                            + announcement.getLocation().getRegion().getRegionName(),
+                    announcement.getMaxGuests(),
+                    announcement.getLike(),
+                    announcement.getBookmark(),
+                    announcement.getStatus()
+            );
+            responseList.add(response);
+        }
         return responseList;
     }
 
@@ -192,70 +188,59 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SimpleResponse deleteMessagesFromAdmin() {
-
         User currentUser = getAuthenticatedUser();
-
         userRepository.clearMessages(currentUser.getId());
-
         return new SimpleResponse(
                 "DELETE",
                 "Successfully deleted all messages!"
-
         );
     }
 
     @Override
     public List<MyAnnouncementsBookingRequestsResponse> findUsersRequests() {
-
         User user = getAuthenticatedRoleUser();
         List<Announcement> announcements = user.getAnnouncements();
         List<MyAnnouncementsBookingRequestsResponse> responses = new ArrayList<>();
 
-        for (Announcement a: announcements) {
+        for (Announcement a : announcements) {
             List<Booking> bookings = bookingRepository.findAllByAnnouncementId(a.getId());
             bookings.sort(Comparator.comparing(Booking::getStatus));
             responses.add(bookingViewMapper.viewUsersRequests(a, bookings));
         }
-
         return responses;
     }
 
-    private Announcement getAnnouncementFindId(Long announcementId){
+    private Announcement getAnnouncementFindId(Long announcementId) {
         return announcementRepository.findById(announcementId).orElseThrow(() ->
-                new NotFoundException("Announcement with "+ announcementId+ " not found!")
-                );
+                new NotFoundException("Announcement with " + announcementId + " not found!"));
     }
 
     private User getAuthenticatedUser() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         String login = authentication.getName();
-
         return userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
     }
+
     private User getAuthenticatedRoleUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
         User user = userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
-        if  (!user.getRole().equals(Role.USER)) {
+        if (!user.getRole().equals(Role.USER)) {
             throw new ForbiddenException("You are not user!");
         }
         return user;
     }
 
     public SimpleResponse deleteUser(Long userId) {
-
         User currentUser = getAuthenticatedUser();
-
         if (currentUser.getRole().equals(Role.ADMIN)) {
             User user = userRepository.findById(userId).orElseThrow(() ->
                     new NotFoundException("User with " + userId + "not found !"));
 
             if (user.getRole().equals(Role.ADMIN)) {
                 throw new ForbiddenException("User with id not found !");
-            }else {
 
+            } else {
                 userRepository.clearMessages(userId);
                 userRepository.clearBookings(userId);
 
@@ -273,19 +258,15 @@ public class UserServiceImpl implements UserService {
                     announcementRepository.clearBooking(announcement.getId());
                 }
                 userRepository.clearAnnouncements(userId);
-
                 userRepository.customDeleteById(userId);
             }
-        }
-        else {
+        } else {
             throw new ForbiddenException("Only admin can access this page!");
-
         }
-           return new SimpleResponse(
-                   "DELETE",
-                   "User successfully deleted!"
-
-           ) ;
+        return new SimpleResponse(
+                "DELETE",
+                "User successfully deleted!"
+        );
     }
 
     public List<UserResponse> getAllUser() {
@@ -299,11 +280,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> requestToBook(BookRequest request) {
-
         User user = getAuthenticatedRoleUser();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).orElseThrow(BadRequestException::new);
 
-        if  (request.getAnnouncementId() == null || request.getCheckIn() == null || request.getCheckOut() == null) {
+        if (request.getAnnouncementId() == null || request.getCheckIn() == null || request.getCheckOut() == null) {
             throw new BadRequestException("не полная информация");
         }
 
@@ -322,15 +302,12 @@ public class UserServiceImpl implements UserService {
         booking.setPricePerDay(announcement.getPrice());
         booking.setStatus(Status.NEW);
         booking.setCreatedAt(LocalDate.now());
-
         bookingRepository.save(booking);
-
         return Map.of("massage", "заявка на бронирование отправилась ");
     }
 
     @Override
     public Map<String, String> blockDateByUser(BlockBookDateRequest request) {
-
         User user = getAuthenticatedRoleUser();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).orElseThrow(BadRequestException::new);
 
@@ -345,9 +322,7 @@ public class UserServiceImpl implements UserService {
                 announcement.removeBlockedDateByUser(request.getDatesToBlock().get(i));
             }
         }
-
         announcementRepository.save(announcement);
-
         return Map.of("massage", "blocked dates has been updated");
     }
 
@@ -376,9 +351,7 @@ public class UserServiceImpl implements UserService {
             Announcement announcement = announcementRepository.findById(booking.getAnnouncement().getId()).orElseThrow(BadRequestException::new);
             announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
         }
-
         bookingRepository.delete(booking);
-
         return Map.of("massage", "request to book has been deleted!");
     }
 
@@ -396,56 +369,49 @@ public class UserServiceImpl implements UserService {
         User user = getAuthenticatedRoleUser();
 
         if (!booking.getUser().getId().equals(user.getId()) ||
-             !booking.getAnnouncement().getId().equals(request.getAnnouncementId())) {
+                !booking.getAnnouncement().getId().equals(request.getAnnouncementId())) {
             throw new ForbiddenException("incorrect id");
         }
 
         findTakenDates(booking.getCheckin(), booking.getCheckout(), announcement.getBlockedDates(), announcement.getBlockedDatesByUser());
 
-        if  (booking.getStatus().equals(Status.ACCEPTED)) {
+        if (booking.getStatus().equals(Status.ACCEPTED)) {
             booking.setStatus(Status.NEW);
             announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
-        } else  if  (booking.getStatus().equals(Status.REJECTED)) {
+        } else if (booking.getStatus().equals(Status.REJECTED)) {
             booking.setStatus(Status.NEW);
         }
-
         booking.setCheckin(request.getCheckIn());
         booking.setCheckout(request.getCheckOut());
-
         bookingRepository.save(booking);
         announcementRepository.save(announcement);
-
         return Map.of("massage", "The dates has been updated!");
     }
 
     @Override
     public List<BookedResponse> getAnnouncementsBookings(Long announcementId) {
-
         User user = getAuthenticatedRoleUser();
         Announcement announcement = announcementRepository.findById(announcementId).orElseThrow(BadRequestException::new);
 
         if (!user.getId().equals(announcement.getOwner().getId())) {
             throw new ForbiddenException("This ann not belongs to this user");
         }
-
         List<Booking> bookings = bookingRepository.findAcceptedByAnnouncementId(announcementId);
-
         return bookingViewMapper.viewBooked(bookings);
     }
 
     @Override
     public Map<String, String> changeBookingsStatus(ChangeBookingsStatusRequest request) {
-
         User owner = getAuthenticatedRoleUser();
         Announcement announcement = announcementRepository.findById(request.getAnnouncementId()).orElseThrow(BadRequestException::new);
         Booking booking = bookingRepository.findById(request.getBookingId()).orElseThrow(BadRequestException::new);
 
         if (!booking.getAnnouncement().equals(announcement) ||
-        !announcement.getOwner().equals(owner)) {
+                !announcement.getOwner().equals(owner)) {
             throw new ForbiddenException();
         }
 
-        if  (!request.getStatus().equals(Status.REJECTED)) {
+        if (!request.getStatus().equals(Status.REJECTED)) {
             findTakenDates(booking.getCheckin(), booking.getCheckout(), announcement.getBlockedDates(), announcement.getBlockedDatesByUser());
         }
 
@@ -454,14 +420,14 @@ public class UserServiceImpl implements UserService {
             announcement.addBlockedDate(booking.getCheckin(), booking.getCheckout());
             bookingRepository.save(booking);
             announcementRepository.save(announcement);
-        } else if (request.getStatus().equals(Status.REJECTED)){
+        } else if (request.getStatus().equals(Status.REJECTED)) {
             if (booking.getStatus().equals(Status.ACCEPTED)) {
                 announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
             }
             booking.setStatus(Status.REJECTED);
             bookingRepository.save(booking);
             announcementRepository.save(announcement);
-        } else if (request.getStatus().equals(Status.NEW)){
+        } else if (request.getStatus().equals(Status.NEW)) {
             if (booking.getStatus().equals(Status.ACCEPTED)) {
                 announcement.releaseTakenDates(booking.getCheckin(), booking.getCheckout());
             }
@@ -471,34 +437,31 @@ public class UserServiceImpl implements UserService {
         } else {
             return Map.of("massage", "Nothing changed!");
         }
-
         return Map.of("massage", "booking status updated!");
     }
 
     @Override
     public ClosedDatesResponse getClosedDates(Long announcementId) {
         Announcement announcement = announcementRepository.findById(announcementId).orElseThrow(BadRequestException::new);
-
         ClosedDatesResponse response = new ClosedDatesResponse();
         response.setTakenDates(announcement.getBlockedDates());
         response.setDatesBlockedByVendor(announcement.getBlockedDatesByUser());
-
         return response;
     }
 
-    private void findTakenDates(LocalDate checkIn, LocalDate checkOut,
-                                           List<LocalDate> takenDates, List<LocalDate> takenDatesByUser) {
+    private void findTakenDates(LocalDate checkIn, LocalDate checkOut, List<LocalDate> takenDates, List<LocalDate> takenDatesByUser) {
         takenDates.addAll(takenDatesByUser);
         while (checkIn.isBefore(checkOut)) {
-            if  (takenDates.contains(checkIn)) {
+            if (takenDates.contains(checkIn)) {
                 throw new BadRequestException("промежуточные даты вышего бронирования заняты!");
             }
             checkIn = checkIn.plusDays(1L);
         }
-        if  (takenDates.contains(checkOut)) {
+        if (takenDates.contains(checkOut)) {
             throw new BadRequestException("промежуточные даты вышего бронирования заняты!");
         }
     }
+
 }
 
 

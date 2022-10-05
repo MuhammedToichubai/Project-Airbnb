@@ -57,9 +57,10 @@ public interface UserService {
     Map<String, String> changeBookingsStatus(ChangeBookingsStatusRequest request);
 
     ClosedDatesResponse getClosedDates(Long announcementId);
-    
+
     SimpleResponse deleteMessagesFromAdmin();
 
     List<MyAnnouncementsBookingRequestsResponse> findUsersRequests();
+
 }
 

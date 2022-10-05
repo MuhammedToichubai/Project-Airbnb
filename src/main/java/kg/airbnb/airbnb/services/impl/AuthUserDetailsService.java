@@ -15,7 +15,6 @@ public class AuthUserDetailsService implements UserDetailsService {
 
     private final kg.airbnb.airbnb.repositories.UserRepository userRepository;
 
-
     @Override
     public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
@@ -25,4 +24,5 @@ public class AuthUserDetailsService implements UserDetailsService {
         }
         return new AuthUserDetails(user.get());
     }
+
 }
