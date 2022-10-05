@@ -7,12 +7,13 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FavoritesResponse {
 
     private Integer countAnnouncements;
-
     private List<FavoriteAnnouncementResponse> favoriteAnnouncementResponseList;
+
 }

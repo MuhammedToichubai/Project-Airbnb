@@ -14,25 +14,15 @@ import java.util.List;
 public class AdminPageHousingResponse {
 
     private Long announcementId;
-
     private String title;
-
     private List<String> images;
-
     private Type houseType;
-
     private Double rating;
-
     private BigDecimal price;
-
     private Integer maxGuests;
-
     private String location;
-
     private String description;
-
     private Status status;
-
     private LocalDate createdAt;
 
 }

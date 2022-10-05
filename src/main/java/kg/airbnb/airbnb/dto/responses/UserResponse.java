@@ -4,8 +4,6 @@ import kg.airbnb.airbnb.models.auth.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class UserResponse {
@@ -25,4 +23,5 @@ public class UserResponse {
         this.booking = user.getBookings().size();
         this.announcement = user.getAnnouncements().size();
     }
+
 }

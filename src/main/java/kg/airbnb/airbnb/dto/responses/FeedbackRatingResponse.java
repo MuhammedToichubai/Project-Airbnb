@@ -6,10 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FeedbackRatingResponse {
+
     private double rating;
     private double percentageOfFive;
     private double percentageOfFour;
     private double percentageOfThree;
     private double percentageOfTwo;
     private double percentageOfOne;
+
 }

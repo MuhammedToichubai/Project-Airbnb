@@ -16,22 +16,14 @@ import java.util.List;
 public class FavoriteAnnouncementResponse {
 
     private Long id;
-
     private List<String> image;
-
     private BigDecimal price;
-
     private Double rating;
-
     private String title;
-
     private String location;
-
     private Integer maxGuests;
-
     private Integer likeCount;
-
     private Integer bookmarkCount;
-
     private Status status;
+
 }

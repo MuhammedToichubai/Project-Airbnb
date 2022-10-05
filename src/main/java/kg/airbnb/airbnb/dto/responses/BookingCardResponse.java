@@ -30,8 +30,4 @@ public class BookingCardResponse {
     @JsonFormat(pattern="dd.MM.yy")
     private LocalDate checkOut;
 
-//    public void setRating(double rating) {
-//        String result = String.format("%.1f",rating);
-//        this.rating = result;
-//    }
 }

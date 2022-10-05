@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class AnnouncementInnerPageResponse {
+
     private Long id;
     private List<String> images;
     private Type houseType;

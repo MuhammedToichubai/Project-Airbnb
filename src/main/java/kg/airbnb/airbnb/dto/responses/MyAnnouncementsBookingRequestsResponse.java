@@ -21,4 +21,5 @@ public class MyAnnouncementsBookingRequestsResponse {
     private double rating;
     private String type;
     private List<BookedResponse> bookedResponses;
+
 }

@@ -12,4 +12,5 @@ public class ClosedDatesResponse {
 
     private List<LocalDate> takenDates;
     private List<LocalDate> datesBlockedByVendor;
+
 }

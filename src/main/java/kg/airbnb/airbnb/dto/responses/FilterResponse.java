@@ -11,4 +11,5 @@ public class FilterResponse {
 
     private List<AnnouncementCardResponse> responses;
     private Long countOfResult;
+
 }

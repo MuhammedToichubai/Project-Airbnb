@@ -13,22 +13,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class AdminPageAnnouncementResponse {
 
     private Long announcementId;
-
     private String title;
-
     private List<String> images;
-
     private BigDecimal price;
-
     private Integer maxGuests;
-
     private Double rating;
-
     private String location;
-
     private Status status;
 }

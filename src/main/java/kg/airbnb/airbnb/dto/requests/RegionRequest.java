@@ -6,5 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegionRequest {
+
     private String regionName;
 }

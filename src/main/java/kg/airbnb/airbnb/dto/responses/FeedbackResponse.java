@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class FeedbackResponse {
+
     private Long id;
     private String feedbackOwnerImage;
     private String feedbackOwnerFullName;

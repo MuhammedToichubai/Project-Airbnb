@@ -1,6 +1,5 @@
 package kg.airbnb.airbnb.dto.responses;
 
-
 import kg.airbnb.airbnb.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class JwtResponse {
 
     private Long userId;
@@ -20,10 +18,4 @@ public class JwtResponse {
     private Role role;
     private String phoneNumber;
 
-    public JwtResponse(Long id, String jwt, Role role, String phoneNumber) {
-        this.userId = id;
-        this.jwt = jwt;
-        this.role = role;
-        this.phoneNumber = phoneNumber;
-    }
 }

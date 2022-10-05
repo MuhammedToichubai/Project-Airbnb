@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SimpleResponse {
+
     private String status;
     private String message;
 
@@ -14,11 +15,8 @@ public class SimpleResponse {
         this.message = message;
     }
 
-    public SimpleResponse(String message) {
-        this.message = message;
-    }
-
     public SimpleResponse() {
-
     }
+
 }
+
