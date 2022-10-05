@@ -82,42 +82,26 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Modifying
     @Transactional
-    @Query(
-            "delete from Announcement a where a.id = ?1"
-    )
+    @Query("delete from Announcement a where a.id = ?1")
     void customDeleteById(Long announcementId);
 
     @Modifying
     @Transactional
-    @Query(
-            nativeQuery = true,
-            value = "delete from announcement_images i where i.announcement_id = ?1"
-    )
+    @Query(value = "delete from announcement_images i where i.announcement_id = ?1", nativeQuery = true)
     void clearImages(Long announcementId);
 
-
     @Modifying
     @Transactional
-    @Query(
-            nativeQuery = true,
-            value = "delete from feedbacks f where f.announcement_id = ?1"
-
-    )
+    @Query(value = "delete from feedbacks f where f.announcement_id = ?1", nativeQuery = true)
     void clearFeedback(Long announcementId);
 
-
     @Modifying
     @Transactional
-    @Query(
-            nativeQuery = true,
-            value = "delete from bookings b where b.announcement_id = :announcementId"
-
-    )
+    @Query(value = "delete from bookings b where b.announcement_id = :announcementId", nativeQuery = true)
     void clearBooking(Long announcementId);
 
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=4 order by a.createdAt desc")
     Page<Announcement> findAllNewAndSeen(Pageable pageable);
-
 
     @Query(value = "SELECT a FROM Announcement a WHERE a.status = 0 or a.status=4 order by a.createdAt desc")
     List<Announcement> findAllNewAndSeen();
@@ -157,4 +141,5 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("SELECT a FROM Announcement a WHERE a.status = 1 and upper(a.location.city) like :city%")
     List<Announcement> findByCity(@Param("city") String city);
+
 }
