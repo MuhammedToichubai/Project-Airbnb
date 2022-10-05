@@ -9,6 +9,7 @@ import java.util.List;
 
 @Component
 public class RegionViewMapper {
+
     public RegionResponse entityToDtoConverting(Region region) {
         if (region == null) {
             return null;

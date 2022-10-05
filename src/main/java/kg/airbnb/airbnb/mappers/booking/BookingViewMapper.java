@@ -8,20 +8,16 @@ import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.Feedback;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Component
 public class BookingViewMapper {
 
     public BookingCardResponse viewCardBooking(Booking booking) {
-
         if (booking == null) {
             return null;
         }
-
         BookingCardResponse response = new BookingCardResponse();
         response.setId(booking.getAnnouncement().getId());
         response.setBookingId(booking.getId());
@@ -57,11 +53,9 @@ public class BookingViewMapper {
     }
 
     public BookedResponse viewBooked(Booking request) {
-
         if (request == null) {
             return null;
         }
-
         BookedResponse response = new BookedResponse();
         response.setBookingId(request.getId());
         response.setPrice(request.getPricePerDay());
@@ -84,11 +78,9 @@ public class BookingViewMapper {
     }
 
     public MyAnnouncementsBookingRequestsResponse viewUsersRequests(Announcement a, List<Booking> bookings) {
-
         if (a == null) {
             return null;
         }
-
         MyAnnouncementsBookingRequestsResponse response = new MyAnnouncementsBookingRequestsResponse();
         response.setAnnouncementId(a.getId());
         response.setTitle(a.getTitle());
@@ -102,7 +94,7 @@ public class BookingViewMapper {
         double b = 0;
         double c = 0;
         for (Feedback f : a.getFeedbacks()) {
-            if  (f.getRating() != null) {
+            if (f.getRating() != null) {
                 b = b + f.getRating();
                 c++;
             }

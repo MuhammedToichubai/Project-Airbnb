@@ -11,7 +11,6 @@ import java.util.List;
 @Component
 public class AnnouncementViewMapper {
 
-
     public AnnouncementSaveResponse convertingEntityToDto(Announcement announcement) {
         if (announcement == null) {
             return null;
@@ -38,7 +37,6 @@ public class AnnouncementViewMapper {
         if (announcement == null) {
             return null;
         }
-
         AnnouncementInnerPageResponse response = new AnnouncementInnerPageResponse();
         response.setId(announcement.getId());
         response.setImages(announcement.getImages());
@@ -89,16 +87,13 @@ public class AnnouncementViewMapper {
         response.setOwnerEmail(announcement.getOwner().getEmail());
         response.setOwnerPhoneNumber(announcement.getOwner().getPhoneNumber());
         response.setStatus(announcement.getStatus());
-
         return response;
     }
-
 
     public AdminPageAnnouncementResponse viewAdminPageAnnouncementResponse(Announcement announcement) {
         if (announcement == null) {
             return null;
         }
-
         AdminPageAnnouncementResponse adminPageAnnouncementResponse = new AdminPageAnnouncementResponse();
         adminPageAnnouncementResponse.setAnnouncementId(announcement.getId());
         adminPageAnnouncementResponse.setTitle(announcement.getTitle());
@@ -109,11 +104,9 @@ public class AnnouncementViewMapper {
         adminPageAnnouncementResponse.setLocation(announcement.getLocation().getFullAddress());
         adminPageAnnouncementResponse.setStatus(announcement.getStatus());
         return adminPageAnnouncementResponse;
-
     }
 
     public Double calculateRating(Announcement announcement) {
-
         double rating = 0.0;
         int fives = 0;
         int fours = 0;
@@ -153,11 +146,9 @@ public class AnnouncementViewMapper {
     }
 
     public AnnouncementCardResponse viewCardAnnouncement(Announcement announcement) {
-
         if (announcement == null) {
             return null;
         }
-
         AnnouncementCardResponse response = new AnnouncementCardResponse();
         response.setId(announcement.getId());
         response.setTitle(announcement.getTitle());
@@ -172,7 +163,7 @@ public class AnnouncementViewMapper {
         double a = 0;
         double b = 0;
         for (Feedback f : announcement.getFeedbacks()) {
-            if  (f.getRating() != null) {
+            if (f.getRating() != null) {
                 a = a + f.getRating();
                 b++;
             }
@@ -229,7 +220,6 @@ public class AnnouncementViewMapper {
         response.setLocation(announcement.getLocation().getFullAddress());
         response.setDescription(announcement.getDescription());
         response.setStatus(announcement.getStatus());
-
         return response;
     }
 

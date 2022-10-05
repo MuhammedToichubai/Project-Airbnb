@@ -1,6 +1,5 @@
 package kg.airbnb.airbnb.mappers.user;
 
-
 import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
@@ -10,6 +9,7 @@ import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
 import kg.airbnb.airbnb.models.auth.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
@@ -18,13 +18,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class UserProfileViewMapper {
 
     private final AnnouncementViewMapper announcementViewMapper;
-
-    public UserProfileViewMapper(AnnouncementViewMapper announcementViewMapper) {
-        this.announcementViewMapper = announcementViewMapper;
-    }
 
     public UserAnnouncementResponse announcementToAnnouncementsResponse(Announcement announcement) {
         if (announcement == null) {
@@ -45,7 +42,6 @@ public class UserProfileViewMapper {
         announcementsResponse.setBookmarkCountAnnouncement(announcement.getBookmark());
         announcementsResponse.setMessagesFromAdmin(announcement.getMessageFromAdmin());
         announcementsResponse.setBookingsCountAnnouncement(announcement.getBookings().size());
-
         return announcementsResponse;
     }
 
@@ -69,11 +65,8 @@ public class UserProfileViewMapper {
         response.setMessageFromAdmin(user.getMessagesFromAdmin());
         response.setBookings(listUserBookings(user.getBookings()));
         response.setAnnouncements(listUserAnnouncements(user.getAnnouncements()));
-
-
         return response;
     }
-
 
     public List<UserBookingsResponse> listUserBookings(List<Booking> bookings) {
         List<UserBookingsResponse> responses = new ArrayList<>();

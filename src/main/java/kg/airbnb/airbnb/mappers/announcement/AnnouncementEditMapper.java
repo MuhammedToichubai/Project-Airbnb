@@ -5,7 +5,6 @@ import kg.airbnb.airbnb.models.Announcement;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Component
 public class AnnouncementEditMapper {
@@ -20,7 +19,6 @@ public class AnnouncementEditMapper {
     }
 
     private void dtoToEntityConverting(AnnouncementRequest request, Announcement announcement) {
-
         announcement.setTitle(request.getTitle());
         announcement.setDescription(request.getDescription());
         announcement.setImages(request.getImages());
@@ -34,4 +32,5 @@ public class AnnouncementEditMapper {
     public void updateAnnouncement(Announcement announcement, AnnouncementRequest request) {
         dtoToEntityConverting(request, announcement);
     }
+
 }
