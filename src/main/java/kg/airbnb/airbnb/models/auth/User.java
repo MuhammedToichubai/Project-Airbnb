@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Getter
 @Setter
-public class  User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_generator")
@@ -84,14 +85,14 @@ public class  User {
         this.password = password;
     }
 
-    public User(String fullName, String email, String password, Role role ) {
+    public User(String fullName, String email, String password, Role role) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
-        this.role=role;
+        this.role = role;
     }
 
-    public void addToLikedAnnouncements(Long announcementId){
+    public void addToLikedAnnouncements(Long announcementId) {
         likedAnnouncements.add(announcementId);
     }
 
@@ -99,13 +100,13 @@ public class  User {
         likedAnnouncements.remove(announcementId);
     }
 
-    public void addToBookmarkAnnouncements(Long announcementId){
+    public void addToBookmarkAnnouncements(Long announcementId) {
         bookmarkAnnouncements.add(announcementId);
     }
 
-    public void removeFromBookmarkAnnouncement(Long announcementId){bookmarkAnnouncements.remove(announcementId);}
-
-//    public void addToAnnouncementHistory(Long announcementId) {announcementHistory.add(announcementId);}
+    public void removeFromBookmarkAnnouncement(Long announcementId) {
+        bookmarkAnnouncements.remove(announcementId);
+    }
 
     public void addToLikedFeedbacks(Long feedbackId) {
         likedFeedbacks.add(feedbackId);

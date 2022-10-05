@@ -8,9 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.EAGER;
-
 @Entity
 @Table(name = "regions")
 @NoArgsConstructor
@@ -18,6 +15,7 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @EqualsAndHashCode
 public class Region {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "region_id_generator")
     @SequenceGenerator(name = "region_id_generator", sequenceName = "region_seq", allocationSize = 1)
@@ -25,11 +23,11 @@ public class Region {
 
     private String regionName;
 
-    @OneToMany( mappedBy = "region")
+    @OneToMany(mappedBy = "region")
     private List<Address> addresses;
-
 
     public Region(String regionName) {
         this.regionName = regionName;
     }
+
 }

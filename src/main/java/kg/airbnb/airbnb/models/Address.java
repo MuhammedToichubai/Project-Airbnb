@@ -10,7 +10,6 @@ import javax.persistence.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 
-
 @Entity
 @Table(name = "addresses")
 @NoArgsConstructor

@@ -30,7 +30,7 @@ public class Feedback {
     @ElementCollection
     private List<String> images;
 
-    @Column(name = "descriptions",length = 10000)
+    @Column(name = "descriptions", length = 10000)
     private String description;
 
     @Column(name = "likes")
@@ -50,19 +50,19 @@ public class Feedback {
 
     private String colorOfDisLike;
 
-    public int incrementLikes(){
+    public int incrementLikes() {
         return like++;
     }
 
-    public int decrementLikes(){
+    public int decrementLikes() {
         return like--;
     }
 
-    public int incrementDisLikes(){
-         return dislike++;
+    public int incrementDisLikes() {
+        return dislike++;
     }
 
-    public int decrementDisLikes(){
+    public int decrementDisLikes() {
         return dislike--;
     }
 

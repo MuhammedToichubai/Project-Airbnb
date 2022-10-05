@@ -2,7 +2,6 @@ package kg.airbnb.airbnb.models;
 
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
-import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.models.auth.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -86,41 +85,57 @@ public class Announcement implements Comparable<Announcement> {
 
     private String colorOfBookmark;
 
-    public int incrementLikes(){return like++;}
-    public int incrementBookmark(){return bookmark++;}
-    public int decrementLikes() {return like--;}
-    public int decrementBookmark(){return bookmark--;}
-    public int incrementViewCount(){return viewAnnouncementHistoryCount++;}
+    public int incrementLikes() {
+        return like++;
+    }
+
+    public int incrementBookmark() {
+        return bookmark++;
+    }
+
+    public int decrementLikes() {
+        return like--;
+    }
+
+    public int decrementBookmark() {
+        return bookmark--;
+    }
+
+    public int incrementViewCount() {
+        return viewAnnouncementHistoryCount++;
+    }
+
     public void addFeedback(Feedback feedback) {
         this.feedbacks.add(feedback);
     }
+
     public void addBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.add(date);
     }
+
     public void addBlockedDate(LocalDate date) {
         this.blockedDates.add(date);
     }
+
     public void removeBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.remove(date);
     }
+
     public void removeIfExistDate(LocalDate date) {
         this.blockedDates.remove(date);
     }
 
     @Override
     public int compareTo(Announcement o) {
-
         int a = 0;
         int b = 0;
 
         for (Feedback e : this.feedbacks) {
             a = a + e.getRating();
         }
-
         for (Feedback f : o.getFeedbacks()) {
             b = b + f.getRating();
         }
-
         return b - a;
     }
 
@@ -128,7 +143,7 @@ public class Announcement implements Comparable<Announcement> {
         double a = 0;
         double b = 0;
 
-        for (Feedback f: this.feedbacks) {
+        for (Feedback f : this.feedbacks) {
             a = a + f.getRating();
             b++;
         }
