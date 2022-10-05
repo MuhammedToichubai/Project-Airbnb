@@ -1,6 +1,7 @@
 package kg.airbnb.airbnb.exceptions;
 
 public class BadRequestException extends RuntimeException{
+
     public BadRequestException() {
         super();
     }
@@ -8,4 +9,5 @@ public class BadRequestException extends RuntimeException{
     public BadRequestException(String message) {
         super(message);
     }
+
 }

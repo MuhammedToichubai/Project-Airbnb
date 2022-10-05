@@ -1,7 +1,6 @@
 package kg.airbnb.airbnb.exceptions;
 
-
-public class WrongPasswordException extends RuntimeException{
+public class WrongPasswordException extends RuntimeException {
 
     public WrongPasswordException() {
     }
@@ -9,4 +8,5 @@ public class WrongPasswordException extends RuntimeException{
     public WrongPasswordException(String message) {
         super(message);
     }
+
 }
