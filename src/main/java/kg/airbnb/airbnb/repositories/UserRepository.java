@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "delete from user_messages_from_admin m where m.user_id = :userId")
+    @Query(value = "delete from user_messages_from_admin m where m.user_id = :userId", nativeQuery = true)
     void clearMessages(Long userId);
 
     @Modifying
@@ -30,17 +30,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "delete from feedbacks f where f.owner_id = ?1")
+    @Query(value = "delete from feedbacks f where f.owner_id = ?1", nativeQuery = true)
     void clearFeedbacks(Long userId);
 
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "delete from bookings b where b.user_id = :userId")
+    @Query(value = "delete from bookings b where b.user_id = :userId", nativeQuery = true)
     void clearBookings(Long userId);
 
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "delete from announcements a where a.owner_id = :userId ")
+    @Query(value = "delete from announcements a where a.owner_id = :userId ", nativeQuery = true)
     void clearAnnouncements(Long userId);
 
 }
