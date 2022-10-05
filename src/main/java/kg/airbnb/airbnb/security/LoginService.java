@@ -28,8 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +41,6 @@ public class LoginService {
 
     @PostConstruct
     void init() throws IOException {
-
         GoogleCredentials googleCredentials =
                 GoogleCredentials.fromStream(new ClassPathResource("firebase/auth-368bd-firebase-adminsdk-6bey6-b79b2aa771.json").getInputStream());
 
@@ -55,20 +52,17 @@ public class LoginService {
     }
 
     public JwtResponse authenticate(LoginRequest loginRequest) {
-
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new NotFoundException(
                         "user with email: " + loginRequest.getEmail() + " not found!"
                 ));
 
-            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                throw new WrongPasswordException(
-                        "invalid password"
-                );
-            }
-
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new WrongPasswordException(
+                    "invalid password"
+            );
+        }
         String token = jwtUtils.generateToken(user.getEmail());
-
         return new JwtResponse(
                 user.getId(),
                 user.getEmail(),
@@ -79,9 +73,7 @@ public class LoginService {
     }
 
     public JwtResponse authenticateWithGoogle(String token) throws FirebaseAuthException {
-
         log.info("User started logging in with google");
-
         FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(token);
 
         User user = null;
@@ -93,19 +85,15 @@ public class LoginService {
                     passwordEncoder.encode(firebaseToken.getEmail()),
                     Role.USER
             );
-
             newUser.setImage(firebaseToken.getPicture());
-
             user = userRepository.save(newUser);
-
             log.info("{} successfully logged in via google", newUser.getEmail());
         } else {
             user = userRepository.findByEmail(firebaseToken.getEmail())
                     .orElseThrow(() -> new NotFoundException(
-                    "user with email: " + firebaseToken.getEmail() + " not found!"
-            ));
+                            "user with email: " + firebaseToken.getEmail() + " not found!"
+                    ));
         }
-
         return new JwtResponse(
                 user.getId(),
                 user.getEmail(),
@@ -117,18 +105,14 @@ public class LoginService {
 
     @Transactional
     public SimpleResponse addPhoneNumber(PhoneNumberRequest phoneNumberRequest) {
-
         User currentUser = getAuthenticatedUser();
 
-        if ( phoneNumberRequest.getPhoneNumber().length() == 9 ) {
-                    currentUser.setPhoneNumber("+996 " + phoneNumberRequest.getPhoneNumber());
+        if (phoneNumberRequest.getPhoneNumber().length() == 9) {
+            currentUser.setPhoneNumber("+996 " + phoneNumberRequest.getPhoneNumber());
         } else {
             throw new BadRequestException("Invalid phone number, too long!");
         }
-        return new SimpleResponse(
-                "SAVE",
-                "Phone number added!"
-
+        return new SimpleResponse("SAVE", "Phone number added!"
         );
     }
 

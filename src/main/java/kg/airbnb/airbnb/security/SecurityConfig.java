@@ -39,7 +39,7 @@ public class SecurityConfig {
     SecurityFilterChain authorization(HttpSecurity http) throws Exception {
         http
                 .cors().and().csrf().disable()
-                .authorizeRequests( auth -> auth
+                .authorizeRequests(auth -> auth
                         .antMatchers("/swagger", "/swagger-ui/index.html").permitAll()
                         .antMatchers("/api/public/**").permitAll()
                         .anyRequest()
@@ -55,6 +55,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }

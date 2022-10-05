@@ -62,5 +62,4 @@ public class TokenVerifierFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-
 }
