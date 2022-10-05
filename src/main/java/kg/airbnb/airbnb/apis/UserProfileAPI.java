@@ -5,29 +5,25 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import kg.airbnb.airbnb.dto.responses.*;
 
-import kg.airbnb.airbnb.dto.requests.PhoneNumberRequest;
 import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
 import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 
 import kg.airbnb.airbnb.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin
 @RequestMapping("/user/profile")
 @Tag(name = "This is API is for User Profile")
 public class UserProfileAPI {
 
     private final UserService userService;
-
-    public UserProfileAPI(UserService userService) {
-        this.userService = userService;
-    }
 
     @Operation(summary = "User profile", description = "Any registered user can access their own profile")
     @GetMapping("/bookings/myAnnouncements")
@@ -37,8 +33,8 @@ public class UserProfileAPI {
 
     @Operation(summary = "Favorite", description = "The user's favorite announcements")
     @GetMapping("/favorite")
-    public FavoritesResponse getUserFavoriteAnnouncements(){
-       return userService.getUserFavoriteAnnouncements();
+    public FavoritesResponse getUserFavoriteAnnouncements() {
+        return userService.getUserFavoriteAnnouncements();
     }
 
     @GetMapping("/myBookings")
@@ -50,11 +46,10 @@ public class UserProfileAPI {
     public List<MyAnnouncementsBookingRequestsResponse> getMyBookingRequests() {
         return userService.findUsersRequests();
     }
-    
+
     @Operation(summary = "Delete message from admin")
     @GetMapping("/delete/messages")
-    public SimpleResponse deleteMessages(){
-      return   userService.deleteMessagesFromAdmin();
+    public SimpleResponse deleteMessages() {
+        return userService.deleteMessagesFromAdmin();
     }
-
 }

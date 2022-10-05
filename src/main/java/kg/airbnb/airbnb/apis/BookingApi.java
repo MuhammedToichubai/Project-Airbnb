@@ -7,21 +7,19 @@ import kg.airbnb.airbnb.dto.requests.UpdateBookRequest;
 import kg.airbnb.airbnb.dto.responses.BookedResponse;
 import kg.airbnb.airbnb.dto.responses.ClosedDatesResponse;
 import kg.airbnb.airbnb.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/announcements/bookings")
 @CrossOrigin
 public class BookingApi {
 
     private final UserService userService;
-
-    public BookingApi(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/create")
     public Map<String, String> sendRequestToBook(@RequestBody BookRequest request) {

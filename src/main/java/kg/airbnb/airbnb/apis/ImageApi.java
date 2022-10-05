@@ -15,7 +15,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/file")
 @CrossOrigin
-@Getter @Setter
+@Getter
+@Setter
 @Tag(name = "This API for saving files {images} to amazon S3 bucket")
 public class ImageApi {
 

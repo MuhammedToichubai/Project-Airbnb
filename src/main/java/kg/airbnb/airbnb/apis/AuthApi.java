@@ -1,4 +1,5 @@
 package kg.airbnb.airbnb.apis;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.PhoneNumberRequest;
@@ -40,9 +41,9 @@ public class AuthApi {
         return loginService.authenticateWithGoogle(token);
     }
 
-    @Operation(summary = "Add phone number", description = "Registered user must add phone number" )
+    @Operation(summary = "Add phone number", description = "Registered user must add phone number")
     @PostMapping("/user/add/phone/number")
-    public SimpleResponse addPhoneNumber(@RequestBody PhoneNumberRequest phoneNumberRequest){
-       return loginService.addPhoneNumber(phoneNumberRequest);
+    public SimpleResponse addPhoneNumber(@RequestBody PhoneNumberRequest phoneNumberRequest) {
+        return loginService.addPhoneNumber(phoneNumberRequest);
     }
 }

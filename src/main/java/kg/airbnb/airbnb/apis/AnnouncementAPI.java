@@ -8,22 +8,19 @@ import kg.airbnb.airbnb.enums.Kind;
 import kg.airbnb.airbnb.enums.PriceType;
 import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.services.AnnouncementService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/announcements")
 @CrossOrigin
 @Tag(name = "This API is for Announcement")
-public class
-AnnouncementAPI {
+public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
-
-    public AnnouncementAPI(AnnouncementService announcementService) {
-        this.announcementService = announcementService;
-    }
 
     @Operation(summary = "Save announcement", description = "Any registered user can save.")
     @PostMapping("/save")
@@ -33,13 +30,13 @@ AnnouncementAPI {
 
     @Operation(summary = "Like announcement", description = "Any registered user can like")
     @PostMapping("/like/{announcementId}")
-    public AnnouncementInnerPageResponse likeAnnouncement(@PathVariable Long announcementId){
+    public AnnouncementInnerPageResponse likeAnnouncement(@PathVariable Long announcementId) {
         return announcementService.likeAnnouncement(announcementId);
     }
 
     @Operation(summary = "Add to Favorites", description = "Any registered user can add to favorites")
     @PostMapping("/bookmark/{announcementId}")
-    public AnnouncementInnerPageResponse bookmarkAnnouncement(@PathVariable Long announcementId){
+    public AnnouncementInnerPageResponse bookmarkAnnouncement(@PathVariable Long announcementId) {
         return announcementService.bookmarkAnnouncement(announcementId);
     }
 
@@ -64,13 +61,12 @@ AnnouncementAPI {
 
     @Operation(summary = "Get all announcements", description = "Any user can view all announcements accepted by the administrator")
     @GetMapping
-    public AnnouncementsResponse findAll(@RequestParam (defaultValue = "1") int page,
-                                         @RequestParam (defaultValue = "16") int size) {
+    public AnnouncementsResponse findAll(@RequestParam(defaultValue = "1") int page,
+                                         @RequestParam(defaultValue = "16") int size) {
         return announcementService.findAllAnnouncements(page, size);
     }
 
-    @Operation(summary = "Filter accepted announcements by Region, Popular, Latest, House Type, and Price Low to High and High to Low",
-               description = "Any user can filter announcements.")
+    @Operation(summary = "Filter accepted announcements by Region, Popular, Latest, House Type, and Price Low to High and High to Low", description = "Any user can filter announcements.")
     @GetMapping("/filter")
     public FilterResponse getAnnouncementsByFilter(@RequestParam(required = false) Long regionId,
                                                    @RequestParam(value = "city", required = false) String city,
@@ -82,17 +78,16 @@ AnnouncementAPI {
         return announcementService.getAnnouncementsByFilter(regionId, city, kind, type, price, page, size);
     }
 
-    @Operation(summary = "Search accepted announcements by region & city & location & house type & latitude and longitude",
-               description = "Any user can search announcements.")
+    @Operation(summary = "Search accepted announcements by region & city & location & house type & latitude and longitude", description = "Any user can search announcements.")
     @GetMapping("/global/search")
     public List<AnnouncementSearchResponse> searchAnnouncements(
-                                @RequestParam(value = "region", required = false) String region,
-                                @RequestParam(value = "city", required = false) String city,
-                                @RequestParam(value = "address", required = false) String address,
-                                @RequestParam(value = "latitude", required = false) String latitude,
-                                @RequestParam(value = "longitude", required = false) String longitude,
-                                @RequestParam(defaultValue = "1") Integer page,
-                                @RequestParam(defaultValue = "8") Integer pageSize) {
+            @RequestParam(value = "region", required = false) String region,
+            @RequestParam(value = "city", required = false) String city,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "latitude", required = false) String latitude,
+            @RequestParam(value = "longitude", required = false) String longitude,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "8") Integer pageSize) {
         return announcementService.getSearchAnnouncements(page, pageSize, region, city, address, latitude, longitude);
     }
 }

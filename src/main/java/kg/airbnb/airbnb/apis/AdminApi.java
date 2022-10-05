@@ -12,7 +12,6 @@ import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +25,7 @@ import java.util.List;
 public class AdminApi {
 
     private final AnnouncementService announcementService;
-
     private final UserServiceImpl userService;
-
     private final UserService service;
 
     @Operation(summary = "Get all announcements on moderation", description = "Only admin can view all announcements")
@@ -59,28 +56,28 @@ public class AdminApi {
     @Operation(summary = "Block announcement")
     @PutMapping("/announcement/block/{announcementId}")
     public SimpleResponse blockAnnouncement(@PathVariable Long announcementId,
-                                            @RequestBody AdminMessageRequest messageRequest){
+                                            @RequestBody AdminMessageRequest messageRequest) {
         return announcementService.blockAnnouncement(announcementId, messageRequest);
     }
 
     @Operation(summary = "UnBlock announcement")
     @PutMapping("/announcement/unblock/{announcementId}")
     public SimpleResponse unBlockAnnouncement(@PathVariable Long announcementId,
-                                            @RequestBody AdminMessageRequest messageRequest){
+                                              @RequestBody AdminMessageRequest messageRequest) {
         return announcementService.unBlockAnnouncement(announcementId, messageRequest);
     }
 
     @Operation(summary = "Block all announcements")
     @PutMapping("/announcements/block/{userId}")
     public SimpleResponse blockAllAnnouncement(@RequestBody AdminMessageRequest messageRequest,
-                                               @PathVariable Long userId){
+                                               @PathVariable Long userId) {
         return announcementService.blockAllAnnouncements(messageRequest, userId);
     }
 
     @Operation(summary = "Unblock all announcements")
     @PutMapping("/announcements/unblock/{userId}")
     public SimpleResponse unBlockAllAnnouncement(@RequestBody AdminMessageRequest messageRequest,
-                                               @PathVariable Long userId){
+                                                 @PathVariable Long userId) {
         return announcementService.unBlockAllAnnouncements(messageRequest, userId);
     }
 
@@ -108,16 +105,15 @@ public class AdminApi {
         return service.getUserProfile(userId);
     }
 
-    @Operation(summary = "Get All Housing",
-            description = "Only admin can see all housing")
+    @Operation(summary = "Get All Housing", description = "Only admin can see all housing")
     @GetMapping("/allHousingJ")
     public AdminPageAllHousingResponses getAllHousingJ(@RequestParam(required = false) BookedType bookedType,
-                                                      @RequestParam(required = false) Type housingType,
-                                                      @RequestParam(required = false) Kind kind,
-                                                      @RequestParam(required = false) PriceType price,
-                                                      @RequestParam(defaultValue = "1") int page,
-                                                      @RequestParam(defaultValue = "16") int size) {
+                                                       @RequestParam(required = false) Type housingType,
+                                                       @RequestParam(required = false) Kind kind,
+                                                       @RequestParam(required = false) PriceType price,
+                                                       @RequestParam(defaultValue = "1") int page,
+                                                       @RequestParam(defaultValue = "16") int size) {
 
-        return announcementService.getAllHousingJ(bookedType,housingType,kind,price,page,size);
+        return announcementService.getAllHousingJ(bookedType, housingType, kind, price, page, size);
     }
 }
