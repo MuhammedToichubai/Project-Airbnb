@@ -8,7 +8,7 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://airbnb.ckmwffwc7ag0.eu-central-1.rds.amazonaws.com:5432/airbnb
+    url: jdbc:postgresql://localhost:5432/airbnb
   servlet:
     multipart:
       enabled: true
