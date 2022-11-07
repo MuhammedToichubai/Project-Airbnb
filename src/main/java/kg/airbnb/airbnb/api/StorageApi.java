@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.apis;
+package kg.airbnb.airbnb.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.services.impl.ImageService;
