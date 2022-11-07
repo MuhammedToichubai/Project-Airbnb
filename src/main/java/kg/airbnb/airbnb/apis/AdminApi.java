@@ -3,7 +3,12 @@ package kg.airbnb.airbnb.apis;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
-import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.dto.responses.AdminPageAllHousingResponses;
+import kg.airbnb.airbnb.dto.responses.AdminPageApplicationsAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageApplicationsResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
+import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Kind;
 import kg.airbnb.airbnb.enums.PriceType;
@@ -11,17 +16,27 @@ import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.services.AnnouncementService;
 import kg.airbnb.airbnb.services.UserService;
 import kg.airbnb.airbnb.services.impl.UserServiceImpl;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("api/admin")
-//@PreAuthorize("hasAuthority('ADMIN')")
-@Tag(name = "API  for managing Admin")
+@PreAuthorize("hasAuthority('ADMIN')")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Tag(name = "Admin API", description = "All \"Admin\" endpoints")
 public class AdminApi {
 
     private final AnnouncementService announcementService;
@@ -29,84 +44,80 @@ public class AdminApi {
     private final UserService service;
 
     @Operation(summary = "Get all announcements on moderation", description = "Only admin can view all announcements")
-    @GetMapping("/applications")
+    @GetMapping("applications")
     public AdminPageApplicationsResponse getAllAnnouncements(@RequestParam(defaultValue = "1") int page,
                                                              @RequestParam(defaultValue = "15") int size) {
         return announcementService.getAllAnnouncementsAndSize(page, size);
     }
 
     @Operation(summary = "Find an announcement by id", description = "Only admin can find announcement by id")
-    @GetMapping("/find/announcement/{announcementId}")
-    public AdminPageApplicationsAnnouncementResponse findAnnouncementById(@PathVariable Long announcementId) {
-        return announcementService.findAnnouncementById(announcementId);
+    @GetMapping("announcement/{id}")
+    public AdminPageApplicationsAnnouncementResponse findAnnouncementById(@PathVariable Long id) {
+        return announcementService.findAnnouncementById(id);
     }
 
     @Operation(summary = "Accept announcement", description = "Only admin can accept newly created announcement")
-    @PutMapping("/announcement/accept/{announcementId}")
-    public SimpleResponse acceptAnnouncement(@PathVariable Long announcementId) {
-        return announcementService.acceptAnnouncement(announcementId);
+    @PutMapping("accept/announcement/{id}")
+    public SimpleResponse acceptAnnouncement(@PathVariable Long id) {
+        return announcementService.acceptAnnouncement(id);
     }
 
     @Operation(summary = "Reject announcement", description = "Only admin can reject newly created announcement")
-    @PutMapping("/announcement/reject/{announcementId}")
-    public SimpleResponse rejectAnnouncement(@PathVariable Long announcementId, @RequestBody AdminMessageRequest messageRequest) {
-        return announcementService.rejectAnnouncement(announcementId, messageRequest);
+    @PutMapping("reject/announcement/{id}")
+    public SimpleResponse rejectAnnouncement(@PathVariable Long id, @RequestBody AdminMessageRequest request) {
+        return announcementService.rejectAnnouncement(id, request);
     }
 
-    @Operation(summary = "Block announcement")
-    @PutMapping("/announcement/block/{announcementId}")
-    public SimpleResponse blockAnnouncement(@PathVariable Long announcementId,
-                                            @RequestBody AdminMessageRequest messageRequest) {
-        return announcementService.blockAnnouncement(announcementId, messageRequest);
+    @Operation(summary = "Block announcement", description = "Only admin can block announcement")
+    @PutMapping("block/announcement/{id}")
+    public SimpleResponse blockAnnouncement(@PathVariable Long id, @RequestBody AdminMessageRequest request) {
+        return announcementService.blockAnnouncement(id, request);
     }
 
-    @Operation(summary = "UnBlock announcement")
-    @PutMapping("/announcement/unblock/{announcementId}")
-    public SimpleResponse unBlockAnnouncement(@PathVariable Long announcementId,
-                                              @RequestBody AdminMessageRequest messageRequest) {
-        return announcementService.unBlockAnnouncement(announcementId, messageRequest);
+    @Operation(summary = "Unblock announcement", description = "Only admin can unblock announcement")
+    @PutMapping("unblock/announcement/{id}")
+    public SimpleResponse unBlockAnnouncement(@PathVariable Long id, @RequestBody AdminMessageRequest request) {
+        return announcementService.unBlockAnnouncement(id, request);
     }
 
-    @Operation(summary = "Block all announcements")
-    @PutMapping("/announcements/block/{userId}")
-    public SimpleResponse blockAllAnnouncement(@RequestBody AdminMessageRequest messageRequest,
-                                               @PathVariable Long userId) {
-        return announcementService.blockAllAnnouncements(messageRequest, userId);
+    @Operation(summary = "Block all announcements", description = "Only admin can block all announcement")
+    @PutMapping("block/announcements/{userId}")
+    public SimpleResponse blockAllAnnouncement(@RequestBody AdminMessageRequest request, @PathVariable Long userId) {
+        return announcementService.blockAllAnnouncements(request, userId);
     }
 
-    @Operation(summary = "Unblock all announcements")
-    @PutMapping("/announcements/unblock/{userId}")
-    public SimpleResponse unBlockAllAnnouncement(@RequestBody AdminMessageRequest messageRequest,
-                                                 @PathVariable Long userId) {
-        return announcementService.unBlockAllAnnouncements(messageRequest, userId);
+    @Operation(summary = "Unblock all announcements", description = "Only admin can unblock all announcement")
+    @PutMapping("unblock/announcements/{userId}")
+    public SimpleResponse unBlockAllAnnouncement(@RequestBody AdminMessageRequest request, @PathVariable Long userId) {
+        return announcementService.unBlockAllAnnouncements(request, userId);
     }
 
-    @Operation(summary = "Delete announcement", description = "Only admin can delete announcements")
+    @Operation(summary = "Delete announcements", description = "Only admin can delete announcements")
     @DeleteMapping("/announcement/delete/{announcementId}")
     public SimpleResponse deleteAnnouncement(@PathVariable Long announcementId, @RequestBody AdminMessageRequest announcementRejectRequest) {
         return announcementService.deleteAnnouncement(announcementId, announcementRejectRequest);
     }
 
     @Operation(summary = "Delete users", description = "Only admin can delete users")
-    @DeleteMapping("/delete/user/{userId}")
-    public SimpleResponse deleteUser(@PathVariable Long userId) {
-        return userService.deleteUser(userId);
+    @DeleteMapping("user/{id}")
+    public SimpleResponse deleteUser(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 
     @Operation(summary = "Get all users", description = "Only admin can see all users")
-    @GetMapping("/users")
+    @GetMapping("users")
     public List<UserResponse> getAllUser() {
         return userService.getAllUser();
     }
 
-    @Operation(summary = "User profile for admin page")
-    @GetMapping("user/profile/{userId}")
-    public UserProfileResponse getUserProfile(@PathVariable Long userId) {
-        return service.getUserProfile(userId);
+    @Operation(summary = "User profile for admin page", description = "Admin can see user profile")
+    @GetMapping("user/profile/{id}")
+    public UserProfileResponse getUserProfile(@PathVariable Long id) {
+        return service.getUserProfile(id);
     }
 
     @Operation(summary = "Get All Housing", description = "Only admin can see all housing")
-    @GetMapping("/allHousingJ")
+    @GetMapping("all-housing")
     public AdminPageAllHousingResponses getAllHousingJ(@RequestParam(required = false) BookedType bookedType,
                                                        @RequestParam(required = false) Type housingType,
                                                        @RequestParam(required = false) Kind kind,
@@ -116,4 +127,5 @@ public class AdminApi {
 
         return announcementService.getAllHousingJ(bookedType, housingType, kind, price, page, size);
     }
+
 }
