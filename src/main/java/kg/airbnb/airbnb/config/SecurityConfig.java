@@ -1,8 +1,8 @@
-package kg.airbnb.airbnb.security;
+package kg.airbnb.airbnb.config;
 
 import kg.airbnb.airbnb.exceptions.UsernameNotFoundException;
 import kg.airbnb.airbnb.repositories.UserRepository;
-
+import kg.airbnb.airbnb.security.TokenVerifierFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -27,10 +27,8 @@ public class SecurityConfig {
     @Bean
     AuthenticationProvider authenticationProvider(UserRepository userRepository) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService((email) -> (UserDetails) userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(
-                        "user with email = " + email + " not found!"
-                )));
+        provider.setUserDetailsService((email) -> (UserDetails) userRepository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException("User with email: " + email + " not found!")));
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
