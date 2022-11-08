@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    @Query("select b from Booking b where b.announcement.id = ?1 and b.status = 1 order by b.createdAt")
+    @Query("SELECT b FROM Booking b WHERE b.announcement.id = ?1 AND b.status = 1 ORDER BY b.createdAt")
     List<Booking> findAcceptedByAnnouncementId(Long announcementId);
 
-    @Query("select b from Booking b where b.announcement.id = ?1 order by b.createdAt")
+    @Query("SELECT b FROM Booking b WHERE b.announcement.id = ?1 ORDER BY b.createdAt")
     List<Booking> findAllByAnnouncementId(Long announcementId);
 
 }
