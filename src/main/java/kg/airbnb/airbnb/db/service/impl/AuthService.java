@@ -29,10 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
-@Service
-@RequiredArgsConstructor
 @Transactional
 @Log4j2
+@Service
+@RequiredArgsConstructor
 public class AuthService {
 
     private final JwtUtils jwtUtils;
@@ -40,9 +40,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public JwtResponse registerUser(UserRegisterRequest userRegisterRequest) {
-        User user = new User(
-                userRegisterRequest.getEmail()
-        );
+        User user = new User(userRegisterRequest.getEmail());
         user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(userRegisterRequest.getPassword()));
 
@@ -71,7 +69,7 @@ public class AuthService {
                 .setCredentials(googleCredentials)
                 .build();
 
-        FirebaseApp firebaseApp = FirebaseApp.initializeApp(firebaseOptions);
+        FirebaseApp.initializeApp(firebaseOptions);
     }
 
     public JwtResponse authenticate(LoginRequest loginRequest) {
