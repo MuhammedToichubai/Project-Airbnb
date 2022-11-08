@@ -1,7 +1,18 @@
 package kg.airbnb.airbnb.db.service.impl;
 
-import kg.airbnb.airbnb.dto.requests.*;
-import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.dto.requests.BlockBookDateRequest;
+import kg.airbnb.airbnb.dto.requests.BookRequest;
+import kg.airbnb.airbnb.dto.requests.ChangeBookingsStatusRequest;
+import kg.airbnb.airbnb.dto.requests.UpdateBookRequest;
+import kg.airbnb.airbnb.dto.responses.BookedResponse;
+import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
+import kg.airbnb.airbnb.dto.responses.ClosedDatesResponse;
+import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
+import kg.airbnb.airbnb.dto.responses.MyAnnouncementsBookingRequestsResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
+import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.exceptions.BadRequestException;
@@ -25,9 +36,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +50,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AnnouncementRepository announcementRepository;
     private final BookingRepository bookingRepository;
-    private final UserProfileViewMapper viewMapper;
     private final BookingViewMapper bookingViewMapper;
     private final UserProfileViewMapper userProfileViewMapper;
     private final AnnouncementViewMapper announcementViewMapper;
@@ -178,21 +191,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public FavoritesResponse getUserFavoriteAnnouncements() {
         List<FavoriteAnnouncementResponse> responseList = userFavoriteAnnouncements();
-        FavoritesResponse response = new FavoritesResponse(
-                responseList.size(),
-                responseList
-        );
-        return response;
+        return new FavoritesResponse(responseList.size(), responseList);
     }
 
     @Override
     public SimpleResponse deleteMessagesFromAdmin() {
         User currentUser = getAuthenticatedUser();
         userRepository.clearMessages(currentUser.getId());
-        return new SimpleResponse(
-                "DELETE",
-                "Successfully deleted all messages!"
-        );
+        return new SimpleResponse("DELETE", "Successfully deleted all messages!");
     }
 
     @Override
@@ -217,13 +223,15 @@ public class UserServiceImpl implements UserService {
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
-        return userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
+        return userRepository.findByEmail(login).orElseThrow(() ->
+                new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
     }
 
     private User getAuthenticatedRoleUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
-        User user = userRepository.findByEmail(login).orElseThrow(() -> new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
+        User user = userRepository.findByEmail(login).orElseThrow(() ->
+                new ForbiddenException("An unregistered user cannot write comment for this announcement!"));
         if (!user.getRole().equals(Role.USER)) {
             throw new ForbiddenException("You are not user!");
         }
@@ -262,10 +270,7 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ForbiddenException("Only admin can access this page!");
         }
-        return new SimpleResponse(
-                "DELETE",
-                "User successfully deleted!"
-        );
+        return new SimpleResponse("DELETE", "User successfully deleted!");
     }
 
     public List<UserResponse> getAllUser() {
@@ -338,7 +343,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> deleteRequestToBook(Long bookingId) {
-
         User user = getAuthenticatedRoleUser();
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(BadRequestException::new);
 
@@ -356,7 +360,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> updateRequestToBook(UpdateBookRequest request) {
-
         if (request.getCheckIn().isAfter(request.getCheckOut()) ||
                 request.getCheckIn().equals(request.getCheckOut()) ||
                 request.getCheckIn().isBefore(LocalDate.now())) {
