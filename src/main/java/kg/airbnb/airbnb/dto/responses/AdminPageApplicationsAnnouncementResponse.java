@@ -4,6 +4,7 @@ import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 
 @Getter
