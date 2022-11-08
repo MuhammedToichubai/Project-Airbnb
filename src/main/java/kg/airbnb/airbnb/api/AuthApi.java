@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuthException;
 import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.config.security.LoginService;
 import kg.airbnb.airbnb.services.impl.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthApi {
 
     private final AuthService authService;
-    private final LoginService loginService;
+    private final AuthService loginService;
 
     @Operation(summary = "Registration", description = "Any user can register")
     @PostMapping("register")
