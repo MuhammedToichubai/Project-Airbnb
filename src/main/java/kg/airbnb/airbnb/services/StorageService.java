@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
-@Service
-@RequiredArgsConstructor
 @Getter
 @Setter
-public class ImageService {
+@Service
+@RequiredArgsConstructor
+public class StorageService {
 
     @Value("${application.bucket.name}")
     private String bucketName;
@@ -31,7 +31,6 @@ public class ImageService {
 
     public Map<String, String> uploadFile(MultipartFile file) {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.addUserMetadata("Content-Type", file.getContentType());
@@ -40,16 +39,12 @@ public class ImageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Map.of(
-                "link", prefixForFileLink + fileName
-        );
+        return Map.of("link", prefixForFileLink + fileName);
     }
 
     public Map<String, String> deleteFile(String fileName) {
         s3Client.deleteObject(bucketName, fileName);
-        return Map.of(
-                "message", fileName + " removed ..."
-        );
+        return Map.of("message", fileName + " removed ...");
     }
 
 }

@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.airbnb.airbnb.services.ImageService;
+import kg.airbnb.airbnb.services.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 
@@ -22,7 +22,7 @@ import java.util.Map;
 @Tag(name = "S3 API", description = "This API for saving files {images} to amazon S3 bucket")
 public class StorageApi {
 
-    private final ImageService service;
+    private final StorageService service;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> uploadFile(@RequestParam MultipartFile file) {
