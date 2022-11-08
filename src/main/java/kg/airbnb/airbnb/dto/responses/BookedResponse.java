@@ -13,10 +13,13 @@ public class BookedResponse {
 
     private Long bookingId;
     private BigDecimal price;
-    @JsonFormat(pattern="dd.MM.yy")
+
+    @JsonFormat(pattern = "dd.MM.yy")
     private LocalDate checkIn;
-    @JsonFormat(pattern="dd.MM.yy")
+
+    @JsonFormat(pattern = "dd.MM.yy")
     private LocalDate checkOut;
+
     private String userName;
     private String userEmail;
     private String userImage;
