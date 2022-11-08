@@ -12,12 +12,12 @@ import java.util.List;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Long>, PagingAndSortingRepository<Feedback, Long> {
 
-    @Query(value = "select distinct f from Feedback f where f.announcement.id = ?1")
+    @Query(value = "SELECT DISTINCT f FROM Feedback f WHERE f.announcement.id = ?1")
     List<Feedback> findAnnouncementFeedback(Long announcementId, Pageable pageable);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from feedback_images f where f.feedback_id = ?1", nativeQuery = true)
+    @Query(value = "DELETE FROM feedback_images f WHERE f.feedback_id = ?1", nativeQuery = true)
     void clearImages(Long feedback_id);
 
 }
