@@ -5,17 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.DETACH;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
 import static javax.persistence.FetchType.EAGER;
 
-@Entity
-@Table(name = "addresses")
-@NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
+@Entity
+@Table(name = "addresses")
 public class Address {
 
     @Id
@@ -33,8 +43,8 @@ public class Address {
     @OneToOne(mappedBy = "location")
     private Announcement announcement;
 
-
     public String getFullAddress() {
         return String.format("%s %s %s", region.getRegionName(), city, address);
     }
+
 }
