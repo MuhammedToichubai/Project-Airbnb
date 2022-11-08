@@ -1,7 +1,17 @@
 package kg.airbnb.airbnb.db.service;
 
-import kg.airbnb.airbnb.dto.requests.*;
-import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.dto.requests.BlockBookDateRequest;
+import kg.airbnb.airbnb.dto.requests.BookRequest;
+import kg.airbnb.airbnb.dto.requests.ChangeBookingsStatusRequest;
+import kg.airbnb.airbnb.dto.requests.UpdateBookRequest;
+import kg.airbnb.airbnb.dto.responses.BookedResponse;
+import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
+import kg.airbnb.airbnb.dto.responses.ClosedDatesResponse;
+import kg.airbnb.airbnb.dto.responses.FavoriteAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
+import kg.airbnb.airbnb.dto.responses.MyAnnouncementsBookingRequestsResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
