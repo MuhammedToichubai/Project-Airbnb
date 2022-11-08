@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.requests.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
-import kg.airbnb.airbnb.services.FeedbackService;
+import kg.airbnb.airbnb.db.service.FeedbackService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;

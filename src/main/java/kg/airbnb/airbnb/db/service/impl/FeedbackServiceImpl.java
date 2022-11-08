@@ -1,18 +1,18 @@
-package kg.airbnb.airbnb.services.impl;
+package kg.airbnb.airbnb.db.service.impl;
 
 import kg.airbnb.airbnb.dto.requests.FeedbackRequest;
 import kg.airbnb.airbnb.dto.responses.FeedbackRatingResponse;
 import kg.airbnb.airbnb.dto.responses.FeedbackResponse;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
-import kg.airbnb.airbnb.model.Announcement;
-import kg.airbnb.airbnb.model.Feedback;
-import kg.airbnb.airbnb.model.User;
-import kg.airbnb.airbnb.repositories.AnnouncementRepository;
-import kg.airbnb.airbnb.repositories.FeedbackRepository;
-import kg.airbnb.airbnb.repositories.UserRepository;
-import kg.airbnb.airbnb.services.FeedbackService;
-import kg.airbnb.airbnb.services.UserService;
+import kg.airbnb.airbnb.db.model.Announcement;
+import kg.airbnb.airbnb.db.model.Feedback;
+import kg.airbnb.airbnb.db.model.User;
+import kg.airbnb.airbnb.db.repositories.AnnouncementRepository;
+import kg.airbnb.airbnb.db.repositories.FeedbackRepository;
+import kg.airbnb.airbnb.db.repositories.UserRepository;
+import kg.airbnb.airbnb.db.service.FeedbackService;
+import kg.airbnb.airbnb.db.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;

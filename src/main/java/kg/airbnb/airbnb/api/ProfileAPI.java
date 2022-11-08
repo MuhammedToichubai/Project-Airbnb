@@ -7,7 +7,7 @@ import kg.airbnb.airbnb.dto.responses.FavoritesResponse;
 import kg.airbnb.airbnb.dto.responses.MyAnnouncementsBookingRequestsResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
-import kg.airbnb.airbnb.services.UserService;
+import kg.airbnb.airbnb.db.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;

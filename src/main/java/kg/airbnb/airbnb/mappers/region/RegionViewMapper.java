@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.mappers.region;
 
 import kg.airbnb.airbnb.dto.responses.RegionResponse;
-import kg.airbnb.airbnb.model.Region;
+import kg.airbnb.airbnb.db.model.Region;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

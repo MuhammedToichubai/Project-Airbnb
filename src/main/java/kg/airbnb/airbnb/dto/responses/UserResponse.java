@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.dto.responses;
 
-import kg.airbnb.airbnb.model.User;
+import kg.airbnb.airbnb.db.model.User;
 import lombok.Getter;
 import lombok.Setter;
 

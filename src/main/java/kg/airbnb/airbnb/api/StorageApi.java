@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.airbnb.airbnb.services.impl.ImageService;
+import kg.airbnb.airbnb.db.service.impl.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 

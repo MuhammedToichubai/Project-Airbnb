@@ -3,9 +3,9 @@ package kg.airbnb.airbnb.mappers.booking;
 import kg.airbnb.airbnb.dto.responses.BookedResponse;
 import kg.airbnb.airbnb.dto.responses.BookingCardResponse;
 import kg.airbnb.airbnb.dto.responses.MyAnnouncementsBookingRequestsResponse;
-import kg.airbnb.airbnb.model.Announcement;
-import kg.airbnb.airbnb.model.Booking;
-import kg.airbnb.airbnb.model.Feedback;
+import kg.airbnb.airbnb.db.model.Announcement;
+import kg.airbnb.airbnb.db.model.Booking;
+import kg.airbnb.airbnb.db.model.Feedback;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

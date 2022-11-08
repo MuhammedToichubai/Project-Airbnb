@@ -5,9 +5,9 @@ import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
-import kg.airbnb.airbnb.model.Announcement;
-import kg.airbnb.airbnb.model.Booking;
-import kg.airbnb.airbnb.model.User;
+import kg.airbnb.airbnb.db.model.Announcement;
+import kg.airbnb.airbnb.db.model.Booking;
+import kg.airbnb.airbnb.db.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -3,7 +3,7 @@ package kg.airbnb.airbnb.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.airbnb.airbnb.dto.responses.RegionResponse;
-import kg.airbnb.airbnb.services.RegionService;
+import kg.airbnb.airbnb.db.service.RegionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

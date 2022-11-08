@@ -7,8 +7,8 @@ import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementSaveResponse;
 import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
-import kg.airbnb.airbnb.model.Announcement;
-import kg.airbnb.airbnb.model.Feedback;
+import kg.airbnb.airbnb.db.model.Announcement;
+import kg.airbnb.airbnb.db.model.Feedback;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

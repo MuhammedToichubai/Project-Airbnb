@@ -101,7 +101,7 @@
 2022-09-10 00:05:26.565  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 3 ms
 2022-09-10 00:05:26.620 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 kg.airbnb.airbnb.exceptions.NotFoundException: User with muhammed@gmail.com not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -160,7 +160,7 @@ kg.airbnb.airbnb.exceptions.NotFoundException: User with muhammed@gmail.com not 
 	at java.base/java.lang.Thread.run(Thread.java:833)
 2022-09-10 00:07:09.768 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-2] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 kg.airbnb.airbnb.exceptions.NotFoundException: User with muhammed@gmail.com not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -423,7 +423,7 @@ kg.airbnb.airbnb.exceptions.NotFoundException: User with muhammed@gmail.com not 
 2022-09-10 00:39:45.020  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 2 ms
 2022-09-10 00:39:45.112 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 kg.airbnb.airbnb.exceptions.NotFoundException: User with chynaraMamatalieva@gmail.com not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)

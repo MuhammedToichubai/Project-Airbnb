@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.services.impl;
+package kg.airbnb.airbnb.db.service.impl;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -14,8 +14,8 @@ import kg.airbnb.airbnb.dto.responses.JwtResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.*;
-import kg.airbnb.airbnb.model.User;
-import kg.airbnb.airbnb.repositories.UserRepository;
+import kg.airbnb.airbnb.db.model.User;
+import kg.airbnb.airbnb.db.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

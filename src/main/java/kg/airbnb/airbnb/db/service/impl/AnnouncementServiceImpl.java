@@ -1,5 +1,7 @@
-package kg.airbnb.airbnb.services.impl;
+package kg.airbnb.airbnb.db.service.impl;
 
+import kg.airbnb.airbnb.db.model.*;
+import kg.airbnb.airbnb.db.repositories.*;
 import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
 import kg.airbnb.airbnb.dto.responses.*;
@@ -11,11 +13,9 @@ import kg.airbnb.airbnb.mappers.announcement.AnnouncementEditMapper;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
 import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
-import kg.airbnb.airbnb.model.*;
-import kg.airbnb.airbnb.model.User;
-import kg.airbnb.airbnb.repositories.*;
-import kg.airbnb.airbnb.services.AnnouncementService;
-import kg.airbnb.airbnb.services.UserService;
+
+import kg.airbnb.airbnb.db.service.AnnouncementService;
+import kg.airbnb.airbnb.db.service.UserService;
 import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

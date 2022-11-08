@@ -7,7 +7,7 @@ import kg.airbnb.airbnb.dto.requests.ChangeBookingsStatusRequest;
 import kg.airbnb.airbnb.dto.requests.UpdateBookRequest;
 import kg.airbnb.airbnb.dto.responses.BookedResponse;
 import kg.airbnb.airbnb.dto.responses.ClosedDatesResponse;
-import kg.airbnb.airbnb.services.UserService;
+import kg.airbnb.airbnb.db.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;

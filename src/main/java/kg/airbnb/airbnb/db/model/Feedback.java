@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.model;
+package kg.airbnb.airbnb.db.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

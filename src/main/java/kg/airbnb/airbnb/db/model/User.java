@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.model;
+package kg.airbnb.airbnb.db.model;
 
 import kg.airbnb.airbnb.enums.Role;
 import lombok.AllArgsConstructor;

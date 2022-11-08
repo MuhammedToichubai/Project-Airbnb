@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.services.impl.AuthService;
+import kg.airbnb.airbnb.db.service.impl.AuthService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;

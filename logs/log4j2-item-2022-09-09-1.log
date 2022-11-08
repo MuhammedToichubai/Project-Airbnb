@@ -1147,7 +1147,7 @@ com.amazonaws.services.s3.model.AmazonS3Exception: The AWS Access Key Id you pro
 	at com.amazonaws.services.s3.AmazonS3Client$PutObjectStrategy.invokeServiceCall(AmazonS3Client.java:6528)
 	at com.amazonaws.services.s3.AmazonS3Client.uploadObject(AmazonS3Client.java:1861)
 	at com.amazonaws.services.s3.AmazonS3Client.putObject(AmazonS3Client.java:1821)
-	at kg.airbnb.airbnb.services.impl.ImageService.uploadFile(ImageService.java:42)
+	at kg.airbnb.airbnb.db.service.impl.ImageService.uploadFile(ImageService.java:42)
 	at kg.airbnb.airbnb.api.StorageApi.uploadFile(ImageApi.java:29)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1349,7 +1349,7 @@ com.amazonaws.services.s3.model.AmazonS3Exception: The AWS Access Key Id you pro
 2022-09-05 23:07:52.590  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 1 ms
 2022-09-05 23:07:52.646 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.security.core.userdetails.UsernameNotFoundException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -1408,7 +1408,7 @@ org.springframework.security.core.userdetails.UsernameNotFoundException: User no
 	at java.base/java.lang.Thread.run(Thread.java:833)
 2022-09-05 23:10:37.848 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-2] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.security.core.userdetails.UsernameNotFoundException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -1467,7 +1467,7 @@ org.springframework.security.core.userdetails.UsernameNotFoundException: User no
 	at java.base/java.lang.Thread.run(Thread.java:833)
 2022-09-05 23:10:41.522 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-3] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.security.core.userdetails.UsernameNotFoundException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -1627,7 +1627,7 @@ org.springframework.security.core.userdetails.UsernameNotFoundException: User no
 2022-09-05 23:11:08.111  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 4 ms
 2022-09-05 23:11:08.184 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 kg.airbnb.airbnb.exceptions.BadRequestException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:26)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -1787,7 +1787,7 @@ kg.airbnb.airbnb.exceptions.BadRequestException: User not found!
 2022-09-05 23:12:27.293  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 0 ms
 2022-09-05 23:12:27.340 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.security.core.userdetails.UsernameNotFoundException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -1951,14 +1951,14 @@ org.springframework.security.core.userdetails.UsernameNotFoundException: User no
 2022-09-09 03:16:00.665 ERROR DESKTOP-DBLHPRP --- [io-9797-exec-10] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException: Cannot invoke "kg.airbnb.airbnb.mappers.booking.BookingViewMapper.viewAllBookingsResponse(java.util.List)" because "this.bookingViewMapper" is null] with root cause
 java.lang.NullPointerException: Cannot invoke "kg.airbnb.airbnb.mappers.booking.BookingViewMapper.viewAllBookingsResponse(java.util.List)" because "this.bookingViewMapper" is null
 	at kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper.entityToDtoConverting(AnnouncementViewMapper.java:65)
-	at kg.airbnb.airbnb.services.impl.AnnouncementServiceImpl.getAnnouncementInnerPageResponse(AnnouncementServiceImpl.java:386)
-	at kg.airbnb.airbnb.services.impl.AnnouncementServiceImpl.getAnnouncementDetails(AnnouncementServiceImpl.java:381)
-	at kg.airbnb.airbnb.services.impl.AnnouncementServiceImpl$$FastClassBySpringCGLIB$$1f7e42fe.invoke(<generated>)
+	at kg.airbnb.airbnb.db.service.impl.AnnouncementServiceImpl.getAnnouncementInnerPageResponse(AnnouncementServiceImpl.java:386)
+	at kg.airbnb.airbnb.db.service.impl.AnnouncementServiceImpl.getAnnouncementDetails(AnnouncementServiceImpl.java:381)
+	at kg.airbnb.airbnb.db.service.impl.AnnouncementServiceImpl$$FastClassBySpringCGLIB$$1f7e42fe.invoke(<generated>)
 	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
 	at org.springframework.aop.framework.CglibAopProxy.invokeMethod(CglibAopProxy.java:386)
 	at org.springframework.aop.framework.CglibAopProxy.access$000(CglibAopProxy.java:85)
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:704)
-	at kg.airbnb.airbnb.services.impl.AnnouncementServiceImpl$$EnhancerBySpringCGLIB$$6f9dffcd.getAnnouncementDetails(<generated>)
+	at kg.airbnb.airbnb.db.service.impl.AnnouncementServiceImpl$$EnhancerBySpringCGLIB$$6f9dffcd.getAnnouncementDetails(<generated>)
 	at kg.airbnb.airbnb.api.AnnouncementAPI.getAnnouncementDetails(AnnouncementAPI.java:48)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2763,7 +2763,7 @@ java.lang.NullPointerException: Cannot invoke "kg.airbnb.airbnb.mappers.booking.
 2022-09-09 23:46:51.363  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 1 ms
 2022-09-09 23:46:51.423 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.security.core.userdetails.UsernameNotFoundException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -3023,7 +3023,7 @@ org.springframework.security.core.userdetails.UsernameNotFoundException: User no
 2022-09-09 23:54:18.649  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-2] o.s.w.s.DispatcherServlet                : Completed initialization in 3 ms
 2022-09-09 23:54:18.765 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-2] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.security.core.userdetails.UsernameNotFoundException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)
@@ -3185,7 +3185,7 @@ org.springframework.security.core.userdetails.UsernameNotFoundException: User no
 2022-09-09 23:58:51.424  INFO DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 1 ms
 2022-09-09 23:58:51.484 ERROR DESKTOP-DBLHPRP --- [nio-9797-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.security.core.userdetails.UsernameNotFoundException: User not found!
-	at kg.airbnb.airbnb.services.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
+	at kg.airbnb.airbnb.db.service.impl.AuthUserDetailsService.loadUserByUsername(AuthUserDetailsService.java:25)
 	at kg.airbnb.airbnb.security.TokenVerifierFilter.doFilterInternal(TokenVerifierFilter.java:45)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336)

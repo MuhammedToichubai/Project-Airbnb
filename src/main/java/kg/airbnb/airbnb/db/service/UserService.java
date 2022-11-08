@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.services;
+package kg.airbnb.airbnb.db.service;
 
 import kg.airbnb.airbnb.dto.requests.*;
 import kg.airbnb.airbnb.dto.responses.*;

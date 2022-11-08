@@ -13,9 +13,9 @@ import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Kind;
 import kg.airbnb.airbnb.enums.PriceType;
 import kg.airbnb.airbnb.enums.Type;
-import kg.airbnb.airbnb.services.AnnouncementService;
-import kg.airbnb.airbnb.services.UserService;
-import kg.airbnb.airbnb.services.impl.UserServiceImpl;
+import kg.airbnb.airbnb.db.service.AnnouncementService;
+import kg.airbnb.airbnb.db.service.UserService;
+import kg.airbnb.airbnb.db.service.impl.UserServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
