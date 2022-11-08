@@ -1,22 +1,45 @@
 package kg.airbnb.airbnb.db.service.impl;
 
-import kg.airbnb.airbnb.db.model.*;
-import kg.airbnb.airbnb.db.repositories.*;
+import kg.airbnb.airbnb.db.model.Address;
+import kg.airbnb.airbnb.db.model.Announcement;
+import kg.airbnb.airbnb.db.model.Booking;
+import kg.airbnb.airbnb.db.model.Feedback;
+import kg.airbnb.airbnb.db.model.Region;
+import kg.airbnb.airbnb.db.model.User;
+import kg.airbnb.airbnb.db.repositories.AddressRepository;
+import kg.airbnb.airbnb.db.repositories.AnnouncementRepository;
+import kg.airbnb.airbnb.db.repositories.FeedbackRepository;
+import kg.airbnb.airbnb.db.repositories.RegionRepository;
+import kg.airbnb.airbnb.db.repositories.UserRepository;
 import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.*;
-import kg.airbnb.airbnb.enums.*;
+import kg.airbnb.airbnb.dto.responses.AdminPageAllHousingResponses;
+import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageApplicationsAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageApplicationsResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSaveResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementsResponse;
+import kg.airbnb.airbnb.dto.responses.FilterResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
+import kg.airbnb.airbnb.enums.BookedType;
+import kg.airbnb.airbnb.enums.Kind;
+import kg.airbnb.airbnb.enums.PriceType;
+import kg.airbnb.airbnb.enums.Role;
+import kg.airbnb.airbnb.enums.Status;
+import kg.airbnb.airbnb.enums.Type;
 import kg.airbnb.airbnb.exceptions.BadRequestException;
 import kg.airbnb.airbnb.exceptions.ForbiddenException;
 import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementEditMapper;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.mappers.booking.BookingViewMapper;
-import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
-
 import kg.airbnb.airbnb.db.service.AnnouncementService;
 import kg.airbnb.airbnb.db.service.UserService;
 import kg.airbnb.airbnb.services.GoogleMapService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -29,11 +52,19 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
-@Log4j2
 public class AnnouncementServiceImpl implements AnnouncementService {
 
     private final AnnouncementRepository announcementRepository;
@@ -44,7 +75,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final AddressRepository addressRepository;
     private final UserService userService;
     private final GoogleMapService googleMapService;
-    private final UserProfileViewMapper userProfileViewMapper;
     private final FeedbackRepository feedbackRepository;
     private final BookingViewMapper bookingViewMapper;
 
@@ -62,7 +92,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcement.setOwner(user);
         List<Announcement> announcements = user.getAnnouncements();
         announcements.add(announcement);
-
         log.info("The {} started saving the announcement", user.getRole());
 
         if (request.getImages().size() <= 4) {
@@ -92,8 +121,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Address address = new Address();
         address.setAddress(request.getAddress());
         address.setCity(request.getTownProvince());
-        Region region = regionRepository.findById(request.getRegionId())
-                .orElseThrow(() -> new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
+        Region region = regionRepository.findById(request.getRegionId()).orElseThrow(() ->
+                new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
         address.setRegion(region);
         address.setAnnouncement(announcement);
         announcement.setLocation(address);
@@ -107,8 +136,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         editMapper.updateAnnouncement(announcement, request);
         checkAdField(request, announcement);
 
-        Region newRegion = regionRepository.findById(request.getRegionId())
-                .orElseThrow(() -> new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
+        Region newRegion = regionRepository.findById(request.getRegionId()).orElseThrow(() ->
+                new NotFoundException("Region with id = " + request.getRegionId() + " not found!"));
         Address address = announcement.getLocation();
         if (address.getAddress().equals(request.getAddress()) &&
                 address.getRegion().equals(newRegion) &&
@@ -119,10 +148,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         } else {
             savedAddress(request, announcement);
         }
-        return new SimpleResponse(
-                "UPDATE",
-                "Announcement with id " + announcementId + ", successfully updated."
-        );
+        return new SimpleResponse("UPDATE", "Announcement with id " + announcementId + ", successfully updated.");
     }
 
     @Override
@@ -131,13 +157,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         User user = getAuthenticatedUser();
         Announcement announcement = getAnnouncementById(announcementId);
         if (user.equals(announcement.getOwner())) {
-
             List<Booking> announcementBookings = announcement.getBookings();
 
             if (!announcementBookings.isEmpty()) {
                 throw new ForbiddenException("You cannot delete the listing because the listing has a booking!");
             }
-
             announcementRepository.clearImages(announcementId);
 
             List<Feedback> feedbacks = announcement.getFeedbacks();
@@ -156,18 +180,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             log.info("The {} is trying to remove their announcement - {}", user.getRole(), announcement);
             log.error("The announcement is not deleted in the database");
         }
-
-        return new SimpleResponse(
-                "DELETE",
-                "Announcement whit id " + announcementId + ", successfully removed !"
-        );
+        return new SimpleResponse("DELETE", "Announcement whit id: " + announcementId + " successfully removed!");
     }
 
     protected Announcement getAnnouncementById(Long announcementId) {
-        return announcementRepository.findById(announcementId)
-                .orElseThrow(() -> new NotFoundException(
-                        "Announcement with id " + announcementId + " not found!"
-                ));
+        return announcementRepository.findById(announcementId).orElseThrow(() ->
+                new NotFoundException("Announcement with id " + announcementId + " not found!"));
     }
 
     private User getAuthenticatedUser() {
@@ -210,7 +228,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public SimpleResponse acceptAnnouncement(Long id) {
-
         User user = getAuthenticatedUser();
         if (user.getRole().equals(Role.ADMIN)) {
             SimpleResponse simpleResponse = new SimpleResponse();
@@ -219,7 +236,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcementRepository.save(announcement);
             simpleResponse.setStatus("ACCEPTED");
             simpleResponse.setMessage("Successfully saved");
-
             return simpleResponse;
         } else {
             throw new ForbiddenException("Only admin can access this page!");
@@ -229,13 +245,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public SimpleResponse rejectAnnouncement(Long id, AdminMessageRequest adminMessageRequest) {
         User user = getAuthenticatedUser();
-
         if (user.getRole().equals(Role.ADMIN)) {
             SimpleResponse simpleResponse = new SimpleResponse();
             simpleResponse.setStatus("REJECTED");
             simpleResponse.setMessage(adminMessageRequest.getMessage());
-            Announcement announcement = getAnnouncementById(id);
 
+            Announcement announcement = getAnnouncementById(id);
             if (!announcement.getStatus().equals(Status.NEW)) {
                 throw new BadRequestException("Can be rejected once!");
             }
@@ -254,10 +269,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public SimpleResponse blockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
         Announcement announcement = getAnnouncementById(announcementId);
         changeAnnouncementStatusToBlocked(announcement);
-        return new SimpleResponse(
-                "BLOCK",
-                "Announcement with " + announcementId + " blocked. " + messageRequest.getMessage()
-        );
+        return new SimpleResponse("BLOCK", "Announcement with id: " + announcementId + " blocked. " + messageRequest.getMessage());
     }
 
     @Override
@@ -267,10 +279,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         for (Announcement announcement : announcements) {
             changeAnnouncementStatusToBlocked(announcement);
         }
-        return new SimpleResponse(
-                "BLOCKED",
-                "All announcements are block. " + messageRequest.getMessage()
-        );
+        return new SimpleResponse("BLOCKED", "All announcements are block. " + messageRequest.getMessage());
     }
 
     @Override
@@ -278,10 +287,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public SimpleResponse unBlockAnnouncement(Long announcementId, AdminMessageRequest messageRequest) {
         Announcement announcement = getAnnouncementById(announcementId);
         changeAnnouncementStatusToUnBlocked(announcement);
-        return new SimpleResponse(
-                "ACCEPTED",
-                "Announcement with " + announcementId + " blocked. " + messageRequest.getMessage()
-        );
+        return new SimpleResponse("ACCEPTED", "Announcement with " + announcementId + " blocked. " + messageRequest.getMessage());
     }
 
     @Override
@@ -323,10 +329,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         for (Announcement announcement : announcements) {
             changeAnnouncementStatusToUnBlocked(announcement);
         }
-        return new SimpleResponse(
-                "ACCEPTED",
-                "All announcements are block. " + messageRequest.getMessage()
-        );
+        return new SimpleResponse("ACCEPTED", "All announcements are block. " + messageRequest.getMessage());
     }
 
     @Transactional
@@ -389,7 +392,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     private List<Announcement> pagination(List<Announcement> announcements, int page, int size) {
         List<Announcement> pagination = new ArrayList<>();
-
         int start = (page - 1) * size;
         int end = size * page;
 
@@ -404,7 +406,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     private List<Announcement> findByTypes(Long regionId, String city, Type type) {
         List<Announcement> announcements;
-
         if (regionId != null) {
             try {
                 regionRepository.findById(regionId).get();
@@ -439,7 +440,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     private List<Announcement> sortByKindAndPrice(List<Announcement> announcements, Kind kind, PriceType price) {
         List<Announcement> announcements2 = new ArrayList<>();
-
         if (price == null && kind != null) {
             announcements2 = sortByKind(announcements, kind);
         } else if (price != null && kind == null) {
@@ -551,14 +551,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private double getRating(Announcement announcement) {
         double all = 0;
         double count = 0;
-
         for (Feedback f : announcement.getFeedbacks()) {
             if (f.getRating() != null) {
                 all = all + f.getRating();
                 count++;
             }
         }
-
         if (count == 0) {
             count = 1;
         }
@@ -586,7 +584,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public AnnouncementInnerPageResponse bookmarkAnnouncement(Long announcementId) {
         Announcement announcementById = getAnnouncementById(announcementId);
-
         if (userService.ifBookmarkAnnouncement((announcementId))) {
             announcementById.decrementBookmark();
             announcementById.setColorOfBookmark(null);
@@ -596,7 +593,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
             announcementById.setColorOfBookmark("Yellow");
             userService.addToBookmarkAnnouncements(announcementId);
         }
-
         announcementRepository.save(announcementById);
         return getAnnouncementInnerPageResponse(announcementById);
     }
@@ -619,12 +615,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public AnnouncementsResponse findAllAnnouncements(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         List<Announcement> announcements = announcementRepository.findAll(pageable).getContent();
-
         if (announcements.isEmpty()) {
             log.warn("The database is empty, there is no announcement or the admin has not yet accepted !");
         }
         List<AnnouncementCardResponse> announcementsResponses = viewMapper.viewCard(announcements);
-
         AnnouncementsResponse response = new AnnouncementsResponse();
         response.setCountOfResult((long) announcementRepository.findAll().size());
         response.setAnnouncements(announcementsResponses);
@@ -651,7 +645,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                     resultAnnouncements.add(announcement);
                 }
             }
-
             return viewMapper.getViewAllSearchAnnouncements(resultAnnouncements);
 
         } else if (region != null && city != null && address != null && latitude == null && longitude == null) {
@@ -699,7 +692,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 throw new BadRequestException("You are not in Kyrgyzstan!");
             }
         }
-
         Page<Announcement> allAnnouncementsPage = announcementRepository.findAll(pageable);
         List<Announcement> allAnnouncementsPageToListConversion = allAnnouncementsPage.getContent();
         return viewMapper.getViewAllSearchAnnouncements(allAnnouncementsPageToListConversion);
