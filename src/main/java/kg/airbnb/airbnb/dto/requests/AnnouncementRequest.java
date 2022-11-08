@@ -20,4 +20,5 @@ public class AnnouncementRequest {
     private Long regionId;
     private String townProvince;
     private String address;
+
 }
