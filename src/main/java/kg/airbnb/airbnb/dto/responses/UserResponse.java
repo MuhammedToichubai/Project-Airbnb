@@ -16,7 +16,7 @@ public class UserResponse {
     private int announcement;
 
     public UserResponse(User user) {
-        this.id= user.getId();
+        this.id = user.getId();
         this.fullName = user.getFullName();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();
