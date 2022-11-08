@@ -9,4 +9,5 @@ public class AnnouncementSearchResponse {
 
     private Long announcementId;
     private String announcementInfo;
+
 }
