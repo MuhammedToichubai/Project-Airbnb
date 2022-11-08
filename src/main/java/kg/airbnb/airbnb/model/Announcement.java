@@ -32,10 +32,10 @@ import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REFRESH;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "announcements")
 public class Announcement implements Comparable<Announcement> {
