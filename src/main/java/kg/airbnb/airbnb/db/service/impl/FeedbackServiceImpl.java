@@ -14,7 +14,7 @@ import kg.airbnb.airbnb.db.repositories.UserRepository;
 import kg.airbnb.airbnb.db.service.FeedbackService;
 import kg.airbnb.airbnb.db.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -36,39 +36,37 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public FeedbackResponse saveFeedback(Long announcementId, FeedbackRequest request) {
-       Announcement announcement = getFindByAnnouncementId(announcementId);
-       if   (request.getRating()!= null) {
-           announcement.setRating(request.getRating());
-       }
-       Feedback newFeedback = new Feedback();
-       newFeedback.setImages(request.getImages());
-       newFeedback.setRating(request.getRating());
-       newFeedback.setDescription(request.getDescription());
-       announcement.getFeedbacks().add(newFeedback);
-       newFeedback.setAnnouncement(announcement);
-       newFeedback.setCreatedAt(LocalDate.now());
-       newFeedback.setOwner(getCurrentUser());
-       feedbackRepository.save(newFeedback);
-       return getFeedbackResponse(newFeedback);
+        Announcement announcement = getFindByAnnouncementId(announcementId);
+        if (request.getRating() != null) {
+            announcement.setRating(request.getRating());
+        }
+        Feedback newFeedback = new Feedback();
+        newFeedback.setImages(request.getImages());
+        newFeedback.setRating(request.getRating());
+        newFeedback.setDescription(request.getDescription());
+        announcement.getFeedbacks().add(newFeedback);
+        newFeedback.setAnnouncement(announcement);
+        newFeedback.setCreatedAt(LocalDate.now());
+        newFeedback.setOwner(getCurrentUser());
+        feedbackRepository.save(newFeedback);
+        return getFeedbackResponse(newFeedback);
     }
 
     @Override
-    public FeedbackResponse likeFeedback(Long feedbackId){
-
+    public FeedbackResponse likeFeedback(Long feedbackId) {
         Feedback feedbackById = getFeedbackById(feedbackId);
-
-        if (userService.ifLikedFeedback(feedbackId)){
+        if (userService.ifLikedFeedback(feedbackId)) {
             feedbackById.decrementLikes();
             feedbackById.setColorOfLike(null);
             userService.removeFromLikedFeedbacks(feedbackId);
-        } else if (userService.ifDisLikedFeedback(feedbackId)){
+        } else if (userService.ifDisLikedFeedback(feedbackId)) {
             feedbackById.decrementDisLikes();
             feedbackById.setColorOfDisLike(null);
             userService.removeFromDisLikedFeedbacks(feedbackId);
             feedbackById.incrementLikes();
             feedbackById.setColorOfLike("Yellow");
             userService.addToLikedFeedbacks(feedbackId);
-        }else {
+        } else {
             feedbackById.incrementLikes();
             feedbackById.setColorOfLike("Yellow");
             userService.addToLikedFeedbacks(feedbackId);
@@ -79,21 +77,19 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public FeedbackResponse disLikeFeedback(Long feedbackId) {
-
         Feedback feedbackById = getFeedbackById(feedbackId);
-
-        if (userService.ifDisLikedFeedback(feedbackId)){
+        if (userService.ifDisLikedFeedback(feedbackId)) {
             feedbackById.decrementDisLikes();
             feedbackById.setColorOfDisLike(null);
             userService.removeFromDisLikedFeedbacks(feedbackId);
-        } else if (userService.ifLikedFeedback(feedbackId)){
+        } else if (userService.ifLikedFeedback(feedbackId)) {
             feedbackById.decrementLikes();
             feedbackById.setColorOfLike(null);
             userService.removeFromLikedFeedbacks(feedbackId);
             feedbackById.incrementDisLikes();
             feedbackById.setColorOfDisLike("Yellow");
             userService.addToDisLikedFeedbacks(feedbackId);
-        }else {
+        } else {
             feedbackById.incrementDisLikes();
             feedbackById.setColorOfDisLike("Yellow");
             userService.addToDisLikedFeedbacks(feedbackId);
@@ -105,7 +101,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public List<FeedbackResponse> findAll(Long announcementId, Integer page, Integer size) {
         Announcement announcement = getFindByAnnouncementId(announcementId);
-        PageRequest pr = PageRequest.of(page - 1,size);
+        PageRequest pr = PageRequest.of(page - 1, size);
         List<Feedback> announcementFeedback = feedbackRepository.findAnnouncementFeedback(announcement.getId(), pr);
         System.out.println("announcementFeedback = " + announcementFeedback);
         return announcementFeedback.stream().map(this::getFeedbackResponseForGetAll).collect(Collectors.toList());
@@ -129,13 +125,13 @@ public class FeedbackServiceImpl implements FeedbackService {
         List<Feedback> allFeedbacksOfAnnouncement = announcement.getFeedbacks();
         List<Integer> ratings = new ArrayList<>();
         for (Feedback feedback : allFeedbacksOfAnnouncement) {
-            if (feedback.getRating() != 0){
+            if (feedback.getRating() != 0) {
                 ratings.add(feedback.getRating());
             }
         }
 
         FeedbackRatingResponse response = new FeedbackRatingResponse();
-        if ( ratings.size() <= 0) {
+        if (ratings.size() <= 0) {
             rating = 0.0;
             percentageOfFive = 0.0;
             percentageOfFour = 0.0;
@@ -151,27 +147,27 @@ public class FeedbackServiceImpl implements FeedbackService {
             response.setPercentageOfOne(percentageOfOne);
             return response;
 
-        }else {
-            for (int i = 0; i < ratings.size(); i++) {
-                if (ratings.get(i) == 5){
+        } else {
+            for (Integer integer : ratings) {
+                if (integer == 5) {
                     fives++;
-                } else if (ratings.get(i) == 4){
+                } else if (integer == 4) {
                     fours++;
-                }else if (ratings.get(i) == 3){
+                } else if (integer == 3) {
                     threes++;
-                }else if (ratings.get(i) == 2){
+                } else if (integer == 2) {
                     twos++;
-                }else if (ratings.get(i) == 1){
+                } else if (integer == 1) {
                     ones++;
                 }
             }
 
-            percentageOfFive = (double) ( fives * 100 ) / ratings.size();
-            percentageOfFour = (double) (fours * 100 ) / ratings.size();
-            percentageOfThree = (double)(threes * 100 ) / ratings.size();
-            percentageOfTwo = (double) (twos * 100 ) / ratings.size();
-            percentageOfOne = (double) (ones * 100 ) / ratings.size();
-            rating = (double) (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) /  (ratings.size());
+            percentageOfFive = (double) (fives * 100) / ratings.size();
+            percentageOfFour = (double) (fours * 100) / ratings.size();
+            percentageOfThree = (double) (threes * 100) / ratings.size();
+            percentageOfTwo = (double) (twos * 100) / ratings.size();
+            percentageOfOne = (double) (ones * 100) / ratings.size();
+            rating = (double) (5 * fives + 4 * fours + 3 * threes + 2 * twos + ones) / (ratings.size());
 
             response.setRating(rating);
             response.setPercentageOfFive(percentageOfFive);
@@ -184,15 +180,13 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     private Feedback getFeedbackById(Long feedbackId) {
-        return feedbackRepository.findById(feedbackId)
-                .orElseThrow(() -> new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
+        return feedbackRepository.findById(feedbackId).orElseThrow(() ->
+                new IllegalArgumentException("Cannot find feedback by id - " + feedbackId));
     }
 
     private Announcement getFindByAnnouncementId(Long id) {
-        return announcementRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(
-                        "Announcement whit id = " + id + " not found!"
-                ));
+        return announcementRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Announcement whit id = " + id + " not found!"));
     }
 
     private FeedbackResponse getFeedbackResponse(Feedback feedback) {
@@ -212,7 +206,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackResponse;
     }
 
-    private FeedbackResponse getFeedbackResponseForGetAll(Feedback feedback){
+    private FeedbackResponse getFeedbackResponseForGetAll(Feedback feedback) {
         FeedbackResponse feedbackResponse = new FeedbackResponse();
         feedbackResponse.setId(feedback.getId());
 
