@@ -4,7 +4,6 @@ import kg.airbnb.airbnb.dto.responses.UserAnnouncementResponse;
 import kg.airbnb.airbnb.dto.responses.UserBookingsResponse;
 import kg.airbnb.airbnb.dto.responses.UserProfileResponse;
 import kg.airbnb.airbnb.dto.responses.UserResponse;
-import kg.airbnb.airbnb.enums.Status;
 import kg.airbnb.airbnb.mappers.announcement.AnnouncementViewMapper;
 import kg.airbnb.airbnb.models.Announcement;
 import kg.airbnb.airbnb.models.Booking;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -92,7 +90,6 @@ public class UserProfileViewMapper {
         bookingsResponse.setCheckOut(booking.getCheckout().format(DateTimeFormatter.ISO_LOCAL_DATE));
         bookingsResponse.setStatus(booking.getStatus());
         return bookingsResponse;
-
     }
 
     public static List<UserResponse> viewFindAllUser(List<User> users) {
@@ -102,4 +99,5 @@ public class UserProfileViewMapper {
         }
         return userResponsesList;
     }
+
 }
