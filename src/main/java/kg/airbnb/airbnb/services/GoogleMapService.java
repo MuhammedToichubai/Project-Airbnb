@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Service
 @Getter
 @Setter
+@Service
 public class GoogleMapService {
 
     private final RestTemplate restTemplate;
