@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ImageConfig {
+public class StorageConfig {
 
     @Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
