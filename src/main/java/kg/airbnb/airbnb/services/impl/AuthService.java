@@ -6,7 +6,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import kg.airbnb.airbnb.config.security.JwtUtils;
+import kg.airbnb.airbnb.config.jwt.JwtUtils;
 import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import kg.airbnb.airbnb.dto.requests.PhoneNumberRequest;
 import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
