@@ -22,11 +22,11 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
 
-        <LogzioAppender name="Logzio">
-            <logzioToken>psSFKCPAKEhiGssCWIZHGuGoDBoMKbrN</logzioToken>
-            <logzioUrl>https://listener-eu.logz.io:8071</logzioUrl>
-            <logzioType>airbnb</logzioType>
-        </LogzioAppender>
+<!--        <LogzioAppender name="Logzio">-->
+<!--            <logzioToken>psSFKCPAKEhiGssCWIZHGuGoDBoMKbrN</logzioToken>-->
+<!--            <logzioUrl>https://listener-eu.logz.io:8071</logzioUrl>-->
+<!--            <logzioType>airbnb</logzioType>-->
+<!--        </LogzioAppender>-->
     </Appenders>
 
         <Loggers>
