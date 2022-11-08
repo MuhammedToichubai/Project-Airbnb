@@ -2,7 +2,15 @@ package kg.airbnb.airbnb.db.service;
 
 import kg.airbnb.airbnb.dto.requests.AdminMessageRequest;
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.dto.responses.*;
+import kg.airbnb.airbnb.dto.responses.AdminPageAllHousingResponses;
+import kg.airbnb.airbnb.dto.responses.AdminPageApplicationsAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageApplicationsResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSaveResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementsResponse;
+import kg.airbnb.airbnb.dto.responses.FilterResponse;
+import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.BookedType;
 import kg.airbnb.airbnb.enums.Kind;
 import kg.airbnb.airbnb.enums.PriceType;
