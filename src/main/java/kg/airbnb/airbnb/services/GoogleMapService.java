@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.services.googlemap;
+package kg.airbnb.airbnb.services;
 
 import lombok.Getter;
 import lombok.Setter;

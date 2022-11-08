@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.db.service.impl;
+package kg.airbnb.airbnb.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;

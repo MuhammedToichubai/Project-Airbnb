@@ -16,7 +16,7 @@ import kg.airbnb.airbnb.mappers.user.UserProfileViewMapper;
 
 import kg.airbnb.airbnb.db.service.AnnouncementService;
 import kg.airbnb.airbnb.db.service.UserService;
-import kg.airbnb.airbnb.services.googlemap.GoogleMapService;
+import kg.airbnb.airbnb.services.GoogleMapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
