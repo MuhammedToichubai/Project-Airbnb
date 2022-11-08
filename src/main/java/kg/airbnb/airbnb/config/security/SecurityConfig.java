@@ -1,8 +1,8 @@
-package kg.airbnb.airbnb.config;
+package kg.airbnb.airbnb.config.security;
 
 import kg.airbnb.airbnb.exceptions.UsernameNotFoundException;
 import kg.airbnb.airbnb.repositories.UserRepository;
-import kg.airbnb.airbnb.security.TokenVerifierFilter;
+import kg.airbnb.airbnb.config.security.TokenVerifierFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;

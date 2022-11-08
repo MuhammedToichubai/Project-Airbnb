@@ -6,7 +6,7 @@ import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.AlreadyExistException;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
-import kg.airbnb.airbnb.security.JwtUtils;
+import kg.airbnb.airbnb.config.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;

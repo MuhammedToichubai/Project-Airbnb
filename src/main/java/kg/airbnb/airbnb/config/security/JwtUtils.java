@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.security;
+package kg.airbnb.airbnb.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

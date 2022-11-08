@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import kg.airbnb.airbnb.dto.requests.LoginRequest;
 import kg.airbnb.airbnb.dto.requests.UserRegisterRequest;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
-import kg.airbnb.airbnb.security.LoginService;
+import kg.airbnb.airbnb.config.security.LoginService;
 import kg.airbnb.airbnb.services.impl.AuthService;
 
 import lombok.RequiredArgsConstructor;

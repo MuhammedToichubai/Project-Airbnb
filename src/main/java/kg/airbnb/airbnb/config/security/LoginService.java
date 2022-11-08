@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.security;
+package kg.airbnb.airbnb.config.security;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
