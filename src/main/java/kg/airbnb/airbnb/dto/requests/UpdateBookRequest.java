@@ -13,4 +13,5 @@ public class UpdateBookRequest {
     private LocalDate checkIn;
     private LocalDate checkOut;
     private Long bookingId;
+
 }
