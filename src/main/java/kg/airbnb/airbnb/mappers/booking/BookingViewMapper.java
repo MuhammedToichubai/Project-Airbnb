@@ -105,4 +105,5 @@ public class BookingViewMapper {
         response.setBookedResponses(viewBooked(bookings));
         return response;
     }
+
 }
