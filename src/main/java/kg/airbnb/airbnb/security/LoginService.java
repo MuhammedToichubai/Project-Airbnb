@@ -17,6 +17,7 @@ import kg.airbnb.airbnb.exceptions.NotFoundException;
 import kg.airbnb.airbnb.exceptions.WrongPasswordException;
 import kg.airbnb.airbnb.models.auth.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
@@ -41,8 +42,8 @@ public class LoginService {
 
     @PostConstruct
     void init() throws IOException {
-        GoogleCredentials googleCredentials =
-                GoogleCredentials.fromStream(new ClassPathResource("firebase/auth-368bd-firebase-adminsdk-6bey6-b79b2aa771.json").getInputStream());
+        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(
+                new ClassPathResource("firebase/auth-368bd-firebase-adminsdk-6bey6-b79b2aa771.json").getInputStream());
 
         FirebaseOptions firebaseOptions = FirebaseOptions.builder()
                 .setCredentials(googleCredentials)
@@ -52,15 +53,11 @@ public class LoginService {
     }
 
     public JwtResponse authenticate(LoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new NotFoundException(
-                        "user with email: " + loginRequest.getEmail() + " not found!"
-                ));
+        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() ->
+                new NotFoundException("User with email: " + loginRequest.getEmail() + " not found!"));
 
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new WrongPasswordException(
-                    "invalid password"
-            );
+            throw new WrongPasswordException("Invalid password");
         }
         String token = jwtUtils.generateToken(user.getEmail());
         return new JwtResponse(
@@ -76,7 +73,7 @@ public class LoginService {
         log.info("User started logging in with google");
         FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(token);
 
-        User user = null;
+        User user;
 
         if (!userRepository.existsByEmail(firebaseToken.getEmail())) {
             User newUser = new User(
@@ -89,10 +86,8 @@ public class LoginService {
             user = userRepository.save(newUser);
             log.info("{} successfully logged in via google", newUser.getEmail());
         } else {
-            user = userRepository.findByEmail(firebaseToken.getEmail())
-                    .orElseThrow(() -> new NotFoundException(
-                            "user with email: " + firebaseToken.getEmail() + " not found!"
-                    ));
+            user = userRepository.findByEmail(firebaseToken.getEmail()).orElseThrow(() ->
+                    new NotFoundException("User with email: " + firebaseToken.getEmail() + " not found!"));
         }
         return new JwtResponse(
                 user.getId(),
@@ -106,7 +101,6 @@ public class LoginService {
     @Transactional
     public SimpleResponse addPhoneNumber(PhoneNumberRequest phoneNumberRequest) {
         User currentUser = getAuthenticatedUser();
-
         if (phoneNumberRequest.getPhoneNumber().length() == 9) {
             currentUser.setPhoneNumber("+996 " + phoneNumberRequest.getPhoneNumber());
         } else {
@@ -120,6 +114,7 @@ public class LoginService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
         return userRepository.findByEmail(login).orElseThrow(() ->
-                new ForbiddenException("An unregistered user cannot post an ad !"));
+                new ForbiddenException("An unregistered user cannot post an ad!"));
     }
+
 }
