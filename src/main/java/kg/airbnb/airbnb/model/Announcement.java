@@ -7,19 +7,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.DETACH;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
 
-@Entity
-@Table(name = "announcements")
 @NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
+@Entity
+@Table(name = "announcements")
 public class Announcement implements Comparable<Announcement> {
 
     @Id
@@ -104,24 +122,12 @@ public class Announcement implements Comparable<Announcement> {
         return viewAnnouncementHistoryCount++;
     }
 
-    public void addFeedback(Feedback feedback) {
-        this.feedbacks.add(feedback);
-    }
-
     public void addBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.add(date);
     }
 
-    public void addBlockedDate(LocalDate date) {
-        this.blockedDates.add(date);
-    }
-
     public void removeBlockedDateByUser(LocalDate date) {
         this.blockedDatesByUser.remove(date);
-    }
-
-    public void removeIfExistDate(LocalDate date) {
-        this.blockedDates.remove(date);
     }
 
     @Override
@@ -141,12 +147,10 @@ public class Announcement implements Comparable<Announcement> {
     public void setRating(double rating) {
         double a = 0;
         double b = 0;
-
         for (Feedback f : this.feedbacks) {
             a = a + f.getRating();
             b++;
         }
-
         a = a + rating;
         b++;
         this.rating = a / b;
@@ -167,4 +171,5 @@ public class Announcement implements Comparable<Announcement> {
         }
         this.blockedDates.add(checkout);
     }
+
 }
