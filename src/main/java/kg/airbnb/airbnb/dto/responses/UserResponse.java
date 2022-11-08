@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.dto.responses;
 
-import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.db.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ public class UserResponse {
     private int announcement;
 
     public UserResponse(User user) {
-        this.id= user.getId();
+        this.id = user.getId();
         this.fullName = user.getFullName();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();

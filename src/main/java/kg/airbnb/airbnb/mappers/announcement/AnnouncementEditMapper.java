@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
 import kg.airbnb.airbnb.dto.requests.AnnouncementRequest;
-import kg.airbnb.airbnb.models.Announcement;
+import kg.airbnb.airbnb.db.model.Announcement;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

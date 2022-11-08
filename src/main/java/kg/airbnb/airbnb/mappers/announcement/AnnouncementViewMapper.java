@@ -1,8 +1,14 @@
 package kg.airbnb.airbnb.mappers.announcement;
 
-import kg.airbnb.airbnb.dto.responses.*;
-import kg.airbnb.airbnb.models.Announcement;
-import kg.airbnb.airbnb.models.Feedback;
+import kg.airbnb.airbnb.dto.responses.AdminPageAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageApplicationsAnnouncementResponse;
+import kg.airbnb.airbnb.dto.responses.AdminPageHousingResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementCardResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementInnerPageResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSaveResponse;
+import kg.airbnb.airbnb.dto.responses.AnnouncementSearchResponse;
+import kg.airbnb.airbnb.db.model.Announcement;
+import kg.airbnb.airbnb.db.model.Feedback;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,7 +21,7 @@ public class AnnouncementViewMapper {
         if (announcement == null) {
             return null;
         }
-        AnnouncementSaveResponse response = new AnnouncementSaveResponse(
+        return new AnnouncementSaveResponse(
                 "Announcement saved successfully !",
                 announcement.getId(),
                 announcement.getImages(),
@@ -29,8 +35,6 @@ public class AnnouncementViewMapper {
                 announcement.getLocation().getCity(),
                 announcement.getLocation().getAddress()
         );
-        return response;
-
     }
 
     public AnnouncementInnerPageResponse entityToDtoConverting(Announcement announcement) {
@@ -107,7 +111,7 @@ public class AnnouncementViewMapper {
     }
 
     public Double calculateRating(Announcement announcement) {
-        double rating = 0.0;
+        double rating;
         int fives = 0;
         int fours = 0;
         int threes = 0;
@@ -121,21 +125,19 @@ public class AnnouncementViewMapper {
                 ratings.add(feedback.getRating());
             }
         }
-
         if (ratings.size() <= 0) {
             rating = 0.0;
         } else {
-
-            for (int i = 0; i < ratings.size(); i++) {
-                if (ratings.get(i) == 5) {
+            for (Integer integer : ratings) {
+                if (integer == 5) {
                     fives++;
-                } else if (ratings.get(i) == 4) {
+                } else if (integer == 4) {
                     fours++;
-                } else if (ratings.get(i) == 3) {
+                } else if (integer == 3) {
                     threes++;
-                } else if (ratings.get(i) == 2) {
+                } else if (integer == 2) {
                     twos++;
-                } else if (ratings.get(i) == 1) {
+                } else if (integer == 1) {
                     ones++;
                 }
             }
@@ -203,7 +205,6 @@ public class AnnouncementViewMapper {
         return responses;
     }
 
-
     public AdminPageHousingResponse announcementToHousing(Announcement announcement) {
         if (announcement == null) {
             return null;
@@ -230,4 +231,5 @@ public class AnnouncementViewMapper {
         }
         return responses;
     }
+
 }

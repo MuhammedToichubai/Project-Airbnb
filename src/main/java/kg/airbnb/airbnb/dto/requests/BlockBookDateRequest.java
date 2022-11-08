@@ -12,4 +12,5 @@ public class BlockBookDateRequest {
 
     private Long announcementId;
     private List<LocalDate> datesToBlock;
+
 }

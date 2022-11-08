@@ -12,4 +12,5 @@ public class BookRequest {
     private Long announcementId;
     private LocalDate checkIn;
     private LocalDate checkOut;
+
 }

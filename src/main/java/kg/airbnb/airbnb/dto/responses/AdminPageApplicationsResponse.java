@@ -11,4 +11,5 @@ public class AdminPageApplicationsResponse {
 
     private Integer allAnnouncementsSize;
     private List<AdminPageAnnouncementResponse> pageAnnouncementResponseList;
+
 }

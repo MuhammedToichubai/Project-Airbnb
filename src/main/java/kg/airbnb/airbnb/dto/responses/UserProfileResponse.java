@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public  class UserProfileResponse {
+public class UserProfileResponse {
 
     private String image;
     private String name;

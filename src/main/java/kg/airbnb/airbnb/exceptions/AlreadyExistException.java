@@ -1,9 +1,6 @@
 package kg.airbnb.airbnb.exceptions;
 
-public class AlreadyExistException extends RuntimeException{
-
-    public AlreadyExistException() {
-    }
+public class AlreadyExistException extends RuntimeException {
 
     public AlreadyExistException(String message) {
         super(message);

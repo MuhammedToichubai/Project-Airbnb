@@ -11,4 +11,5 @@ public class ChangeBookingsStatusRequest {
     private Long announcementId;
     private Long bookingId;
     private Status status;
+
 }

@@ -25,9 +25,11 @@ public class BookingCardResponse {
     private double rating;
     private String type;
     private Status status;
-    @JsonFormat(pattern="dd.MM.yy")
+
+    @JsonFormat(pattern = "dd.MM.yy")
     private LocalDate checkIn;
-    @JsonFormat(pattern="dd.MM.yy")
+
+    @JsonFormat(pattern = "dd.MM.yy")
     private LocalDate checkOut;
 
 }

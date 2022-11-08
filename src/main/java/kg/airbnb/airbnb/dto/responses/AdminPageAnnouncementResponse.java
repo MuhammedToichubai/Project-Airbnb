@@ -23,4 +23,5 @@ public class AdminPageAnnouncementResponse {
     private Double rating;
     private String location;
     private Status status;
+
 }

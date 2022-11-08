@@ -1,7 +1,6 @@
 package kg.airbnb.airbnb.dto.responses;
 
 import kg.airbnb.airbnb.enums.Status;
-import kg.airbnb.airbnb.models.Booking;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
