@@ -14,7 +14,7 @@ import kg.airbnb.airbnb.dto.responses.JwtResponse;
 import kg.airbnb.airbnb.dto.responses.SimpleResponse;
 import kg.airbnb.airbnb.enums.Role;
 import kg.airbnb.airbnb.exceptions.*;
-import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.model.User;
 import kg.airbnb.airbnb.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;

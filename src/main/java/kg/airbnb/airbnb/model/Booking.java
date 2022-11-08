@@ -1,7 +1,6 @@
-package kg.airbnb.airbnb.models;
+package kg.airbnb.airbnb.model;
 
 import kg.airbnb.airbnb.enums.Status;
-import kg.airbnb.airbnb.models.auth.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.repositories;
 
-import kg.airbnb.airbnb.models.Booking;
+import kg.airbnb.airbnb.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

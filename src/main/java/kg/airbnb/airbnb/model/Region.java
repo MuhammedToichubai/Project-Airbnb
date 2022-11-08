@@ -1,4 +1,4 @@
-package kg.airbnb.airbnb.models;
+package kg.airbnb.airbnb.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

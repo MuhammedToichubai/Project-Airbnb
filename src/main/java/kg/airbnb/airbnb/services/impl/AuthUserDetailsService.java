@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.exceptions.NotFoundException;
-import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

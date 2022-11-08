@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.repositories;
 
-import kg.airbnb.airbnb.models.Feedback;
+import kg.airbnb.airbnb.model.Feedback;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

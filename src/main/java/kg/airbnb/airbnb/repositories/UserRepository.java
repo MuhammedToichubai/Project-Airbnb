@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.repositories;
 
-import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,7 @@
 package kg.airbnb.airbnb.repositories;
 
 import kg.airbnb.airbnb.enums.Type;
-import kg.airbnb.airbnb.models.Announcement;
+import kg.airbnb.airbnb.model.Announcement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

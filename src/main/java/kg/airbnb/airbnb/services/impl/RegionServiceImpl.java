@@ -2,7 +2,7 @@ package kg.airbnb.airbnb.services.impl;
 
 import kg.airbnb.airbnb.dto.responses.RegionResponse;
 import kg.airbnb.airbnb.mappers.region.RegionViewMapper;
-import kg.airbnb.airbnb.models.Region;
+import kg.airbnb.airbnb.model.Region;
 import kg.airbnb.airbnb.repositories.RegionRepository;
 import kg.airbnb.airbnb.services.RegionService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package kg.airbnb.airbnb.services.impl;
 
-import kg.airbnb.airbnb.models.auth.User;
+import kg.airbnb.airbnb.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
